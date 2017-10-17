@@ -1,0 +1,76 @@
+{
+  "name": "medic",
+  "description": "Self-healing automation",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "public/index",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Ryan Wheale",
+    "email": "ryan.wheale@gmail.com"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test npm run eslint && npm run mocha",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "db-migrate": "",
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive",
+    "develop": "nodemon -r dotenv/config src/",
+    "debug": "nodemon -r dotenv/config --inspect src/",
+    "dev-bundle": "steal-tools bundle --dev --minify=false --dest public/",
+    "postinstall": "npm run dev-bundle"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "csurf": "^1.9.0",
+    "db-migrate": "^0.10.0-beta.24",
+    "feathers": "^2.2.2",
+    "feathers-authentication": "^1.2.7",
+    "feathers-authentication-custom": "github:designbyonyx/feathers-authentication-custom",
+    "feathers-authentication-hooks": "^0.1.4",
+    "feathers-authentication-jwt": "^0.3.2",
+    "feathers-authentication-local": "^0.4.4",
+    "feathers-configuration": "^0.4.1",
+    "feathers-errors": "^2.9.2",
+    "feathers-hooks": "^2.1.0",
+    "feathers-hooks-common": "^3.7.3",
+    "feathers-logger": "^0.2.3",
+    "feathers-rest": "^1.8.0",
+    "feathers-socketio": "^2.0.0",
+    "helmet": "^3.8.2",
+    "serve-favicon": "^2.4.5",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "can-connect": "^1.5.9",
+    "can-define": "^1.5.1",
+    "can-route-pushstate": "^3.1.2",
+    "chai": "^4.1.2",
+    "dotenv": "^4.0.0",
+    "eslint": "^4.8.0",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-view-model": "^0.5.9",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "steal": "^1.5.15",
+    "steal-tools": "^1.9.1"
+  }
+}
