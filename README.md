@@ -2,6 +2,13 @@
 
 > Self-healing automation
 
+
+## Connect
+Want to connect with Medic?  Here are some resources to help get you started.
+
+* [How to connect with Medic](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/how-to-connect.md)
+* [New Carnival Configuration](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/new-carnival-config.md)
+
 ## About
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications. For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
