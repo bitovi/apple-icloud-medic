@@ -1,34 +1,25 @@
 const { authenticate } = require('feathers-authentication').hooks;
-const commonHooks = require('feathers-hooks-common');
-const { restrictToOwner } = require('feathers-authentication-hooks');
-
-const { hashPassword } = require('feathers-authentication-local').hooks;
-const restrict = [
-  authenticate('jwt'),
-  restrictToOwner({
-    idField: 'id',
-    ownerField: 'id'
-  })
-];
+const errors = require('feathers-errors');
 
 module.exports = {
   before: {
-    all: [],
-    find: [ authenticate('jwt') ],
-    get: [ ...restrict ],
-    create: [ hashPassword() ],
-    update: [ ...restrict, hashPassword() ],
-    patch: [ ...restrict, hashPassword() ],
-    remove: [ ...restrict ]
+    all: [ authenticate('jwt') ],
+    find: [],
+    get: [(hook) => {
+      if (hook.id === 'me' || hook.id === hook.params.user.email) {
+        hook.result = hook.params.user;
+        return hook;
+      }
+      throw new errors.Forbidden('You do not have permission to load other users.');
+    }],
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   },
 
   after: {
-    all: [
-      commonHooks.when(
-        hook => hook.params.provider,
-        commonHooks.discard('password')
-      )
-    ],
+    all: [],
     find: [],
     get: [],
     create: [],

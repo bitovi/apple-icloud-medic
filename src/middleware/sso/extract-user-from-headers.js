@@ -15,6 +15,8 @@ const makeExtractor = (app) => {
       let user = {};
       // req.headers['x-appleconnect-firstname']
       // req.headers['x-appleconnect-lastname']
+      // req.headers['x-appleconnect-emailaddress']
+      // req.headers['x-appleconnect-groups']
       Object.keys(req.headers).forEach(header => {
         if (REG_CONNECT_HEADER.test(header)) {
           const key = header.split('-').pop();

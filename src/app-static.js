@@ -16,6 +16,7 @@ module.exports = function() {
   // Host the public folder
   app.use(favicon(path.join(publicPath, 'favicon.ico')));
   app.use('/shared', feathers.static('shared'));
+  // todo: should not need public route, but steal uses it (see package "main")
   app.use('/public', feathers.static('public'));
   app.use('/img', feathers.static('img'));
   app.use('/node_modules', feathers.static('node_modules'));
@@ -23,11 +24,11 @@ module.exports = function() {
   app.use('/', (req, res, next) => {
     if (REG_INDEX_ROUTE.test(req.path)) {
       const sendIndex = () => res.sendFile(indexFile);
-      if (!env.IS_ORCHARD) {
-        sendIndex();
+      if (env.IS_REMOTE) {
+        loginRedirect(req, res, sendIndex);
         return;
       }
-      loginRedirect(req, res, sendIndex);
+      sendIndex();
       return;
     }
     staticMW(req, res, next);
