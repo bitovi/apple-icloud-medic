@@ -19,7 +19,7 @@ class CustomVerifier {
 
     // super admin groups must be defined
     if( !ssoConfig.superAdminGroups || !REG_VALID_GROUPS.test(ssoConfig.superAdminGroups) ) {
-      return reject(new Error('You must specify at least one Super Admin Group ID environment variable. Please review the projects README for more information.'));
+      throw new Error('You must specify at least one Super Admin Group ID environment variable. Please review the projects README for more information.');
     }
 
     this.app = app;
