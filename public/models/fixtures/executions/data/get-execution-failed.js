@@ -1,0 +1,312 @@
+export default [
+  {
+    "status": "failed",
+    "start_timestamp": "2017-10-18T13:00:00.070816Z",
+    "web_url": "https:\/\/st11p00me-sre002.me.com\/#\/history\/59e75050271fb22466b5a77b\/general",
+    "log": [
+      {
+        "status": "requested",
+        "timestamp": "2017-10-18T13:00:00.103000Z"
+      },
+      {
+        "status": "scheduled",
+        "timestamp": "2017-10-18T13:00:00.198000Z"
+      },
+      {
+        "status": "running",
+        "timestamp": "2017-10-18T13:00:00.324000Z"
+      },
+      {
+        "status": "failed",
+        "timestamp": "2017-10-18T13:00:00.567000Z"
+      }
+    ],
+    "trigger_type": {
+      "description": "Triggers whenever current time matches the specified time constaints like a UNIX cron scheduler.",
+      "parameters_schema": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "week": {
+            "minimum": 1,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 53
+          },
+          "hour": {
+            "minimum": 0,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 23
+          },
+          "day_of_week": {
+            "minimum": 0,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 6
+          },
+          "month": {
+            "minimum": 1,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 12
+          },
+          "second": {
+            "minimum": 0,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 59
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "day": {
+            "minimum": 1,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 31
+          },
+          "minute": {
+            "minimum": 0,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "maximum": 59
+          }
+        }
+      },
+      "tags": [
+
+      ],
+      "name": "st2.CronTimer",
+      "payload_schema": {
+        "type": "object",
+        "properties": {
+          "executed_at": {
+            "default": "2014-07-30 05:04:24.578325",
+            "type": "string",
+            "format": "date-time"
+          },
+          "schedule": {
+            "default": {
+              "units": "seconds",
+              "delta": 30
+            },
+            "type": "object"
+          }
+        }
+      },
+      "pack": "core",
+      "id": "591537aa271fb214e496e82d",
+      "uid": "trigger_type:core:st2.CronTimer"
+    },
+    "runner": {
+      "runner_module": "mistral_v2",
+      "uid": "runner_type:mistral-v2",
+      "name": "mistral-v2",
+      "enabled": true,
+      "query_module": "mistral_v2",
+      "runner_parameters": {
+        "skip_notify": {
+          "default": [
+
+          ],
+          "type": "array",
+          "description": "List of tasks to skip notifications for."
+        },
+        "task": {
+          "type": "string",
+          "description": "The name of the task to run for reverse workflow."
+        },
+        "context": {
+          "default": {
+
+          },
+          "type": "object",
+          "description": "Additional workflow inputs."
+        },
+        "workflow": {
+          "type": "string",
+          "description": "The name of the workflow to run if the entry_point is a workbook of many workflows. The name should be in the format \"<pack_name>.<action_name>.<workflow_name>\". If entry point is a workflow or a workbook with a single workflow, the runner will identify the workflow automatically."
+        }
+      },
+      "id": "591537d2271fb21ce5f37fc8",
+      "description": "A runner for executing mistral v2 workflow."
+    },
+    "rule": {
+      "description": "Daily deployment of icloud3",
+      "tags": [
+
+      ],
+      "ref": "default.icloud3_daily_deployment",
+      "enabled": true,
+      "trigger": {
+        "type": "core.st2.CronTimer",
+        "ref": "core.3d897a73-89bd-4edd-89ef-ce49abcf3568",
+        "parameters": {
+          "week": "*",
+          "hour": "6",
+          "day_of_week": "*",
+          "month": "*",
+          "second": "0",
+          "year": "*",
+          "day": "*",
+          "minute": "0"
+        }
+      },
+      "criteria": {
+
+      },
+      "action": {
+        "ref": "default.icloud3_daily_deploy",
+        "parameters": {
+
+        }
+      },
+      "uid": "rule:default:icloud3_daily_deployment",
+      "pack": "default",
+      "type": {
+        "ref": "standard",
+        "parameters": {
+
+        }
+      },
+      "id": "59654477271fb27cbbb1dc00",
+      "name": "icloud3_daily_deployment"
+    },
+    "elapsed_seconds": 0.470346,
+    "trigger_instance": {
+      "status": "processing",
+      "occurrence_time": "2017-10-18T13:00:00.007000Z",
+      "trigger": "core.3d897a73-89bd-4edd-89ef-ce49abcf3568",
+      "id": "59e75050271fb22466b5a778",
+      "payload": {
+        "executed_at": "2017-10-18 13:00:00.003568+00:00",
+        "schedule": null
+      }
+    },
+    "trigger": {
+      "uid": "trigger:core:3d897a73-89bd-4edd-89ef-ce49abcf3568:5cfeb55d92a6e784a2a9eb9f47a9f9b3",
+      "parameters": {
+        "week": "*",
+        "hour": "6",
+        "day_of_week": "*",
+        "month": "*",
+        "second": "0",
+        "year": "*",
+        "day": "*",
+        "minute": "0"
+      },
+      "name": "3d897a73-89bd-4edd-89ef-ce49abcf3568",
+      "type": "core.st2.CronTimer",
+      "id": "59654477271fb27cbbb1dbff",
+      "pack": "core"
+    },
+    "result": {
+      "traceback": "  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/st2actions\/container\/base.py\", line 99, in _do_run\n    (status, result, context) = runner.run(action_params)\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/retrying.py\", line 49, in wrapped_f\n    return Retrying(*dargs, **dkw).call(f, *args, **kw)\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/retrying.py\", line 206, in call\n    return attempt.get(self._wrap_exception)\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/retrying.py\", line 247, in get\n    six.reraise(self.value[0], self.value[1], self.value[2])\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/retrying.py\", line 200, in call\n    attempt = Attempt(fn(*args, **kwargs), attempt_number, False)\n  File \"\/opt\/stackstorm\/runners\/mistral_v2\/mistral_v2.py\", line 218, in run\n    result = self.start(action_parameters=action_parameters)\n  File \"\/opt\/stackstorm\/runners\/mistral_v2\/mistral_v2.py\", line 243, in start\n    def_dict_xformed = utils.transform_definition(def_dict)\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/st2common\/util\/workflow\/mistral.py\", line 258, in transform_definition\n    _transform_action(task_name, task_spec)\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/st2common\/util\/workflow\/mistral.py\", line 222, in _transform_action\n    _validate_action_parameters(name, action, action_params)\n  File \"\/opt\/stackstorm\/st2\/lib\/python2.7\/site-packages\/st2common\/util\/workflow\/mistral.py\", line 129, in _validate_action_parameters\n    '\"%s\"' % (name, action.ref, '\", \"'.join(requires)))\n",
+      "error": "Missing required parameters in \"notify_success\" for action \"chatops.hipchat_post_html\": \"message\""
+    },
+    "context": {
+      "trigger_instance": {
+        "id": "59e75050271fb22466b5a778",
+        "name": null
+      },
+      "trace_context": {
+        "id_": "59e75050271fb22466b5a779",
+        "trace_tag": "st2.CronTimer-3d897a73-89bd-4edd-89ef-ce49abcf3568"
+      },
+      "rule": {
+        "id": "59654477271fb27cbbb1dc00",
+        "name": "icloud3_daily_deployment"
+      },
+      "user": "stanley"
+    },
+    "action": {
+      "name": "icloud3_daily_deploy",
+      "runner_type": "mistral-v2",
+      "tags": [
+
+      ],
+      "enabled": true,
+      "entry_point": "workflows\/icloud3_daily_deploy.yaml",
+      "notify": {
+
+      },
+      "uid": "action:default:icloud3_daily_deploy",
+      "parameters": {
+
+      },
+      "ref": "default.icloud3_daily_deploy",
+      "id": "59654385271fb27cbbb1dba4",
+      "pack": "default"
+    },
+    "liveaction": {
+      "runner_info": {
+        "hostname": "st11p00me-sre002.me.com",
+        "pid": 8721
+      },
+      "parameters": {
+
+      },
+      "action_is_workflow": true,
+      "callback": {
+
+      },
+      "action": "default.icloud3_daily_deploy",
+      "id": "59e75050271fb22466b5a77a"
+    },
+    "id": "59e75050271fb22466b5a77b",
+    "end_timestamp": "2017-10-18T13:00:00.541162Z"
+  }
+];

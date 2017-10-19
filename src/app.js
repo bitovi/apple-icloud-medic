@@ -22,7 +22,7 @@ const services = require('./services');
 const appHooks = require('./app.hooks');
 
 const healthCheck = require('./middleware/health-check');
-const authentication = require('./authentication');
+// const authentication = require('./authentication');
 
 const app = feathers();
 
@@ -49,7 +49,7 @@ app.configure(rest());
 app.configure(socketio());
 
 // Set up authentication strategies
-app.configure(authentication);
+// app.configure(authentication);
 // Set up our services (see `services/index.js`)
 app.configure(services);
 

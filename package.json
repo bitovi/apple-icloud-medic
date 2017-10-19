@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "can-fixture": "^1.1.1",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
@@ -56,6 +57,7 @@
     "helmet": "^3.8.2",
     "react-json-view": "^1.13.1",
     "serve-favicon": "^2.4.5",
+    "steal-qunit": "^1.0.1",
     "winston": "^2.4.0"
   },
   "devDependencies": {
