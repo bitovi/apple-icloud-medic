@@ -9,7 +9,7 @@ const REG_VALID_GROUPS = /^[\d,]+$/;
 // user information to the request headers and strip the cookie. We do
 // not need to validate the user - just extract the information from
 // the headers.
-const reqUsesOrchardAuth = (req) => {
+const reqHasAuthHeaders = (req) => {
   return req.headers.hasOwnProperty('x-appleconnect-emailaddress');
 };
 
@@ -35,14 +35,16 @@ class CustomVerifier {
   }
 
   verify(req, done) {
+    const ssoConfig = this.app.get('sso');
+
     // TODO: This should not be needed. See middleware which sets req.feathers.connection
     // Also see: https://github.com/feathersjs/feathers-authentication/issues/494
     req.connection = req.params.connection;
 
     let userPromise;
-    if (env.IS_ORCHARD) {
-      if (reqUsesOrchardAuth(req)) {
-        // Using Orchar-provided auth
+    if (env.IS_REMOTE) {
+      if (ssoConfig.trustAuthHeaders && reqHasAuthHeaders(req)) {
+        // Auth headers appended by load balancer (ex: Orchard)
         userPromise = this.extract(req);
       } else {
         // Manually validate the auth cookie

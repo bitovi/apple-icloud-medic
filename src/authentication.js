@@ -24,14 +24,30 @@ module.exports = function () {
   app.service('authentication').hooks({
     before: {
       create: [
-        authentication.hooks.authenticate(authConfig.strategies)
+        authentication.hooks.authenticate(authConfig.strategies),
+        (hook) => {
+          // make the user available for users service
+          return app.service('users').create(hook.params.user).then(result => {
+            // make sure params.payload exists
+            hook.params.payload = hook.params.payload || {}
+            // do not put the user in the payload!
+            Object.assign(hook.params.payload, { userId: hook.params.user.email })
+          });
+        }
       ],
       remove: [
         authentication.hooks.authenticate('jwt')
       ]
     },
     after: {
-      create: [],
+      create: [
+        (hook) => {
+          // this makes the user available on the response so
+          // we don't have request it separately
+          hook.result.user = hook.params.user;
+          return hook;
+        }
+      ],
       remove: []
     }
   });

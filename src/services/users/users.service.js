@@ -1,5 +1,5 @@
 // Initializes the `users` service on path `/users`
-const createService = require('./users.class.js');
+const createService = require('feathers-memory');
 const hooks = require('./users.hooks');
 const filters = require('./users.filters');
 
@@ -8,6 +8,7 @@ module.exports = function () {
   const paginate = app.get('paginate');
 
   const options = {
+    id: 'email',
     name: 'users',
     paginate
   };

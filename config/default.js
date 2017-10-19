@@ -1,4 +1,4 @@
-{
+module.exports = {
   "host": "localhost",
   "port": 3030,
   "public": "../public/",
@@ -22,7 +22,7 @@
       "subject": "AppleDSUsers",
       "issuer": "feathers",
       "algorithm": "HS256",
-      "expiresIn": "1h"
+      "expiresIn": "2h"
     }
   },
   "sso": {
@@ -31,8 +31,15 @@
     "appId": "SSO_APP_ID",
     "appIdKey": "SSO_APP_ID_KEY",
     "appAdminPassword": "SSO_APP_ADMIN_PASSWORD",
+    // used for "rv" param: ?rv=1, ?rv=2
     "appRedirectVersion": null,
     "authHost": "idmsauth-uat.corp.apple.com",
-    "cookieName": "myacinfo-uat"
+    "cookieName": "myacinfo-uat",
+    // Some environments (eg. Orchard) have a load balancer which validates
+    // the session cookie and appends special auth headers. In such situations,
+    // we can trust those headers instead of validating the user cookie.
+    // Only set this if you are absolutely sure!!
+    // The headers are in this format: "x-appleconnect-[field-name]".
+    "trustAuthHeaders": false
   }
-}
+};

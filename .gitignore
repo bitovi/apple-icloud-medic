@@ -107,8 +107,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Others
-lib/
-data/
-
+# Dev assets
 dev-bundle.js
