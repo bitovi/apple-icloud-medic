@@ -12,7 +12,7 @@ const User = DefineMap.extend({
   nickName: 'string',
   email: 'string',
   groups: {
-    value: []
+    value: () => []
   }
 });
 

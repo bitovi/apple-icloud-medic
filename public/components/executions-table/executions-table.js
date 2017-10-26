@@ -1,8 +1,14 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import Executions from 'medic/public/models/executions';
-import Pagination from 'medic/public/components/pagination/';
+import { Modal, Icon, Table, Container, Divider } from 'semantic-ui-react';
+
+import Executions from '~/models/executions';
+import Pagination from '~/components/pagination/';
+import JSONViewer from '~/components/json-viewer/';
+import ExecutionFilters from '../execution-filters/';
+import './executions-table.less';
+import 'semantic-ui-css/semantic.min.css';
 
 /*
 status | timestamp | trigger type | action | action type | execution details link
@@ -12,48 +18,82 @@ status | timestamp | trigger type | action | action type | execution details lin
 */
 class ExecutionsTable extends Component {
   render() {
+
     return (
-      <div>
-        <div className="filter-wrap">ToDo: filter</div>
-        <div className="pagination-wrap">
-          <Pagination limit={this.viewModel.limit} offset={this.viewModel.offset} total={this.viewModel.totalExecutions} />
+      <div className="executions-table">
+        <div className="filter-wrap">
+          <ExecutionFilters
+            filterTypes={this.viewModel.filterTypes}
+            onChange={this.viewModel.handleFilterChange} />
         </div>
         <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Time</th>
-                <th>If (trigger)</th>
-                <th>Then (action)</th>
-                <th>Action Type</th>
-                <th>Execution</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table celled padded striped>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell>Time</Table.HeaderCell>
+                <Table.HeaderCell>If (trigger)</Table.HeaderCell>
+                <Table.HeaderCell>Then (action)</Table.HeaderCell>
+                <Table.HeaderCell>Action Type</Table.HeaderCell>
+                <Table.HeaderCell>Execution</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {this.viewModel.executions.serialize().map((execution,index) => {
+                let executionPartModal = (root, prop) => {
+                  if(!execution[root]){
+                    return "N/A";
+                  }
+
+                  return (
+                    <div>
+                      <span>{execution[root][prop]}</span>
+                      <Modal
+                        trigger={<Icon name="unhide" />}
+                        closeIcon>
+                        <Modal.Header>
+                          Execution {execution.id}: {root}.{prop}&nbsp;<i>({execution[root][prop]})</i>
+                        </Modal.Header>
+                        <Modal.Content scrolling>
+                          <JSONViewer src={execution[root]} collapsed={false} />
+                        </Modal.Content>
+                      </Modal>
+                    </div>
+                  );
+                };
+
                 return (
-                  <tr key={execution.id}>
-                    <td>{execution.status}</td>
-                    <td>{execution.start_timestamp.toString()}</td>
-                    <td>If (trigger)</td>
+                  <Table.Row key={execution.id}>
+                    <Table.Cell>{execution.status}</Table.Cell>
+                    <Table.Cell>{execution.start_timestamp.toString()}</Table.Cell>
+                    <Table.Cell>{executionPartModal('trigger', 'type')}</Table.Cell>
 
-                    <td>
-                      <span>action identifier</span><br />
-                      <span>action params</span>
-                    </td>
+                    <Table.Cell>{executionPartModal('liveaction', 'action')}</Table.Cell>
 
-                    <td>
-                      Action Type<br />
-                      icon
-                    </td>
-                    <td>Execution: { execution.id }</td>
-                  </tr>
+                    <Table.Cell>{executionPartModal('runner', 'name')}</Table.Cell>
+                    <Table.Cell>
+                      <a href={"/executions/" + execution.id}>
+                        View Execution
+                      </a>
+                    </Table.Cell>
+                  </Table.Row>
                 )
               })}
-            </tbody>
-          </table>
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row textAlign="right">
+                <Table.HeaderCell colSpan='6'>
+                  <Pagination
+                    limit={this.viewModel.limit}
+                    offset={this.viewModel.offset}
+                    onOffsetChange={this.viewModel.handleOffsetChange}
+                  />
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Footer>
+          </Table>
         </div>
+        <Divider hidden />
       </div>
     );
   }
@@ -73,38 +113,70 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
       return ['result','trigger_instance'];
     }
   },
+  executionsSet:{
+    value: () => ({}),
+    get(lastSetVal){
+      let opts = {
+        '$limit': this.limit,
+        '$skip': this.offset,
+        'exclude_attributes': this.exclude_attributes.join(',')
+      };
+      this.filterTypes.forEach(type => {
+        let vmProp = this["filter_" + type];
+        if(typeof vmProp !== 'undefined'){
+          opts[type] = vmProp;
+        }
+      });
+
+      return opts;
+    }
+  },
   executions: {
     value: function(){
       return [];
     },
     get(lastSetVal, setVal){
-      Executions.getList({
-        '$limit': this.limit,
-        '$skip': this.offset,
-        // 'exclude_attributes': this.exclude_attributes.join(',')
-      }).then(executions => {
+      Executions.getList(this.executionsSet).then(executions => {
         setVal(executions);
       });
       return lastSetVal;
     }
   },
-  totalExecutions: {
-    value: function(){
-      return 0;
-    },
-    get(lastSetVal, setVal){
-      Executions.getList({
-      }).then(executions => {
-        console.log("executions",executions)
-        setVal(executions.length);
-      });
-      return lastSetVal;
-    },
-    set(v){
-      console.log("setting executions",v);
-      return v;
-    }
+
+  //todo?
+  // totalExecutions: {
+  //   value: function(){
+  //     return 0;
+  //   },
+  //   get(lastSetVal, setVal){
+  //     let opts = clone(this.executionsSet);
+
+  //     delete opts["$skip"];
+  //     delete opts["$limit"];
+
+  //     Executions.getList(opts).then(executions => {
+  //       setVal(executions.length);
+  //     });
+  //     return lastSetVal;
+  //   }
+  // },
+  filterTypes:{
+    value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
+  },
+  filter_action: 'string',
+  filter_rule: 'string',
+  filter_runner: 'string',
+  filter_status: 'string',
+  filter_trigger_type: 'string',
+  filter_user:'string',
+  handleFilterChange(type, value){
+    this["filter_" + type] = value;
+  },
+
+  handleOffsetChange(newOffset){
+    this.offset = newOffset;
   }
+
 });
 
 export default ExecutionsTable;

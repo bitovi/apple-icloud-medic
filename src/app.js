@@ -48,9 +48,7 @@ app.configure(hooks());
 app.configure(rest());
 app.configure(socketio());
 
-// Set up authentication strategies
 app.configure(authentication);
-// Set up our services (see `services/index.js`)
 app.configure(services);
 
 // Configure a middleware for 404s and the error handler

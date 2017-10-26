@@ -10,7 +10,11 @@ export function mock(num){
   var ret = [],
       item;
   for(var i = 0; i < num; i++){
-    item = clone(executionSucceededTemplate);
+    if(i % 3 === 0){
+      item = clone(executionFailedTemplate);
+    }else{
+      item = clone(executionSucceededTemplate);
+    }
 
     //modify item details
     item.id = i;
@@ -20,42 +24,90 @@ export function mock(num){
   return ret;
 }
 
+
+// Filter the list data based on request (with limit/offset)
+//TODO: we shouldn't have to do this
+//  why isn't the store filtering data for us?
+function filterListData(requestData, list){
+
+  list = list.filter(item => {
+    let ret = true;
+
+    //status
+    if(typeof requestData.status !== 'undefined'){
+      ret = ret && item.status === requestData.status
+    }
+
+    // runner
+    if(typeof requestData['runner'] !== 'undefined'){
+      ret = ret && item.runner.name === requestData['runner']
+    }
+
+    // user
+    if(typeof requestData['user'] !== 'undefined'){
+      ret = ret && item.context.user === requestData['user']
+    }
+
+    // action
+    if(typeof requestData['action'] !== 'undefined'){
+      ret = ret && item.action.ref === requestData['action']
+    }
+
+    // trigger_type
+    if(typeof requestData['trigger_type'] !== 'undefined'){
+      ret = ret && item.trigger_type && item.trigger_type.name === requestData['trigger_type']
+    }
+
+    // rule
+    if(typeof requestData['rule'] !== 'undefined'){
+      ret = ret && item.rule && item.rule.name === requestData['rule']
+    }
+
+
+    return ret;
+  })
+
+  //limit/offset
+  if(typeof requestData['$skip'] !== 'undefined' && typeof requestData['$limit'] !== 'undefined'){
+    let start = parseInt(requestData['$skip'], 10),
+        end = start + parseInt(requestData['$limit'], 10);
+    list = list.slice(start, end)
+  }
+
+  return list;
+}
+
 const store = fixture.store(mock(100), Executions.connection.algebra);
-fixture(`${env.STACKSTORM_API_ROOT}/api/v1/executions`,(request, response, requestHeaders, ajaxSettings)=>{
-  // console.log("")
-  // console.log("")
-  // console.log("")
-  // console.log("executions store")
-  // console.log("arguments");
-  // console.log("request",request);
-  // console.log("response",response);
-  // console.log("requestHeaders",requestHeaders);
-  // console.log("ajaxSettings",ajaxSettings);
-  // console.log("store",store)
-  // console.log("")
-  // console.log("")
-  let responseData = {};
+
+//list
+fixture(`${env.ST2_API_ROOT}/api/v1/executions`,(request, response, requestHeaders, ajaxSettings)=>{
   switch(request.type.toUpperCase()){
     case "GET":
-      if(request.data.id){
-        responseData = store.getData({ "id": request.data.id}, response);
-        break;
-      }
-
       // findAll
+      store.getListData(request.data, (getListResponse) => {
 
-      // Endpoints are catered to feathers which uses $limit and $skip
-      //  we need to translate that to limit & offset for the data store
-      // request.data.limit = request.data["$limit"];
-      // request.data.offset = request.data["$skip"];
-      // delete request.data["$limit"];
-      // delete request.data["$skip"];
+        //TODO: we shouldn't have to do this
+        //  why isn't the store filtering data for us?
+        getListResponse.data = filterListData(request.data, getListResponse.data);
 
-      responseData = store.getListData(request.data, response);
-      console.log("responseData",responseData);
+        getListResponse.count = getListResponse.data.length;
+        response(getListResponse);
+      });
       break;
   }
-  return responseData;
+})
+
+//id
+fixture(`${env.ST2_API_ROOT}/api/v1/executions/{id}`,(request, response, requestHeaders, ajaxSettings)=>{
+  switch(request.type.toUpperCase()){
+    case "GET":
+      console.log("executions/id fixture GET", request)
+      if(request.data.id){
+        store.getData(request, response);
+        break;
+      }
+      break;
+  }
 })
 
 export default store;

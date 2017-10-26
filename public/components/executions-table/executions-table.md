@@ -5,7 +5,7 @@ Table for executions.
 
 Child Components:
 * `<Pagination />`
-* `<ExecutionFilter />`
+* `<ExecutionFilters />`
 
 @signature `<ExecutionsTable />`
 

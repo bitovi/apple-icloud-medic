@@ -4,6 +4,10 @@ import feathersClient from '../feathers-client';
 import User from './user';
 
 const Session = DefineMap.extend('Session', {
+  iat: 'any',
+  aud: 'any',
+  iss: 'any',
+  sub: 'any',
   exp: 'any',
   userId: 'string',
   user: {

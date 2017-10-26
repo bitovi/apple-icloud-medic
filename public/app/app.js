@@ -3,53 +3,85 @@ import Component from 'react-view-model/component';
 import route from 'can-route-pushstate';
 import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/';
+import PropTypes from 'prop-types';
 
 import Session from '../models/session';
-import PlainReact from '../components/plain-react';
-import ReactViewModel from '../components/react-view-model';
-import SiteNav from './site-nav/';
+import SiteHeader from './site-header/';
+import SiteFooter from './site-footer/';
+
+import ExecutionsPage from './pages/executions/';
+import ExecutionPage from './pages/execution/';
+import PlaygroundPage from './pages/playground/';
+
+//!steal-remove-start
+import '~/models/fixtures/';
+//!steal-remove-end
+
+// TODO: make part of the shared router config
+const PAGE_MAP = {
+  'playground': PlaygroundPage,
+  'executions': ExecutionsPage
+};
 
 class AppComponent extends Component {
+
+  getChildContext() {
+    return { appState: this.viewModel };
+  }
+
   render() {
+    const { page, currentUser, executionId } = this.viewModel;
+    let CurrentPage;
+    switch(page){
+      case "executions":
+        if(executionId){
+          CurrentPage = ExecutionPage;
+        }else{
+          CurrentPage = ExecutionsPage;
+        }
+        break;
+      default:
+        CurrentPage = PAGE_MAP[page] || ExecutionsPage;
+        break;
+    }
+
     return (
       <div role="application">
-        <header>
-          {(() => {
-            if (this.viewModel.isReady) {
-              return <p>Welcome {this.viewModel.session.user.displayName}</p>
-            }
-          })()}
-          <a href="/" className="site-logo"> Apple - {this.viewModel.section}</a>
-          <SiteNav />
-        </header>
+        <SiteHeader currentUser={this.viewModel.currentUser} />
         <main role="main">
-          <PlainReact />
-          <ReactViewModel />
+          <CurrentPage />
         </main>
-        <footer>
-
-        </footer>
+        <SiteFooter />
       </div>
     );
   }
 }
 
+
+AppComponent.childContextTypes = {
+  appState: PropTypes.object
+};
+
 AppComponent.ViewModel = DefineMap.extend('AppComponent', {
-  section: 'string',
-  session: {
+  page: 'string',
+  executionId: 'string',
+  currentUser: {
     get () {
-      return Session.current;
+      return Session.current && Session.current.user;
     }
   },
   isReady: {
     get () {
-      return this.session && this.session.user;
+      return this.currentUser;
     }
   },
   init () {
     // define routes here
-    route(':section', { section: 'section 1' });
+    // TODO: use shared router config
+    route('{page}', { page: 'executions' });
+    route('/executions/{executionId}', { page: 'executions'});
 
+    // makes request to /authenticate
     new Session({ strategy: 'custom' }).save().then(result => {
       route.data = this;
       route.ready();
