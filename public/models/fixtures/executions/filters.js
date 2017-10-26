@@ -4,7 +4,7 @@ import data_filters from './data/execution-filters';
 
 export default fixture({
   method: "GET",
-  url: `${env.ST2_API_ROOT}/api/v1/executions/views/filters`
+  url: `${env.API_BASE_URI}/execution-filters`
 },(request, response, requestHeaders, ajaxSettings) => {
   let dataOut = {};
   for(var k in data_filters){

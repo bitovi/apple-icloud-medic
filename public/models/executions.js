@@ -96,7 +96,7 @@ Executions.List = DefineList.extend({
 });
 
 Executions.connection = lightConnection({
-  url: `${env.ST2_API_ROOT}/api/v1/executions`,
+  url: `${env.API_BASE_URI}/executions`,
   Map: Executions,
   List: Executions.List,
   name: 'executions',
@@ -105,7 +105,7 @@ Executions.connection = lightConnection({
 
 Executions.getFilters = function(opts){
   return ajax({
-    'url': `${env.ST2_API_ROOT}/api/v1/executions/views/filters`,
+    'url': `${env.API_BASE_URI}/execution-filters`,
     'type': 'GET',
     'data': opts
   }).then(filters => new ExecutionFilters(filters))

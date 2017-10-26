@@ -54,7 +54,6 @@
     "feathers-authentication-custom": "github:designbyonyx/feathers-authentication-custom",
     "feathers-authentication-hooks": "^0.1.4",
     "feathers-authentication-jwt": "^0.3.2",
-    "feathers-authentication-local": "^0.4.4",
     "feathers-configuration": "^0.4.1",
     "feathers-errors": "^2.9.2",
     "feathers-hooks": "^2.1.0",
@@ -64,6 +63,8 @@
     "feathers-rest": "^1.8.0",
     "feathers-socketio": "^2.0.0",
     "helmet": "^3.8.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "serve-favicon": "^2.4.5",
     "winston": "^2.4.0"
   },

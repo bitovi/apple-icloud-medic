@@ -80,7 +80,7 @@ function filterListData(requestData, list){
 const store = fixture.store(mock(100), Executions.connection.algebra);
 
 //list
-fixture(`${env.ST2_API_ROOT}/api/v1/executions`,(request, response, requestHeaders, ajaxSettings)=>{
+fixture(`${env.API_BASE_URI}/executions`,(request, response, requestHeaders, ajaxSettings)=>{
   switch(request.type.toUpperCase()){
     case "GET":
       // findAll
@@ -98,7 +98,7 @@ fixture(`${env.ST2_API_ROOT}/api/v1/executions`,(request, response, requestHeade
 })
 
 //id
-fixture(`${env.ST2_API_ROOT}/api/v1/executions/{id}`,(request, response, requestHeaders, ajaxSettings)=>{
+fixture(`${env.API_BASE_URI}/executions/{id}`,(request, response, requestHeaders, ajaxSettings)=>{
   switch(request.type.toUpperCase()){
     case "GET":
       console.log("executions/id fixture GET", request)

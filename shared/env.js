@@ -13,7 +13,6 @@ const IS_PROD_UI = (IS_REMOTE && !IS_DEV) || process.env.FORCE_PROD_UI;
 module.exports = {
   // do not put leading or trailing slashes here
   API_BASE_URI: 'medic-api',
-  ST2_API_ROOT: 'https://sre-tools.apple.com',
   IS_NODE: IS_NODE,
   IS_DEV: IS_DEV,
   IS_UAT: IS_UAT,

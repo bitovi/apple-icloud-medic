@@ -1,6 +1,6 @@
 module.exports = {
   "host": "localhost",
-  "port": 3030,
+  "port": "PORT",
   "public": "../public/",
   "paginate": {
     "default": 25,
@@ -41,5 +41,9 @@ module.exports = {
     // Only set this if you are absolutely sure!!
     // The headers are in this format: "x-appleconnect-[field-name]".
     "trustAuthHeaders": false
+  },
+  "stackstorm": {
+    "host": "ST2_HOST",
+    "apiKey": "ST2_API_KEY"
   }
 };

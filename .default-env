@@ -1,2 +1,11 @@
+PORT=3030
+
+# Super Admin DS group IDs, separate multiple with a comma
 SA_GROUPS=
+
+# db connection string
 DATABASE_URL=
+
+# stackstorm info
+ST2_HOST=
+ST2_API_KEY=
