@@ -1,9 +1,9 @@
 import fixture from 'can-fixture';
 import env from 'medic/shared/env';
-import Executions from 'medic/public/models/executions';
+import Executions from '@public/models/executions';
+import clone from '@public/util/clone';
 import executionFailedTemplate from './data/get-execution-failed';
 import executionSucceededTemplate from './data/get-execution-succeeded';
-import clone from 'medic/public/util/clone';
 
 // Clone the template item
 export function mock(num){
@@ -14,6 +14,10 @@ export function mock(num){
       item = clone(executionFailedTemplate);
     }else{
       item = clone(executionSucceededTemplate);
+    }
+
+    if (Math.random() > 0.8) {
+      delete item.parent;
     }
 
     //modify item details
@@ -33,34 +37,39 @@ function filterListData(requestData, list){
   list = list.filter(item => {
     let ret = true;
 
+    //parent
+    if(ret && requestData.parent === 'null'){
+      ret = item.parent === null || item.parent === undefined
+    }
+
     //status
-    if(typeof requestData.status !== 'undefined'){
-      ret = ret && item.status === requestData.status
+    if(ret && typeof requestData.status !== 'undefined'){
+      ret = item.status === requestData.status
     }
 
     // runner
-    if(typeof requestData['runner'] !== 'undefined'){
-      ret = ret && item.runner.name === requestData['runner']
+    if(ret && typeof requestData['runner'] !== 'undefined'){
+      ret = item.runner.name === requestData['runner']
     }
 
     // user
-    if(typeof requestData['user'] !== 'undefined'){
-      ret = ret && item.context.user === requestData['user']
+    if(ret && typeof requestData['user'] !== 'undefined'){
+      ret = item.context.user === requestData['user']
     }
 
     // action
-    if(typeof requestData['action'] !== 'undefined'){
-      ret = ret && item.action.ref === requestData['action']
+    if(ret && typeof requestData['action'] !== 'undefined'){
+      ret = item.action.ref === requestData['action']
     }
 
     // trigger_type
-    if(typeof requestData['trigger_type'] !== 'undefined'){
-      ret = ret && item.trigger_type && item.trigger_type.name === requestData['trigger_type']
+    if(ret && typeof requestData['trigger_type'] !== 'undefined'){
+      ret = item.trigger_type && item.trigger_type.name === requestData['trigger_type']
     }
 
     // rule
-    if(typeof requestData['rule'] !== 'undefined'){
-      ret = ret && item.rule && item.rule.name === requestData['rule']
+    if(ret && typeof requestData['rule'] !== 'undefined'){
+      ret = item.rule && item.rule.name === requestData['rule']
     }
 
 

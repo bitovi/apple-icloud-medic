@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/';
 
-import ExecutionsTable from '~/components/executions-table/';
+import ExecutionsTable from '@public/components/executions-table/';
 
 export default () =>
   <div className="executions-page">

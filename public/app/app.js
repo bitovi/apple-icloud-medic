@@ -14,7 +14,7 @@ import ExecutionPage from './pages/execution/';
 import PlaygroundPage from './pages/playground/';
 
 //!steal-remove-start
-import '~/models/fixtures/';
+import '@public/models/fixtures/';
 //!steal-remove-end
 
 // TODO: make part of the shared router config
@@ -30,26 +30,20 @@ class AppComponent extends Component {
   }
 
   render() {
-    const { page, currentUser, executionId } = this.viewModel;
-    let CurrentPage;
-    switch(page){
-      case "executions":
-        if(executionId){
-          CurrentPage = ExecutionPage;
-        }else{
-          CurrentPage = ExecutionsPage;
-        }
-        break;
-      default:
-        CurrentPage = PAGE_MAP[page] || ExecutionsPage;
-        break;
+    const { currentUser } = this.viewModel;
+    let mainContent;
+    if (!currentUser) {
+      mainContent = <div>{this.viewModel.statusMessage}</div>
+    } else {
+      const { CurrentPage } = this.viewModel;
+      mainContent = <CurrentPage />
     }
 
     return (
       <div role="application">
-        <SiteHeader currentUser={this.viewModel.currentUser} />
+        <SiteHeader currentUser={currentUser} />
         <main role="main">
-          <CurrentPage />
+          {mainContent}
         </main>
         <SiteFooter />
       </div>
@@ -65,14 +59,29 @@ AppComponent.childContextTypes = {
 AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   page: 'string',
   executionId: 'string',
-  currentUser: {
-    get () {
-      return Session.current && Session.current.user;
-    }
+  authError: {
+    serialize: false,
+    value: false
   },
-  isReady: {
-    get () {
-      return this.currentUser;
+  statusMessage: {
+    serialize: false,
+    value: 'Loading...'
+  },
+  get currentUser () {
+    return !this.authError && Session.current && Session.current.user;
+  },
+  get CurrentPage () {
+    switch(this.page){
+      case "executions":
+        if(this.executionId){
+          return ExecutionPage;
+        }else{
+          return ExecutionsPage;
+        }
+        break;
+      default:
+        return PAGE_MAP[page] || ExecutionsPage;
+        break;
     }
   },
   init () {
@@ -81,10 +90,14 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     route('{page}', { page: 'executions' });
     route('/executions/{executionId}', { page: 'executions'});
 
-    // makes request to /authenticate
+    // makes POST request to /authenticate
     new Session({ strategy: 'custom' }).save().then(result => {
       route.data = this;
       route.ready();
+    }).catch(err => {
+      // TODO: better UX
+      this.authError = true;
+      this.statusMessage = 'Failed to authenticate: ' + err.message;
     });
   }
 });

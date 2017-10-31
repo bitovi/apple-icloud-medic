@@ -1,7 +1,16 @@
 PORT=3030
 
+# SSO Auth config
+SSO_AUTH_ENABLED=true
+SSO_APP_ID=
+SSO_APP_ID_KEY=
+SSO_APP_ADMIN_PASSWORD=
+
 # Super Admin DS group IDs, separate multiple with a comma
 SA_GROUPS=
+
+# Dev User Groups (dev only - the groups assigned to the dev user)
+DEV_USER_GROUPS=
 
 # db connection string
 DATABASE_URL=

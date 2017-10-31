@@ -46,6 +46,12 @@ const ExecutionFilters = DefineMap.extend({
 const algebra = new set.Algebra(
   set.props.id('id'),
   {
+    parent(serverVal, setVal) {
+      if (('' + setVal) === 'null') {
+        return ('' + serverVal) === 'null' || typeof serverVal === 'undefined';
+      }
+      return true;
+    },
     status(serverVal, setVal) {
       if (typeof setVal !== 'undefined'){
         return serverVal === setVal
@@ -96,7 +102,7 @@ Executions.List = DefineList.extend({
 });
 
 Executions.connection = lightConnection({
-  url: `${env.API_BASE_URI}/executions`,
+  url: `/${env.API_BASE_URI}/executions`,
   Map: Executions,
   List: Executions.List,
   name: 'executions',
@@ -105,10 +111,10 @@ Executions.connection = lightConnection({
 
 Executions.getFilters = function(opts){
   return ajax({
-    'url': `${env.API_BASE_URI}/execution-filters`,
-    'type': 'GET',
-    'data': opts
-  }).then(filters => new ExecutionFilters(filters))
+    url: `/${env.API_BASE_URI}/execution-filters`,
+    type: 'GET',
+    data: opts
+  }).then(filters => new ExecutionFilters(filters));
 }
 
 export default Executions;

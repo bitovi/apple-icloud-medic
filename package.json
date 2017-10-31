@@ -22,6 +22,9 @@
     "npm": ">= 3.0.0"
   },
   "steal": {
+    "map": {
+      "@public": "public"
+    },
     "plugins": [
       "steal-css",
       "steal-less"
@@ -30,7 +33,10 @@
       "plugins": [
         "transform-class-properties"
       ]
-    }
+    },
+    "configDependencies": [
+      "stealjs/env-config"
+    ]
   },
   "scripts": {
     "test": "NODE_ENV=test npm run eslint && npm run mocha",
@@ -40,18 +46,22 @@
     "mocha": "mocha test/ --recursive",
     "develop": "nodemon -r dotenv/config src/",
     "debug": "nodemon -r dotenv/config --inspect src/",
-    "dev-bundle": "steal-tools bundle --dev --minify=false --dest public/"
+    "dev-bundle": "steal-tools bundle --dev --minify=false --dest public/",
+    "build": "node build",
+    "build-commit": "git branch -D dist; git checkout -b dist && npm run build && git add public/dist -f && git commit -m 'Update dists for deploy'",
+    "deploy-prod": "npm run build-commit && git push prod dist:master -f; git checkout -"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
+    "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "csurf": "^1.9.0",
     "db-migrate": "^0.10.0-beta.24",
     "feathers": "^2.2.2",
     "feathers-authentication": "^1.2.7",
-    "feathers-authentication-custom": "github:designbyonyx/feathers-authentication-custom",
+    "feathers-authentication-custom": "feathersjs-ecosystem/feathers-authentication-custom#build-test",
     "feathers-authentication-hooks": "^0.1.4",
     "feathers-authentication-jwt": "^0.3.2",
     "feathers-configuration": "^0.4.1",
@@ -82,6 +92,7 @@
     "eslint": "^4.8.0",
     "feathers-client": "^2.4.0",
     "mocha": "^4.0.1",
+    "ncp": "^2.0.0",
     "nodemon": "^1.12.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
@@ -91,6 +102,7 @@
     "react-view-model": "^0.5.9",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
+    "rimraf": "^2.6.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.75.1",
     "socket.io-client": "^2.0.3",

@@ -110,3 +110,4 @@ $RECYCLE.BIN/
 # Dev assets
 dev-bundle.js
 .env
+dist/

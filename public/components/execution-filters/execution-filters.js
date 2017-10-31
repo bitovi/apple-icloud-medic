@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import { Dropdown, List } from 'semantic-ui-react';
-import Executions from '~/models/executions';
+import Executions from '@public/models/executions';
 import 'semantic-ui-css/semantic.min.css';
 
 class ExecutionFilters extends Component {
@@ -32,8 +32,26 @@ class ExecutionFilters extends Component {
 }
 
 ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
+  isLoading: {
+    type: 'boolean',
+    value: () => { return false },
+    get(lastSetVal, setVal){
+      this.filtersPromise.then(() => {
+        setVal(false);
+      });
+      return true;
+    }
+  },
   filterTypes:{
     value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
+  },
+  filtersPromise: {
+    type: 'any',
+    get(lastSetVal, setVal){
+      return Executions.getFilters({
+        types: this.filterTypes.join(',')
+      });
+    }
   },
   filters: {
     value(){
@@ -44,13 +62,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
       return filters;
     },
     get(lastSetVal, setVal){
-      this.isLoading = true;
-      Executions.getFilters({
-        types: this.filterTypes.serialize()
-      }).then(filters => {
-        //todo: can we stream instead of setting values?
-        this.isLoading = false;
-
+      this.filtersPromise.then(filters => {
         return setVal(filters);
       });
       return lastSetVal;
@@ -70,10 +82,6 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
 
       return filterObj;
     }
-  },
-  isLoading: {
-    type: 'boolean',
-    value: false
   },
   handleDropdownChange(ev, dropdownData) {
     let filtertype = dropdownData.filtertype;

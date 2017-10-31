@@ -1,5 +1,5 @@
 @parent medic
-@module {can.Component} ~/app/pages/playground <Playground />
+@module {can.Component} @public/app/pages/playground <Playground />
 
 A place to test things
 

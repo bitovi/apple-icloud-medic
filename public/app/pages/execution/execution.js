@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/';
-import ExecutionDetails from '~/components/execution-details/';
+import ExecutionDetails from '@public/components/execution-details/';
 import PropTypes from 'prop-types';
 
 class ExecutionPage extends Component {

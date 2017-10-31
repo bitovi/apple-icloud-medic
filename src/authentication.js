@@ -7,14 +7,6 @@ module.exports = function () {
   const app = this;
   const authConfig = app.get('authentication');
 
-  // TODO: This should not be needed (see "verify" method above)
-  // Expose the "connection" so we can access it later
-  // https://github.com/feathersjs/feathers-authentication/issues/494
-  app.use((req, res, next) => {
-    req.feathers.connection = req.connection;
-    next();
-  });
-
   // Set up authentication with the secret
   app.configure(authentication(authConfig));
   app.configure(custom({ Verifier: CustomVerifier }));

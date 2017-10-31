@@ -26,6 +26,7 @@ module.exports = {
     }
   },
   "sso": {
+    "enabled": "SSO_AUTH_ENABLED",
     "superAdminGroups": "SA_GROUPS",
     "devUserGroups": "DEV_USER_GROUPS",
     "appId": "SSO_APP_ID",

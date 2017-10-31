@@ -1,15 +1,12 @@
 const url = require('url');
 const request = require('request-promise');
 
-const REG_LEADING_SLASH = /^\//;
+const REG_SLASHES = /(?:^\/|\/$)/g;
 const REG_PROTOCOL = /^https?:\/\//;
-const METHOD_MAP = {
-  'find': 'GET',
-  'get': 'GET',
-  'create': 'POST',
-  'update': 'PUT',
-  'patch': 'PUT',
-  'remove': 'DELETE'
+const PARAM_MAP = {
+  '$limit': 'limit',
+  '$skip': 'offset',
+  '$sort': 'sort'
 };
 
 /**
@@ -33,22 +30,31 @@ class BaseClient {
     this.options = Object.assign({}, options, {
       // `parsed.host` includes the :port
       host: `${parsed.protocol}//${parsed.host}`,
-      apiPath: '/' + options.apiPath.replace(REG_LEADING_SLASH, '')
+      apiPath: '/' + options.apiPath.replace(REG_SLASHES, '')
     });
     return this;
   }
 
-  request (params, json) {
+  request (method, id, params, body) {
     if (!this.options || !this.options.host || !this.options.apiKey || !this.options.apiPath) {
       return Promise.reject(new Error('The StackStorm client is not initialized properly. Did you forget to call super() inside your constructor?'));
     }
-    const uri = this.options.host + this.options.apiPath;
-    const method = METHOD_MAP[params.method];
-    const qs = params.query;
+    // id's should only ever be strings or integers
+    if (id instanceof Object) {
+      body = params;
+      params = id;
+      id = null;
+    }
+    const uri = this.options.host + this.options.apiPath + (id ? `/${id}` : '');
+    // replace feathers-style query params with those expected by StackStorm
+    const qs = Object.keys(params.query).reduce((obj, key) => {
+      obj[PARAM_MAP[key] || key] = params.query[key];
+      return obj;
+    }, {});
     const headers = {
       'St2-Api-Key': this.options.apiKey
     };
-    return request({ uri, method, headers, qs, json });
+    return request({ uri, method, headers, qs, body, json: true });
   }
 }
 

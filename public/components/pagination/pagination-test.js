@@ -2,7 +2,7 @@ import QUnit from 'steal-qunit';
 import { ViewModel } from './pagination';
 
 // ViewModel unit tests
-QUnit.module('~/components/pagination');
+QUnit.module('@public/components/pagination');
 
 QUnit.test('Has message', function(){
   var vm = new ViewModel();

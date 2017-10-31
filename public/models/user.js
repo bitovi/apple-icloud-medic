@@ -1,8 +1,8 @@
 import DefineMap from 'can-define/map/';
 
 import algebra from './algebras/feathers';
-import feathersClient from '../feathers-client';
-import feathersConnection from '../connections/feathers';
+import feathersClient from '@public/feathers-client';
+import feathersConnection from '@public/connections/feathers';
 
 const User = DefineMap.extend({
   isSuperAdmin: { value: false },

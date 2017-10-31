@@ -3,9 +3,9 @@ import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import { Modal, Icon, Table, Container, Divider } from 'semantic-ui-react';
 
-import Executions from '~/models/executions';
-import Pagination from '~/components/pagination/';
-import JSONViewer from '~/components/json-viewer/';
+import Executions from '@public/models/executions';
+import Pagination from '@public/components/pagination/';
+import JSONViewer from '@public/components/json-viewer/';
 import ExecutionFilters from '../execution-filters/';
 import './executions-table.less';
 import 'semantic-ui-css/semantic.min.css';
@@ -18,7 +18,7 @@ status | timestamp | trigger type | action | action type | execution details lin
 */
 class ExecutionsTable extends Component {
   render() {
-
+    const { isLoading } = this.viewModel;
     return (
       <div className="executions-table">
         <div className="filter-wrap">
@@ -39,6 +39,13 @@ class ExecutionsTable extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
+              {(() => {
+                if (isLoading) {
+                  return <Table.Row key="loading">
+                    <Table.Cell>Loading...</Table.Cell>
+                  </Table.Row>
+                }
+              })()}
               {this.viewModel.executions.serialize().map((execution,index) => {
                 let executionPartModal = (root, prop) => {
                   if(!execution[root]){
@@ -83,6 +90,7 @@ class ExecutionsTable extends Component {
             <Table.Footer>
               <Table.Row textAlign="right">
                 <Table.HeaderCell colSpan='6'>
+                  Page: {parseInt(this.viewModel.offset/this.viewModel.limit, 10)+1}
                   <Pagination
                     limit={this.viewModel.limit}
                     offset={this.viewModel.offset}
@@ -113,13 +121,24 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
       return ['result','trigger_instance'];
     }
   },
+  isLoading: {
+    type: 'boolean',
+    value: () => { return false },
+    get(lastSetVal, setVal){
+      this.executionsPromise.then(() => {
+        setVal(false);
+      });
+      return true;
+    }
+  },
   executionsSet:{
     value: () => ({}),
     get(lastSetVal){
       let opts = {
         '$limit': this.limit,
         '$skip': this.offset,
-        'exclude_attributes': this.exclude_attributes.join(',')
+        'exclude_attributes': this.exclude_attributes.join(','),
+        'parent': 'null'
       };
       this.filterTypes.forEach(type => {
         let vmProp = this["filter_" + type];
@@ -131,12 +150,18 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
       return opts;
     }
   },
+  executionsPromise: {
+    type: 'any',
+    get(lastSetVal, setVal){
+      return Executions.getList(this.executionsSet);
+    }
+  },
   executions: {
     value: function(){
       return [];
     },
     get(lastSetVal, setVal){
-      Executions.getList(this.executionsSet).then(executions => {
+      this.executionsPromise.then(executions => {
         setVal(executions);
       });
       return lastSetVal;

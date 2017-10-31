@@ -6,7 +6,7 @@ class ExecutionFilters extends BaseClient {
   }
 
   find (params) {
-    return this.request(params);
+    return this.request('GET', params);
   }
 }
 

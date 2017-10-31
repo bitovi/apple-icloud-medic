@@ -1,8 +1,10 @@
 'use strict';
 
 module.exports = (options) => {
-  const { cookieName, authHost, appIdKey, appRedirectVersion } = options;
+  const { enabled, cookieName, authHost, appIdKey, appRedirectVersion } = options;
   return (req, res, next) => {
+    if (''+enabled === 'false') return next();
+
     // If no cookie, redirect to login
     if (!req.cookies[cookieName]) {
       let url = 'https://' + authHost + '/IDMSWebAuth/login';
@@ -12,8 +14,8 @@ module.exports = (options) => {
         url += '&rv=' + appRedirectVersion;
       }
       res.redirect(url);
+      return;
     }
-
     next();
   };
 };

@@ -6,9 +6,9 @@ import ReactJson from 'react-json-view'
 import 'semantic-ui-css/semantic.min.css';
 import { Button, Dropdown, TextArea, Modal } from 'semantic-ui-react';
 
-import PlainReact from '~/components/plain-react';
-import ReactViewModel from '~/components/react-view-model';
-import testData_executionFilters from '~/models/fixtures/executions/data/execution-filters';
+import PlainReact from '@public/components/plain-react';
+import ReactViewModel from '@public/components/react-view-model';
+import testData_executionFilters from '@public/models/fixtures/executions/data/execution-filters';
 
 class Playground extends Component {
   render() {

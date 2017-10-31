@@ -45,12 +45,36 @@ function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
       res.on('end', () => {
         const resultObj = parseResponse(result);
         if (!resultObj) {
-          reject('There was an error parsing the result object.');
+          // General parsing error - shouldn't really ever hit this
+          reject(new Error('There was an error parsing the result object.'));
         }
-        if (resultObj.status === '0') {
-          return resolve(resultObj);
+        let err = null;
+        switch (resultObj.status) {
+          case '0':
+            // success
+            return resolve(resultObj);
+
+          // # https://connectme.apple.com/docs/DOC-748638
+          // 1: Client IP address mismatch
+          // 2: Client IP argument is Null
+          // 3: INVALID_SESSION
+          // 4: EXPIRED_SESSION
+          // 5: Invalid appId/appAdminPassword.
+          // 6: cookie information not supplied
+          // 7: CAN_NOT_KEEP_ALIVE
+          // 8: BAD_ALLGROUP_PARAM_SUPPLIED
+          // 9: INVALID_COOKIE
+          // 10: EXPIRED_SESSION_FOR_APP
+          // 11: CAN_NOT_FETCH_SESSION
+          // 12: NOT_AUTHORIZED
+          // 14: Application not authorized to call validate
+          // 98: Unknown (ex: Decrypt DAW token Failed)
+          // 99: DS_AUTH_WEB_UNDER_MAINTENANCE
+          default:
+            err = new Error(`Auth validation error #${resultObj.status} - ${resultObj.reason}`);
+            break;
         }
-        reject(new Error(resultObj.reason || 'Unexpected error while parsing auth response.'));
+        return reject(err);
       });
     });
     req.on('error', reject);
@@ -68,9 +92,10 @@ const makeValidator = (options = {}) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     if (!authCookie) {
+      // This should not get hit when using the login-redirect middleware
+      // on all routes which serve the main index.html page.
       return Promise.reject(new Error('No auth cookie found'));
     }
-
     return validateUser(fields, authCookie, authHost, appId, appAdminPassword, ip);
   };
 };

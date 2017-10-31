@@ -6,27 +6,27 @@ class Executions extends BaseClient {
   }
 
   find (params) {
-    return this.request(params);
+    return this.request('GET', params);
   }
 
   get (id, params) {
-    return this.request(params);
+    return this.request('GET', id, params);
   }
 
   // create (data, params) {
-  //   return this.request(params, data);
+  //   return this.request('POST', params, data);
   // }
 
   // patch (id, data, params) {
-  //   return this.request(params, data);
+  //   return this.request('PUT', id, params, data);
   // }
 
   // update (id, data, params) {
-  //   return this.request(params, data);
+  //   return this.request('PUT', id, params, data);
   // }
 
   // remove (id, params) {
-  //   return this.request(params);
+  //   return this.request('DELETE', id, params);
   // }
 }
 

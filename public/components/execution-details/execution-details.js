@@ -1,8 +1,8 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import JSONViewer from '~/components/json-viewer/';
-import Executions from '~/models/executions';
+import JSONViewer from '@public/components/json-viewer/';
+import Executions from '@public/models/executions';
 import './execution-details.less';
 
 class ExecutionDetails extends Component {

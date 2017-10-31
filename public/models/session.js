@@ -1,9 +1,11 @@
 import DefineMap from 'can-define/map/';
-import sessionConnection from '../connections/session';
-import feathersClient from '../feathers-client';
+import sessionConnection from '@public/connections/session';
+import feathersClient from '@public/feathers-client';
 import User from './user';
 
 const Session = DefineMap.extend('Session', {
+  seal: false
+},{
   iat: 'any',
   aud: 'any',
   iss: 'any',

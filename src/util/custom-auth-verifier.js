@@ -42,7 +42,7 @@ class CustomVerifier {
     req.connection = req.params.connection;
 
     let userPromise;
-    if (env.IS_REMOTE) {
+    if (env.IS_REMOTE && (''+ssoConfig.enabled !== 'false')) {
       if (ssoConfig.trustAuthHeaders && reqHasAuthHeaders(req)) {
         // Auth headers appended by load balancer (ex: Orchard)
         userPromise = this.extract(req);
@@ -57,7 +57,7 @@ class CustomVerifier {
         lastName: 'User',
         nickName: 'Dev_Nickname',
         email: 'dev_user@dev.apple.com',
-        groups: this.devUserGroups
+        allGroups: this.devUserGroups
       });
     }
 
@@ -66,10 +66,9 @@ class CustomVerifier {
       // Make a display name so we don't have to check for nickName everywhere
       user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
       user.isSuperAdmin = false;
-      user.groups.some(groupId => {
+      user.allGroups.some(groupId => {
         if(this.superAdminGroups.indexOf(groupId) !== -1) {
           this.app.info(`MSG="User is a super admin." USER=${user.email}`);
-          user.groups = [groupId]; // reduce to the only group we care about
           user.isSuperAdmin = true;
           return true; // break
         }
@@ -78,7 +77,9 @@ class CustomVerifier {
       done(null, user);
     })
     // convert error to a NotAuthenticated error
-    .catch(err => done(new errors.NotAuthenticated(err)));
+    .catch(err => {
+      done(new errors.NotAuthenticated(err))
+    });
   }
 };
 

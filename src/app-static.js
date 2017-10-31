@@ -16,6 +16,7 @@ module.exports = function() {
   // Host the public folder
   app.use(favicon(path.join(publicPath, 'favicon.ico')));
   app.use('/shared', feathers.static('shared'));
+  app.use('/stealjs', feathers.static('stealjs'));
   // todo: should not need public route, but steal uses it (see package "main")
   app.use('/public', feathers.static('public'));
   app.use('/img', feathers.static('img'));
@@ -23,7 +24,7 @@ module.exports = function() {
   app.use('/package.json', feathers.static('package.json'));
 
   // TODO: used shared router config for index.html routes
-  app.use('/', feathers.static(publicPath), (req, res, next) => {
+  app.use('/', (req, res, next) => {
     if (REG_INDEX_ROUTE.test(req.path)) {
       const sendIndex = () => res.sendFile(indexFile);
       if (env.IS_REMOTE) {
@@ -34,5 +35,5 @@ module.exports = function() {
       return;
     }
     next();
-  });
+  }, feathers.static(publicPath));
 };
