@@ -7,6 +7,7 @@
 Want to connect with Medic?  Here are some resources to help get you started.
 
 * [How to connect with Medic](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/how-to-connect.md)
+* [Creating and Contributing Packs](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
 * [New Carnival Configuration](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/new-carnival-config.md)
 
 ## About
