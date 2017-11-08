@@ -1,6 +1,8 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
+import canStream from 'can-stream-kefir';
+import moment from 'moment';
 import { Modal, Icon, Table, Container, Divider } from 'semantic-ui-react';
 
 import Executions from '@public/models/executions';
@@ -16,6 +18,7 @@ status | timestamp | trigger type | action | action type | execution details lin
 
 .status|.start_timestamp|
 */
+const DATE_FORMAT = 'MMM D - h:mma';
 class ExecutionsTable extends Component {
   render() {
     const { isLoading } = this.viewModel;
@@ -72,11 +75,9 @@ class ExecutionsTable extends Component {
                 return (
                   <Table.Row key={execution.id}>
                     <Table.Cell>{execution.status}</Table.Cell>
-                    <Table.Cell>{execution.start_timestamp.toString()}</Table.Cell>
+                    <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
                     <Table.Cell>{executionPartModal('trigger', 'type')}</Table.Cell>
-
                     <Table.Cell>{executionPartModal('liveaction', 'action')}</Table.Cell>
-
                     <Table.Cell>{executionPartModal('runner', 'name')}</Table.Cell>
                     <Table.Cell>
                       <a href={"/executions/" + execution.id}>
@@ -88,9 +89,8 @@ class ExecutionsTable extends Component {
               })}
             </Table.Body>
             <Table.Footer>
-              <Table.Row textAlign="right">
+              <Table.Row>
                 <Table.HeaderCell colSpan='6'>
-                  Page: {parseInt(this.viewModel.offset/this.viewModel.limit, 10)+1}
                   <Pagination
                     limit={this.viewModel.limit}
                     offset={this.viewModel.offset}
@@ -113,6 +113,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
     value: 10
   },
   offset: {
+    // TODO: derive from streams
     type: 'number',
     value: 0
   },
@@ -134,6 +135,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   executionsSet:{
     value: () => ({}),
     get(lastSetVal){
+      // TODO: Make streamable
       let opts = {
         '$limit': this.limit,
         '$skip': this.offset,
@@ -151,6 +153,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
     }
   },
   executionsPromise: {
+    // TODO: use streams to determine when to fetch?
     type: 'any',
     get(lastSetVal, setVal){
       return Executions.getList(this.executionsSet);
@@ -196,6 +199,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   filter_user:'string',
   handleFilterChange(type, value){
     this["filter_" + type] = value;
+    this.offset = 0;
   },
 
   handleOffsetChange(newOffset){
