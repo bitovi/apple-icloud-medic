@@ -12,9 +12,10 @@
 
       import React from 'react';
       import ReactDOM from 'react-dom';
-      import Playground from '@public/components/playground/';
+      import { Site } from '@public/styled-components/site';
+      import Playground from '@public/app/pages/playground/';
 
-      ReactDOM.render(<Playground />, document.getElementById('application'));
+      ReactDOM.render(<Site><Playground /></Site>, document.getElementById('application'));
     </script>
 
   </body>

@@ -1,4 +1,6 @@
-const env = require('../shared/env');
+const IS_NODE = typeof process === 'object' && {}.toString.call(process) === '[object process]';
+const env = IS_NODE ? process.env.NODE_ENV : window.System.env;
+const IS_PRODUCTION = /production$/.test(env);
 
 const stealConfig = {};
 
@@ -17,11 +19,12 @@ function extend (dest, src) {
 
 // The build runs in "development" mode, so for build and
 // production modes we want to remap some things.
-if (env.IS_BUILD || env.IS_PRODUCTION) {
+if (IS_PRODUCTION) {
   extend(stealConfig, {
     map: {
       "react": "react/umd/react.production.min",
       "react-dom": "react-dom/umd/react-dom.production.min",
+      "styled-components": "styled-components/dist/styled-components.min",
       "can-fixture": "@empty",
       "@public/models/fixtures/fixtures": "@empty",
     }

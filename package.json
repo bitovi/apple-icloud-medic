@@ -18,16 +18,17 @@
     "test": "test/"
   },
   "engines": {
-    "node": ">= 6.0.0",
+    "node": ">= 6.0.0 <9.0.0",
     "npm": ">= 3.0.0"
   },
   "steal": {
     "map": {
-      "@public": "public"
+      "@public": "public",
+      "styled-components": "styled-components/dist/styled-components",
+      "polished": "polished/dist/polished"
     },
     "plugins": [
-      "steal-css",
-      "steal-less"
+      "steal-css"
     ],
     "babelOptions": {
       "plugins": [
@@ -35,7 +36,8 @@
       ]
     },
     "configDependencies": [
-      "stealjs/env-config"
+      "stealjs/env-config",
+      "stealjs/semantic-ui-config"
     ]
   },
   "scripts": {
@@ -47,9 +49,10 @@
     "develop": "nodemon -r dotenv/config src/",
     "debug": "nodemon -r dotenv/config --inspect src/",
     "dev-bundle": "steal-tools bundle --dev --minify=false --dest public/",
-    "build": "node build",
+    "build": "NODE_ENV=production node build",
     "build-commit": "git branch -D dist; git checkout -b dist && npm run build && git add public/dist -f && git commit -m 'Update dists for deploy'",
-    "deploy-prod": "npm run build-commit && git push prod dist:master -f; git checkout -"
+    "deploy-prod": "npm run build-commit && git push prod dist:master -f; git checkout -",
+    "postinstall": "if [ -z \"$npm_config_production\" ]; then npm run dev-bundle; fi"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -96,6 +99,7 @@
     "mocha": "^4.0.1",
     "ncp": "^2.0.0",
     "nodemon": "^1.12.1",
+    "polished": "^1.8.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-d3-tree": "^1.5.0",
@@ -111,6 +115,7 @@
     "steal": "^1.5.15",
     "steal-css": "^1.3.1",
     "steal-less": "^1.2.0",
-    "steal-tools": "^1.9.1"
+    "steal-tools": "^1.9.1",
+    "styled-components": "^2.2.3"
   }
 }

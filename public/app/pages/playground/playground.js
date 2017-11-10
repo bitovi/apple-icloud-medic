@@ -2,9 +2,9 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/';
-import ReactJson from 'react-json-view'
-import 'semantic-ui-css/semantic.min.css';
-import { Button, Dropdown, TextArea, Modal } from 'semantic-ui-react';
+import ReactJson from 'react-json-view';
+
+import { Button, Dropdown, TextArea, Modal } from '@public/styled-components/index';
 
 import PlainReact from '@public/components/plain-react';
 import ReactViewModel from '@public/components/react-view-model';
@@ -18,7 +18,7 @@ class Playground extends Component {
         <ReactViewModel />
 
         <br />
-        <p>semantic-ui-react - Dropdown: {this.viewModel.dropdownValue}</p>
+        <p>styled-components/dropdown: {this.viewModel.dropdownValue}</p>
         <Dropdown
           placeholder="status"
           search
@@ -32,7 +32,7 @@ class Playground extends Component {
 
 
         <br />
-        <p>semantic-ui-react - Text Area</p>
+        <p>styled-components/textarea</p>
         <TextArea
           value={this.viewModel.dropdownValue}
           onChange={this.viewModel.handleTextareaChange}
@@ -49,7 +49,7 @@ class Playground extends Component {
 
 
           <br />
-          <p>semantic-ui-react - Modal</p>
+          <p>styled-components/modal</p>
           <Modal
             trigger={<Button>Toggle</Button>}
             header='Reminder!'

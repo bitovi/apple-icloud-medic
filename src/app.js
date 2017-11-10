@@ -70,8 +70,8 @@ app.configure(services);
 app.use(notFound());
 app.use(handler({
   html: {
-    401: path.resolve(app.get('public'), 'error-pages/401.html'),
-    404: path.resolve(app.get('public'), 'error-pages/404.html')
+    401: path.resolve(app.get('public'), 'static/401.html'),
+    404: path.resolve(app.get('public'), 'static/404.html')
   }
   /*,
   json: (err, req, res, () => {

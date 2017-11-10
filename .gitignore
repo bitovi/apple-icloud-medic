@@ -108,6 +108,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Dev assets
-dev-bundle.js
+dev-bundle.*
 .env
 dist/

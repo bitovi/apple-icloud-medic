@@ -11,10 +11,11 @@
     <script src="/node_modules/steal/steal.js" main="@empty">
       import React from 'react';
       import ReactDOM from 'react-dom';
+      import { Site } from '@public/styled-components/site';
       import ExecutionsTable from '@public/components/executions-table/';
       import '@public/models/fixtures/';
 
-      ReactDOM.render(<ExecutionsTable />, document.getElementById('application'));
+      ReactDOM.render(<Site><ExecutionsTable /></Site>, document.getElementById('application'));
     </script>
 
   </body>

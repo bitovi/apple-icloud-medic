@@ -1,9 +1,8 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import { Dropdown, List } from 'semantic-ui-react';
+import { Dropdown, List } from '@public/styled-components/index';
 import Executions from '@public/models/executions';
-import 'semantic-ui-css/semantic.min.css';
 
 class ExecutionFilters extends Component {
   render() {
@@ -23,7 +22,7 @@ class ExecutionFilters extends Component {
                 filtertype={key}
               />
             </List.Item>
-          )
+          );
         })}
         </List>
       </div>

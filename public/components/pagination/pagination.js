@@ -2,8 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/';
-import { Button, Label, Icon, Grid } from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css';
+import { Button, Label, Icon, Grid } from '@public/styled-components/index';
 
 class Pagination extends Component {
   render() {

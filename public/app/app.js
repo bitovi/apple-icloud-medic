@@ -12,6 +12,7 @@ import SiteFooter from './site-footer/';
 import ExecutionsPage from './pages/executions/';
 import ExecutionPage from './pages/execution/';
 import PlaygroundPage from './pages/playground/';
+import { Site } from '@public/styled-components/site';
 
 //!steal-remove-start
 import '@public/models/fixtures/';
@@ -40,13 +41,13 @@ class AppComponent extends Component {
     }
 
     return (
-      <div role="application">
+      <Site>
         <SiteHeader currentUser={currentUser} />
         <main role="main">
           {mainContent}
         </main>
         <SiteFooter />
-      </div>
+      </Site>
     );
   }
 }

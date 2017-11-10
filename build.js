@@ -2,23 +2,36 @@ const rimraf = require('rimraf');
 const ncp = require('ncp');
 const stealTools = require('steal-tools');
 
+// promisify rimraf
+const pRimraf = (targ) => new Promise((resolve, reject) => {
+  rimraf(targ, (err) => {
+    if (err) return reject(new Error(err));
+    resolve();
+  });
+});
+
+// promisify ncp
+const pNcp = (from, to) => new Promise((resolve, reject) => {
+  ncp(from, to, (err) => {
+    if (err) return reject(new Error(err));
+    resolve();
+  });
+});
+
+// build to the default destination and then copy to public
+// see: https://github.com/stealjs/steal-tools/issues/882
 const defaultDest = __dirname + '/dist';
 const targetDest = __dirname + '/public/dist';
 
-rimraf(targetDest, (err) => {
-  if (err) throw new Error(err);
-
-  stealTools.build({
-    config: __dirname + '/package.json!npm',
-  }, {
-    dest: defaultDest,
-    bundleAssets: true,
-    bundleSteal: true,
-    minify: true
-  }).then(() => {
-    // we copy manually because of this: https://github.com/stealjs/steal-tools/issues/882
-    ncp(defaultDest, targetDest, (err) => {
-      if (err) throw new Error(err);
-    });
-  });
-});
+pRimraf(targetDest)
+.then(() => stealTools.build({
+  config: __dirname + '/package.json!npm',
+}, {
+  bundleAssets: true,
+  bundleSteal: true,
+  minify: true,
+  envify: true
+}))
+.then(() => pNcp(defaultDest, targetDest))
+.then(() => pRimraf(defaultDest))
+.catch(err => { throw err });

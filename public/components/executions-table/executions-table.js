@@ -3,14 +3,14 @@ import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import canStream from 'can-stream-kefir';
 import moment from 'moment';
-import { Modal, Icon, Table, Container, Divider } from 'semantic-ui-react';
+
+import { Table, Divider } from '@public/styled-components/index';
+import { ComponentWrapper } from './partials/styled';
 
 import Executions from '@public/models/executions';
 import Pagination from '@public/components/pagination/';
-import JSONViewer from '@public/components/json-viewer/';
-import ExecutionFilters from '../execution-filters/';
-import './executions-table.less';
-import 'semantic-ui-css/semantic.min.css';
+import ExecutionFilters from '@public/components/execution-filters/';
+import ValueWithJSON from './partials/value-with-json';
 
 /*
 status | timestamp | trigger type | action | action type | execution details link
@@ -23,7 +23,7 @@ class ExecutionsTable extends Component {
   render() {
     const { isLoading } = this.viewModel;
     return (
-      <div className="executions-table">
+      <ComponentWrapper>
         <div className="filter-wrap">
           <ExecutionFilters
             filterTypes={this.viewModel.filterTypes}
@@ -49,44 +49,20 @@ class ExecutionsTable extends Component {
                   </Table.Row>
                 }
               })()}
-              {this.viewModel.executions.serialize().map((execution,index) => {
-                let executionPartModal = (root, prop) => {
-                  if(!execution[root]){
-                    return "N/A";
-                  }
-
-                  return (
-                    <div>
-                      <span>{execution[root][prop]}</span>
-                      <Modal
-                        trigger={<Icon name="unhide" />}
-                        closeIcon>
-                        <Modal.Header>
-                          Execution {execution.id}: {root}.{prop}&nbsp;<i>({execution[root][prop]})</i>
-                        </Modal.Header>
-                        <Modal.Content scrolling>
-                          <JSONViewer src={execution[root]} collapsed={false} />
-                        </Modal.Content>
-                      </Modal>
-                    </div>
-                  );
-                };
-
-                return (
-                  <Table.Row key={execution.id}>
-                    <Table.Cell>{execution.status}</Table.Cell>
-                    <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
-                    <Table.Cell>{executionPartModal('trigger', 'type')}</Table.Cell>
-                    <Table.Cell>{executionPartModal('liveaction', 'action')}</Table.Cell>
-                    <Table.Cell>{executionPartModal('runner', 'name')}</Table.Cell>
-                    <Table.Cell>
-                      <a href={"/executions/" + execution.id}>
-                        View Execution
-                      </a>
-                    </Table.Cell>
-                  </Table.Row>
-                )
-              })}
+              {this.viewModel.executions.serialize().map((execution,index) => (
+                <Table.Row key={execution.id}>
+                  <Table.Cell>{execution.status}</Table.Cell>
+                  <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
+                  <Table.Cell><ValueWithJSON execution={execution} valueProp='trigger.type' jsonProp='trigger' /></Table.Cell>
+                  <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
+                  <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>
+                  <Table.Cell>
+                    <a href={"/executions/" + execution.id}>
+                      View Execution
+                    </a>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
             </Table.Body>
             <Table.Footer>
               <Table.Row>
@@ -102,7 +78,7 @@ class ExecutionsTable extends Component {
           </Table>
         </div>
         <Divider hidden />
-      </div>
+      </ComponentWrapper>
     );
   }
 }
