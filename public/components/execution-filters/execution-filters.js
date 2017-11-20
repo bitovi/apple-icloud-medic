@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import { Dropdown, List } from '@public/styled-components/index';
-import Executions from '@public/models/executions';
+import ExecutionFiltersModel from '@public/models/execution-filters';
 
 class ExecutionFilters extends Component {
   render() {
@@ -47,17 +47,18 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   filtersPromise: {
     type: 'any',
     get(lastSetVal, setVal){
-      return Executions.getFilters({
+      return ExecutionFiltersModel.find({
         types: this.filterTypes.join(',')
       });
     }
   },
   filters: {
+    type: 'any',
     value(){
-      let filters = {};
+      const filters = {};
       this.filterTypes.forEach(type => {
         filters[type] = [];
-      })
+      });
       return filters;
     },
     get(lastSetVal, setVal){
@@ -69,17 +70,13 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   },
   dropdownOptions:{
     get(){
-      let filterObj = this.filters.serialize();
-
-      //format
-      for(var k in filterObj){
-        if(typeof filterObj[k].map === 'function'){
-          filterObj[k] = filterObj[k].map(item => { return {text: item, value: item, key: item}})
-          filterObj[k].unshift({text: "None", value: undefined, key: "None"})
+      return Object.keys(this.filters).reduce((obj, key) => {
+        if (Array.isArray(this.filters[key])) {
+          obj[key] = this.filters[key].map(item => ({ text: item, value: item, key: item }));
+          obj[key].unshift({ text: "None", value: undefined, key: "None" })
         }
-      }
-
-      return filterObj;
+        return obj;
+      }, {});
     }
   },
   handleDropdownChange(ev, dropdownData) {

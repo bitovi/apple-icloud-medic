@@ -1,11 +1,10 @@
 import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/';
 import set from 'can-set';
-import feathersClient from '../feathers-client';
-import lightConnection from '../connections/light';
+import feathersClient from '@public/feathers-client';
+import feathersConnection from '@public/connections/feathers';
 import env from 'medic/shared/env';
 import ajax from 'can-ajax';
-
 
 const Executions = DefineMap.extend({
     "status": "string",
@@ -29,17 +28,6 @@ const Executions = DefineMap.extend({
       value: () => ({})
     },
     "id": "string"
-});
-
-
-const ExecutionFilters = DefineMap.extend({
-    "status": 'any', //[]
-    "trigger_type": 'any', //[]
-    "runner": 'any', //[]
-    "rule": 'any', //[]
-    "trigger": 'any', //[]
-    "user": 'any', //[]
-    "action": 'any', //[]
 });
 
 //TODO: merge algebra with medic/public/models/algebras (or wherever)
@@ -97,26 +85,19 @@ const algebra = new set.Algebra(
 
 );
 
+const url = `/${env.API_BASE_URI}/executions`;
+
 Executions.List = DefineList.extend({
   '#': Executions
 });
 
-Executions.connection = lightConnection({
-  url: `/${env.API_BASE_URI}/executions`,
+Executions.connection = feathersConnection({
+  url,
   Map: Executions,
   List: Executions.List,
   name: 'executions',
-  algebra
+  algebra,
+  feathersService: feathersClient.service(url)
 });
 
-Executions.getFilters = function(opts){
-  return ajax({
-    url: `/${env.API_BASE_URI}/execution-filters`,
-    type: 'GET',
-    data: opts
-  }).then(filters => new ExecutionFilters(filters));
-}
-
 export default Executions;
-
-export { ExecutionFilters };
