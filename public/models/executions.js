@@ -4,7 +4,7 @@ import set from 'can-set';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import env from '@root/shared/env';
-import ajax from 'can-ajax';
+import makeAlgebra from './algebras/feathers';
 
 const Executions = DefineMap.extend({
     "status": "string",
@@ -31,59 +31,53 @@ const Executions = DefineMap.extend({
 });
 
 //TODO: merge algebra with medic/public/models/algebras (or wherever)
-const algebra = new set.Algebra(
-  set.props.id('id'),
-  {
-    parent(serverVal, setVal) {
-      if (('' + setVal) === 'null') {
-        return ('' + serverVal) === 'null' || typeof serverVal === 'undefined';
-      }
-      return true;
-    },
-    status(serverVal, setVal) {
-      if (typeof setVal !== 'undefined'){
-        return serverVal === setVal
-      }
-      return true;
-    },
-    runner(serverVal, setVal) {
-      if (typeof setVal !== 'undefined'){
-        return serverVal.name === setVal
-      }
-      return true;
-    },
-    user(serverVal, setVal, serverItem) {
-      if (typeof setVal !== 'undefined'){
-        return serverItem.context.user === setVal
-      }
-      return true;
-    },
-    action(serverVal, setVal) {
-      if (typeof setVal !== 'undefined'){
-        return serverVal.ref === setVal
-      }
-      return true;
-    },
-    trigger_type(serverVal, setVal) {
-      if (typeof setVal !== 'undefined'){
-        return serverVal.name === setVal
-      }
-      return true;
-    },
-    rule(serverVal, setVal) {
-      if (typeof setVal !== 'undefined'){
-        return serverVal.name === setVal
-      }
-      return true;
-    },
-    exclude_attributes(){
-      return true;
+const algebra = makeAlgebra({
+  parent(serverVal, setVal) {
+    if (('' + setVal) === 'null') {
+      return ('' + serverVal) === 'null' || typeof serverVal === 'undefined';
     }
+    return true;
   },
-  set.props.sort('$sort'),
-  set.props.offsetLimit('$skip', '$limit'),
-
-);
+  status(serverVal, setVal) {
+    if (typeof setVal !== 'undefined'){
+      return serverVal === setVal
+    }
+    return true;
+  },
+  runner(serverVal, setVal) {
+    if (typeof setVal !== 'undefined'){
+      return serverVal.name === setVal
+    }
+    return true;
+  },
+  user(serverVal, setVal, serverItem) {
+    if (typeof setVal !== 'undefined'){
+      return serverItem.context.user === setVal
+    }
+    return true;
+  },
+  action(serverVal, setVal) {
+    if (typeof setVal !== 'undefined'){
+      return serverVal.ref === setVal
+    }
+    return true;
+  },
+  trigger_type(serverVal, setVal) {
+    if (typeof setVal !== 'undefined'){
+      return serverVal.name === setVal
+    }
+    return true;
+  },
+  rule(serverVal, setVal) {
+    if (typeof setVal !== 'undefined'){
+      return serverVal.name === setVal
+    }
+    return true;
+  },
+  exclude_attributes(){
+    return true;
+  }
+});
 
 const url = `/${env.API_BASE_URI}/executions`;
 

@@ -5,7 +5,7 @@ import hooks from 'feathers-hooks';
 import auth from 'feathers-authentication-client';
 
 const socket = io({
-  reconnectionAttempts: env.IS_ORCHARD ? Infinity : 5,
+  reconnectionAttempts: env.IS_ORCHARD ? Infinity : 30,
   reconnectionDelay: 4000
 });
 

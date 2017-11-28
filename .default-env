@@ -1,5 +1,8 @@
 PORT=3030
 
+# JWT Auth config
+AUTH_SECRET=
+
 # SSO Auth config
 SSO_AUTH_ENABLED=true
 SSO_APP_ID=
@@ -7,14 +10,15 @@ SSO_APP_ID_KEY=
 SSO_APP_ADMIN_PASSWORD=
 
 # Super Admin DS group IDs, separate multiple with a comma
-SA_GROUPS=
+SA_GROUPS=1234
 
 # Dev User Groups (dev only - the groups assigned to the dev user)
 DEV_USER_GROUPS=
 
 # db connection string
-DATABASE_URL=
+DATABASE_URL=postgres://username:password@localhost:5432/dbname
 
 # stackstorm info
 ST2_HOST=
 ST2_API_KEY=
+ST2_SECRET=

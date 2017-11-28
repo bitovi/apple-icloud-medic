@@ -9,7 +9,7 @@ class ExecutionFilters extends Component {
     return (
       <div>
         <List divided horizontal size="small">
-        {this.viewModel.filterTypes.serialize().map(key => {
+        {this.viewModel.filterTypes.map(key => {
           return (
             <List.Item key={key}>
               <Dropdown

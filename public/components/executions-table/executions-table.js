@@ -21,7 +21,7 @@ status | timestamp | trigger type | action | action type | execution details lin
 const DATE_FORMAT = 'MMM D - h:mma';
 class ExecutionsTable extends Component {
   render() {
-    const { isLoading } = this.viewModel;
+    const { isLoading, executions } = this.viewModel;
     return (
       <ComponentWrapper>
         <div className="filter-wrap">
@@ -43,26 +43,31 @@ class ExecutionsTable extends Component {
             </Table.Header>
             <Table.Body>
               {(() => {
-                if (isLoading) {
+                if (isLoading || !executions) {
                   return <Table.Row key="loading">
-                    <Table.Cell>Loading...</Table.Cell>
+                    <Table.Cell colSpan="6">Loading...</Table.Cell>
                   </Table.Row>
                 }
+                if (!executions.length) {
+                  return <Table.Row>
+                    <Table.Cell colSpan="6">There are no items to display.</Table.Cell>
+                  </Table.Row>
+                }
+                return executions.map((execution) => (
+                  <Table.Row key={execution.id}>
+                    <Table.Cell>{execution.status}</Table.Cell>
+                    <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
+                    <Table.Cell><ValueWithJSON execution={execution} valueProp='trigger.type' jsonProp='trigger' /></Table.Cell>
+                    <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
+                    <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>
+                    <Table.Cell>
+                      <a href={"/executions/" + execution.id}>
+                        View Execution
+                      </a>
+                    </Table.Cell>
+                  </Table.Row>
+                ));
               })()}
-              {this.viewModel.executions.serialize().map((execution,index) => (
-                <Table.Row key={execution.id}>
-                  <Table.Cell>{execution.status}</Table.Cell>
-                  <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
-                  <Table.Cell><ValueWithJSON execution={execution} valueProp='trigger.type' jsonProp='trigger' /></Table.Cell>
-                  <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
-                  <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>
-                  <Table.Cell>
-                    <a href={"/executions/" + execution.id}>
-                      View Execution
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
             </Table.Body>
             <Table.Footer>
               <Table.Row>
@@ -136,9 +141,6 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
     }
   },
   executions: {
-    value: function(){
-      return [];
-    },
     get(lastSetVal, setVal){
       this.executionsPromise.then(executions => {
         setVal(executions);
@@ -146,24 +148,6 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
       return lastSetVal;
     }
   },
-
-  //todo?
-  // totalExecutions: {
-  //   value: function(){
-  //     return 0;
-  //   },
-  //   get(lastSetVal, setVal){
-  //     let opts = clone(this.executionsSet);
-
-  //     delete opts["$skip"];
-  //     delete opts["$limit"];
-
-  //     Executions.getList(opts).then(executions => {
-  //       setVal(executions.length);
-  //     });
-  //     return lastSetVal;
-  //   }
-  // },
   filterTypes:{
     value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
   },

@@ -13,6 +13,10 @@ const reqHasAuthHeaders = (req) => {
   return req.headers.hasOwnProperty('x-appleconnect-emailaddress');
 };
 
+const splitGroups = (str) => {
+  return str.split(',').map(n => parseInt(n, 10))
+}
+
 class CustomVerifier {
   constructor(app, settings) {
     const ssoConfig = app.get('sso');
@@ -23,8 +27,8 @@ class CustomVerifier {
     }
 
     this.app = app;
-    this.superAdminGroups = ssoConfig.superAdminGroups.split(',');
-    this.devUserGroups = REG_VALID_GROUPS.test(ssoConfig.devUserGroups) ? ssoConfig.devUserGroups.split(',') : this.superAdminGroups;
+    this.superAdminGroups = splitGroups(ssoConfig.superAdminGroups);
+    this.devUserGroups = REG_VALID_GROUPS.test(ssoConfig.devUserGroups) ? splitGroups(ssoConfig.devUserGroups) : this.superAdminGroups;
     this.extract = makeExtractor();
     this.validate = makeValidator({
       cookieName: ssoConfig.cookieName,
@@ -66,12 +70,13 @@ class CustomVerifier {
       // Make a display name so we don't have to check for nickName everywhere
       user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
       user.isSuperAdmin = false;
-      user.allGroups.some(groupId => {
+      user.allGroups = user.allGroups.map(groupId => {
+        groupId = parseInt(groupId, 10);
         if(this.superAdminGroups.indexOf(groupId) !== -1) {
           this.app.info(`MSG="User is a super admin." USER=${user.email}`);
           user.isSuperAdmin = true;
-          return true; // break
         }
+        return groupId;
       });
       this.app.info(`MSG="User is a super admin." USER=${user.email}`);
       done(null, user);

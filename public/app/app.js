@@ -12,6 +12,7 @@ import SiteFooter from './site-footer/';
 import ExecutionsPage from './pages/executions/';
 import ExecutionPage from './pages/execution/';
 import PlaygroundPage from './pages/playground/';
+import UserExecutionsPage from './pages/user-executions/';
 import { Site } from '@public/semantic-ui/index';
 
 //!steal-remove-start
@@ -21,7 +22,8 @@ import '@public/models/fixtures/';
 // TODO: make part of the shared router config
 const PAGE_MAP = {
   'playground': PlaygroundPage,
-  'executions': ExecutionsPage
+  'executions': ExecutionsPage,
+  'user-executions': UserExecutionsPage
 };
 
 class AppComponent extends Component {
@@ -74,14 +76,14 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   get CurrentPage () {
     switch(this.page){
       case "executions":
-        if(this.executionId){
+        if(this.executionId) {
           return ExecutionPage;
-        }else{
+        } else {
           return ExecutionsPage;
         }
         break;
       default:
-        return PAGE_MAP[page] || ExecutionsPage;
+        return PAGE_MAP[this.page] || ExecutionsPage;
         break;
     }
   },

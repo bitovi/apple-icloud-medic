@@ -23,7 +23,10 @@ const REG_KEY_VAL = /@([^:]+):([^;]+);/g;
 const REG_TRIM_VAL = /(^[\s'"]*|[\s'"]*$)/g;
 const REG_COMMENT = /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm; // use backref $1 in replacement
 
-// resolves values such as @@@someVal, @@foo@somVal
+// resolves values such as this:
+// @foo: 'bar';
+// @someVal: 'foo';
+// @@someVal; //-> 'bar'
 function reduceVal(dict, prop) {
   if (REG_VAR.test(dict[prop])) {
     return dict[prop].split(VAR_START).reverse().reduce((final, p) => {
@@ -51,5 +54,4 @@ files.forEach(file => {
   Object.assign(vars, localVars);
 });
 
-console.log(vars);
 export default vars;

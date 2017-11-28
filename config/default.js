@@ -2,12 +2,13 @@ module.exports = {
   "host": "localhost",
   "port": "PORT",
   "public": "../public/",
+  "postgres": "DATABASE_URL",
   "paginate": {
     "default": 25,
     "max": 100
   },
   "authentication": {
-    "secret": "5bbcee218620b4b090b1e3f49bb3b08ecbab67d0804e4e9a3924aac478138f497ff3b0814c270d92a92e9a92201d8add79904958876736791edacaf2fb9016ae5cd91e1e502708be5af9bac051691d61b4dc6e257a74d6d06c67e7d49a07415cb35e2776a7a3ab71d214b3ea4747c220ffc6d0bae3ab2db887a6d7ed8615e5fde0c94fd114d9df6e76e048f2cbf94a53f0604acdc435e52f69423925cec58655c08b99997aebb3f2109ee476ff9bf3d964c6e31d16ecc8dd022b76379b3fcdc8a53af4f910f31a8db774c36275e0f78f12fc01aac66819744d393c68db253b30d003f8ac77393ada6e7f1798eab8ecb3213907e4809c518be694ed261ec4e485",
+    "secret": "AUTH_SECRET",
     "strategies": [
       "custom",
       "jwt"
@@ -45,6 +46,8 @@ module.exports = {
   },
   "stackstorm": {
     "host": "ST2_HOST",
-    "apiKey": "ST2_API_KEY"
+    "apiKey": "ST2_API_KEY",
+    "secret": "ST2_SECRET",
+    "receiveAction": "medic_auth.receive_approval"
   }
 };

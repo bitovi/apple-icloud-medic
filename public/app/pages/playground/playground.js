@@ -18,7 +18,7 @@ class Playground extends Component {
         <ReactViewModel />
 
         <br />
-        <p>styled-components/dropdown: {this.viewModel.dropdownValue}</p>
+        <p>semantic-ui/dropdown: {this.viewModel.dropdownValue}</p>
         <Dropdown
           placeholder="status"
           search
@@ -32,7 +32,7 @@ class Playground extends Component {
 
 
         <br />
-        <p>styled-components/textarea</p>
+        <p>semantic-ui/textarea</p>
         <TextArea
           value={this.viewModel.dropdownValue}
           onChange={this.viewModel.handleTextareaChange}
@@ -49,7 +49,7 @@ class Playground extends Component {
 
 
           <br />
-          <p>styled-components/modal</p>
+          <p>semantic-ui/modal</p>
           <Modal
             trigger={<Button>Toggle</Button>}
             header='Reminder!'

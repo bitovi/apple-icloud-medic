@@ -25,6 +25,8 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
 1. Configure your environment variables: create a `.env` file using the `.default-env` file and set all required environment variables (read more about [dotenv](https://www.npmjs.com/package/dotenv)).
 
+    > **Note:** For security reasons some variables have minimum length requirements. There are [online tools](http://textmechanic.com/text-tools/randomization-tools/random-string-generator) for generating long strings.
+
 1. Start your app
 
     ```

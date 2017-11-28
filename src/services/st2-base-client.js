@@ -1,5 +1,6 @@
 const url = require('url');
 const request = require('request-promise');
+const errors = require('feathers-errors');
 
 const REG_SLASHES = /(?:^\/|\/$)/g;
 const REG_PROTOCOL = /^https?:\/\//;
@@ -8,6 +9,14 @@ const PARAM_MAP = {
   '$skip': 'offset',
   '$sort': 'sort'
 };
+
+const formatError = err => {
+  const msg = err.error && err.error.faultstring || err.message;
+  if(errors[err.statusCode]) {
+    throw new errors[err.statusCode](msg, err.error);
+  }
+  throw new errors.GeneralError(msg, err.error);
+}
 
 /**
  * Base ST2 Client - should be extended by services for communicating with StackStorm.
@@ -26,8 +35,12 @@ class BaseClient {
     if (!REG_PROTOCOL.test(options.host)) {
       throw new Error('The StackStorm host must include the protocol');
     }
+    if (('' + options.secret).length < 400) {
+      throw new Error('The Stackstorm secret must be at least 400 characters in length');
+    }
+    // All stackstorm config will be available under this.config
     const parsed = url.parse(options.host);
-    this.options = Object.assign({}, options, {
+    this.config = Object.assign({}, options, {
       // `parsed.host` includes the :port
       host: `${parsed.protocol}//${parsed.host}`,
       apiPath: '/' + options.apiPath.replace(REG_SLASHES, '')
@@ -36,7 +49,7 @@ class BaseClient {
   }
 
   request (method, id, params, body) {
-    if (!this.options || !this.options.host || !this.options.apiKey || !this.options.apiPath) {
+    if (!this.config || !this.config.host || !this.config.apiKey || !this.config.apiPath) {
       return Promise.reject(new Error('The StackStorm client is not initialized properly. Did you forget to call super() inside your constructor?'));
     }
     // id's should only ever be strings or integers
@@ -45,16 +58,16 @@ class BaseClient {
       params = id;
       id = null;
     }
-    const uri = this.options.host + this.options.apiPath + (id ? `/${id}` : '');
+    const uri = this.config.host + this.config.apiPath + (id ? `/${id}` : '');
     // replace feathers-style query params with those expected by StackStorm
     const qs = Object.keys(params.query).reduce((obj, key) => {
       obj[PARAM_MAP[key] || key] = params.query[key];
       return obj;
     }, {});
     const headers = {
-      'St2-Api-Key': this.options.apiKey
+      'St2-Api-Key': this.config.apiKey
     };
-    return request({ uri, method, headers, qs, body, json: true });
+    return request({ uri, method, headers, qs, body, json: true }).catch(formatError);
   }
 }
 

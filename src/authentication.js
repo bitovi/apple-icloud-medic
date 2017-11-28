@@ -1,11 +1,42 @@
 const authentication = require('feathers-authentication');
 const custom = require('feathers-authentication-custom');
 const jwt = require('feathers-authentication-jwt');
+const cookie = require('cookie');
 const CustomVerifier = require('./util/custom-auth-verifier.js');
 
 module.exports = function () {
   const app = this;
   const authConfig = app.get('authentication');
+
+  const oldSetup = app.setup;
+  app.setup = function (...args) {
+    const result = oldSetup.apply(this, args);
+
+    // This is required for cookie validation
+    app.io.use((socket, next) => {
+      const headers = socket.handshake.headers;
+      if (headers && headers.cookie) {
+        Object.assign(socket.feathers, {
+          cookies: cookie.parse(headers.cookie)
+        });
+      }
+      next();
+    });
+
+    app.io.on('connection', socket => {
+      Object.assign(socket.feathers, {
+        connection: socket.conn
+      });
+    });
+
+    return result;
+  };
+
+  // This is required for auth cookie validation
+  app.use((req, res, next) => {
+    req.feathers.connection = req.connection;
+    next();
+  });
 
   // Set up authentication with the secret
   app.configure(authentication(authConfig));
@@ -16,7 +47,14 @@ module.exports = function () {
   app.service('authentication').hooks({
     before: {
       create: [
-        authentication.hooks.authenticate(authConfig.strategies),
+        (hook) => {
+          // Always require custom strategy when creating a session.
+          // This is needed because of socket reconnection/re-authentication,
+          // where it attempts to use the existing JWT.
+          hook.data = { strategy: 'custom' };
+          return hook;
+        },
+        authentication.hooks.authenticate('custom'),
         (hook) => {
           // make the user available for users service
           return app.service('users').create(hook.params.user).then(result => {

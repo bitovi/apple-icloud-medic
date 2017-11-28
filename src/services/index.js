@@ -1,12 +1,12 @@
 const users = require('./users/users.service.js');
 const executions = require('./executions/executions.service.js');
 const executionFilters = require('./execution-filters/execution-filters.service.js');
+const userExecutions = require('./user-executions/user-executions.service.js');
 
 module.exports = function () {
-  const app = this; // eslint-disable-line no-unused-vars
+  const app = this;
   app.configure(users);
-
-  // stackstorm-related services
   app.configure(executions);
   app.configure(executionFilters);
+  app.configure(userExecutions);
 };
