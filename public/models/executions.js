@@ -3,7 +3,7 @@ import DefineList from 'can-define/list/';
 import set from 'can-set';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
-import env from 'medic/shared/env';
+import env from '@root/shared/env';
 import ajax from 'can-ajax';
 
 const Executions = DefineMap.extend({

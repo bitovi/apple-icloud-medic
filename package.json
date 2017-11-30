@@ -3,7 +3,7 @@
   "description": "Self-healing automation",
   "version": "0.0.0",
   "homepage": "",
-  "main": "public/index",
+  "main": "src/index",
   "keywords": [
     "feathers"
   ],
@@ -22,22 +22,20 @@
     "npm": ">= 3.0.0"
   },
   "steal": {
+    "main": "public/index",
     "map": {
-      "@public": "public",
+      "@root": ".",
+      "@public": "~/public",
       "styled-components": "styled-components/dist/styled-components",
       "polished": "polished/dist/polished"
     },
     "plugins": [
-      "steal-css"
+      "steal-css",
+      "steal-less",
+      "systemjs-plugin-text"
     ],
-    "babelOptions": {
-      "plugins": [
-        "transform-class-properties"
-      ]
-    },
     "configDependencies": [
-      "stealjs/env-config",
-      "stealjs/semantic-ui-config"
+      "stealjs/env-config"
     ]
   },
   "scripts": {
@@ -46,16 +44,20 @@
     "db-migrate": "",
     "start": "node src/",
     "mocha": "mocha test/ --recursive",
-    "develop": "nodemon -r dotenv/config src/",
-    "debug": "nodemon -r dotenv/config --inspect src/",
-    "dev-bundle": "steal-tools bundle --dev --minify=false --dest public/",
-    "build": "NODE_ENV=production node build",
+    "develop": "nodemon -r dotenv/config",
+    "debug": "nodemon -r dotenv/config --inspect",
+    "watch-styles": "nodemon --config nodemon.styles.js",
+    "build": "NODE_ENV=production node scripts/build",
     "build-commit": "git branch -D dist; git checkout -b dist && npm run build && git add public/dist -f && git commit -m 'Update dists for deploy'",
     "deploy-prod": "npm run build-commit && git push prod dist:master -f; git checkout -",
-    "postinstall": "if [ -z \"$npm_config_production\" ]; then npm run dev-bundle; fi"
+    "dev-bundle": "steal-tools bundle --dev --minify=false --dest public/",
+    "predev-bundle": "node scripts/semantic-ui-setup",
+    "postinstall": "if [ -z \"$npm_config_production\" ]; then npm run dev-bundle; fi",
+    "storybook": "start-storybook -p 9001 -c storybook"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "case": "^1.5.4",
     "compression": "^1.7.1",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
@@ -83,6 +85,11 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.14",
+    "@storybook/addon-info": "^3.2.15",
+    "@storybook/addon-knobs": "^3.2.15",
+    "@storybook/react": "^3.2.14",
+    "babel-plugin-styled-components": "^1.3.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "can-ajax": "^1.1.0",
     "can-connect": "^1.5.9",
@@ -94,28 +101,37 @@
     "can-stream-kefir": "^0.3.3",
     "chai": "^4.1.2",
     "dotenv": "^4.0.0",
+    "escape-string-regexp": "^1.0.5",
     "eslint": "^4.8.0",
     "feathers-client": "^2.4.0",
+    "find-in-files": "^0.4.0",
+    "image-webpack-loader": "^3.4.2",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "mocha": "^4.0.1",
     "ncp": "^2.0.0",
     "nodemon": "^1.12.1",
     "polished": "^1.8.1",
     "prop-types": "^15.6.0",
+    "raw-loader": "^0.5.1",
     "react": "^16.0.0",
     "react-d3-tree": "^1.5.0",
     "react-dom": "^16.0.0",
     "react-json-view": "^1.13.1",
+    "react-storybook-addon-chapters": "^2.1.0",
     "react-view-model": "^0.5.9",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "rimraf": "^2.6.2",
-    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-less": "^2.2.11",
     "semantic-ui-react": "^0.75.1",
     "socket.io-client": "^2.0.3",
     "steal": "^1.5.15",
     "steal-css": "^1.3.1",
     "steal-less": "^1.2.0",
     "steal-tools": "^1.9.1",
-    "styled-components": "^2.2.3"
+    "strip-comments": "^0.4.4",
+    "styled-components": "^2.2.3",
+    "systemjs-plugin-text": "0.0.11"
   }
 }

@@ -1,5 +1,5 @@
 @parent medic
-@module {can.Component} medic/public/components/executions-table <ExecutionsTable>
+@module {can.Component} @public/components/executions-table <ExecutionsTable>
 
 Table for executions.
 

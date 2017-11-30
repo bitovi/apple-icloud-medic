@@ -1,0 +1,209 @@
+// https://github.com/Semantic-Org/Semantic-UI-LESS/blob/master/themes/default/globals/site.variables
+
+/*-------------------
+       Fonts
+--------------------*/
+
+@fontName          : 'Lato';
+@headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@importGoogleFonts : false;
+
+
+/*-------------------
+      Base Sizes
+--------------------*/
+
+@emSize   : 14px;
+@fontSize : 14px;
+
+@defaultBorderRadius: .3em;
+
+
+/*-------------------
+    Brand Colors
+--------------------*/
+
+@primaryColor        : @blue;
+@secondaryColor      : @black;
+
+@lightPrimaryColor   : @lightBlue;
+@lightSecondaryColor : @lightBlack;
+
+/*-------------------
+        Page
+--------------------*/
+
+@pageBackground      : #FFFFFF;
+
+@lineHeight          : 1.4285em;
+@textColor           : rgba(0, 0, 0, 0.87);
+
+/*-------------------
+       Links
+--------------------*/
+
+@linkColor           : #4183C4;
+@linkUnderline       : none;
+@linkHoverColor      : darken(saturate(@linkColor, 20), 15, relative);
+@linkHoverUnderline  : @linkUnderline;
+
+/*--------------
+  Page Heading
+---------------*/
+
+@headerFontWeight : bold;
+@headerLineHeight : unit((18 / 14), em);
+
+@h1 : unit((28 / 14), rem);
+@h2 : unit((24 / 14), rem);
+@h3 : unit((18 / 14), rem);
+@h4 : unit((15 / 14), rem);
+@h5 : unit((14 / 14), rem);
+
+/*--------------
+   Form Input
+---------------*/
+
+/* This adjusts the default form input across all elements */
+@inputBackground        : @white;
+@inputVerticalPadding   : @relative11px;
+@inputHorizontalPadding : @relative14px;
+
+/* Input Text Color */
+@inputColor: @textColor;
+@inputPlaceholderColor: lighten(@inputColor, 75);
+@inputPlaceholderFocusColor: lighten(@inputColor, 45);
+
+/* Line Height Default For Inputs in Browser */
+@inputLineHeight: unit((17 / 14), em);
+
+/* Used on inputs, textarea etc */
+@focusedFormBorderColor: #85B7D9;
+
+/* Used on dropdowns, other larger blocks */
+@focusedFormMutedBorderColor: #96C8DA;
+
+
+/*-------------------
+        Sizes
+--------------------*/
+
+/*
+  Sizes are all expressed in terms of 14px/em (default em)
+  This ensures these "ratios" remain constant despite changes in EM
+*/
+
+@miniSize        : (11 / 14);
+@tinySize        : (12 / 14);
+@smallSize       : (13 / 14);
+@mediumSize      : (14 / 14);
+@largeSize       : (16 / 14);
+@bigSize         : (18 / 14);
+@hugeSize        : (20 / 14);
+@massiveSize     : (24 / 14);
+
+
+/*-------------------
+     Breakpoints
+--------------------*/
+
+@mobileBreakpoint            : 320px;
+@tabletBreakpoint            : 768px;
+@computerBreakpoint          : 992px;
+@largeMonitorBreakpoint      : 1200px;
+@widescreenMonitorBreakpoint : 1920px;
+
+
+/*-------------------
+      Site Colors
+--------------------*/
+
+/*---  Colors  ---*/
+@red              : #DB2828;
+@orange           : #F2711C;
+@yellow           : #FBBD08;
+@olive            : #B5CC18;
+@green            : #21BA45;
+@teal             : #00B5AD;
+@blue             : #2185D0;
+@violet           : #6435C9;
+@purple           : #A333C8;
+@pink             : #E03997;
+@brown            : #A5673F;
+@grey             : #767676;
+@black            : #1B1C1D;
+
+/*---  Light Colors  ---*/
+@lightRed         : #FF695E;
+@lightOrange      : #FF851B;
+@lightYellow      : #FFE21F;
+@lightOlive       : #D9E778;
+@lightGreen       : #2ECC40;
+@lightTeal        : #6DFFFF;
+@lightBlue        : #54C8FF;
+@lightViolet      : #A291FB;
+@lightPurple      : #DC73FF;
+@lightPink        : #FF8EDF;
+@lightBrown       : #D67C1C;
+@lightGrey        : #DCDDDE;
+@lightBlack       : #545454;
+
+/*---   Neutrals  ---*/
+@fullBlack        : #000000;
+@offWhite         : #F9FAFB;
+@darkWhite        : #F3F4F5;
+@midWhite         : #DCDDDE;
+@white            : #FFFFFF;
+
+/*--- Colored Backgrounds ---*/
+@redBackground    : #FFE8E6;
+@orangeBackground : #FFEDDE;
+@yellowBackground : #FFF8DB;
+@oliveBackground  : #FBFDEF;
+@greenBackground  : #E5F9E7;
+@tealBackground   : #E1F7F7;
+@blueBackground   : #DFF0FF;
+@violetBackground : #EAE7FF;
+@purpleBackground : #F6E7FF;
+@pinkBackground   : #FFE3FB;
+@brownBackground  : #F1E2D3;
+
+/*--- Colored Headers ---*/
+@redHeaderColor    : darken(@redTextColor, 5);
+@oliveHeaderColor  : darken(@oliveTextColor, 5);
+@greenHeaderColor  : darken(@greenTextColor, 5);
+@yellowHeaderColor : darken(@yellowTextColor, 5);
+@blueHeaderColor   : darken(@blueTextColor, 5);
+@tealHeaderColor   : darken(@tealTextColor, 5);
+@pinkHeaderColor   : darken(@pinkTextColor, 5);
+@violetHeaderColor : darken(@violetTextColor, 5);
+@purpleHeaderColor : darken(@purpleTextColor, 5);
+@orangeHeaderColor : darken(@orangeTextColor, 5);
+@brownHeaderColor  : darken(@brownTextColor, 5);
+
+/*--- Colored Text ---*/
+@redTextColor    : @red;
+@orangeTextColor : @orange;
+@yellowTextColor : #B58105; // Yellow text is difficult to read
+@oliveTextColor  : #8ABC1E; // Olive is difficult to read
+@greenTextColor  : #1EBC30; // Green is difficult to read
+@tealTextColor   : #10A3A3; // Teal text is difficult to read
+@blueTextColor   : @blue;
+@violetTextColor : @violet;
+@purpleTextColor : @purple;
+@pinkTextColor   : @pink;
+@brownTextColor  : @brown;
+
+/*--- Colored Border ---*/
+@redBorderColor    : @redTextColor;
+@orangeBorderColor : @orangeTextColor;
+@yellowBorderColor : @yellowTextColor;
+@oliveBorderColor  : @oliveTextColor;
+@greenBorderColor  : @greenTextColor;
+@tealBorderColor   : @tealTextColor;
+@blueBorderColor   : @blueTextColor;
+@violetBorderColor : @violetTextColor;
+@purpleBorderColor : @purpleTextColor;
+@pinkBorderColor   : @pinkTextColor;
+@brownBorderColor  : @brownTextColor;

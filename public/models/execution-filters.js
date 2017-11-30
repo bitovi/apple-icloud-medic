@@ -1,5 +1,5 @@
 import feathersClient from '@public/feathers-client';
-import env from 'medic/shared/env';
+import env from '@root/shared/env';
 
 /**
  * This model is different from others in that it isn't really a "RESTful"

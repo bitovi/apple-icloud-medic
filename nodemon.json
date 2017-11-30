@@ -1,3 +1,4 @@
 {
-  "ignore": ["public/*", "test/*", "node_modules/*"]
+  "verbose": false,
+  "ignore": ["public/*", "docs/*", "test/*", "node_modules/*", "storybook/*"]
 }

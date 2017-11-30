@@ -1,5 +1,5 @@
 import fixture from 'can-fixture';
-import env from 'medic/shared/env';
+import env from '@root/shared/env';
 import data_filters from './data/execution-filters';
 
 export default fixture({

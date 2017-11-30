@@ -1,0 +1,11 @@
+/**
+ * This is used by both StealJS and WebPack - test accordingly
+ */
+
+{
+  "plugins": [
+    ["babel-plugin-styled-components", { fileName: false }],
+    "transform-react-jsx",
+    "transform-class-properties"
+  ]
+}

@@ -1,0 +1,94 @@
+/*******************************
+        Import Directives
+*******************************/
+
+/*
+  The key to understanding this file is knowing that it is imported
+  by every component - each getting its own copy. Each component
+  defines two variables:
+
+    - @type: global, element, behavior, collection, module, view
+    - @element: reset, button, dropdown, input, etc
+
+  So when the button.less imports this file, here's what happens:
+
+    @type: element
+    @element: button
+    @theme: @button (see theme.config)
+
+  In the code below each component will essentially get the following:
+
+    1. site.variables for the "default" theme
+    1. site.variables for the "@site" element theme (see theme.config)
+    1. site.variables for the "@element" theme (see theme.config)
+    1. site.variables for the project
+
+    1. "default" {element}.variables for the current component
+    1. "theme" {element}.variables for the current component
+    1. project {element}.variables
+
+    1. google fonts (if applicable)
+
+    1. "theme" {element}.overrides
+    1. project {element}.overrides
+ */
+
+/*------------------
+       Theme
+-------------------*/
+@import "elements-proper.config";
+
+@theme: @@element;
+@Element: "@{@{element}Proper}";
+
+/*--------------------
+   Site Variables
+---------------------*/
+
+/* Default site.variables */
+@import "@{themesFolder}/default/globals/site.variables";
+
+/* Packaged site.variables */
+@import "@{themesFolder}/@{site}/globals/site.variables";
+
+/* Component's site.variables */
+@import (optional) "@{themesFolder}/@{theme}/globals/site.variables";
+
+/* Site theme site.variables */
+@import (optional) "@{siteFolder}/globals/Site/site.variables";
+
+
+/*-------------------
+ Component Variables
+---------------------*/
+
+/* Default */
+@import "@{themesFolder}/default/@{type}s/@{element}.variables";
+
+/* Packaged Theme */
+@import (optional) "@{themesFolder}/@{theme}/@{type}s/@{element}.variables";
+
+/* Site Theme */
+@import (optional) "@{siteFolder}/@{type}s/@{Element}/@{element}.variables";
+
+
+/*******************************
+             Mix-ins
+*******************************/
+
+/*------------------
+       Fonts
+-------------------*/
+
+.loadFonts() when (@importGoogleFonts) {
+  @import url('@{googleProtocol}fonts.googleapis.com/css?family=@{googleFontRequest}');
+}
+
+/*------------------
+     Overrides
+-------------------*/
+
+.loadUIOverrides() {
+  @import (optional) "@{themesFolder}/@{theme}/@{type}s/@{element}.overrides";
+  @import (optional) "@{siteFolder}/@{type}s/@{Element}/@{element}.overrides";
+}

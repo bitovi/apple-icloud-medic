@@ -4,7 +4,7 @@ import DefineMap from 'can-define/map/map';
 import canStream from 'can-stream-kefir';
 import moment from 'moment';
 
-import { Table, Divider } from '@public/styled-components/index';
+import { Table, Divider } from '@public/semantic-ui/index';
 import { ComponentWrapper } from './partials/styled';
 
 import Executions from '@public/models/executions';

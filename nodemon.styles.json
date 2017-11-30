@@ -1,0 +1,7 @@
+{
+  "watch": "public/styled-components/styles",
+  "ext": "less,variables,overrides",
+  "exec": "npm run dev-bundle",
+  "verbose": true,
+  "ignore": []
+}

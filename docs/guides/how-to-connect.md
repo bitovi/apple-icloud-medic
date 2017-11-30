@@ -9,8 +9,8 @@ Contact Medic Support for the following:
 ## Create a script
 Once you have an API key and an endpoint, simply create a script like the one shown below on your service machines:
 
-**Example**
-`/path/to/my/script/medic_webhook.sh`
+**/path/to/my/script/medic_webhook.sh**
+
 ```bash
 #!/bin/bash                                                                                                                                                                                     
 
@@ -42,6 +42,7 @@ $FULL_PATH \
 
 ## Call the script
 Medic webhooks expect JSON data, so to call yours, simply call the script with a properly formatted JSON string:
+
 ```
 /path/to/my/script/medic_webhook.sh '{ stringified:"json" }'
 ```

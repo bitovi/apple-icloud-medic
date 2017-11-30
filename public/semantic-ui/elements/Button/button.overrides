@@ -1,0 +1,2 @@
+.ui.button.hover:extend(.ui.button:hover) {}
+.ui.button.down:extend(.ui.button:active) {}

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import getValue from 'can-util/js/get/get';
-import { Modal, Icon } from '@public/styled-components/index';
+import { Modal, Icon } from '@public/semantic-ui/index';
 import JSONViewer from '@public/components/json-viewer/';
 import { ModalLabel } from './styled';
 

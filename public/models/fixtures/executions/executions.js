@@ -1,5 +1,5 @@
 import fixture from 'can-fixture';
-import env from 'medic/shared/env';
+import env from '@root/shared/env';
 import Executions from '@public/models/executions';
 import clone from '@public/util/clone';
 import executionFailedTemplate from './data/get-execution-failed';

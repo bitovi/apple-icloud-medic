@@ -1,5 +1,5 @@
 @parent medic
-@module {can.Component} medic/public/components/pagination <Pagination>
+@module {can.Component} @public/components/pagination <Pagination>
 
 Generic Pagination component
 

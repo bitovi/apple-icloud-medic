@@ -1,5 +1,5 @@
 @parent medic
-@module {can.Component} medic/public/components/json-viewer <JSONViewer />
+@module {can.Component} @public/components/json-viewer <JSONViewer />
 
 Renders a nicely formatted, interactable JSON tree.
 

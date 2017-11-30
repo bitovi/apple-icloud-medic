@@ -4,7 +4,7 @@ import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/';
 import ReactJson from 'react-json-view';
 
-import { Button, Dropdown, TextArea, Modal } from '@public/styled-components/index';
+import { Button, Dropdown, TextArea, Modal } from '@public/semantic-ui/index';
 
 import PlainReact from '@public/components/plain-react';
 import ReactViewModel from '@public/components/react-view-model';

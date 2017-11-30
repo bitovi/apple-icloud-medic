@@ -12,7 +12,7 @@ import SiteFooter from './site-footer/';
 import ExecutionsPage from './pages/executions/';
 import ExecutionPage from './pages/execution/';
 import PlaygroundPage from './pages/playground/';
-import { Site } from '@public/styled-components/site';
+import { Site } from '@public/semantic-ui/index';
 
 //!steal-remove-start
 import '@public/models/fixtures/';

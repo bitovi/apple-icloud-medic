@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/'
-import { Grid } from '@public/styled-components/grid';
+import { Grid } from '@public/semantic-ui/index';
 
 import SiteNav from '../site-nav/';
 

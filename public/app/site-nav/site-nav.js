@@ -2,14 +2,14 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import PropTypes from 'prop-types';
-import { Menu } from '@public/styled-components/menu';
+import { Menu } from '@public/semantic-ui/index';
 
 class SiteNav extends Component {
   render() {
     const { items } = this.viewModel;
 
-    let appState = this.context.appState,
-        page = appState.page && appState.page.toLowerCase();
+    const appState = this.context.appState;
+    const page = appState.page && appState.page.toLowerCase();
 
     return (
       <nav aria-label="Primary">

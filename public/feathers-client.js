@@ -1,4 +1,4 @@
-import env from 'medic/shared/env';
+import env from '@root/shared/env';
 import feathers from 'feathers-client';
 import io from 'socket.io-client/dist/socket.io';
 import hooks from 'feathers-hooks';
