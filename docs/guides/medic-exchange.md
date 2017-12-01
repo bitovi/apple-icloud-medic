@@ -2,20 +2,20 @@
 
 ## Creating a Medic Exchange Pack
 
-- https://github.pie.apple.com/medic-exchange
-- Create a new Repository
-  - Name the repo with underscore casing (ex: `my_awesome_pack`)
-    - Do not use dashes in repo names (i.e. **NOT** `my-awesome-pack`)
-  - Add a meaningful description for the pack
-  - Create Repository
-- Locally, create a new git repository for `my_awesome_pack`
-  - `mkdir my_awesome_pack`
-  - `cd my_awesome_pack`
-  - `git init`
-- Add the git url as the git repo's origin
-  - `git remote add origin git@github.pie.apple.com:medic-exchange/my_awesome_pack.git`
-- Add a `pack.yaml` file
-  - **Ensure the name of the pack matches the github repo name** (again, **no dashes**)
+* https://github.pie.apple.com/medic-exchange
+* Create a new Repository
+  * Name the repo with underscore casing (ex: `my_awesome_pack`)
+    * Do not use dashes in repo names (i.e. **NOT** `my-awesome-pack`)
+  * Add a meaningful description for the pack
+  * Create Repository
+* Locally, create a new git repository for `my_awesome_pack`
+  * `mkdir my_awesome_pack`
+  * `cd my_awesome_pack`
+  * `git init`
+* Add the git url as the git repo's origin
+  * `git remote add origin git@github.pie.apple.com:medic-exchange/my_awesome_pack.git`
+* Add a `pack.yaml` file
+  * **Ensure the name of the pack matches the github repo name** (again, **no dashes**)
 
 ```yml
 ---
@@ -46,6 +46,41 @@ email: medic-dev@group.apple.com
   - dashes are okay in branch names
 
 
+### Branches
+
+* All repos should be configured with a `dev` branch as the default
+* `master` should be protected and should require the following
+    * Select `Protect this branch`
+    * Select `Require pull request reviews before merging` under `Protect this branch`
+    * Select `Include administrators`
+    * Save
+
+### Hooks & Services
+
+All medic-exchange repos should be configured with the following webhook:
+
+* **Payload URL:** https://sre-tools.apple.com/api/v1/webhooks/medic_github?st2-api-key=NTZiNDUwMmMyNjM5ODkyYzU5ZjVmMzVkMjUzNGI5NGIxNTYzZTNhODNlZWFkNjJlODhiNjhmYmVhZmI3NzFkMA
+* **Content type:** `application/json`
+* **Let me select individual events** Select at least the followng
+    * Commit comment
+    * Issues
+    * Pull request review
+    * Push
+    * Create
+    * Issue comment
+    * Pull request
+    * Release
+* `Add webhook`
+
+### Collaborators & teams
+
+* Add `medic-dev` as a team, and give the team [at least] write access
+* Add `micloud` as a collaborator, and give the user write access.
+
+> **Note** `micloud` is part of the `medic-dev` team, but for some reason that is not enough to allow the `micloud` user to create pull requests.  More investigation is needed.
+
+
+
 ## Install a pack from medic-exchange
 
 - Log onto the [admin interface](https://medic.apple.com)
@@ -69,7 +104,9 @@ email: medic-dev@group.apple.com
   - When ready, push new branch, and create a PR for review
   - Once the PR is reviewed and merged, follow the steps in `Install a pack from medic-exchange` above to include update Medic with the changes.
 
-### Via the Workflow designer
+### Via the Workflow designer (admin only)
+
+> **Note** This method is experimental and is subject to change.  For [Docker Development](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/docker.md), use the `Local` strategy described above.
 
 - For UI created mistral workflows, click on the workflow/action from the [Actions](https://medic.apple.com/#/actions) page
 - Click **Edit**
