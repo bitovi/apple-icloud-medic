@@ -34,6 +34,7 @@ class AppComponent extends Component {
 
   render() {
     const { currentUser } = this.viewModel;
+    console.log('App Component render', currentUser);
     let mainContent;
     if (!currentUser) {
       mainContent = <div>{this.viewModel.statusMessage}</div>
@@ -71,6 +72,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     value: 'Loading...'
   },
   get currentUser () {
+    console.log('App ViewModel - get currentUser');
     return !this.authError && Session.current && Session.current.user;
   },
   get CurrentPage () {
@@ -88,17 +90,20 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     }
   },
   init () {
+    console.log('App ViewModel inti');
     // define routes here
     // TODO: use shared router config
     route('{page}', { page: 'executions' });
     route('/executions/{executionId}', { page: 'executions'});
 
     // makes POST request to /authenticate
-    new Session({ strategy: 'custom' }).save().then(result => {
+    window.authPromise = new Session({ strategy: 'custom' }).save();
+    window.authPromise.then(result => {
       route.data = this;
       route.ready();
     }).catch(err => {
       // TODO: better UX
+      console.log('Auth error', err);
       this.authError = true;
       this.statusMessage = 'Failed to authenticate: ' + err.message;
     });

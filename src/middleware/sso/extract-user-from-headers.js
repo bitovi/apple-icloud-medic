@@ -5,8 +5,8 @@ const KEY_MAP = {
   'firstname': 'firstName',
   'lastname': 'lastName',
   'nickname': 'nickName',
-  'emailaddress': 'email',
-  'groups': 'groups'
+  'emailaddress': 'emailAddress',
+  'groups': 'allGroups'
 };
 
 const makeExtractor = (app) => {

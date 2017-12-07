@@ -1,3 +1,4 @@
+const path = require('path');
 const rimraf = require('rimraf');
 const ncp = require('ncp');
 const stealTools = require('steal-tools');
@@ -20,16 +21,16 @@ const pNcp = (from, to) => new Promise((resolve, reject) => {
 
 // build to the default destination and then copy to public
 // see: https://github.com/stealjs/steal-tools/issues/882
-const defaultDest = __dirname + '/dist';
-const targetDest = __dirname + '/public/dist';
+const defaultDest = path.resolve(__dirname, '../dist');
+const targetDest = path.resolve(__dirname, '../public/dist');
 
 pRimraf(targetDest)
 .then(() => stealTools.build({
-  config: __dirname + '/package.json!npm',
+  config: path.resolve(__dirname, '../package.json!npm'),
 }, {
   bundleAssets: true,
   bundleSteal: true,
-  minify: true,
+  minify: false,
   envify: true
 }))
 .then(() => pNcp(defaultDest, targetDest))

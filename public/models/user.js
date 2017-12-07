@@ -8,7 +8,7 @@ const User = DefineMap.extend({
   firstName: 'string',
   lastName: 'string',
   nickName: 'string',
-  email: 'string',
+  emailAddress: 'string',
   allGroups: {
     type: 'any',
     value: () => []
@@ -18,7 +18,7 @@ const User = DefineMap.extend({
 User.connection = feathersConnection({
   Map: User,
   name: 'user',
-  idProp: 'email',
+  idProp: 'emailAddress',
   feathersService: feathersClient.service('/users')
 });
 

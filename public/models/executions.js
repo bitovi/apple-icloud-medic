@@ -30,7 +30,6 @@ const Executions = DefineMap.extend({
     "id": "string"
 });
 
-//TODO: merge algebra with medic/public/models/algebras (or wherever)
 const algebra = makeAlgebra({
   parent(serverVal, setVal) {
     if (('' + setVal) === 'null') {

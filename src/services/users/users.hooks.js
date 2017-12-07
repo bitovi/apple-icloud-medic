@@ -6,7 +6,7 @@ module.exports = {
     all: [ authenticate('jwt') ],
     find: [],
     get: [(hook) => {
-      if (hook.id === 'me' || (hook.params.user && hook.id === hook.params.user.email)) {
+      if (hook.params.user && (hook.id === 'me' || hook.id === hook.params.user.emailAddress)) {
         hook.result = hook.params.user;
         return hook;
       }

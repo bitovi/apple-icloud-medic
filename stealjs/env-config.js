@@ -24,7 +24,6 @@ if (IS_PRODUCTION) {
     map: {
       "react": "react/umd/react.production.min",
       "react-dom": "react-dom/umd/react-dom.production.min",
-      "styled-components": "styled-components/dist/styled-components.min",
       "can-fixture": "@empty",
       "@public/models/fixtures/fixtures": "@empty",
     }

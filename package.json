@@ -36,7 +36,12 @@
     ],
     "configDependencies": [
       "stealjs/env-config"
-    ]
+    ],
+    "babelOptions": {
+      "plugins": [
+        "transform-class-properties"
+      ]
+    }
   },
   "scripts": {
     "test": "NODE_ENV=test npm run eslint && npm run mocha",

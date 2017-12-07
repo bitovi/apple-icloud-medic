@@ -25,14 +25,14 @@ const ViewModel = DefineMap.extend('UserExecutionsList', {
     }
   },
   getListSet(status) {
-    const { email, allGroups } = this.appState.currentUser;
+    const { emailAddress, allGroups } = this.appState.currentUser;
     return {
       $or: [{
         groupIds: {
           $overlap: allGroups
         }
       }, {
-        userId: email
+        userId: emailAddress
       }],
       status,
       $sort: { createdAt: -1 }
@@ -88,7 +88,6 @@ class UserExecutionsList extends Component {
     const { continueExecution, cancelExecution } = this.viewModel;
     return (
       <Table.Row key={'item_' + item.id}>
-        {/* TODO: Why do we need "keys" here?? */}
         <Table.Cell>
           <a href={'/executions/' + item.executionId}>{item.executionId}</a>
         </Table.Cell>
@@ -105,7 +104,6 @@ class UserExecutionsList extends Component {
   renderCompleted(item) {
     return (
       <Table.Row key={'item_' + item.id}>
-        {/* TODO: Why do we need "keys" here?? */}
         <Table.Cell>
           <a href={'/executions/' + item.executionId}>{item.executionId}</a>
         </Table.Cell>

@@ -60,7 +60,7 @@ class CustomVerifier {
         firstName: 'Dev',
         lastName: 'User',
         nickName: 'Dev_Nickname',
-        email: 'dev_user@dev.apple.com',
+        emailAddress: 'dev_user@dev.apple.com',
         allGroups: this.devUserGroups
       });
     }
@@ -73,12 +73,12 @@ class CustomVerifier {
       user.allGroups = user.allGroups.map(groupId => {
         groupId = parseInt(groupId, 10);
         if(this.superAdminGroups.indexOf(groupId) !== -1) {
-          this.app.info(`MSG="User is a super admin." USER=${user.email}`);
+          this.app.info(`MSG="User is a super admin." USER=${user.emailAddress}`);
           user.isSuperAdmin = true;
         }
         return groupId;
       });
-      this.app.info(`MSG="User is a super admin." USER=${user.email}`);
+      this.app.info(`MSG="User successfully authenticated." USER="${user.displayName} <${user.emailAddress}>"`);
       done(null, user);
     })
     // convert error to a NotAuthenticated error

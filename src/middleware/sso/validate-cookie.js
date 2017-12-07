@@ -52,6 +52,7 @@ function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
         switch (resultObj.status) {
           case '0':
             // success
+            resultObj.allGroups = resultObj.allGroups.split(';');
             return resolve(resultObj);
 
           // # https://connectme.apple.com/docs/DOC-748638
@@ -92,9 +93,10 @@ const makeValidator = (options = {}) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     if (!authCookie) {
-      // This should not get hit when using the login-redirect middleware
-      // on all routes which serve the main index.html page.
       return Promise.reject(new Error('No auth cookie found'));
+    }
+    if (!ip) {
+      return Promise.reject(new Error('No IP address found for request'));
     }
     return validateUser(fields, authCookie, authHost, appId, appAdminPassword, ip);
   };

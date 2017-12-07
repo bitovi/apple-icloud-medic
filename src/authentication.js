@@ -14,19 +14,14 @@ module.exports = function () {
 
     // This is required for cookie validation
     app.io.use((socket, next) => {
+      console.log('Socket middleware');
       const headers = socket.handshake.headers;
       if (headers && headers.cookie) {
-        Object.assign(socket.feathers, {
-          cookies: cookie.parse(headers.cookie)
-        });
+        const cookies = cookie.parse(headers.cookie);
+        const connection = socket.conn;
+        Object.assign(socket.feathers, { headers, cookies, connection });
       }
       next();
-    });
-
-    app.io.on('connection', socket => {
-      Object.assign(socket.feathers, {
-        connection: socket.conn
-      });
     });
 
     return result;
