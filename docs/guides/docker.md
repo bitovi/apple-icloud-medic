@@ -2,11 +2,29 @@
 
 This document outlines how to develop Medic and Medic-Exchange packs locally using Docker
 
+- [Prerequisites](#prerequisites)
+- [Installation - How To](#install-st2-docker)
+    - [Helpful Commands](#helpful-commands)
+    - [Install medic_chatops](#install-medic_chatops)
+- [Installation - Explained](#what-just-happened)
+    - [Volumes](#volumes)
+        - [medic-exchange](#medic-exchange)
+        - [stackstorm-bin](#stackstorm-bin)
+        - [stackstorm-env](#stackstorm-env)
+        - [stackstorm-configs](#stackstorm-configs)
+    - [Install Scripts](#install-scripts)
+- [Installing packs from medic-exchange](#installing-packs-from-medic-exchange)
+- [Installing CLI Tools](#installing-cli-tools)
+- [Chatops](#chatops)
+    - [Medic_Chatops](#installing-medic_chatops)
+- [Pack Configuration](#pack-configuration)
+
+
 ## Prerequisites
 
-* [Docker CE for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
-* [git](https://git-scm.com/)
-* [node/npm](https://nodejs.org/)
+- [Docker CE for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+- [git](https://git-scm.com/)
+- [node/npm](https://nodejs.org/)
 
 ## Install st2-docker
 
@@ -22,7 +40,9 @@ curl -o- https://raw.github.pie.apple.com/icloud-automation-sre/medic/master/doc
 
 > **Note** For more information, see install instructions here: [st2-docker repo](https://github.com/stackstorm/st2-docker).
 
-## Start
+### Helpful Commands
+
+#### Start
 
 To start the container, run:
 ```
@@ -31,12 +51,28 @@ docker-compose up
 
 Once that's finished, head over to `https://127.0.0.1` and log in with the credentials specified in `conf/stackstorm.env`.
 
-## Stop
+#### Stop
 
 To stop the container, run:
 ```
 docker-compose down
 ```
+
+#### Accessing Containers
+
+Get a bash shell in the `stackstorm` container:
+
+With st2-docker running (`docker-compose up`), open a new terminal and enter:
+```
+docker exec -it stackstorm /bin/bash
+```
+
+> **Note** You can access other containers (like mongo or rabbitmq) by changing `stackstorm` to another container name (i.e. `mongo`) specified in `docker-compose.yml`
+
+### Install Medic_Chatops
+
+It is a good idea to go ahead and install medic_chatops, too, because many of the packs in Medic Exchange use it.
+
 
 ## What just happened?
 
@@ -48,50 +84,80 @@ Volumes are useful to allow modification of files from outside the docker contai
 
 > **Note** You can see the relevant volumes in `docker-compose.yml`.
 
-* `st2-docker/medic-exchange` (Docker dir: `/opt/stackstorm/medic-exchange`)
-    * This is where all [Medic Exchange](https://github.pie.apple.com/medic-exchange) packs should be installed.
-    * When you start the docker container (see below), any medic-exchange pack repositories in this directory will be installed automatically.
-* `st2-docker/stackstorm-bin` (Docker dir: `/opt/stackstorm/bin`)
-    * The `st2-docker/stackstorm-bin` directory is where all stackstorm executables will be located.
-* `st2-docker/stackstorm-env` (Docker dir: `/opt/stackstorm/env`)
-    * Many CLI tools in [github.pie.apple.com](https://github.pie.apple.com/icloud-automation-sre) use .env files for configuration.
-    * This is where .env files will live for system level CLI tool configurations
-* `st2-docker/stackstorm-configs` (Docker dir: `/opt/stackstorm/configs`)
-    * Stackstorm's baked-in configuration files live here
-* `st2-docker/stackstorm-ssh` (Docker dir: `/opt/stackstorm/.ssh`)
-    * **Experimental**
-* `st2-docker/stackstorm-gitconfig` (Docker dir: `/opt/stackstorm/.gitconfig`)
-    * **Experimental**
+#### medic-exchange
+
+> st2-docker directory: `st2-docker/medic-exchange`
+
+> Docker Container Directory: `/opt/stackstorm/medic-exchange`
+
+- This is where all [Medic Exchange](https://github.pie.apple.com/medic-exchange) packs should be installed.
+- When you [start the docker container](#start), any medic-exchange pack repositories in this directory will be [installed automatically](#install-scripts).
+
+#### stackstorm-bin
+
+> st2-docker directory: `st2-docker/stackstorm-bin`
+
+> Docker Container Directory: `/opt/stackstorm/bin`
+
+- The `st2-docker/stackstorm-bin` directory is where all stackstorm executables will be located.
+- If your team has an existing CLI tool, it should be installed into this directory.
+- For more information, see [Installing CLI Tools](#installing-cli-tools)
+
+#### stackstorm-configs
+
+> st2-docker directory: `st2-docker/stackstorm-configs`
+
+> Docker Container Directory: `/opt/stackstorm/configs`
+
+- Stackstorm's baked-in configuration files live here
+- **non-sensitive** pack configuration data that can be logged in execution results can simply be passed into actions via default parameters ([More Info](https://docs.stackstorm.com/actions.html#parameters-in-actions))
+    - **Note** This feature is not available on sre-tools.apple.com as it requires Stackstorm 2.4+
+- **sensitive** pack configuration data that should not be logged in execution history can be accessed via Python actions directly ([Example](https://github.com/StackStorm-Exchange/stackstorm-pagerduty/blob/master/actions/launch_incident.py#L9))
+- See [pack configuration](#pack-configuration) for more information
+
+#### stackstorm-env
+
+> st2-docker directory: `st2-docker/stackstorm-env`
+
+> Docker Container Directory: `/opt/stackstorm/env`
+
+- Many CLI tools in [github.pie.apple.com](https://github.pie.apple.com/icloud-automation-sre) use .env files for configuration. (Example: [hipchat-message](https://github.pie.apple.com/icloud-automation-sre/hipchat-message))
+- This is where .env files will live for system level CLI tool configurations. (Example: [medic_chatops pack](https://github.pie.apple.com/medic-exchange/medic_chatops#env))
+- In some cases, .env files are preferable to pack configurations because they allow for non-python server code to utilize system-level pack configurations without a risk of those values propogating up into execution history.
+
+#### stackstorm-ssh
+
+> st2-docker directory: `st2-docker/stackstorm-ssh`
+
+> Docker Container Directory: `/opt/stackstorm/.ssh`
+
+**Experimental**
+
+#### stackstorm-gitconfig
+
+> st2-docker directory: `st2-docker/stackstorm-gitconfig`
+
+> Docker Container Directory: `/opt/stackstorm/.gitconfig`
+
+**Experimental**
+
 
 ### Install Scripts
 
 Scripts in the `/runtime/st2.d` directory will be executed when the Docker container is started (after st2 has been installed).  They are executed alphabetically.
 
-* `/runtime/st2.d/0-install-packs.sh`
-    * Installs some useful packs from [StackStorm Exchange](https://exchange.stackstorm.org/) such as email and st2
-* `/runtime/st2.d/install-medic-exchange.sh`
-    * Installs the packs that exist in the `st2-docker/medic-exchange` directory
-* `/runtime/st2.d/configure-stackstorm-node.sh`
-    * Sets up a symlink for node inside of `/opt/stackstorm/bin/node`.  This is used by some CLI tools.
+- `/runtime/st2.d/0-install-packs.sh`
+    - Installs some useful packs from [StackStorm Exchange](https://exchange.stackstorm.org/) such as email and st2
+- `/runtime/st2.d/install-medic-exchange.sh`
+    - Installs the packs that exist in the `st2-docker/medic-exchange` directory
+- `/runtime/st2.d/configure-stackstorm-node.sh`
+    - Sets up a symlink for node inside of `/opt/stackstorm/bin/node`.  This is used by some CLI tools.
 
-
-### Running Commands
-
-Get a bash shell in the `stackstorm` container:
-
-With st2-docker running (`docker-compose up`), open a new terminal and enter:
-```
-docker exec -it stackstorm /bin/bash
-```
-
-> **Note** You can access other containers (like node or rabbitmq) by changing `stackstorm` to another container name (i.e. `node`) specified in `docker-compose.yml`
 
 
 ## Installing packs from medic-exchange
 
-Clone medic-exchange repositories into the `st2-docker/medic-exchange` volume directory set up previously
-
-For example:
+Clone [medic-exchange](https://github.pie.apple.com/medic-exchange) repositories into the `st2-docker/medic-exchange` volume directory set up previously
 ```
 cd medic-exchange
 git clone git@github.pie.apple.com:medic-exchange/test.git
@@ -101,23 +167,111 @@ This is where pack development should happen.
 
 ### Seeing changes to packs during development
 
-When changes are made to files in a pack, you'll need to re install the pack to sync the changes to the stackstorm database
+When **changes are made to files in a pack** or when **new packs are installed into the medic-exchange directory**, you'll need to re install the pack to sync the changes to the stackstorm database
+
+From within the docker container:
 ```
 st2 pack install file:////opt/stackstorm/medic-exchange/your_awesome_pack
 ```
 > **Note** When updating packs while the docker container is running, changes must be committed for the changes to take effect (i.e. `git add . && git commit -m "message"`)
 
-
 For more information on developing packs for medic-exchange, head over to the [medic-exchange contribution docs](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
 
+## Installing CLI tools
 
-============= Additional Information =============
+If your team has an existing CLI tool, it should be installed into this directory.
 
-## Configure stackstorm-configs
+### Node based CLI tools
 
-Configs will be used for StackStorm pack configurations.
+The pattern for installing a node package is
+```
+cd /path/to/st2-docker/stackstorm-bin
+git clone git@github.pie.apple.com:icloud-automation-sre/some-node-tool.git
+cd some-node-tool
+npm install
+```
 
-### Pack Configuration
+> **Note** `npm install` installs the pack dependencies defined in `package.json`
+
+
+## Chatops
+
+Chatops allows for communication between a chat service (such as HipChat) and StackStorm via Hubot.
+
+There is a difference between how we listen to a room and how we post to a room.
+
+### Listening
+
+To 'listen' to things said inside a chatops (hipchat) room, StackStorm uses hubot and aliases - where hubot can be thought of as a 'trigger', and aliases can be thought of as 'rules'.
+In order for hubot to be able to communicate with hipchat, it must be configured in the `/opt/stackstorm/chatops/st2chatops.env` file.  This file sets up:
+- The hipchat server chatops will communicate with
+- The credentials necessary to log in
+- The alias of the bot (@medic for example)
+- The rooms that the bot is logged into
+    - The bot will only be logged into rooms that are configured in this file
+
+> **Note** For any change to this file to take effect, st2chatops must be restarted via `service st2chatops restart`.
+
+> **Note** Any hipchat user can start a direct conversation with the bot and trigger aliases via the direct messages.
+
+> **Note** There currently is only support for **ONE st2chatops configuration file per server**.  This means that if we want Medic to be able to listen to multiple instances of HipChat, each instance will require its own server to run st2chatops.
+
+### Posting
+
+To post to a room, we have created our own mechanism (`medic_chatops.hipchat_post_html`) to post messages because StackStorm’s out-of-the-box chatops doesn’t currently support HTML posting to HipChat.
+What this means is that we are using the [medic-exhcnage/medic_chatops pack](https://github.pie.apple.com/medic-exchange/medic_chatops) (and **not** the [ootb chatops pack](https://github.com/StackStorm/st2/tree/master/contrib/chatops)) for any html messages.
+This also means that we typically want to [disable](https://github.pie.apple.com/medic-exchange/carnival/blob/dev/aliases/request-status.yaml#L13) the [standard, documented responses of aliases](https://docs.stackstorm.com/chatops/aliases.html#result-options) and integrate our responses into our workflows instead. ([Example](https://github.pie.apple.com/medic-exchange/carnival/blob/dev/actions/workflows/run-request-status.yaml#L29))
+
+### Installing Medic_Chatops
+
+#### Install Hipchat Message CLI Tool
+
+Install [hipchat-message](https://github.pie.apple.com/icloud-automation-sre/hipchat-message) into `st2-docker/stackstorm-bin`
+```
+cd /path/to/st2-docker/stackstorm-bin
+git clone git@github.pie.apple.com:icloud-automation-sre/hipchat-message.git
+cd hipchat-message
+npm install
+```
+
+#### Set Up Hipchat Credentials
+
+Create a file `/path/to/st2-docker/stackstorm-env/.env-medic-chatops` with the following contents
+```
+HIPCHAT_MESSAGE_TOKEN=yourtoken
+```
+
+> **Note** If you do not have a development bot, please create one or contact Medic support for assistance.
+
+#### Testing Hipchat Message
+
+To test that the hipchat-message cli works, you can execute the following command from [within the Docker container](#accessing-containers):
+```
+DOTENV_CONFIG_PATH=/opt/stackstorm/env/.env-medic-chatops /opt/stackstorm/bin/node /opt/stackstorm/bin/hipchat-message/hipchat.js --room "medic" --message "<span>Hello</span>"
+```
+
+> **Note** If you want to send a direct message, the `room` option should begin with `@` (ex:  `--room @mick`)
+
+#### Get medic_chatops pack
+
+- Clone the repo
+```
+cd /path/to/st2-docker/medic-exchange
+git clone git@github.pie.apple.com:medic-exchange/medic_chatops.git
+```
+
+- Log into the StackStorm Docker container ([More Info](#accessing-containers))
+
+- Install the pack
+```
+st2 pack install file:////opt/stackstorm/medic-exchange/medic_chatops
+```
+
+([More Info](#installing-packs-from-medic-exchange))
+
+
+
+## Pack Configuration
 
 Packs can take advantage of StackStorm configuration by including a `config.schema.yaml` file.
 
@@ -155,7 +309,10 @@ Do you want me to save it? [y]: y
 This will create a file in the `stackstorm-configs` (`/opt/stackstorm/config`) called `my_awesome_pack.yaml`
 
 > **Note** Config properties with `secret:true` will be masked.
-> **Note** For more information on pack configuration, see [Pack Configuration](https://docs.stackstorm.com/reference/pack_configs.html)
+
+> **Note** Changes to pack configurations (files in `/opt/stackstorm/config`) require configurations to be sync'd with the database via `st2ctl reload --register-configs`
+
+> **Note** For more information on pack configuration, see [StackStorm's docs on Pack Configuration](https://docs.stackstorm.com/reference/pack_configs.html)
 
 
 ### Set up some configuration files:
@@ -185,21 +342,11 @@ smtp_accounts:
 attachment_datastore_ttl: 1800
 max_attachment_size: 1024
 ```
+
 > **Note** imap_accounts is required.
 
 
-## Example bin CLI tool installation
 
-[hipchat-message](https://github.pie.apple.com/icloud-automation-sre/hipchat-message)
-
-Example:
-```
-cd stackstorm-bin
-git clone git@github.pie.apple.com:icloud-automation-sre/hipchat-message.git
-cd hipchat-message
-npm install
-```
-> *Note* This can be done outside of the Docker container.
 
 
 ## Using the medic_github pack (**Experimental**)
@@ -223,8 +370,8 @@ Configure the `stackstorm-gitconfig` file as a volume for `/root/.gitconfig` in 
 
 > **Note** The `medic_github` pack does not currently work with an ssh key that requires a password.
 
-* [Generate a new ssh key](https://help.github.com/enterprise/2.10/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
-* Add the public key to [github.pie.apple.com/settings/keys](https://github.pie.apple.com/settings/keys)
+- [Generate a new ssh key](https://help.github.com/enterprise/2.10/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+- Add the public key to [github.pie.apple.com/settings/keys](https://github.pie.apple.com/settings/keys)
 
 
 ### Configure `stackstorm-ssh`
@@ -254,7 +401,7 @@ Clone the `medic_github` pack into `medic-exchange` before running `docker-compo
 git clone git@github.pie.apple.com:medic-exchange/medic_github.git
 ```
 
-## Install Medic-Exchange Packs
+### Install Medic-Exchange Packs
 
 You can now install packs from medic-exchange!
 - Go to [Actions](https://127.0.0.1/#/actions)
