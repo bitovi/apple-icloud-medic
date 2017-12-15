@@ -1,7 +1,10 @@
 import DefineMap from 'can-define/map/';
+import makeDebug from 'debug';
 import sessionConnection from '@public/connections/session';
 import feathersClient from '@public/feathers-client';
 import User from './user';
+
+const debug = makeDebug('medic:session');
 
 const Session = DefineMap.extend('Session', {
   seal: false
@@ -21,18 +24,15 @@ const Session = DefineMap.extend('Session', {
       if (lastSetVal) {
         return lastSetVal;
       }
-      console.log('session.user.get', lastSetVal, 'userId:::', this.userId);
+      debug('session.user.get - Loading user', this.userId);
       this.getUser().then(result => {
-        console.log('Got User', result, 'userId:::', this.userId);
+        debug('session.user.get - Got User', result, 'userId:::', this.userId);
         setVal(result)
       });
     }
   },
-  getUser: function (userId) {
-    if (!this.userId) {
-      // throw new Error('Invalid session: no user ID available');
-      console.log('session.getUser with no ID');
-    }
+  getUser: function () {
+    debug('session.getUser', this.userId);
     return User.get({ [User.connection.idProp]: this.userId || 'me' });
   }
 });

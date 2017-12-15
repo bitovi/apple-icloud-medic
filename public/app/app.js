@@ -4,6 +4,7 @@ import route from 'can-route-pushstate';
 import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/';
 import PropTypes from 'prop-types';
+import makeDebug from 'debug';
 
 import Session from '../models/session';
 import SiteHeader from './site-header/';
@@ -15,9 +16,13 @@ import PlaygroundPage from './pages/playground/';
 import UserExecutionsPage from './pages/user-executions/';
 import { Site } from '@public/semantic-ui/index';
 
+
 //!steal-remove-start
 import '@public/models/fixtures/';
 //!steal-remove-end
+
+const debug = makeDebug('medic:app');
+const sessionDebug = makeDebug('medic:session');
 
 // TODO: make part of the shared router config
 const PAGE_MAP = {
@@ -34,7 +39,6 @@ class AppComponent extends Component {
 
   render() {
     const { currentUser } = this.viewModel;
-    console.log('App Component render', currentUser);
     let mainContent;
     if (!currentUser) {
       mainContent = <div>{this.viewModel.statusMessage}</div>
@@ -42,6 +46,8 @@ class AppComponent extends Component {
       const { CurrentPage } = this.viewModel;
       mainContent = <CurrentPage />
     }
+
+    debug('Component render', currentUser);
 
     return (
       <Site>
@@ -72,7 +78,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     value: 'Loading...'
   },
   get currentUser () {
-    console.log('App ViewModel - get currentUser');
+    debug('ViewModel - get currentUser');
     return !this.authError && Session.current && Session.current.user;
   },
   get CurrentPage () {
@@ -90,20 +96,22 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     }
   },
   init () {
-    console.log('App ViewModel inti');
+    debug('ViewModel init');
     // define routes here
     // TODO: use shared router config
     route('{page}', { page: 'executions' });
     route('/executions/{executionId}', { page: 'executions'});
 
     // makes POST request to /authenticate
-    window.authPromise = new Session({ strategy: 'custom' }).save();
-    window.authPromise.then(result => {
+    sessionDebug('About to create new session');
+    new Session({ strategy: 'custom' }).save().then(result => {
+      sessionDebug('Session created successfully!', result);
       route.data = this;
       route.ready();
     }).catch(err => {
       // TODO: better UX
-      console.log('Auth error', err);
+      debug('Auth error', err);
+      sessionDebug('==== Session failed to create! ====', err);
       this.authError = true;
       this.statusMessage = 'Failed to authenticate: ' + err.message;
     });

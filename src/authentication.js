@@ -3,6 +3,7 @@ const custom = require('feathers-authentication-custom');
 const jwt = require('feathers-authentication-jwt');
 const cookie = require('cookie');
 const CustomVerifier = require('./util/custom-auth-verifier.js');
+const debug = require('debug')('medic:auth');
 
 module.exports = function () {
   const app = this;
@@ -14,7 +15,7 @@ module.exports = function () {
 
     // This is required for cookie validation
     app.io.use((socket, next) => {
-      console.log('Socket middleware');
+      debug('Socket middleware');
       const headers = socket.handshake.headers;
       if (headers && headers.cookie) {
         const cookies = cookie.parse(headers.cookie);
@@ -29,6 +30,7 @@ module.exports = function () {
 
   // This is required for auth cookie validation
   app.use((req, res, next) => {
+    debug('REST middleware');
     req.feathers.connection = req.connection;
     next();
   });
@@ -46,13 +48,16 @@ module.exports = function () {
           // Always require custom strategy when creating a session.
           // This is needed because of socket reconnection/re-authentication,
           // where it attempts to use the existing JWT.
+          debug('Creating new session');
           hook.data = { strategy: 'custom' };
           return hook;
         },
         authentication.hooks.authenticate('custom'),
         (hook) => {
           // make the user available for users service
+          debug('Creating user on users service', hook.params.user);
           return app.service('users').create(hook.params.user).then(result => {
+            debug('Decorating auth payload with userID', result);
             // make sure params.payload exists
             hook.params.payload = hook.params.payload || {}
             // do not put the user in the payload!

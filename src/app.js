@@ -31,7 +31,7 @@ const app = feathers();
 app.configure(configuration());
 
 if(('' + app.get('authentication').secret).length < 500) {
-  throw new Error('You must define an AUTH_SECRET which is at least 500 characters in length!');
+  throw new Error('You must define an AUTH_SECRET which is at least 500 characters in length! ' + app.get('authentication').secret.length);
 }
 
 // Enable CORS, security, compression, cookie/body parsing, logging
