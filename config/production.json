@@ -2,7 +2,7 @@
   "host": "0.0.0.0",
   "sso": {
     "authHost": "idmsauth.corp.apple.com",
-    "appRedirectVersion": null,
+    "appRedirectVersion": "3",
     "cookieName": "myacinfo"
   }
 }
