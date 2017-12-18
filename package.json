@@ -46,7 +46,7 @@
   "scripts": {
     "test": "NODE_ENV=test npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "db-migrate": "db-migrate up --config ./migrations/config/config.js -m ./migrations/migrations",
+    "db-migrate": "db-migrate up --config ./migrations/config.js -m ./migrations/migrations",
     "prestart": "npm run db-migrate",
     "start": "node src/",
     "mocha": "mocha test/ --recursive",

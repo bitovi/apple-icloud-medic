@@ -19,5 +19,8 @@ const DATE_FIELDS = {
 
 module.exports = {
   ID_FIELD,
-  DATE_FIELDS
+  DATE_FIELDS,
+  withCommonFields (fields) {
+    return Object.assign({}, ID_FIELD, fields, DATE_FIELDS);
+  }
 };

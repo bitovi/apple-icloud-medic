@@ -4,10 +4,10 @@ const { DataTypes } = require('sequelize');
 const app = require('../../src/app');
 const sequelize = app.get('sequelizeClient');
 const queryInterface = sequelize.getQueryInterface();
-const { ID_FIELD, DATE_FIELDS } = require('../util');
+const { withCommonFields } = require('../util');
 
 exports.up = function(db) {
-  return queryInterface.createTable('user-executions', Object.assign({}, ID_FIELD, {
+  return queryInterface.createTable('user-executions', withCommonFields({
     executionId: {
       type: DataTypes.STRING,
       allowNull: false
@@ -27,7 +27,7 @@ exports.up = function(db) {
     groupIds: {
       type: DataTypes.ARRAY(DataTypes.INTEGER)
     }
-  }, DATE_FIELDS)).then(() => sequelize.close());
+  })).then(() => sequelize.close());
 };
 
 exports.down = function(db) {
