@@ -9,7 +9,7 @@ const KEY_MAP = {
   'groups': 'allGroups'
 };
 
-const makeExtractor = (app) => {
+const makeExtractor = (/*app*/) => {
   return (req) => {
     return new Promise((resolve, reject) => {
       let user = {};
@@ -31,7 +31,7 @@ const makeExtractor = (app) => {
 
       resolve(user);
     });
-  }
+  };
 };
 
 /**

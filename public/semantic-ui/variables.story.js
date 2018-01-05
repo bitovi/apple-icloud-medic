@@ -53,20 +53,20 @@ storiesOf('Overview', module)
         },
         sectionFn: () => (
           <table><tbody>
-          {(() => Object.keys(variables).map((key, i) => {
-            let val = variables[key];
-            if (REG_COLOR.test(val)) {
-              val = <span><ColorBlock color={val} /><i>{val}</i></span>;
-            } else {
-              val = <i>{val}</i>;
-            }
-            return (
-              <tr key={'row-' + i}>
-                <td><b><code>{key}</code></b></td>
-                <td>{val}</td>
-              </tr>
-            );
-          }))()}
+            {(() => Object.keys(variables).map((key, i) => {
+              let val = variables[key];
+              if (REG_COLOR.test(val)) {
+                val = <span><ColorBlock color={val} /><i>{val}</i></span>;
+              } else {
+                val = <i>{val}</i>;
+              }
+              return (
+                <tr key={'row-' + i}>
+                  <td><b><code>{key}</code></b></td>
+                  <td>{val}</td>
+                </tr>
+              );
+            }))()}
           </tbody></table>
         )
       }]

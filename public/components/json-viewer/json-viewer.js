@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import ReactJson from 'react-json-view'
+import ReactJson from 'react-json-view';
 
 /**
  * @constructor
@@ -23,10 +23,10 @@ class JSONViewer extends Component {
 
 JSONViewer.ViewModel = DefineMap.extend('JSONViewer', {
   src: {
-    value: () => { return {} }
+    value: () => ({})
   },
   theme: {
-    value: "ocean"
+    value: 'ocean'
   },
   displayDataTypes: {
     value: false

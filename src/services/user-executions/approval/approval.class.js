@@ -1,12 +1,7 @@
 const BaseClient = require('../../st2-base-client');
-const errors = require('feathers-errors');
 const jwt = require('jsonwebtoken');
 
 class Executions extends BaseClient {
-  constructor (options) {
-    return super(options);
-  }
-
   create (data, params) {
     return this.request('POST', params, {
       action: this.config.receiveAction,

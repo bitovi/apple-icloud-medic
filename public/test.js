@@ -1,3 +1,2 @@
-import './models/test'
-
-// TODO: import all public tests
+import './models/fixtures/fixtures';
+import './models/test';

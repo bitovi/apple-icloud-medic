@@ -3,7 +3,6 @@ const feathers = require('feathers');
 const favicon = require('serve-favicon');
 const env = require('../shared/env');
 const ssoLoginRedirect = require('./middleware/sso/login-redirect');
-const stealIndexHandler = require('./middleware/steal-index-handler')
 
 const indexFile = path.join(__dirname, `../public/${(env.IS_PROD_UI) ? 'index.production.html' : 'index.html'}`);
 const REG_INDEX_ROUTE = /^\/(?:|index\.html|executions.*|user-executions)$/;

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   "status": "failed",
   "start_timestamp": "2017-10-18T13:00:00.070816Z",

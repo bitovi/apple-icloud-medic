@@ -5,4 +5,4 @@ export default () =>
   <div className="user-executions-page">
     <h1>User Executions</h1>
     <UserExecutionsList />
-  </div>
+  </div>;

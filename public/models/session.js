@@ -26,14 +26,14 @@ const Session = DefineMap.extend('Session', {
         return lastSetVal;
       }
       debug('session.user.get - Loading user', this.userId);
-      this.getUser().then(result => {
-        debug('session.user.get - Got User', result, 'userId:::', this.userId);
-        setVal(result)
+      this.getUserPromise().then(result => {
+        debug('session.user.get - GOT USER', result.serialize(), 'userId:::', this.userId);
+        setVal(result);
       });
     }
   },
-  getUser: function () {
-    debug('session.getUser', this.userId);
+  getUserPromise: function () {
+    debug('session.getUserPromise', User.connection.idProp, ':', this.userId);
     return User.get({ [User.connection.idProp]: this.userId || 'me' });
   }
 });

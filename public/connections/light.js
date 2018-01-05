@@ -8,7 +8,7 @@ import combineRequests from 'can-connect/data/combine-requests/combine-requests'
 import dataParse from 'can-connect/data/parse/parse';
 import realTime from 'can-connect/real-time/real-time';
 import callbacksOnce from 'can-connect/constructor/callbacks-once/callbacks-once';
-import dataUrl from "can-connect/data/url/url";
+import dataUrl from 'can-connect/data/url/url';
 import $ from 'jquery';
 
 const lightConnection = function(newBehaviors, options){

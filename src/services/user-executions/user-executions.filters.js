@@ -1,4 +1,4 @@
-module.exports = function (data, connection, hook) { // eslint-disable-line no-unused-vars
+module.exports = function (data, connection/*, hook*/) {
   const user = connection.user;
 
   if (user) {

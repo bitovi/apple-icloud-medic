@@ -1,32 +1,30 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled from 'styled-components';
 
 storiesOf('Overview', module)
   .add('3rd Party resources', () => (
-      <div>
-        <p>
-          This project takes advantage of sever 3rd party resources. Understanding these
-          resources is crucial to the success of this project.
-        </p>
-        <ul>
-          <li>
-            <a href="https://storybook.js.org/">StoryBook</a> -
-            UI Development and Documentation environment
-          </li>
-          <li>
-            <a href="https://react.semantic-ui.com/">Semantic UI React</a> -
-            Rich and extensible UI library
-          </li>
-          <li>
-            <a href="https://www.styled-components.com/">Styled Components</a> -
-            Easily stylable and configurable components for React
-          </li>
-          <li>
-            <a href="https://polished.js.org/">Polished</a> -
-            LESS/SASS style color functions and helpers
-          </li>
-        </ul>
-      </div>
-    )
-  );
+    <div>
+      <p>
+        This project takes advantage of sever 3rd party resources. Understanding these
+        resources is crucial to the success of this project.
+      </p>
+      <ul>
+        <li>
+          <a href="https://storybook.js.org/">StoryBook</a> -
+          UI Development and Documentation environment
+        </li>
+        <li>
+          <a href="https://react.semantic-ui.com/">Semantic UI React</a> -
+          Rich and extensible UI library
+        </li>
+        <li>
+          <a href="https://www.styled-components.com/">Styled Components</a> -
+          Easily stylable and configurable components for React
+        </li>
+        <li>
+          <a href="https://polished.js.org/">Polished</a> -
+          LESS/SASS style color functions and helpers
+        </li>
+      </ul>
+    </div>
+  ));

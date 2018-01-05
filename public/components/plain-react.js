@@ -3,10 +3,10 @@ import React from 'react';
 class PlainReact extends React.Component {
   constructor () {
     super();
-    this.state = { ticks: 0 };
+    this.setState({ ticks: 0 });
   }
   onTick() {
-    this.setState({ ticks: ++this.state.ticks });
+    this.setState({ ticks: this.state.ticks + 1 });
   }
   render () {
     return (

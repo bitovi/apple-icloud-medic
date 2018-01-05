@@ -1,8 +1,12 @@
+//!steal-remove-start
+// Fixutures must be imported early, before any models (connections)!
+import '@public/models/fixtures/fixtures';
+//!steal-remove-end
+
 import React from 'react';
 import Component from 'react-view-model/component';
 import route from 'can-route-pushstate';
 import DefineMap from 'can-define/map/';
-import DefineList from 'can-define/list/';
 import PropTypes from 'prop-types';
 import makeDebug from 'debug';
 
@@ -16,13 +20,7 @@ import PlaygroundPage from './pages/playground/';
 import UserExecutionsPage from './pages/user-executions/';
 import { Site } from '@public/semantic-ui/index';
 
-
-//!steal-remove-start
-import '@public/models/fixtures/';
-//!steal-remove-end
-
 const debug = makeDebug('medic:app');
-const sessionDebug = makeDebug('medic:session');
 
 // TODO: make part of the shared router config
 const PAGE_MAP = {
@@ -38,16 +36,16 @@ class AppComponent extends Component {
   }
 
   render() {
+    debug('Component render');
+
     const { currentUser } = this.viewModel;
     let mainContent;
     if (!currentUser) {
-      mainContent = <div>{this.viewModel.statusMessage}</div>
+      mainContent = <div>{this.viewModel.statusMessage}</div>;
     } else {
       const { CurrentPage } = this.viewModel;
-      mainContent = <CurrentPage />
+      mainContent = <CurrentPage />;
     }
-
-    debug('Component render', currentUser);
 
     return (
       <Site>
@@ -78,21 +76,21 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     value: 'Loading...'
   },
   get currentUser () {
-    debug('ViewModel - get currentUser');
-    return !this.authError && Session.current && Session.current.user;
+    const user = !this.authError && Session.current && Session.current.user;
+    debug('ViewModel - get currentUser', user && user.serialize());
+    return user;
   },
   get CurrentPage () {
     switch(this.page){
-      case "executions":
-        if(this.executionId) {
-          return ExecutionPage;
-        } else {
-          return ExecutionsPage;
-        }
-        break;
-      default:
-        return PAGE_MAP[this.page] || ExecutionsPage;
-        break;
+    case 'executions':
+      if(this.executionId) {
+        return ExecutionPage;
+      } else {
+        return ExecutionsPage;
+      }
+
+    default:
+      return PAGE_MAP[this.page] || ExecutionsPage;
     }
   },
   init () {
@@ -103,16 +101,16 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     route.register('/executions/{executionId}', { page: 'executions' });
 
     // makes POST request to /authenticate
-    sessionDebug('About to create new session');
+    debug('About to create new session');
     new Session({ strategy: 'custom' }).save().then(result => {
-      sessionDebug('Session created successfully!', result);
+      debug('User authenticated successfully!', result.serialize());
 
       route.data = this;
       route.start();
     }).catch(err => {
       // TODO: better UX
       debug('Auth error', err);
-      sessionDebug('==== Session failed to create! ====', err);
+      debug('==== Session failed to create! ====', err);
       this.authError = true;
       this.statusMessage = 'Failed to authenticate: ' + err.message;
     });

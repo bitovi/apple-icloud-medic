@@ -1,7 +1,6 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import DefineList from 'can-define/list/';
 import ReactJson from 'react-json-view';
 
 import { Button, Dropdown, TextArea, Modal } from '@public/semantic-ui/index';
@@ -40,27 +39,25 @@ class Playground extends Component {
 
         <br />
         <p>react-json-view Viewer</p>
-          <ReactJson
-            src={this.viewModel.src}
-            theme={this.viewModel.theme}
-            displayDataTypes={this.viewModel.displayDataTypes}
-            collapsed={this.viewModel.collapsed}
-          />
+        <ReactJson
+          src={this.viewModel.src}
+          theme={this.viewModel.theme}
+          displayDataTypes={this.viewModel.displayDataTypes}
+          collapsed={this.viewModel.collapsed}
+        />
 
 
-          <br />
-          <p>semantic-ui/modal</p>
-          <Modal
-            trigger={<Button>Toggle</Button>}
-            header='Reminder!'
-            content='Call Benjamin regarding the reports.'
-            actions={[
-              'Snooze',
-              { key: 'done', content: 'Done', positive: true },
-            ]}
-          />
-
-
+        <br />
+        <p>semantic-ui/modal</p>
+        <Modal
+          trigger={<Button>Toggle</Button>}
+          header='Reminder!'
+          content='Call Benjamin regarding the reports.'
+          actions={[
+            'Snooze',
+            { key: 'done', content: 'Done', positive: true },
+          ]}
+        />
       </div>
     );
   }
@@ -73,68 +70,65 @@ Playground.ViewModel = DefineMap.extend('Playground', {
   },
 
   dropdownData: {
-    value: ()=>{return testData_executionFilters.status}
+    value: () => testData_executionFilters.status
   },
-  dropdownOptions:{
+  dropdownOptions: {
     get(){
-      return this.dropdownData.map(item => { return {text: item, value: item, key: item}})
+      return this.dropdownData.map(item => ({ text: item, value: item, key: item }) );
     }
   },
-  serializedDropdownOptions:{
+  serializedDropdownOptions: {
     type: 'any',
     value(){
-      return this.dropdownOptions.serialize()
+      return this.dropdownOptions.serialize();
     }
   },
   dropdownOptionsLoading: {
     value: () => true
   },
   dropdownValue: {
-    type: "string",
+    type: 'string',
     value(){
       return this.dropdownData[0];
     },
     get(lastSetVal) {
-      return this.dropdownOptionsLoading ? "Loading..." : lastSetVal
+      return this.dropdownOptionsLoading ? 'Loading...' : lastSetVal;
     }
   },
-  handleDropdownChange(val,ev) {
-    console.log("handleDropdownChange", arguments);
+  handleDropdownChange(val) {
     this.dropdownValue = val;
   },
-  handleSelectChange(ev,component) {
-    console.log("handleSelectChange", arguments);
+  handleSelectChange(ev, component) {
     this.dropdownValue = component.value;
   },
-  handleTextareaChange(ev,component) {
-    console.log("handleTextareaChange", arguments);
+  handleTextareaChange(ev, component) {
     this.dropdownValue = component.value;
   },
-  dialogActive:{
-    value: ()=>false
+  dialogActive: {
+    value: () => false
   },
   src: {
-    value: ()=>{return {"hello":"world"}}
+    value: () => ({'hello':'world'})
   },
   theme: {
-    value: ()=>"ocean"
+    value: () =>'ocean'
   },
   displayDataTypes: {
-    value: ()=>false
+    value: () => false
   },
   collapsed: {
-    value: ()=>true
+    value: () => true
   },
-  modalOpen:{
-    value: ()=>false
+  modalOpen: {
+    value: () => false
   },
-  toggleModal(){
+  toggleModal() {
     this.modalOpen = !this.modalOpen;
   },
-  toggleDialog(){
+  toggleDialog() {
     this.dialogActive = !this.dialogActive;
   },
-  init(){
+  init() {
     setTimeout(() => {
       this.dropdownOptionsLoading = false;
     }, 2000);

@@ -45,23 +45,27 @@ module.exports = function () {
     before: {
       create: [
         (hook) => {
-          // Always require custom strategy when creating a session.
+          // Always require custom strategy when _creating_ a session.
           // This is needed because of socket reconnection/re-authentication,
-          // where it attempts to use the existing JWT.
-          debug('Creating new session');
+          // where it attempts to use the existing JWT. This enforces a policy
+          // of re-authenticating users against DS on every socket connection.
+          debug('Creating new session to be verified against Directory Services');
           hook.data = { strategy: 'custom' };
           return hook;
         },
+        // performs the actual authentication
         authentication.hooks.authenticate('custom'),
         (hook) => {
-          // make the user available for users service
+          // The user service is an in-memory service. We need to create the user
+          // in memory and then attach the userId to the JWT payload.
           debug('Creating user on users service', hook.params.user);
-          return app.service('users').create(hook.params.user).then(result => {
+          const userSvc = app.service(authConfig.service);
+          return userSvc.create(hook.params.user).then(result => {
             debug('Decorating auth payload with userID', result);
-            // make sure params.payload exists
-            hook.params.payload = hook.params.payload || {}
-            // do not put the user in the payload!
-            Object.assign(hook.params.payload, { userId: hook.params.user.email })
+            // `hook.params.payload` is a special property which will be appended
+            // to the JWT claim. Do not put the user in the payload!!
+            hook.params.payload = hook.params.payload || {};
+            Object.assign(hook.params.payload, { userId: hook.params.user[userSvc.id] });
           });
         }
       ],
@@ -72,8 +76,8 @@ module.exports = function () {
     after: {
       create: [
         (hook) => {
-          // this makes the user available on the response so
-          // we don't have request it separately
+          // This makes the user available on the auth response so we don't have
+          // to request it separately. This is NOT part of the JWT claim.
           hook.result.user = hook.params.user;
           return hook;
         }

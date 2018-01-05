@@ -14,9 +14,9 @@ const errorHandler = e => {
     return;
   }
   if (e.status === 0) {
-    message = 'Could not reach server. Please contact an administrator.'
+    message = 'Could not reach server. Please contact an administrator.';
   } else {
-    message = (e.responseJSON && e.responseJSON.message) || e.responseText
+    message = (e.responseJSON && e.responseJSON.message) || e.responseText;
   }
   hub.publish('alert', {
     type: 'error',

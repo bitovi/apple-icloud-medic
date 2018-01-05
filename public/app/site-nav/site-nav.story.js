@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 import SiteNav from './site-nav';
 
 const items = [
@@ -9,7 +8,7 @@ const items = [
   { title: 'Item 3', route: '#item-3' }
 ];
 
-export default (App) => {
+export default () => {
   storiesOf('App Components', module)
     .addWithChapters('Site Nav', {
       chapters: [{
@@ -20,4 +19,4 @@ export default (App) => {
         }]
       }]
     });
-}
+};

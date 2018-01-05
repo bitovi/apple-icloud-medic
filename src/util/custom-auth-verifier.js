@@ -14,11 +14,11 @@ const reqHasAuthHeaders = (req) => {
 };
 
 const splitGroups = (str) => {
-  return str.split(',').map(n => parseInt(n, 10))
-}
+  return str.split(',').map(n => parseInt(n, 10));
+};
 
 class CustomVerifier {
-  constructor(app, settings) {
+  constructor(app/*, settings*/) {
     const ssoConfig = app.get('sso');
 
     // super admin groups must be defined
@@ -66,26 +66,26 @@ class CustomVerifier {
     }
 
     userPromise
-    .then(user => {
-      // Make a display name so we don't have to check for nickName everywhere
-      user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
-      user.isSuperAdmin = false;
-      user.allGroups = user.allGroups.map(groupId => {
-        groupId = parseInt(groupId, 10);
-        if(this.superAdminGroups.indexOf(groupId) !== -1) {
-          this.app.info(`MSG="User is a super admin." USER=${user.emailAddress}`);
-          user.isSuperAdmin = true;
-        }
-        return groupId;
+      .then(user => {
+        // Make a display name so we don't have to check for nickName everywhere
+        user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
+        user.isSuperAdmin = false;
+        user.allGroups = user.allGroups.map(groupId => {
+          groupId = parseInt(groupId, 10);
+          if(this.superAdminGroups.indexOf(groupId) !== -1) {
+            this.app.info(`MSG="User is a super admin." USER=${user.emailAddress}`);
+            user.isSuperAdmin = true;
+          }
+          return groupId;
+        });
+        this.app.info(`MSG="User successfully authenticated." USER="${user.displayName} <${user.emailAddress}>"`);
+        done(null, user);
+      })
+      // convert error to a NotAuthenticated error
+      .catch(err => {
+        done(new errors.NotAuthenticated(err));
       });
-      this.app.info(`MSG="User successfully authenticated." USER="${user.displayName} <${user.emailAddress}>"`);
-      done(null, user);
-    })
-    // convert error to a NotAuthenticated error
-    .catch(err => {
-      done(new errors.NotAuthenticated(err))
-    });
   }
-};
+}
 
 module.exports = CustomVerifier;

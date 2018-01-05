@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import DefineMap from 'can-define/map/'
+import DefineMap from 'can-define/map/';
 import { Grid } from '@public/semantic-ui/index';
 
 import SiteNav from '../site-nav/';
@@ -27,7 +27,7 @@ class SiteHeader extends Component {
             <Grid.Column width={3}>
               {(() => {
                 if (currentUser) {
-                  return <p>Welcome {currentUser.displayName}</p>
+                  return <p>Welcome {currentUser.displayName}</p>;
                 }
               })()}
             </Grid.Column>
@@ -37,9 +37,7 @@ class SiteHeader extends Component {
       </header>
     );
   }
-};
+}
 
 export default SiteHeader;
 export { ViewModel };
-
-

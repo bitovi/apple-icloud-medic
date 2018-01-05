@@ -19,7 +19,7 @@ module.exports = {
         return Promise.reject(new errors.BadRequest(`Must specify a valid approval_type: ${APPROVAL_KEYS}`));
       }
       if (!data.execution_id) {
-        return Promise.reject(new errors.BadRequest(`Must specify an execution_id`));
+        return Promise.reject(new errors.BadRequest('Must specify an execution_id'));
       }
       return Promise.resolve(hook);
     }]

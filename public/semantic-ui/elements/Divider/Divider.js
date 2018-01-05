@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darken, desaturate } from 'polished';
+// import { darken, desaturate } from 'polished';
 import { Divider as SemanticDivider } from 'semantic-ui-react';
 import 'semantic-ui-less/semantic.less';
 

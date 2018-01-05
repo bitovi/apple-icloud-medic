@@ -34,7 +34,7 @@ function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
       port: 443,
       method: 'POST',
       host: authHost,
-      path: `/IDMSWebAuth/validate`,
+      path: '/IDMSWebAuth/validate',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': Buffer.byteLength(data)
@@ -50,30 +50,30 @@ function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
         }
         let err = null;
         switch (resultObj.status) {
-          case '0':
-            // success
-            resultObj.allGroups = resultObj.allGroups.split(';');
-            return resolve(resultObj);
+        case '0':
+          // success
+          resultObj.allGroups = resultObj.allGroups.split(';');
+          return resolve(resultObj);
 
-          // # https://connectme.apple.com/docs/DOC-748638
-          // 1: Client IP address mismatch
-          // 2: Client IP argument is Null
-          // 3: INVALID_SESSION
-          // 4: EXPIRED_SESSION
-          // 5: Invalid appId/appAdminPassword.
-          // 6: cookie information not supplied
-          // 7: CAN_NOT_KEEP_ALIVE
-          // 8: BAD_ALLGROUP_PARAM_SUPPLIED
-          // 9: INVALID_COOKIE
-          // 10: EXPIRED_SESSION_FOR_APP
-          // 11: CAN_NOT_FETCH_SESSION
-          // 12: NOT_AUTHORIZED
-          // 14: Application not authorized to call validate
-          // 98: Unknown (ex: Decrypt DAW token Failed)
-          // 99: DS_AUTH_WEB_UNDER_MAINTENANCE
-          default:
-            err = new Error(`Auth validation error #${resultObj.status} - ${resultObj.reason}`);
-            break;
+        // # https://connectme.apple.com/docs/DOC-748638
+        // 1: Client IP address mismatch
+        // 2: Client IP argument is Null
+        // 3: INVALID_SESSION
+        // 4: EXPIRED_SESSION
+        // 5: Invalid appId/appAdminPassword.
+        // 6: cookie information not supplied
+        // 7: CAN_NOT_KEEP_ALIVE
+        // 8: BAD_ALLGROUP_PARAM_SUPPLIED
+        // 9: INVALID_COOKIE
+        // 10: EXPIRED_SESSION_FOR_APP
+        // 11: CAN_NOT_FETCH_SESSION
+        // 12: NOT_AUTHORIZED
+        // 14: Application not authorized to call validate
+        // 98: Unknown (ex: Decrypt DAW token Failed)
+        // 99: DS_AUTH_WEB_UNDER_MAINTENANCE
+        default:
+          err = new Error(`Auth validation error #${resultObj.status} - ${resultObj.reason}`);
+          break;
         }
         return reject(err);
       });
@@ -85,6 +85,11 @@ function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
 }
 
 const makeValidator = (options = {}) => {
+  REQUIRED_APP_SETTINGS.forEach(key => {
+    if(!options[key]) {
+      throw new Error(`Missing required option "${key}" in SSO makeValidator options.`);
+    }
+  });
   const fields = options.fields || DEFAULT_FIELDS;
   const { cookieName, authHost, appId, appAdminPassword } = options;
 
@@ -107,8 +112,8 @@ const middleware = (options) => {
 
   return (err, req, res, next) => {
     validate(req)
-    .then(() => next())
-    .catch(next);
+      .then(() => next())
+      .catch(next);
   };
 };
 

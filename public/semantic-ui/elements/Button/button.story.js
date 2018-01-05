@@ -1,8 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { Button, ButtonPrimary, ButtonSecondary } from '../../index';
-
+import { Button } from '../../index';
 
 storiesOf('Styled Components/Elements', module)
   .addWithChapters('Button', {

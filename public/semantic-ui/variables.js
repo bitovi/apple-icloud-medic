@@ -21,7 +21,7 @@ const files = [
 ];
 
 const VAR_START = '@';
-const REG_VAR = /^@[\w\-\@]+$/;
+const REG_VAR = /^@[\w\-@]+$/;
 const REG_KEY_VAL = /@([^:]+):([^;]+);/g;
 const REG_TRIM_VAL = /(^[\s'"]*|[\s'"]*$)/g;
 const REG_COMMENT = /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm; // use backref $1 in replacement
@@ -51,7 +51,7 @@ files.forEach(file => {
   }
 
   Object.keys(localVars).forEach(prop => {
-    localVars[prop] = reduceVal(localVars, prop)
+    localVars[prop] = reduceVal(localVars, prop);
   });
 
   Object.assign(vars, localVars);

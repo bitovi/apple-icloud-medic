@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/list';
-import canStream from 'can-stream-kefir';
+// import canStream from 'can-stream-kefir';
 import moment from 'moment';
 
 import { Table, Divider } from '@public/semantic-ui/index';
@@ -47,12 +47,12 @@ class ExecutionsTable extends Component {
                 if (isLoading || !executions) {
                   return <Table.Row key="loading">
                     <Table.Cell colSpan="6">Loading...</Table.Cell>
-                  </Table.Row>
+                  </Table.Row>;
                 }
                 if (!executions.length) {
                   return <Table.Row>
                     <Table.Cell colSpan="6">There are no items to display.</Table.Cell>
-                  </Table.Row>
+                  </Table.Row>;
                 }
                 return executions.map((execution) => (
                   <Table.Row key={execution.id}>
@@ -62,7 +62,7 @@ class ExecutionsTable extends Component {
                     <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
                     <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>
                     <Table.Cell>
-                      <a href={"/executions/" + execution.id}>
+                      <a href={'/executions/' + execution.id}>
                         View Execution
                       </a>
                     </Table.Cell>
@@ -106,7 +106,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   },
   isLoading: {
     type: 'boolean',
-    value: () => { return false },
+    value: () => false,
     get(lastSetVal, setVal){
       this.executionsPromise.then(() => {
         setVal(false);
@@ -116,7 +116,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   },
   executionsSet:{
     value: () => ({}),
-    get(lastSetVal){
+    get() {
       // TODO: Make streamable
       let opts = {
         '$limit': this.limit,
@@ -125,7 +125,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
         'parent': 'null'
       };
       this.filterTypes.forEach(type => {
-        let vmProp = this["filter_" + type];
+        let vmProp = this['filter_' + type];
         if(typeof vmProp !== 'undefined'){
           opts[type] = vmProp;
         }
@@ -137,7 +137,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   executionsPromise: {
     // TODO: use streams to determine when to fetch?
     type: 'any',
-    get(lastSetVal, setVal){
+    get() {
       return Executions.getList(this.executionsSet);
     }
   },
@@ -160,7 +160,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   filter_trigger_type: 'string',
   filter_user:'string',
   handleFilterChange(type, value){
-    this["filter_" + type] = value;
+    this['filter_' + type] = value;
     this.offset = 0;
   },
 

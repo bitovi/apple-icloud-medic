@@ -10,21 +10,21 @@ class ExecutionFilters extends Component {
     return (
       <div>
         <List divided horizontal size="small">
-        {this.viewModel.filterTypes.map(key => {
-          return (
-            <List.Item key={key}>
-              <Dropdown
-                search
-                selection
-                placeholder={key}
-                loading={this.viewModel.isLoading}
-                options={this.viewModel.dropdownOptions[key]}
-                onChange={this.viewModel.handleDropdownChange}
-                filtertype={key}
-              />
-            </List.Item>
-          );
-        })}
+          {this.viewModel.filterTypes.map(key => {
+            return (
+              <List.Item key={key}>
+                <Dropdown
+                  search
+                  selection
+                  placeholder={key}
+                  loading={this.viewModel.isLoading}
+                  options={this.viewModel.dropdownOptions[key]}
+                  onChange={this.viewModel.handleDropdownChange}
+                  filtertype={key}
+                />
+              </List.Item>
+            );
+          })}
         </List>
       </div>
     );
@@ -34,7 +34,7 @@ class ExecutionFilters extends Component {
 ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   isLoading: {
     type: 'boolean',
-    value: () => { return false },
+    value: () => false,
     get(lastSetVal, setVal){
       this.filtersPromise.then(() => {
         setVal(false);
@@ -48,7 +48,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   },
   filtersPromise: {
     type: 'any',
-    get(lastSetVal, setVal){
+    get() {
       return ExecutionFiltersModel.find({
         types: this.filterTypes.join(',')
       });
@@ -75,7 +75,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
       return Object.keys(this.filters).reduce((obj, key) => {
         if (Array.isArray(this.filters[key])) {
           obj[key] = this.filters[key].map(item => ({ text: item, value: item, key: item }));
-          obj[key].unshift({ text: "None", value: undefined, key: "None" })
+          obj[key].unshift({ text: 'None', value: undefined, key: 'None' });
         }
         return obj;
       }, {});

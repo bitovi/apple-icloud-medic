@@ -1,12 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import getValue from 'can-util/js/get/get';
 import { Modal, Icon } from '@public/semantic-ui/index';
 import JSONViewer from '@public/components/json-viewer/';
 import { ModalLabel } from './styled';
+import PropTypes from 'prop-types';
 
 const ValueWithJSON = ({ execution, valueProp, jsonProp }) => {
-  const val = getValue(execution, valueProp)
+  const val = getValue(execution, valueProp);
   if(!val) {
     return <span>&mdash;&mdash;</span>;
   }
@@ -23,6 +23,12 @@ const ValueWithJSON = ({ execution, valueProp, jsonProp }) => {
       </Modal.Content>
     </Modal>
   );
+};
+
+ValueWithJSON.propTypes = {
+  execution: PropTypes.object,
+  valueProp: PropTypes.string,
+  jsonProp: PropTypes.string
 };
 
 export default ValueWithJSON;

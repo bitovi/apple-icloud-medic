@@ -16,7 +16,7 @@ const formatError = err => {
     throw new errors[err.statusCode](msg, err.error);
   }
   throw new errors.GeneralError(msg, err.error);
-}
+};
 
 /**
  * Base ST2 Client - should be extended by services for communicating with StackStorm.
@@ -30,7 +30,7 @@ class BaseClient {
       throw new Error('Must define a StackStorm API Key!');
     }
     if (!options.apiPath) {
-      throw new Error('All StackStorm services must declare their apiPath.')
+      throw new Error('All StackStorm services must declare their apiPath.');
     }
     if (!REG_PROTOCOL.test(options.host)) {
       throw new Error('The StackStorm host must include the protocol');

@@ -1,10 +1,6 @@
 const BaseClient = require('../st2-base-client');
 
 class Executions extends BaseClient {
-  constructor (options) {
-    return super(options);
-  }
-
   find (params) {
     return this.request('GET', params);
   }

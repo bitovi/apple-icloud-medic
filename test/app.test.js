@@ -27,7 +27,7 @@ describe('Feathers application tests', () => {
         }
       }).catch(res => {
         assert.equal(res.statusCode, 404);
-        assert.ok(res.error.indexOf('<html>') !== -1);
+        assert.ok(res.error.indexOf('<html') !== -1);
       });
     });
 

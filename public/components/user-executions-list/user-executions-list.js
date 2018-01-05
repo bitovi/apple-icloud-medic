@@ -10,9 +10,7 @@ const ViewModel = DefineMap.extend('UserExecutionsList', {
   isLoading: {
     type: 'boolean',
     get(lastSetVal, setVal) {
-      this.pendingPromise.then(() => {
-        setVal(false)
-      });
+      this.pendingPromise.then(() => setVal(false));
       return true;
     }
   },

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   "status": ["canceled", "failed", "requested", "running", "succeeded", "timeout"],
   "trigger_type": ["imap.message", "st2.CronTimer", "st2.generic.actiontrigger", "st2.generic.notifytrigger", "st2.webhook"],

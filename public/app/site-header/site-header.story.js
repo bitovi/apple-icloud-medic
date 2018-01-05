@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import SiteHeader from './site-header';
 
 class MockApp extends Component {
+  static propTypes = {
+    children: PropTypes.object
+  }
+
   getChildContext() {
     return { appState: this.viewModel };
   }

@@ -8,4 +8,4 @@ DefineList.prototype.__type = function(newVal) {
     return newVal;
   }
   return oldType.call(this, newVal);
-}
+};

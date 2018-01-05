@@ -22,9 +22,9 @@ const UserExecutions = DefineMap.extend({
   }
 }, {
   /* PROTOTYPE */
-  id: "number",
-  executionId: "string",
-  userId: "string",
+  id: 'number',
+  executionId: 'string',
+  userId: 'string',
   groupIds: {
     value: () => []
   }

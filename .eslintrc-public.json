@@ -1,0 +1,48 @@
+{
+  "env": {
+    "es6": true,
+    "node": false,
+    "mocha": false
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  },
+  "plugins": [
+    "react"
+  ],
+  "globals": {
+    "module": true,
+    "setTimeout": true,
+    "window": true,
+    "document": true
+  },
+  "rules": {
+    "react/display-name": 0,
+    "strict": 0,
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
+}

@@ -19,7 +19,7 @@ class ExecutionDetails extends Component {
 ExecutionDetails.ViewModel = DefineMap.extend('ExecutionDetails', {
   executionId: {
     type: 'string',
-    value: ""
+    value: ''
   },
   execution: {
     value: () => ({}),

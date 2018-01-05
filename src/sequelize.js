@@ -20,7 +20,7 @@ module.exports = function () {
 
   const sequelize = new Sequelize(connectionString, {
     dialect: 'postgres',
-    logging: console.log,
+    logging: process.env.NODE_ENV === 'production' ? null : console.log, // eslint-disable-line no-console
     operatorsAliases,
     define: {
       freezeTableName: true

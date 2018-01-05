@@ -1,3 +1,5 @@
+const env = require('../shared/env');
+
 module.exports = {
   "host": "localhost",
   "port": "PORT",
@@ -14,7 +16,7 @@ module.exports = {
       "jwt"
     ],
     "path": "/authentication",
-    "service": "users",
+    "service": `${env.API_BASE_URI}/users`,
     "jwt": {
       "header": {
         "type": "access"

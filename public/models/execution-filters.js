@@ -9,13 +9,13 @@ import env from '@root/shared/env';
  * we keep a singleton reference and return it whenever data is fetched.
  */
 const SINGLETON = {
-  "status": [],
-  "trigger_type": [],
-  "runner": [],
-  "rule": [],
-  "trigger": [],
-  "user": [],
-  "action": []
+  'status': [],
+  'trigger_type': [],
+  'runner': [],
+  'rule': [],
+  'trigger': [],
+  'user': [],
+  'action': []
 };
 
 const url = `/${env.API_BASE_URI}/execution-filters`;
