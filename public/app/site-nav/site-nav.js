@@ -1,11 +1,13 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
+import DefineList from 'can-define/list/list';
 import PropTypes from 'prop-types';
 import { Menu } from '@public/semantic-ui/index';
 
 const ViewModel = DefineMap.extend('SiteNav', {
   items: {
+    Type: DefineList,
     value() {
       return [
         // TODO: Add this to a shared router config so the

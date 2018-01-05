@@ -1,7 +1,6 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import DefineList from 'can-define/list/';
 import { Button, Label, Icon, Grid } from '@public/semantic-ui/index';
 
 class Pagination extends Component {

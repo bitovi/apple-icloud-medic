@@ -1,4 +1,5 @@
 import DefineMap from 'can-define/map/';
+import DefineList from 'can-define/list/list';
 import makeDebug from 'debug';
 import sessionConnection from '@public/connections/session';
 import feathersClient from '@public/feathers-client';
@@ -37,10 +38,15 @@ const Session = DefineMap.extend('Session', {
   }
 });
 
+Session.List = DefineList.extend({
+  '#': Session
+});
+
 Session.connection = sessionConnection({
   feathersClient: feathersClient,
   idProp: 'exp',
   Map: Session,
+  List: Session.List,
   name: 'session'
 });
 

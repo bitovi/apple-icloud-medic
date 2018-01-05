@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
+import DefineList from 'can-define/list/list';
 import canStream from 'can-stream-kefir';
 import moment from 'moment';
 
@@ -149,6 +150,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
     }
   },
   filterTypes:{
+    Type: DefineList,
     value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
   },
   filter_action: 'string',

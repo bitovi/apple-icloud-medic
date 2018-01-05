@@ -1,5 +1,5 @@
 import DefineMap from 'can-define/map/';
-import DefineList from 'can-define/list/';
+import DefineList from 'can-define/list/list';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import ajax from 'can-ajax';

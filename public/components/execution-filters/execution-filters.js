@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
+import DefineList from 'can-define/list/list';
 import { Dropdown, List } from '@public/semantic-ui/index';
 import ExecutionFiltersModel from '@public/models/execution-filters';
 
@@ -42,6 +43,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
     }
   },
   filterTypes:{
+    Type: DefineList,
     value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
   },
   filtersPromise: {
@@ -79,6 +81,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
       }, {});
     }
   },
+
   handleDropdownChange(ev, dropdownData) {
     let filtertype = dropdownData.filtertype;
 

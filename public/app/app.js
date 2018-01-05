@@ -99,15 +99,16 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     debug('ViewModel init');
     // define routes here
     // TODO: use shared router config
-    route('{page}', { page: 'executions' });
-    route('/executions/{executionId}', { page: 'executions'});
+    route.register('/{page}', { page: 'executions' });
+    route.register('/executions/{executionId}', { page: 'executions' });
 
     // makes POST request to /authenticate
     sessionDebug('About to create new session');
     new Session({ strategy: 'custom' }).save().then(result => {
       sessionDebug('Session created successfully!', result);
+
       route.data = this;
-      route.ready();
+      route.start();
     }).catch(err => {
       // TODO: better UX
       debug('Auth error', err);

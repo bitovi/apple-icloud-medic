@@ -1,4 +1,5 @@
 import DefineMap from 'can-define/map/';
+import DefineList from 'can-define/list/list';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 
@@ -15,8 +16,13 @@ const User = DefineMap.extend({
   }
 });
 
+User.List = DefineList.extend({
+  '#': User
+});
+
 User.connection = feathersConnection({
   Map: User,
+  List: User.List,
   name: 'user',
   idProp: 'emailAddress',
   feathersService: feathersClient.service('/users')
