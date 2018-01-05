@@ -33,7 +33,7 @@ npm install -g js-yaml
 git clone https://github.com/StackStorm/st2-docker.git
 cd st2-docker
 make env
-curl -o- https://raw.github.pie.apple.com/icloud-automation-sre/medic/master/docs/guides/configure-medic-st2-docker.js?token=AAAs2E2Ux9dR-BmXzv39VHV5We4VofcMks5aLs_swA%3D%3D | node
+curl -o- https://raw.github.pie.apple.com/icloud-automation-sre/medic/master/docker/configure-medic-st2-docker.js?token=AAAs2E2Ux9dR-BmXzv39VHV5We4VofcMks5aLs_swA%3D%3D | node
 ```
 
 > Modify values in `conf/stackstorm.env` appropriately

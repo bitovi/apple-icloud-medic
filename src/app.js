@@ -17,7 +17,7 @@ const socketio = require('feathers-socketio');
 const handler = require('feathers-errors/handler');
 const notFound = require('feathers-errors/not-found');
 
-const static = require('./app-static');
+const staticAssets = require('./app-static');
 const services = require('./services');
 const appHooks = require('./app.hooks');
 
@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.configure(logger(winston));
 
 // Set up static file server
-app.configure(static);
+app.configure(staticAssets);
 app.use(['/__health', '/__stats'], healthCheck());
 
 // Set up Plugins and providers

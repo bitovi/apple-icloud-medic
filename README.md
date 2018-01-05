@@ -4,6 +4,7 @@
 
 
 ## Connect
+
 Want to connect with Medic?  Here are some resources to help get you started.
 
 * [How to connect with Medic](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/how-to-connect.md)
@@ -59,6 +60,21 @@ npm run debug
 
 Simply run `npm test` and all your tests in the `test/` directory will be run.
 
+
+## Documentation
+
+This project uses [storybook](https://storybook.js.org/) for all guides, API documentation, and component demo pages. [JSDoc](http://usejsdoc.org/) is also used to generate documentation from code comments. To view the documentation run the following command:
+
+```
+npm run storybook
+```
+
+> NOTE: The storybook server will watch for any changes and automatically reload whenever the source files are updated. However, for the JSDocs section you must manually regenerate the markdown files to see the changes. You can keep the storybook server running and open a second terminal and run the following command:
+> 
+> ```js
+> npm run jsdoc
+> ```
+> The storybook server will see the new markdown files and should reload automatically.
 
 ## Changelog
 

@@ -3,27 +3,24 @@ import Component from 'react-view-model/component';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Case from 'case';
-import { Site } from '../public/semantic-ui';
+import { Site } from '../../public/semantic-ui';
 
-const REG_BLOCK_CODE = /(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/g;
-const REG_INLINE_CODE = /(^|[^`])(`)([^`]*)\s*\2(?!`)/g;
+// some of these were taken directly from markdown parser source code
+const REG_LEADING_DOT_SLASH = /^[\.\/]+/g;
 
-function cleanMarkdown(src) {
-  src = src.replace(REG_BLOCK_CODE, (match, fence, lang, code) => {
-    // Fix issue with certain characters not rendering properly
-    code = code.replace(/`/g, '&#96;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    // Wrap block in ~~~ to make inline code parsing easier
-    return '~~~' + lang + '\n' + code + '\n~~~\n';
-  });
-  // Inline code blocks are incorrectly handled. To get around this, we
-  // convert all inline code into <strong><strong>...</strong></strong> for styling
-  src = src.replace(REG_INLINE_CODE, '$1****$3****');
-  return src;
+// Strips everything after the last dot
+function stripExtension (f) {
+  return f.split('.').slice(0, -1).join('.');
 }
 
 // Takes a file path and makes a friendly title out of the file name
-function makeTitleFromFile (f) {
-  return Case.title(path.basename(f).split('.').slice(0, -1).join(' '));
+function makeTitleFromPath (f) {
+  return Case.title( stripExtension(path.basename(f)).split('.').join(' ') );
+}
+
+// Takes a path like .././foo/bar/baz/bing.js and returns foo/bar/baz
+function getScopeFromPath (f) {
+  return path.dirname( stripExtension(f).replace(REG_LEADING_DOT_SLASH, '') );
 }
 
 // Create a mock app to provide context to elements
@@ -54,6 +51,7 @@ const Wrapper = styled(Site)`
     border: 1px solid #eee;
   }
 
+  // special wrapper for inline code blocks
   strong strong {
     font-family: monospace;
     font-weight: normal;
@@ -72,4 +70,9 @@ const Wrapper = styled(Site)`
   }
 `;
 
-export { cleanMarkdown, makeTitleFromFile, MockApp, Wrapper };
+export {
+  makeTitleFromPath,
+  getScopeFromPath,
+  MockApp,
+  Wrapper
+};

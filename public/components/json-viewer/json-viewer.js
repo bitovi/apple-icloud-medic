@@ -3,6 +3,9 @@ import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import ReactJson from 'react-json-view'
 
+/**
+ * @constructor
+ */
 class JSONViewer extends Component {
   render() {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, configure, addDecorator, setAddon } from '@storybook/react';
-import { Wrapper, MockApp, cleanMarkdown, makeTitleFromFile } from './util';
+import { Wrapper, MockApp, makeTitleFromPath, getScopeFromPath } from './assets/util';
 
 // Create a System object for the shared/env file to read
 window.System = {
@@ -27,20 +27,32 @@ addDecorator(story => (
   </Wrapper>
 ));
 
-// Load all files with a .story.js or -story.js suffix
+// Load all guides
 const guides = require.context('../docs/guides', true, /\.(js|md)$/);
+// Load jsdocs (must generate files first: `npm run jsdoc`)
+const jsdocs = require.context('../docs/jsdocs', true, /\.md$/);
+// Load all files with a .story.js or -story.js suffix
 const publicStories = require.context('../public', true, /[\.\-]story\.js$/);
 
 function loadStories() {
   guides.keys().forEach(key => {
     if (/\.md$/.test(key)) {
-      const title = makeTitleFromFile(key);
-      const info = cleanMarkdown(guides(key));
-      storiesOf('Guides', module).addWithChapters(title, { title: '', info });
+      const title = makeTitleFromPath(key);
+      const content = guides(key);
+      storiesOf('Guides', module).add(title, () => (
+        <div dangerouslySetInnerHTML={{ __html: content }}></div>
+      ));
       return;
     }
-    // js
     guides(key);
+  });
+  jsdocs.keys().forEach(key => {
+    const title = makeTitleFromPath(key);
+    const scope = getScopeFromPath(key);
+    const content = jsdocs(key);
+    storiesOf(`JSDocs/${scope}`, module).add(title, () => (
+      <div dangerouslySetInnerHTML={{ __html: content }}></div>
+    ));
   });
   publicStories.keys().forEach(key => {
     const _export = publicStories(key);

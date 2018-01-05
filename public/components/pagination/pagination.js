@@ -3,6 +3,9 @@ import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import { Button, Label, Icon, Grid } from '@public/semantic-ui/index';
 
+/**
+ * @constructor
+ */
 class Pagination extends Component {
   render() {
     return (
@@ -30,6 +33,9 @@ class Pagination extends Component {
   }
 }
 
+/**
+ * ViewModel
+ */
 Pagination.ViewModel = DefineMap.extend('Pagination', {
   limit: {
     type: 'number',

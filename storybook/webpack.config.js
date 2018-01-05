@@ -1,5 +1,7 @@
 const path = require('path');
-const ModletResolver = require('./modlet-resolver');
+const ModletResolver = require('./assets/modlet-resolver');
+
+const systemLoader = path.resolve(__dirname, './assets/systemjs-loader.js')
 
 module.exports = (storybookBaseConfig, configType) => {
   // configType has a value of 'DEVELOPMENT' or 'PRODUCTION'
@@ -8,8 +10,7 @@ module.exports = (storybookBaseConfig, configType) => {
 
   storybookBaseConfig.resolve.alias = {
     '@public': path.resolve(process.cwd(), './public'),
-    '@root': path.resolve(process.cwd(), './'),
-    // './variables': './variables.webpack'
+    '@root': path.resolve(process.cwd(), './')
   };
 
   storybookBaseConfig.resolve.plugins = [
@@ -21,7 +22,7 @@ module.exports = (storybookBaseConfig, configType) => {
     // Allows for systemjs-style inline loader syntax to be
     // converted to to webpack-style inline loader syntax.
     test: /\.js$/,
-    loader: path.resolve('storybook/systemjs-loader.js'),
+    loader: systemLoader,
     exclude: [
       path.resolve('node_modules')
     ],
@@ -30,12 +31,6 @@ module.exports = (storybookBaseConfig, configType) => {
         'systemjs-plugin-text': 'raw-loader'
       }
     }
-  }, {
-    test: /\.md$/,
-    loader: 'raw-loader',
-    include: [
-      path.resolve('docs')
-    ]
   }, {
     test: /\.css$/,
     loaders: ['style-loader', 'css-loader']

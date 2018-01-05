@@ -1,13 +1,16 @@
 /**
- * This file should be used to import `.variables` files
- * and export the variables as a dictionary to be used in JavaScript.
+ * @module {Object} semantic-ui/variables
+ * @parent semantic/ui
+ *
+ * This module imports `.variables` files and exports
+ * the name/value pairs as a dictionary to be used in JavaScript.
  *
  * NOTES:
  *  - All code comments will be stripped prior to parsing
  *  - The `@` symbol is not included in the exported variable names.
  *  - Complex/computed values are not evaluated
  *  - Externally referenced variables will not be resolved
- *  - @import statements will not be executed
+ *  - `@import` statements will not be executed
  *
  */
 
