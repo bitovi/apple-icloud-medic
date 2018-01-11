@@ -1,43 +1,34 @@
 import React from 'react';
-import Component from 'react-view-model/component';
-import DefineMap from 'can-define/map/';
 import { Grid } from '@public/semantic-ui/index';
+import TeamDropdown from '@public/components/team-dropdown/team-dropdown';
+import SiteNav from '@public/app/site-nav/site-nav';
+import { Header, LightColumn, Logo } from './partials';
 
-import SiteNav from '../site-nav/';
+const SiteHeader = (currentUser) => {
+  return (
+    <Header padded stackable as="header">
+      <LightColumn width={3}>
+        <Logo href="/"> iCloud Medic</Logo>
+      </LightColumn>
 
-const ViewModel = DefineMap.extend('SiteHeader', {
+      {/* TODO: Super Admins only */}
+      <LightColumn width={2}>
+        <TeamDropdown />
+      </LightColumn>
 
-});
-
-
-class SiteHeader extends Component {
-  static ViewModel = ViewModel;
-
-  render() {
-    const { currentUser } = this.viewModel;
-
-    return (
-      <header>
-        <Grid padded stackable>
-          <Grid.Row>
-            <Grid.Column width={3}>
-              <a href="/" className="site-logo"> Medic</a>
-            </Grid.Column>
-            <Grid.Column width={10}></Grid.Column>
-            <Grid.Column width={3}>
-              {(() => {
-                if (currentUser) {
-                  return <p>Welcome {currentUser.displayName}</p>;
-                }
-              })()}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+      <Grid.Column width={8}>
         <SiteNav />
-      </header>
-    );
-  }
+      </Grid.Column>
+
+      <Grid.Column width={3}>
+        {(() => {
+          if (currentUser) {
+            return <p>Welcome {currentUser.displayName}</p>;
+          }
+        })()}
+      </Grid.Column>
+    </Header>
+  );
 }
 
 export default SiteHeader;
-export { ViewModel };

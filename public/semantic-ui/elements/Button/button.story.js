@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Button } from '../../index';
 
-storiesOf('Styled Components/Elements', module)
+storiesOf('Semantic UI/Elements', module)
   .addWithChapters('Button', {
     chapters: [{
       sections: [{

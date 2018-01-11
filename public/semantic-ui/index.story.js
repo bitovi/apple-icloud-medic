@@ -1,11 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-storiesOf('Overview', module)
-  .add('3rd Party resources', () => (
+storiesOf('Semantic UI', module)
+  .add('Overview', () => (
     <div>
+      <h1>Semantic UI Overview</h1>
       <p>
-        This project takes advantage of sever 3rd party resources. Understanding these
+        This project takes advantage of several 3rd party resources. Understanding these
         resources is crucial to the success of this project.
       </p>
       <ul>

@@ -21,7 +21,7 @@
     1. site.variables for the "default" theme
     1. site.variables for the "@site" element theme (see theme.config)
     1. site.variables for the "@element" theme (see theme.config)
-    1. site.variables for the project
+    1. site.variables for the project (@public/semantic-ui/)
 
     1. "default" {element}.variables for the current component
     1. "theme" {element}.variables for the current component
@@ -39,7 +39,7 @@
 @import "elements-proper.config";
 
 @theme: @@element;
-@Element: "@{@{element}Proper}";
+@Element: "@{@{element}Proper}"; // see elements-proper.config
 
 /*--------------------
    Site Variables
@@ -68,7 +68,7 @@
 /* Packaged Theme */
 @import (optional) "@{themesFolder}/@{theme}/@{type}s/@{element}.variables";
 
-/* Site Theme */
+/* Site Default */
 @import (optional) "@{siteFolder}/@{type}s/@{Element}/@{element}.variables";
 
 

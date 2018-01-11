@@ -14,8 +14,8 @@
       Base Sizes
 --------------------*/
 
-@emSize   : 14px;
-@fontSize : 14px;
+@emSize   : 87.5%;
+@fontSize : 100%;
 
 @defaultBorderRadius: .3em;
 

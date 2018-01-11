@@ -11,7 +11,7 @@ const Demo = styled.div`
   }
 `;
 
-storiesOf('Styled Components/Layout', module)
+storiesOf('Semantic UI/Layout', module)
   .addWithChapters('Container', {
     info: `
       A container is an element designed to contain page elements to a

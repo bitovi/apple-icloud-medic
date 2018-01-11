@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Divider, Grid } from '../../index';
 
-storiesOf('Styled Components/Layout', module)
+storiesOf('Semantic UI/Layout', module)
   .addWithChapters('Divider', {
     chapters: [{
       info: `

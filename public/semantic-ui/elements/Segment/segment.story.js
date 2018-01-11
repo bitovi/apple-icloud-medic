@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Segment } from '../../index';
 
-storiesOf('Styled Components/Layout', module)
+storiesOf('Semantic UI/Layout', module)
   .addWithChapters('Segment', {
     info: `
       A segment is used to create a grouping of related content.

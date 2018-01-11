@@ -15,10 +15,12 @@
  */
 
 import siteVars from './globals/Site/site.variables!systemjs-plugin-text';
+import gridVars from './collections/Grid/grid.variables!systemjs-plugin-text';
 
-const files = [
-  siteVars
-];
+const files = {
+  site: siteVars,
+  grid: gridVars
+};
 
 const VAR_START = '@';
 const REG_VAR = /^@[\w\-@]+$/;
@@ -41,8 +43,9 @@ function reduceVal(dict, prop) {
 }
 
 const vars = {};
-files.forEach(file => {
-  file = file.replace(REG_COMMENT, '$1');
+Object.keys(files).forEach(type => {
+  // remove comments
+  const file = files[type].replace(REG_COMMENT, '$1');
 
   let matches, localVars = {};
   while((matches = REG_KEY_VAL.exec(file)) !== null) {
@@ -54,7 +57,7 @@ files.forEach(file => {
     localVars[prop] = reduceVal(localVars, prop);
   });
 
-  Object.assign(vars, localVars);
+  Object.assign(vars, { [type]: localVars });
 });
 
 export default vars;
