@@ -1,3 +1,4 @@
+
 # medic
 
 > Self-healing automation
@@ -31,9 +32,21 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
     cd path/to/medic; npm install
     ```
 
-1. Configure your environment variables: create a `.env` file using the `.default-env` file and set all required environment variables (read more about [dotenv](https://www.npmjs.com/package/dotenv)).
+1. Configure your DB.
+
+	- Download postgresql using homebrew
+	```
+	brew install postgresql
+	```
+	- Download [Postico](https://eggerapps.at/postico/)
+
+	- Create username `medic` and database `medic`. Follow this [tutorial](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb)
+
+4. Configure your environment variables: create a `.env` file using the `.default-env` file and set all required environment variables (read more about [dotenv](https://www.npmjs.com/package/dotenv)).
 
     > **Note:** For security reasons some variables have minimum length requirements. There are [online tools](http://textmechanic.com/text-tools/randomization-tools/random-string-generator) for generating long strings.
+
+    > **Note:** The db connection string uses the credentials you created in the previous step.
 
 1. Start your app
 
