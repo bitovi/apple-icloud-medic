@@ -63,6 +63,41 @@ npm run develop
 npm run debug
 ```
 
+### Creating components
+
+This app is configured with a [yeoman generator](https://github.pie.apple.com/icloud-automation-sre/generator-rvm-component) for creating components.
+
+First, ensure yeoman is installed:
+```
+npm install -g yo
+```
+
+Then, create a component with:
+```
+yo rvm-component
+```
+
+#### Yeoman issues
+
+**Yeoman version**
+
+If you have an older version of yeoman installed, you may need to clean the npm cache and reinstall.
+
+Try
+```
+npm cache clean && npm rm -g yo && npm cache clean && npm install -g yo
+```
+
+**nvm**
+
+If you use nvm, you'll need to make sure that the yeoman binary in `/usr/local/bin` points to the version installed in your nvm directory.
+One way around this is to create a symlink:
+
+```
+ln -s /Users/yoursystemusername/.nvm/versions/node/v6.7.0/bin/yo /usr/local/bin/yo
+```
+
+
 ## Testing
 
 Simply run `npm test` and all your tests in the `test/` directory will be run.

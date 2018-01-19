@@ -1,9 +1,5 @@
 {
-  "generator-donejs": {
-    "promptValues": {
-      "authorName": "",
-      "authorEmail": "",
-      "authorUrl": ""
-    }
+  "generator-rvm-component": {
+    "folder":"public/components"
   }
 }
