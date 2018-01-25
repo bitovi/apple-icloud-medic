@@ -2,5 +2,6 @@
 import './mock-socket-server';
 
 import './session';
-import './executions/';
+import './teams/teams';
+import './executions/executions';
 import './executions/filters';

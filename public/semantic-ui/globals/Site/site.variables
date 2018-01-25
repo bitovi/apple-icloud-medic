@@ -14,7 +14,7 @@
       Base Sizes
 --------------------*/
 
-@emSize   : 87.5%;
+@emSize   : 14px;
 @fontSize : 100%;
 
 @defaultBorderRadius: .3em;
@@ -94,14 +94,14 @@
   This ensures these "ratios" remain constant despite changes in EM
 */
 
-@miniSize        : (11 / 14);
-@tinySize        : (12 / 14);
-@smallSize       : (13 / 14);
-@mediumSize      : (14 / 14);
-@largeSize       : (16 / 14);
-@bigSize         : (18 / 14);
-@hugeSize        : (20 / 14);
-@massiveSize     : (24 / 14);
+@miniSize        : 0.7857;  // (11 / 14)
+@tinySize        : 0.8571;  // (12 / 14)
+@smallSize       : 0.9285;  // (13 / 14)
+@mediumSize      : 1.0000;  // (14 / 14)
+@largeSize       : 1.1428;  // (16 / 14)
+@bigSize         : 1.2857;  // (18 / 14)
+@hugeSize        : 1.4286;  // (20 / 14)
+@massiveSize     : 1.7143;  // (24 / 14)
 
 
 /*-------------------

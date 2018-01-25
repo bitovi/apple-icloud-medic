@@ -1,8 +1,4 @@
-//!steal-remove-start
-// Fixutures must be imported early, before any models (connections)!
-import '@public/models/fixtures/fixtures';
-//!steal-remove-end
-
+import loader from '@loader';
 import React from 'react';
 import Component from 'react-view-model/component';
 import route from 'can-route-pushstate';
@@ -14,23 +10,13 @@ import Session from '../models/session';
 import SiteHeader from './site-header/';
 import SiteFooter from './site-footer/';
 
-import ExecutionsPage from './pages/executions/';
-import ExecutionPage from './pages/execution/';
-import PlaygroundPage from './pages/playground/';
-import UserExecutionsPage from './pages/user-executions/';
 import { Site } from '@public/semantic-ui/index';
+import { registerRoutes } from '@public/util/route-helper';
+import teamConnection from '@public/models/teams';
 
 const debug = makeDebug('medic:app');
 
-// TODO: make part of the shared router config
-const PAGE_MAP = {
-  'playground': PlaygroundPage,
-  'executions': ExecutionsPage,
-  'user-executions': UserExecutionsPage
-};
-
 class AppComponent extends Component {
-
   getChildContext() {
     return { appState: this.viewModel };
   }
@@ -40,11 +26,16 @@ class AppComponent extends Component {
 
     const { currentUser } = this.viewModel;
     let mainContent;
+
     if (!currentUser) {
       mainContent = <div>{this.viewModel.statusMessage}</div>;
     } else {
-      const { CurrentPage } = this.viewModel;
-      mainContent = <CurrentPage />;
+      const { teamName, CurrentPage } = this.viewModel;
+      if (!teamName || !CurrentPage) {
+        mainContent = <div>Loading page data...</div>;
+      } else {
+        mainContent = <CurrentPage />;
+      }
     }
 
     return (
@@ -59,14 +50,40 @@ class AppComponent extends Component {
   }
 }
 
-
+// TODO: Create HoC for providing app state
 AppComponent.childContextTypes = {
   appState: PropTypes.object
 };
 
 AppComponent.ViewModel = DefineMap.extend('AppComponent', {
-  page: 'string',
+  /**********************/
+  /* BEGIN ROUTE PARAMS */
+  /**********************/
+  moduleId: 'string',
   executionId: 'string',
+  teamName: {
+    set(newVal) {
+      if (newVal) {
+        localStorage.setItem('defaultTeam', newVal);
+      }
+      return newVal;
+    }
+  },
+  /**********************/
+  /*  END ROUTE PARAMS  */
+  /**********************/
+
+  team: {
+    get(val, setVal) {
+      debug('Loading team', this.teamName);
+      teamConnection.getList({ codeName: this.teamName })
+        .then(teams => {
+          debug('Team loaded');
+          setVal(teams[0] || null);
+        });
+      return val;
+    }
+  },
   authError: {
     serialize: false,
     value: false
@@ -80,31 +97,34 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     debug('ViewModel - get currentUser', user && user.serialize());
     return user;
   },
-  get CurrentPage () {
-    switch(this.page){
-    case 'executions':
-      if(this.executionId) {
-        return ExecutionPage;
-      } else {
-        return ExecutionsPage;
-      }
+  CurrentPage: {
+    get(val, setVal) {
+      if (this.moduleId) {
+        debug('CurrentPage - importing module:', this.moduleId);
 
-    default:
-      return PAGE_MAP[this.page] || ExecutionsPage;
+        // TODO: Use ES6 import() when/if steal supports it
+        loader.import(this.moduleId).then(res => {
+          debug('CurrentPage - module imported successfully:', this.moduleId);
+          setVal(res && res.default || res);
+        });
+      }
     }
   },
   init () {
     debug('ViewModel init');
-    // define routes here
-    // TODO: use shared router config
-    route.register('/{page}', { page: 'executions' });
-    route.register('/executions/{executionId}', { page: 'executions' });
 
     // makes POST request to /authenticate
     debug('About to create new session');
     new Session({ strategy: 'custom' }).save().then(result => {
       debug('User authenticated successfully!', result.serialize());
 
+      let defaultTeam = localStorage.getItem('defaultTeam');
+      if (!defaultTeam) {
+        defaultTeam = 'medic';
+        // defaultTeam = user.isSuperAdmin ? 'medic' : Object.keys(user.permissions.teams)[0];
+      }
+
+      registerRoutes(route, { teamName: defaultTeam });
       route.data = this;
       route.start();
     }).catch(err => {

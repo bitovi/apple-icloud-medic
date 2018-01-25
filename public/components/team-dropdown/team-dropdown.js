@@ -1,36 +1,47 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import { FlatDropdown } from '@public/semantic-ui/index';
+import teamConnection from '@public/models/teams';
+import { listAsArray } from '@public/util/view-helpers';
 
 /**
  * @constructor
  */
 class TeamDropdown extends Component {
+  // add appState
+  static contextTypes = {
+    appState: PropTypes.object
+  };
+
+  handleChange = (ev, data) => {
+    this.context.appState.teamName = data.value;
+  }
+
   render() {
     const { options } = this.viewModel;
-    let defaultValue = null;
+    const { teamName } = this.context.appState;
 
-    if (options && options.length) {
-      defaultValue = options[0].value;
+    if (!options || !options.length || !teamName) {
+      return <div>loading...</div>;
     }
 
     return (
-      <FlatDropdown size="huge" options={options} defaultValue={defaultValue} />
+      <FlatDropdown size="huge" options={listAsArray(options)} value={teamName} onChange={this.handleChange} />
     );
   }
 }
 
 TeamDropdown.ViewModel = DefineMap.extend('TeamDropdown', {
-  get options() {
-    const values = [
-      { text: 'Mail team', value: 'mail' },
-      { text: 'iCloud team', value: 'icloud' },
-      { text: 'Maps team', value: 'maps' },
-      { text: 'iTunes team', value: 'itunes' },
-      { text: 'PIE team', value: 'pie' }
-    ];
-    return values;
+  options: {
+    get(val, setVal) {
+      teamConnection.getList({}).then(results => {
+        setVal(results.map(team => {
+          return { text: team.name, value: team.codeName };
+        }));
+      });
+    }
   }
 });
 

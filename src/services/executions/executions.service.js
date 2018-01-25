@@ -21,8 +21,5 @@ module.exports = function () {
   const service = app.service(location);
 
   service.hooks(hooks);
-
-  if (service.filter) {
-    service.filter(filters);
-  }
+  service.filter(filters);
 };

@@ -9,7 +9,7 @@ import makeAlgebra from './algebras/feathers';
 const url = `${env.API_BASE_URI}/user-executions`;
 
 const UserExecutions = DefineMap.extend({
-  /* STATIC */
+  /** STATIC **/
   approval(userExecution, type) {
     ajax({
       type: 'POST',
@@ -21,7 +21,7 @@ const UserExecutions = DefineMap.extend({
     });
   }
 }, {
-  /* PROTOTYPE */
+  /** PROTOTYPE **/
   id: 'number',
   executionId: 'string',
   userId: 'string',
@@ -50,7 +50,7 @@ UserExecutions.connection = feathersConnection({
   url,
   Map: UserExecutions,
   List: UserExecutions.List,
-  name: 'executions',
+  name: 'user-executions',
   algebra,
   feathersService: feathersClient.service(url)
 });

@@ -1,24 +1,13 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import DefineList from 'can-define/list/list';
 import PropTypes from 'prop-types';
+import route from 'can-route-pushstate';
 import { Menu } from '@public/semantic-ui/index';
+import { buildNavItems } from '@public/util/route-helper';
 
 const ViewModel = DefineMap.extend('SiteNav', {
-  items: {
-    Type: DefineList,
-    value() {
-      return [
-        // TODO: Add this to a shared router config so the
-        //   1) server can route properly
-        //   2) client app can define routes properly
-        { title: 'Executions', route: '/executions' },
-        { title: 'User Executions', route: '/user-executions' },
-        // { title: 'Playground', route: '/playground' }
-      ];
-    }
-  }
+
 });
 
 class SiteNav extends Component {
@@ -30,17 +19,16 @@ class SiteNav extends Component {
   };
 
   render() {
-    const { items } = this.viewModel;
-
+    // TODO: use HoC to expose app state to the viewmodel
     const appState = this.context.appState;
-    const page = appState.page && appState.page.toLowerCase();
+    const items = buildNavItems(appState);
 
     return (
       <nav aria-label="Primary">
         <Menu stackable>
           {items.map(item => (
-            <Menu.Item key={item.route} active={page === item.route.slice(1)}>
-              <a href={item.route}>{item.title}</a>
+            <Menu.Item key={item.route} active={item.route === route.matched()}>
+              <a href={item.url}>{item.text}</a>
             </Menu.Item>
           ))}
         </Menu>

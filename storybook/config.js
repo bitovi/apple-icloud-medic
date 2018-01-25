@@ -1,11 +1,6 @@
 import React from 'react';
 import { storiesOf, configure, addDecorator, setAddon } from '@storybook/react';
-import { Wrapper, MockApp, makeTitleFromPath, getScopeFromPath } from './assets/util';
-
-// Create a System object for the shared/env file to read
-window.System = {
-  env: 'storybook'
-};
+import { Site, makeAppComponent, makeTitleFromPath, getScopeFromPath } from './assets/util';
 
 // register/configure addons (some addons only need requiring)
 import '@storybook/addon-knobs/register';
@@ -21,11 +16,7 @@ setChaptersDefaults({
 setAddon(chaptersAddon);
 
 // add a global decorator to wrap around all stories
-addDecorator(story => (
-  <Wrapper>
-    <MockApp>{story()}</MockApp>
-  </Wrapper>
-));
+addDecorator(story => <Site>{story()}</Site>);
 
 // Load all guides
 const guides = require.context('../docs/guides', true, /\.(js|md)$/);
@@ -56,9 +47,10 @@ function loadStories() {
   });
   publicStories.keys().forEach(key => {
     const _export = publicStories(key);
-    // If a story exports a default function, then call it with some context
+    // If a story exports a default function, then call it, passing
+    // an mock App component for extending.
     if (typeof _export.default === 'function') {
-      _export.default(MockApp);
+      _export.default(makeAppComponent);
     }
   });
 }

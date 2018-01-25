@@ -8,6 +8,7 @@ const startColor = '#46824C';
 const numOptions = 20;
 const children = [];
 
+// Builds rainbow styles for the menu items
 for(var i = 0; i < numOptions; i++) {
   const offset = 360/numOptions * i;
   const color = adjustHue(offset, startColor);
@@ -26,7 +27,7 @@ for(var i = 0; i < numOptions; i++) {
 
 const FlatDropdown = styled(Dropdown).attrs({
   fontSize: props => {
-    const val = variables[`${props.size}Size`];
+    const val = variables.site[`${props.size}Size`];
     return val ? `${val}rem` : 'inherit';
   }
 })`

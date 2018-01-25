@@ -23,7 +23,8 @@
     "module": true,
     "setTimeout": true,
     "window": true,
-    "document": true
+    "document": true,
+    "localStorage": true
   },
   "rules": {
     "react/display-name": 0,

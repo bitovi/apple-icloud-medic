@@ -1,9 +1,10 @@
 import path from 'path';
 import Component from 'react-view-model/component';
+import DefineMap from 'can-define/map/map';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Case from 'case';
-import { Site } from '../../public/semantic-ui';
+import { Site as BaseSite } from '../../public/semantic-ui';
 
 // some of these were taken directly from markdown parser source code
 const REG_LEADING_DOT_SLASH = /^[\.\/]+/g;
@@ -24,22 +25,29 @@ function getScopeFromPath (f) {
 }
 
 // Create a mock app to provide context to elements
-class MockApp extends Component {
-  static childContextTypes = {
-    appState: PropTypes.object
+const makeAppComponent = (VM) => {
+  if (typeof VM !== 'function') {
+    VM = DefineMap.extend(VM);
   }
+  return class MockApp extends Component {
+    static ViewModel = VM
 
-  getChildContext() {
-    return { appState: this.viewModel };
+    static childContextTypes = {
+      appState: PropTypes.object
+    }
+
+    getChildContext() {
+      return { appState: this.viewModel };
+    }
+
+    render() {
+      return this.props.children;
+    }
   }
+};
 
-  render() {
-    return this.props.children;
-  }
-}
-
-// extend the Site component with custom styles for storybook
-const Wrapper = styled(Site)`
+// extend the base Site component with custom styles for storybook
+const Site = styled(BaseSite)`
   padding: 1em 1.5em;
   line-height: 1.5;
 
@@ -73,6 +81,6 @@ const Wrapper = styled(Site)`
 export {
   makeTitleFromPath,
   getScopeFromPath,
-  MockApp,
-  Wrapper
+  makeAppComponent,
+  Site
 };

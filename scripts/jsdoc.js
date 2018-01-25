@@ -22,11 +22,13 @@ const data = jsdoc2md.getTemplateDataSync({
 // "data" is an array of definitions (identifiers). A single file can
 // have many definitions, so we group them by file path.
 const modules = data.reduce((dict, identifier) => {
-  const key = path.join(identifier.meta.path, path.basename(identifier.meta.filename, '.js'));
-  if (!dict[key]) {
-    dict[key] = [];
+  if (identifier.meta) {
+    const key = path.join(identifier.meta.path, path.basename(identifier.meta.filename, '.js'));
+    if (!dict[key]) {
+      dict[key] = [];
+    }
+    dict[key].push(identifier);
   }
-  dict[key].push(identifier);
   return dict;
 }, {});
 

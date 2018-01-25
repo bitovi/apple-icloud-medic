@@ -1,20 +1,20 @@
-// Initializes the `users` service on path `/users`
-const createService = require('feathers-memory');
+// Initializes the `team` service on path `/teams`
+const createService = require('feathers-sequelize');
+const createModel = require('../../models/teams.model');
+const hooks = require('./teams.hooks');
+const filters = require('./teams.filters');
 const env = require('../../../shared/env');
-const hooks = require('./users.hooks');
-const filters = require('./users.filters');
 
 module.exports = function () {
   const app = this;
-  const paginate = app.get('paginate');
+  const Model = createModel(app);
 
   const options = {
-    id: 'emailAddress',
-    name: 'users',
-    paginate
+    name: 'teams',
+    Model
   };
 
-  const location = `${env.API_BASE_URI}/users`;
+  const location = `${env.API_BASE_URI}/teams`;
 
   // Initialize our service with any options it requires
   app.use(location, createService(options));

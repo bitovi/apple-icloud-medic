@@ -1,4 +1,5 @@
-const { DataTypes } = require('sequelize');
+const Sequelize = require('sequelize');
+const DataTypes = Sequelize.DataTypes;
 
 const ID_FIELD = {
   id: {
@@ -10,10 +11,14 @@ const ID_FIELD = {
 
 const DATE_FIELDS = {
   createdAt: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
   },
   updatedAt: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP '),
   },
 };
 

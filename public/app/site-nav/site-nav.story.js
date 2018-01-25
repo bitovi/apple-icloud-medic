@@ -1,4 +1,5 @@
 import React from 'react';
+import DefineMap from 'can-define/map/map';
 import { storiesOf } from '@storybook/react';
 import SiteNav from './site-nav';
 
@@ -8,8 +9,15 @@ const items = [
   { title: 'Item 3', route: '#item-3' }
 ];
 
-export default () => {
+export default (makeAppComponent) => {
+  const MockApp = makeAppComponent({
+    teamName: {
+      value: 'icloud'
+    }
+  });
+
   storiesOf('App Components', module)
+    .addDecorator(story => <MockApp>{story()}</MockApp>)
     .addWithChapters('Site Nav', {
       chapters: [{
         sections: [{
