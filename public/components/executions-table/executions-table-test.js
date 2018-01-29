@@ -4,7 +4,7 @@ import { ViewModel } from './executions-table';
 // ViewModel unit tests
 QUnit.module('executions-table component');
 
-QUnit.test('Has message', function(){
+QUnit.skip('TODO: Add tests.', function(){
   var vm = new ViewModel();
   QUnit.equal(vm.message, 'This is the execution-table component');
 });

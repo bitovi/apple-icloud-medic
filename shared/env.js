@@ -1,5 +1,5 @@
 const IS_NODE = typeof process === 'object' && {}.toString.call(process) === '[object process]';
-const env = IS_NODE ? process.env.NODE_ENV : window.System && window.System.env || 'development';
+const env = IS_NODE ? process.env.NODE_ENV : (window.System && window.System.env) || 'development';
 
 // local environments should not set NODE_ENV
 const IS_DEV = env === 'dev';

@@ -5,3 +5,4 @@ import './session';
 import './teams/teams';
 import './executions/executions';
 import './executions/filters';
+import './projects';

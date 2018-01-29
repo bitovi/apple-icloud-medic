@@ -9,8 +9,7 @@ module.exports = function (app) {
    * Teams Model description here!!
    * @class Teams
    */
-  const team = sequelizeClient.define('teams',
-  {
+  const team = sequelizeClient.define('teams', {
     /**
      * @type {String}
      * @memberof Teams#

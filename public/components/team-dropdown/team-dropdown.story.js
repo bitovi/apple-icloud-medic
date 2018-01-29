@@ -1,5 +1,4 @@
 import React from 'react';
-import DefineMap from 'can-define/map/map';
 import { storiesOf } from '@storybook/react';
 import TeamDropdown from './team-dropdown';
 
