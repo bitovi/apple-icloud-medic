@@ -1,44 +1,73 @@
 import styled from 'styled-components';
 import { Grid } from '@public/semantic-ui/index';
 
+const lightBgColor = '#29313f';
+const lightBorder = '1px solid rgba(255, 255, 255, .2)';
+
 const Header = styled(Grid)`
-  line-height: 3.5rem;
-  // TODO: use variables
-  color: #fff;
-  background-color: #121a25;
-
-  .column {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-
-  a {
-    color: inherit;
-    &:hover { color: inherit }
-  }
-`;
-
-const LightColumn = styled(Grid.Column)`
-  color: #fff;
-  background-color: rgba(255, 255, 255, .1); // TODO: variable
-
-  &:nth-child(2) {
-    border-right: 1px solid rgba(255, 255, 255, .3);
-  }
-
-  .ui.dropdown {
-    vertical-align: bottom;
-
-    .menu {
-      margin-top: 1rem;
+  &&& {
+    color: #fff;
+    background-color: #171d26;
+    line-height: 2.7;
+    .column {
+      padding-top: 0;
+      padding-bottom: 0;
+      font-family: "Helvetica Neue";
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+    }
+    .ui.dropdown {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-grow: 1;
+      height: 100%;
     }
   }
 `;
 
-const Logo = styled.a`
-  font-size: 2rem;
-  display: block;
-  border-right: 1px solid rgba(255, 255, 255, .3);
+const LightColumn = styled(Grid.Column)`
+  &&&& {
+    color: #fff;
+    background-color: ${lightBgColor};
+    font-size: 1.5rem;
+    padding: 0;
+    flex-grow: 0;
+    width: 34rem;
+    border-right: ${lightBorder};
+  }
 `;
 
-export { Header, LightColumn, Logo };
+const UserColumn = styled(Grid.Column)`
+  &&&& {
+    font-size: 1.2rem;
+    padding: 0;
+    border-left: ${lightBorder};
+    flex-grow: 0;
+    width: 20rem;
+    &:hover {
+      background-color: ${lightBgColor};
+    }
+  }
+`;
+
+const LinksColumn = styled(Grid.Column)`
+  &&&& {
+    flex-grow: 1
+  }
+`;
+
+const Logo = styled.a`
+  font-size: 1.7rem;
+  border-right: ${lightBorder};
+  padding-right: 2rem;
+  padding-left: 2rem;
+  font-weight: 500;
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+`;
+
+export { Header, LightColumn, Logo, UserColumn, LinksColumn };

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import route from 'can-route-pushstate';
 import { Menu } from '@public/semantic-ui/index';
 import { buildNavItems } from '@public/util/route-helper';
+import { HeaderMenuItem } from './partials';
 
 const ViewModel = DefineMap.extend('SiteNav', {
 
@@ -25,14 +26,15 @@ class SiteNav extends Component {
 
     return (
       <nav aria-label="Primary">
-        <Menu stackable>
+        <Menu secondary>
           {items.map(item => (
-            <Menu.Item key={item.route} active={item.route === route.matched()}>
+            <HeaderMenuItem key={item.route} active={item.route === route.matched()}>
               <a href={item.url}>{item.text}</a>
-            </Menu.Item>
+            </HeaderMenuItem>
           ))}
         </Menu>
       </nav>
+
     );
   }
 }

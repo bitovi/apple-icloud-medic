@@ -1,12 +1,22 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import SiteHeader from './site-header';
+import UserModel from '@public/models/user';
 
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
     teamName: {
       value: 'icloud'
     }
+  });
+  const currentUser = new UserModel({
+    isSuperAdmin: false,
+    displayName: 'Nikunj Virani',
+    firstName: 'Nikunj',
+    lastName: 'Virani',
+    nickName: 'Nikunj',
+    emailAddress: 'nvirani@apple.com',
+    allGroups: []
   });
 
   storiesOf('App Components', module)
@@ -15,7 +25,7 @@ export default (makeAppComponent) => {
       chapters: [{
         sections: [{
           sectionFn: () => (
-            <SiteHeader />
+            <SiteHeader currentUser={currentUser} />
           )
         }]
       }]

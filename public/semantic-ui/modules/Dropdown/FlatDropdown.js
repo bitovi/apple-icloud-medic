@@ -1,51 +1,28 @@
 import { Dropdown } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { adjustHue, saturate } from 'polished';
-import variables from '@public/semantic-ui/variables';
 
-// <FlatDropdown options={options}/>
-const startColor = '#46824C';
-const numOptions = 20;
-const children = [];
-
-// Builds rainbow styles for the menu items
-for(var i = 0; i < numOptions; i++) {
-  const offset = 360/numOptions * i;
-  const color = adjustHue(offset, startColor);
-  // .item:nth-child(20n + 4)
-  children.push(`.item:nth-child(${numOptions}n + ${i}) {
-    background-color: ${color};
-    border-top: 1px solid #000;
-    &:first-child {
-      border-top-width: 0;
-    }
-    &:hover {
-      background-color: ${saturate(.3, color)};
-    }
-  }`);
-}
-
-const FlatDropdown = styled(Dropdown).attrs({
-  fontSize: props => {
-    const val = variables.site[`${props.size}Size`];
-    return val ? `${val}rem` : 'inherit';
-  }
-})`
-  &&&& {
-    border-radius: 0;
-    font-size: ${props => props.fontSize};
-
+const vPadding = '1rem';
+const hPadding = '1.5rem';
+const FlatDropdown = styled(Dropdown)`
+  &&&.dropdown {
+    padding-right: ${hPadding};
+    padding-left: ${hPadding};
+    font-weight: 200;
     .menu {
       border-radius: 0;
       font-size: inherit;
-      width: 160%;
-
+      min-width: 100%;
+      border: 0;
       > .item {
-        color: white;
-        font-size: inherit;
+        border: none;
+        padding: ${vPadding} ${hPadding} !important; // semantic-ui uses !important >:(
+        font-weight: inherit;
+        color: #343a42;
+        border-top: 1px solid #e8e8ea;
+        &:hover{
+          background-color: #e8e8ea;
+        }
       }
-
-      ${children.join('\n')}
     }
   }
 `;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import { darken, desaturate } from 'polished';
 import { Header as SemanticHeader } from 'semantic-ui-react';
 import 'semantic-ui-less/semantic.less';
 

@@ -1,33 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@public/semantic-ui/index';
 import TeamDropdown from '@public/components/team-dropdown/team-dropdown';
+import UserSettingsDropdown from '@public/components/user-settings-dropdown/user-settings-dropdown';
 import SiteNav from '@public/app/site-nav/site-nav';
-import { Header, LightColumn, Logo } from './partials';
+import { Header, LightColumn, Logo, UserColumn, LinksColumn } from './partials';
+import 'semantic-ui-less/semantic.less';
 
-const SiteHeader = ({ currentUser }) => {
+
+const SiteHeader = ({currentUser}) => {
   return (
     <Header padded stackable as="header">
-      <LightColumn width={3}>
+      <LightColumn>
         <Logo href="/"> iCloud Medic</Logo>
-      </LightColumn>
-
-      {/* TODO: Super Admins only? */}
-      <LightColumn width={2}>
         <TeamDropdown />
       </LightColumn>
 
-      <Grid.Column width={8}>
+      <LinksColumn>
         <SiteNav />
-      </Grid.Column>
+      </LinksColumn>
 
-      <Grid.Column width={3}>
-        {(() => {
-          if (currentUser) {
-            return <div>Welcome {currentUser.displayName}</div>;
-          }
-        })()}
-      </Grid.Column>
+      <UserColumn>
+        { currentUser ?
+          <UserSettingsDropdown user={currentUser} /> :
+          <div>loading...</div>
+        }
+      </UserColumn>
     </Header>
   );
 };

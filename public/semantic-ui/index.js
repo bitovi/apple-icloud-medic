@@ -10,6 +10,7 @@ export * from './collections/Table/Table';
 export * from './elements/Button/Button';
 export * from './elements/Container/Container';
 export * from './elements/Icon/Icon';
+export * from './elements/Image/Image';
 export * from './elements/List/List';
 export * from './elements/Label/Label';
 export * from './elements/Divider/Divider';

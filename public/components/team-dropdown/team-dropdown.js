@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import { FlatDropdown } from '@public/semantic-ui/index';
 import teamConnection from '@public/models/teams';
 import { listAsArray } from '@public/util/view-helpers';
+import { FlatDropdownRainbow } from '@public/semantic-ui/index';
 
 /**
  * @constructor
@@ -28,7 +28,7 @@ class TeamDropdown extends Component {
     }
 
     return (
-      <FlatDropdown size="huge" options={listAsArray(options)} value={teamName} onChange={this.handleChange} />
+      <FlatDropdownRainbow size="huge" options={listAsArray(options)} value={teamName} onChange={this.handleChange} />
     );
   }
 }

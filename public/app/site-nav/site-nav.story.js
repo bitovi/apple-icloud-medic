@@ -1,12 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import SiteNav from './site-nav';
+import styled from 'styled-components';
 
-const items = [
-  { title: 'Item 1', route: '#item-1' },
-  { title: 'Item 2', route: '#item-2' },
-  { title: 'Item 3', route: '#item-3' }
-];
+const DarkBackground = styled.div`
+  &&&& {
+    background-color: #141a23;
+  }
+`;
 
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
@@ -20,10 +21,14 @@ export default (makeAppComponent) => {
     .addWithChapters('Site Nav', {
       chapters: [{
         sections: [{
+          title: 'Default Header',
           sectionFn: () => (
-            <SiteNav items={items} />
+            <DarkBackground>
+              <SiteNav />
+            </DarkBackground>
           )
         }]
       }]
     });
 };
+
