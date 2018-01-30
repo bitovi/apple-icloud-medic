@@ -18,15 +18,15 @@ class NewProject extends Component {
     return (
       <Form>
         <Form.Field>
-          <label for="new-project-name">Name</label>
+          <label htmlFor="new-project-name">Name</label>
           <Form.Input id="new-project-name" value={this.viewModel.projectName} onChange={(e) => {this.viewModel.handleChange(e, 'projectName');}}/>
         </Form.Field>
         <Form.Field>
-          <label for="new-project-desc">Description</label>
+          <label htmlFor="new-project-desc">Description</label>
           <Form.Input id="new-project-desc" value={this.viewModel.projectDescription} onChange={(e) => {this.viewModel.handleChange(e, 'projectDescription');}}/>
         </Form.Field>
         <Form.Field>
-          <label for="new-project-category">Category</label>
+          <label htmlFor="new-project-category">Category</label>
           <Form.Input id="new-project-category" value={this.viewModel.projectCategory} onChange={(e) => {this.viewModel.handleChange(e, 'projectCategory');}}/>
         </Form.Field>
         <Button type='reset' onClick={this.viewModel.handleCancel}>Cancel</Button>
