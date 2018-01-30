@@ -24,7 +24,8 @@
     "setTimeout": true,
     "window": true,
     "document": true,
-    "localStorage": true
+    "localStorage": true,
+    "Event": true
   },
   "rules": {
     "react/display-name": 0,

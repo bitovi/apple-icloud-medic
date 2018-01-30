@@ -1,7 +1,8 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import DefineMap from 'can-define/map/';
-import Projects from '@public/components/projects/projects';
+import ViewModel from './projects.viewmodel';
+import { Button, Grid, Icon, Message } from '@public/semantic-ui/index';
+import ProjectCards from '@public/components/project-cards/project-cards';
 
 /**
  * @module ProjectsPage
@@ -10,19 +11,43 @@ import Projects from '@public/components/projects/projects';
  * Projects Page
  */
 class ProjectsPage extends Component {
+  static ViewModel = ViewModel;
   /**
    * @method render
    * @returns Projects page template
    */
   render() {
+    const { message } = this.viewModel;
+    let messageRow;
+    if (this.viewModel.message) {
+      messageRow = <Grid.Column width={16}>
+        <Message success><p>{message}</p></Message>
+      </Grid.Column>;
+    }
     return (
-      <div className='projects-page'>
-        <Projects />
-      </div>
+      <Grid padded>
+        <Grid.Row>
+          <Grid.Column width={15}>
+            <h1>Projects</h1>
+          </Grid.Column>
+          <Grid.Column width={1}>
+            <Icon name='pencil' size='large' className='pull-right' onClick={this.viewModel.toggleEdit}/>
+          </Grid.Column>
+        </Grid.Row>
+
+        {messageRow}
+
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Button as="a" href='projects/new' basic> New Project </Button>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Column width={16}>
+          <ProjectCards isEditing={this.viewModel.isEditing}></ProjectCards>
+        </Grid.Column>
+      </Grid>
     );
   }
 }
-
-ProjectsPage.ViewModel = DefineMap.extend('ProjectsPage', {});
 
 export default ProjectsPage;

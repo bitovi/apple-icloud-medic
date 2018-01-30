@@ -6,13 +6,13 @@ import DefineMap from 'can-define/map/';
 import PropTypes from 'prop-types';
 import makeDebug from 'debug';
 
-import Session from '../models/session';
+// import the Site component before any models/connections!
+import { Site } from '@public/semantic-ui/index';
 import SiteHeader from './site-header/';
 import SiteFooter from './site-footer/';
-
-import { Site } from '@public/semantic-ui/index';
-import { registerRoutes } from '@public/util/route-helper';
+import Session from '@public/models/session';
 import teamConnection from '@public/models/teams';
+import { registerRoutes } from '@public/util/route-helper';
 
 const debug = makeDebug('medic:app');
 
@@ -61,6 +61,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   moduleId: 'string',
   executionId: 'string',
+  projectId: 'number',
   teamName: {
     set(newVal) {
       if (newVal) {

@@ -2,6 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './project-card.viewmodel.js';
 import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
+import route from 'can-route-pushstate';
 
 /**
  * @module ProjectCard
@@ -18,9 +19,11 @@ class ProjectCard extends Component {
   render() {
     const { project, isEditing } = this.viewModel;
     if (project) {
+      const url = route.url({ projectId: project.id, teamName: route.data.teamName });
       return (
         <StyledCard bgColor='#01C5BB'>
-          <StyledCard.Header> {project.title}
+          <StyledCard.Header>
+            <a href={url}>{project.title}</a>
             { isEditing ?
               <Icon name='close' onClick={(e) => this.viewModel.handleRemove(e, project)}/>
               : null

@@ -6,9 +6,11 @@ const REG_PARAM_CURLY = /{([^}]+)}/g;
  * @type {Object}
  */
 const PAGES = {
-  'execution': '@public/app/pages/execution/execution',
+  'user-executions': '@public/app/pages/user-executions/user-executions',
   'executions': '@public/app/pages/executions/executions',
-  'user-executions': '@public/app/pages/user-executions/user-executions'
+  'execution': '@public/app/pages/execution/execution',
+  'projects': '@public/app/pages/projects/projects',
+  'project': '@public/app/pages/project/project'
 };
 
 /**
@@ -25,9 +27,11 @@ const PAGES = {
  */
 const routeConfig = [
   { route: '/{teamName}', data: { moduleId: PAGES.executions }, needsDefault: ['teamName'] },
+  { route: '/{teamName}/user-executions', nav: 'User Executions', data: { moduleId: PAGES['user-executions'] } },
   { route: '/{teamName}/executions', nav: 'Executions', data: { moduleId: PAGES.executions } },
   { route: '/{teamName}/executions/{executionId}', data: { moduleId: PAGES.execution } },
-  { route: '/{teamName}/user-executions', nav: 'User Executions', data: { moduleId: PAGES['user-executions'] } },
+  { route: '/{teamName}/projects', nav: 'Projects', data: { moduleId: PAGES.projects } },
+  { route: '/{teamName}/projects/{projectId}', data: { moduleId: PAGES.project } },
 ];
 
 module.exports = { routeConfig, PAGES, REG_PARAM_CURLY };

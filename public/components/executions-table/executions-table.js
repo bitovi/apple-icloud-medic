@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/list';
-// import canStream from 'can-stream-kefir';
+import route from 'can-route-pushstate';
 import moment from 'moment';
 
 import { Table, Divider } from '@public/semantic-ui/index';
@@ -54,20 +54,21 @@ class ExecutionsTable extends Component {
                     <Table.Cell colSpan="6">There are no items to display.</Table.Cell>
                   </Table.Row>;
                 }
-                return executions.map((execution) => (
-                  <Table.Row key={execution.id}>
-                    <Table.Cell>{execution.status}</Table.Cell>
-                    <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
-                    <Table.Cell><ValueWithJSON execution={execution} valueProp='trigger.type' jsonProp='trigger' /></Table.Cell>
-                    <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
-                    <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>
-                    <Table.Cell>
-                      <a href={'/executions/' + execution.id}>
-                        View Execution
-                      </a>
-                    </Table.Cell>
-                  </Table.Row>
-                ));
+                return executions.map((execution) => {
+                  const url = route.url({ executionId: execution.id, teamName: route.data.teamName });
+                  return (
+                    <Table.Row key={execution.id}>
+                      <Table.Cell>{execution.status}</Table.Cell>
+                      <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
+                      <Table.Cell><ValueWithJSON execution={execution} valueProp='trigger.type' jsonProp='trigger' /></Table.Cell>
+                      <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
+                      <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>
+                      <Table.Cell>
+                        <a href={url}>View Execution</a>
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                });
               })()}
             </Table.Body>
             <Table.Footer>

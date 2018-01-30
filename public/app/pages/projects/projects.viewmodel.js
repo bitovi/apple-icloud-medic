@@ -6,7 +6,7 @@ import DefineMap from 'can-define/map/map';
  *
  * Projects View Model
  */
-export default DefineMap.extend('Projects', {
+const ProjectsPage = DefineMap.extend('ProjectsPage', {
   /**
    * @prop toggleEdit
    *
@@ -33,3 +33,5 @@ export default DefineMap.extend('Projects', {
     type: 'string'
   }
 });
+
+export default ProjectsPage;
