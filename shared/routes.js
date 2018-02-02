@@ -26,6 +26,7 @@ const PAGES = {
  * @type {Array}
  */
 const routeConfig = [
+  { route: '/', data: { moduleId: PAGES.executions }, needsDefault: ['teamName'] },
   { route: '/{teamName}', data: { moduleId: PAGES.executions }, needsDefault: ['teamName'] },
   { route: '/{teamName}/user-executions', nav: 'User Executions', data: { moduleId: PAGES['user-executions'] } },
   { route: '/{teamName}/executions', nav: 'Executions', data: { moduleId: PAGES.executions } },

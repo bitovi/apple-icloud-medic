@@ -39,7 +39,7 @@ module.exports = function (app) {
   });
 
   itemCategories.associate = function (models) {
-    this.belongsTo(models.categories);
+    this.Category = this.belongsTo(models.categories);
   };
 
   return itemCategories;

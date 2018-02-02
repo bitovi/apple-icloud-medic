@@ -36,10 +36,10 @@ module.exports = function (app) {
      * Defines the many-to-many relationship stored in the item-categories table.
      * @memberof Categories#
      */
-    categories.belongsToMany(models.projects, {
+    this.Projects = this.belongsToMany(models.projects, {
       through: {
         model: models['item-categories'],
-        unique: false,
+        unique: false
       },
       foreignKey: 'categoryId',
       constraints: false

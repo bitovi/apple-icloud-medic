@@ -16,11 +16,11 @@ exports.up = function(db) {
       type: DataTypes.TEXT,
       allowNull: false
     }
-  })).then(() => sequelize.close());
+  }));
 };
 
 exports.down = function(db) {
-  return queryInterface.dropTable('projects').then(() => sequelize.close());
+  return queryInterface.dropTable('projects');
 };
 
 exports._meta = {

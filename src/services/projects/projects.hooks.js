@@ -1,18 +1,35 @@
+const populateShallow =(hook) => {
+  const Project = hook.app.get('sequelizeClient').models.projects;
+  hook.params.sequelize = Object.assign({}, hook.params.sequelize, {
+    raw: false,
+    include: [
+      Project.Categories,
+      Project.Rules
+    ]
+  });
+  return hook;
+};
 
+const populateDeep = (hook) => {
+  const models = hook.app.get('sequelizeClient').models;
+  const Project = models.projects;
+  const Rule = models.rules;
+  hook.params.sequelize = Object.assign({}, hook.params.sequelize, {
+    raw: false,
+    include: [
+      Project.Categories,
+      { model: Rule, include: [Rule.Tags] }
+    ]
+  });
+  return hook;
+};
 
 module.exports = {
   before: {
     all: [],
-    find: [],
-    get: [],
-    create: [(hook) => {
-      const Categories = hook.app.get('sequelizeClient').models.categories;
-      //hook.params.sequelize is the sequelize options object that is passed to the sequelize method call
-      if (!hook.params.sequelize) hook.params.sequelize = {};
-      //include tells sequelize to include the related category data
-      hook.params.sequelize.include = [{ model: Categories }];
-      return hook;
-    }],
+    find: [populateShallow],
+    get: [populateDeep],
+    create: [],
     update: [],
     patch: [],
     remove: []

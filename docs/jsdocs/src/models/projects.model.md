@@ -4,8 +4,11 @@
 **Kind**: global class  
 
 * [Projects](#Projects)
-    * [.title](#Projects+title) : <code>String</code>
-    * [.description](#Projects+description) : <code>String</code>
+    * _instance_
+        * [.title](#Projects+title) : <code>String</code>
+        * [.description](#Projects+description) : <code>String</code>
+    * _static_
+        * [.projects.associate()](#Projects.projects.associate)
 
 <a name="Projects+title"></a>
 
@@ -19,3 +22,9 @@ The title fo the project.
 The project description
 
 **Kind**: instance property of [<code>Projects</code>](#Projects)  
+<a name="Projects.projects.associate"></a>
+
+### Projects.projects.associate()
+Defines the relationships between projects and other entities.
+
+**Kind**: static method of [<code>Projects</code>](#Projects)  

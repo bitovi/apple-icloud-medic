@@ -27,11 +27,11 @@ exports.up = function(db) {
     groupIds: {
       type: DataTypes.ARRAY(DataTypes.INTEGER)
     }
-  })).then(() => sequelize.close());
+  }));
 };
 
 exports.down = function(db) {
-  return queryInterface.dropTable('user-executions').then(() => sequelize.close());
+  return queryInterface.dropTable('user-executions');
 };
 
 exports._meta = {

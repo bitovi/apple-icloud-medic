@@ -12,11 +12,11 @@ exports.up = function(db) {
       type: DataTypes.STRING,
       allowNull: false
     }
-  })).then(() => sequelize.close());
+  }));
 };
 
 exports.down = function(db) {
-  return queryInterface.dropTable('categories').then(() => sequelize.close());
+  return queryInterface.dropTable('categories');
 };
 
 exports._meta = {

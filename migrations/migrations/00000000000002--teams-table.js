@@ -16,11 +16,11 @@ exports.up = function(db) {
       type: DataTypes.STRING,
       allowNull: false
     }
-  })).then(() => sequelize.close());
+  }));
 };
 
 exports.down = function(db) {
-  return queryInterface.dropTable('teams').then(() => sequelize.close());
+  return queryInterface.dropTable('teams');
 };
 
 exports._meta = {

@@ -18,6 +18,7 @@ const handler = require('feathers-errors/handler');
 const notFound = require('feathers-errors/not-found');
 
 const staticAssets = require('./app-static');
+const publicIndexFile = require('./middleware/public-index-file');
 const services = require('./services');
 const appHooks = require('./app.hooks');
 
@@ -48,13 +49,17 @@ app.configure(staticAssets);
 app.use(['/__health', '/__stats'], healthCheck());
 
 // Set up Plugins and providers
-app.configure(hooks());
 app.configure(sequelize);
+app.configure(hooks());
 app.configure(rest());
 app.configure(socketio());
 
 app.configure(authentication);
 app.configure(services);
+// configure the public index middleware AFTER services!
+// This allows for /{teamName} routes to work without additional
+// prefixes and such like `/teams/{teamName}`
+app.configure(publicIndexFile);
 
 // Configure a middleware for 404s and the error handler
 app.use(notFound());

@@ -3,31 +3,41 @@
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
 
-const itemCat = require('./item-categories.model');
-
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   /**
-   * Defines Project model.
+   * Defines Rule model.
    *
-   * @class Projects
+   * @class Rules
    */
-  const projects = sequelizeClient.define('projects', {
+  const rules = sequelizeClient.define('rules', {
     /**
-     * The title fo the project.
+     * The title fo the rule.
      * @type {String}
-     * @memberof Projects#
+     * @memberof Rules#
      */
     title: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     /**
-     * The project description
+     * The title fo the rule.
      * @type {String}
-     * @memberof Projects#
+     * @memberof Rules#
      */
     description: {
       type: DataTypes.TEXT,
+      allowNull: false
+    },
+    /**
+     * Whether or not the rule is enabled
+     * @type {Boolean}
+     * @memberof Rules#
+     */
+    enabled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
     }
   }, {
     hooks: {
@@ -36,25 +46,26 @@ module.exports = function (app) {
       }
     }
   });
+
   /**
-   *  Defines the relationships between projects and other entities.
+   *  Defines the relationships between rules and other entities.
    * @memberof Projects
    */
-  projects.associate = function (models) {
-    this.Rules = this.hasMany(models.rules);
-    this.Categories = this.belongsToMany(models.categories, {
+  rules.associate = function (models) {
+    this.Project = this.belongsTo(models.projects);
+    this.Tags = this.belongsToMany(models.categories, {
       through: {
         model: models['item-categories'],
         unique: false,
         scope: {
-          itemType: 'projects'
+          itemType: 'rules'
         }
       },
+      as: 'tags',
       foreignKey: 'itemId',
       constraints: false
     });
   };
 
-  itemCat(app);
-  return projects;
+  return rules;
 };

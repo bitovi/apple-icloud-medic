@@ -4,8 +4,8 @@ const executionFilters = require('./execution-filters/execution-filters.service.
 const userExecutions = require('./user-executions/user-executions.service.js');
 const teams = require('./teams/teams.service.js');
 const projects = require('./projects/projects.service.js');
-
 const categories = require('./categories/categories.service.js');
+const rules = require('./rules/rules.service.js');
 
 module.exports = function () {
   const app = this;
@@ -16,4 +16,5 @@ module.exports = function () {
   app.configure(teams);
   app.configure(projects);
   app.configure(categories);
+  app.configure(rules);
 };
