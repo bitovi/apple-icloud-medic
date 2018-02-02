@@ -1,14 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import UserSettingsDropdown from './user-settings-dropdown';
+import RuleCard from './rule-card';
 
 storiesOf('Components', module)
-  .addWithChapters('User Settings Dropdown', {
+  .addWithChapters('RuleCard', {
     chapters: [{
       sections: [{
         title: 'Default use',
         sectionFn: () => (
-          <UserSettingsDropdown user={{ displayName: 'John Doe' }} />
+          <RuleCard ruleId={104} />
         )
       }]
     }]

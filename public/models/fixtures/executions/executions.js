@@ -7,7 +7,7 @@ import executionSucceededTemplate from './data/get-execution-succeeded';
 import mockServer from '../mock-socket-server';
 
 // Clone the template item
-export function mock(num){
+function mock(num){
   const ret = [];
   let item;
   for(let i = 0; i < num; i++){

@@ -9,28 +9,26 @@ import { FlatDropdown } from '@public/semantic-ui/index';
 class UserSettingsDropdown extends Component {
   render() {
     const { options, user } = this.viewModel;
-    let defaultValue = null;
-    let defaultText = null;
-
-    if (options && options.length) {
-      defaultValue = options[0].value;
-      defaultText = user.displayName;
-    }
 
     return (
-      <FlatDropdown size="huge" options={options} defaultValue={defaultValue} labeled text={defaultText} />
+      <FlatDropdown size="huge" options={options} text={user.displayName} />
     );
   }
 }
 
 UserSettingsDropdown.ViewModel = DefineMap.extend('UserSettingsDropdown', {
-  user:{},
+  user: {},
+  handleClick (e, data) {
+    alert('User dropdown click: ' + data.text);
+  },
   get options() {
     const values = [
-      { text: 'Manage Teams', value: 'manage-teams' },
-      { text: 'Log Out', value: 'logout' },
+      { text: 'Manage Teams', onClick: this.handleClick },
+      { text: 'Log Out', onClick: this.handleClick },
     ];
-    return values;
+    return values.map(val => Object.assign(val, {
+      selected: false
+    }));
   }
 });
 

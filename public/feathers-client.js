@@ -7,6 +7,7 @@ import makeDebug from 'debug';
 
 const debug = makeDebug('medic:socket:connection');
 
+debug('Feathers Client socket connection starting...');
 const socket = io({
   reconnectionAttempts: env.IS_ORCHARD ? Infinity : 30,
   reconnectionDelay: 4000

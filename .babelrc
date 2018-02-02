@@ -1,9 +1,11 @@
 /**
- * This is used by both StealJS and WebPack - test accordingly
+ * This is used by WebPack and JSDoc only. StealJS uses steal.babelOptions
+ * in package.json.
  */
 
 {
   "plugins": [
+    "transform-object-rest-spread",
     ["babel-plugin-styled-components", { fileName: false }],
     "transform-react-jsx",
     "transform-class-properties"

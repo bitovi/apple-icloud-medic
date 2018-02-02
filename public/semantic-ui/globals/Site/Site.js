@@ -6,20 +6,14 @@
  *
  * NOTE: stories are automatically wrapped by this component.
  */
-//!steal-remove-start
-// Fixutures must be imported early, before any models (connections)!
-import '@public/models/fixtures/fixtures';
-//!steal-remove-end
 
 //!steal-remove-start
-
 /* use this to show observation logs */
 // import canDebug from 'can-debug';
 // can.queues.log('flush');
 
 // Fixutures must be imported early, before any models (connections)!
 import '@public/models/fixtures/fixtures';
-
 //!steal-remove-end
 
 import styled from 'styled-components';

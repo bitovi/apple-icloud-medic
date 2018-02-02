@@ -16,10 +16,12 @@
 
 import siteVars from './globals/Site/site.variables!systemjs-plugin-text';
 import gridVars from './collections/Grid/grid.variables!systemjs-plugin-text';
+import cardVars from './views/Card/card.variables!systemjs-plugin-text';
 
 const files = {
   site: siteVars,
-  grid: gridVars
+  grid: gridVars,
+  card: cardVars
 };
 
 const VAR_START = '@';

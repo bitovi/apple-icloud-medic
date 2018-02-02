@@ -1,6 +1,8 @@
-/*global debug */
+import makeDebug from 'debug';
 import DefineMap from 'can-define/map/map';
 import Projects from '@public/models/projects';
+
+const debug = makeDebug('medic:components:project-card');
 
 /**
  * @module ProjectCard VM

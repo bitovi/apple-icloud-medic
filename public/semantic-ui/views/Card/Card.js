@@ -1,26 +1,19 @@
-import styled from 'styled-components';
 import { Card as SemanticCard } from 'semantic-ui-react';
 import 'semantic-ui-less/semantic.less';
 
 const Card = SemanticCard;
+Card.Meta = SemanticCard.Meta;
 Card.Group = SemanticCard.Group;
-
-const StyledCard = styled(SemanticCard)`
-&&& {
-    background-color:${props => props.bgColor};
-    color: white;
-    padding: .5rem;
-}
-`;
-
-StyledCard.Header = styled(SemanticCard.Header)`
-&&& {
-    padding: 1rem;
-    font-size: 1.25rem;
-}
-`;
+Card.Header = SemanticCard.Header;
+Card.Content = SemanticCard.Content;
+Card.Description = SemanticCard.Description;
 
 // Needed for correct output in storybooks, dev tools, etc
+Card.Meta.displayName = 'Card.Meta';
 Card.Group.displayName = 'Card.Group';
+Card.Header.displayName = 'Card.Header';
+Card.Content.displayName = 'Card.Content';
+Card.Description.displayName = 'Card.Description';
 
-export { Card, StyledCard };
+export { Card };
+export { StyledCard } from './StyledCard';

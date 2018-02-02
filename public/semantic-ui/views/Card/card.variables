@@ -1,0 +1,5 @@
+@contentPadding: 1.5rem;
+@headerFontSize: 1.7rem;
+@metaColor: inherit;
+@headerColor: inherit;
+@descriptionColor: inherit;

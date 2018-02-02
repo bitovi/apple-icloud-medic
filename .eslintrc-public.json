@@ -25,7 +25,8 @@
     "window": true,
     "document": true,
     "localStorage": true,
-    "Event": true
+    "Event": true,
+    "alert": true
   },
   "rules": {
     "react/display-name": 0,

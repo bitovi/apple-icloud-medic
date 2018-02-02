@@ -18,28 +18,34 @@ class ProjectCard extends Component {
    */
   render() {
     const { project, isEditing } = this.viewModel;
-    if (project) {
-      const url = route.url({ projectId: project.id, teamName: route.data.teamName });
-      return (
-        <StyledCard bgColor='#01C5BB'>
-          <StyledCard.Header>
-            <a href={url}>{project.title}</a>
-            { isEditing ?
-              <Icon name='close' onClick={(e) => this.viewModel.handleRemove(e, project)}/>
-              : null
-            }
-          </StyledCard.Header>
-          <Card.Content> {project.description} </Card.Content>
-          <Card.Content extra>
-            <Label fontColor='#01C5BB'>{project.rules.length} rules</Label>
-            <Label fontColor='#01C5BB'>{project.contributions.length} contributions</Label>
-            <Label fontColor='#01C5BB'>{project.category}</Label>
-          </Card.Content>
-        </StyledCard>
-      );
-    } else {
-      return <p> Loading... </p>;
+
+    if (!project) {
+      return <p>Loading project...</p>;
     }
+
+    const url = route.url({ teamName: route.data.teamName, projectId: project.id });
+
+    return (
+      <StyledCard bgColor='#56c0b2'>
+        <Card.Header>
+          <a href={url}>{project.title}</a>
+          { isEditing ?
+            <Icon name='close' onClick={(e) => this.viewModel.handleRemove(e, project)}/>
+            : null
+          }
+        </Card.Header>
+        <Card.Content>
+          <Card.Description>{project.description}</Card.Description>
+          <Label.Group>
+            <Label>{project.rules.length} rules</Label>
+            <Label>{project.contributions.length} contributions</Label>
+            {project.category ?
+              <Label>{project.category}</Label>
+              : null}
+          </Label.Group>
+        </Card.Content>
+      </StyledCard>
+    );
   }
 }
 

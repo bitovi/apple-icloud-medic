@@ -12,7 +12,7 @@ const TARGET = path.resolve(__dirname, '../docs/jsdocs');
 // config for jsdoc
 const configure = path.resolve(__dirname, './jsdoc.json');
 
-console.log('Running JSDOC. If this is the first time you\'ve run this, it could take some time.');
+console.log('Running JSDOC. If this is the first time you\'ve run this, it could take some time (10 - 20 seconds tops).');
 const data = jsdoc2md.getTemplateDataSync({
   configure,
   files: [PUBLIC_SOURCE, SERVER_SOURCE],

@@ -2,10 +2,5 @@
   "plugins": ["node_modules/jsdoc-babel"],
   "source": {
     "excludePattern": "(dev-bundle|\\/dist)"
-  },
-  "babel": {
-    "plugins": [
-      "transform-class-properties"
-    ]
   }
 }

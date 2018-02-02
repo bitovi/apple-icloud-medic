@@ -1,8 +1,9 @@
 import React from 'react';
+import { Container } from '@public/semantic-ui/index';
 import ExecutionsTable from '@public/components/executions-table/';
 
 export default () =>
-  <div className="executions-page">
+  <Container fluid>
     <h1>Executions</h1>
     <ExecutionsTable />
-  </div>;
+  </Container>;

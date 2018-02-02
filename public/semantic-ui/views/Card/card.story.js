@@ -9,7 +9,32 @@ storiesOf('Semantic UI/Views', module).addWithChapters('Card', {
         {
           title: 'Card Example',
           sectionFn: () => (
-            <div>
+            <Card>
+              <Card.Content>
+                <Card.Header>Steve Sanders</Card.Header>
+                <Card.Meta>Friends of Elliot</Card.Meta>
+                <Card.Description>
+                  Steve wants to add you to the group{' '}
+                  <strong>best friends</strong>
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <Button.Group fluid>
+                  <Button basic color='green'>
+                    Approve
+                  </Button>
+                  <Button basic color='red'>
+                    Decline
+                  </Button>
+                </Button.Group>
+              </Card.Content>
+            </Card>
+          )
+        },
+        {
+          title: 'Card Group Example',
+          sectionFn: () => (
+            <Card.Group>
               <Card>
                 <Card.Content>
                   <Card.Header>Steve Sanders</Card.Header>
@@ -20,94 +45,65 @@ storiesOf('Semantic UI/Views', module).addWithChapters('Card', {
                   </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                  <div className='ui two buttons'>
+                  <Button.Group fluid>
                     <Button basic color='green'>
                       Approve
                     </Button>
                     <Button basic color='red'>
                       Decline
                     </Button>
-                  </div>
+                  </Button.Group>
                 </Card.Content>
               </Card>
-            </div>
-          )
-        },
-        {
-          title: 'Card Group Example',
-          sectionFn: () => (
-            <div>
-              <Card.Group>
-                <Card>
-                  <Card.Content>
-                    <Card.Header>Steve Sanders</Card.Header>
-                    <Card.Meta>Friends of Elliot</Card.Meta>
-                    <Card.Description>
-                      Steve wants to add you to the group{' '}
-                      <strong>best friends</strong>
-                    </Card.Description>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <div className='ui two buttons'>
-                      <Button basic color='green'>
-                        Approve
-                      </Button>
-                      <Button basic color='red'>
-                        Decline
-                      </Button>
-                    </div>
-                  </Card.Content>
-                </Card>
-                <Card>
-                  <Card.Content>
-                    <Card.Header>Steve Sanders</Card.Header>
-                    <Card.Meta>Friends of Elliot</Card.Meta>
-                    <Card.Description>
-                      Steve wants to add you to the group{' '}
-                      <strong>best friends</strong>
-                    </Card.Description>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <div className='ui two buttons'>
-                      <Button basic color='green'>
-                        Approve
-                      </Button>
-                      <Button basic color='red'>
-                        Decline
-                      </Button>
-                    </div>
-                  </Card.Content>
-                </Card>
-                <Card>
-                  <Card.Content>
-                    <Card.Header>Steve Sanders</Card.Header>
-                    <Card.Meta>Friends of Elliot</Card.Meta>
-                    <Card.Description>
-                      Steve wants to add you to the group{' '}
-                      <strong>best friends</strong>
-                    </Card.Description>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <div className='ui two buttons'>
-                      <Button basic color='green'>
-                        Approve
-                      </Button>
-                      <Button basic color='red'>
-                        Decline
-                      </Button>
-                    </div>
-                  </Card.Content>
-                </Card>
-              </Card.Group>
-            </div>
+              <Card>
+                <Card.Content>
+                  <Card.Header>Steve Sanders</Card.Header>
+                  <Card.Meta>Friends of Elliot</Card.Meta>
+                  <Card.Description>
+                    Steve wants to add you to the group{' '}
+                    <strong>best friends</strong>
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <Button.Group fluid>
+                    <Button basic color='green'>
+                      Approve
+                    </Button>
+                    <Button basic color='red'>
+                      Decline
+                    </Button>
+                  </Button.Group>
+                </Card.Content>
+              </Card>
+              <Card>
+                <Card.Content>
+                  <Card.Header>Steve Sanders</Card.Header>
+                  <Card.Meta>Friends of Elliot</Card.Meta>
+                  <Card.Description>
+                    Steve wants to add you to the group{' '}
+                    <strong>best friends</strong>
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <Button.Group fluid>
+                    <Button basic color='green'>
+                      Approve
+                    </Button>
+                    <Button basic color='red'>
+                      Decline
+                    </Button>
+                  </Button.Group>
+                </Card.Content>
+              </Card>
+            </Card.Group>
           )
         },{
           title: 'StyledCard Example',
           sectionFn: () => (
-            <div>
+            <Card.Group>
               <StyledCard bgColor='green'>
                 <Card.Content>
-                  <StyledCard.Header>Steve Sanders</StyledCard.Header>
+                  <Card.Header>Steve Sanders</Card.Header>
 
                   <Card.Meta>Friends of Elliot</Card.Meta>
                   <Card.Description>
@@ -116,20 +112,39 @@ storiesOf('Semantic UI/Views', module).addWithChapters('Card', {
                   </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                  <div className='ui two buttons'>
+                  <Button.Group fluid>
                     <Button basic color='green'>
                       Approve
                     </Button>
                     <Button basic color='red'>
                       Decline
                     </Button>
-                  </div>
+                  </Button.Group>
                 </Card.Content>
               </StyledCard>
-            </div>
+              <StyledCard bgColor='green'>
+                <Card.Header>Header is direct child</Card.Header>
+                <Card.Content>
+                  <Card.Meta>Friends of Elliot</Card.Meta>
+                  <Card.Description>
+                    Steve wants to add you to the group{' '}
+                    <strong>best friends</strong>
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <Button.Group fluid>
+                    <Button basic color='green'>
+                      Approve
+                    </Button>
+                    <Button basic color='red'>
+                      Decline
+                    </Button>
+                  </Button.Group>
+                </Card.Content>
+              </StyledCard>
+            </Card.Group>
           )
         }
-
       ]
     }
   ]

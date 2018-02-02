@@ -18,9 +18,15 @@ const Projects = DefineMap.extend('Projects', {}, {
   id: 'number',
   description: 'string',
   title: 'string',
-  rules: 'any',
   categories: 'any',
-  contributions: 'any'
+  rules: {
+    type: 'any',
+    default: []
+  },
+  contributions: {
+    type: 'any',
+    default: []
+  }
 });
 
 /**

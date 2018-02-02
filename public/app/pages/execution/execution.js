@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/';
+import { Container } from '@public/semantic-ui/index';
 import ExecutionDetails from '@public/components/execution-details/';
 import PropTypes from 'prop-types';
 
@@ -14,10 +15,10 @@ class ExecutionPage extends Component {
     let { appState } = this.context;
 
     return (
-      <div className="execution-page">
+      <Container fluid>
         <h1>Execution</h1>
         <ExecutionDetails executionId={appState.executionId} />
-      </div>
+      </Container>
     );
   }
 }

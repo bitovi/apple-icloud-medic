@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 const mockServer = new fixtureSocket.Server(io);
 const debug = makeDebug('medic:socket:connection');
 
+debug('Mock socket server starting...\n\t ===> This must happen before the Feathers Client socket!');
 mockServer.on('connection', () => {
   debug('Mock socket server connected!');
 });

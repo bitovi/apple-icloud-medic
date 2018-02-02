@@ -1,0 +1,3 @@
+@backgroundColor: #fff;
+@verticalMargin: 0.3em;
+@horizontalMargin: 0.5em;
