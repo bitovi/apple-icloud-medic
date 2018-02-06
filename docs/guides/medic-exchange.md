@@ -49,17 +49,54 @@ email: medic-dev@group.apple.com
 ### Branches
 
 * All repos should be configured with a `dev` branch as the default
+    * The `dev` branch is the default branch to be installed onto Medic's UAT environment.
+    * The `master` branch is the default branch to be installed onto Medic's Production environment
 * `master` should be protected and should require the following
     * Select `Protect this branch`
     * Select `Require pull request reviews before merging` under `Protect this branch`
     * Select `Include administrators`
     * Save
 
+> **Note** Packs' `dev` branches should never be installed onto Medic's Production environment.
+
+#### Merging to Master
+
+When a pack has been thoroughly tested in UAT environment and is ready for Production deployment, create a PR from `dev` to `master` and assign it to a Medic Admin for review.
+
+**Important** Ensure you update the pack's `pack.yaml` version appropriately in the PR.
+
+> **Note** If you're not sure who a Medic Admin is, ask in the `medic` room in HipChat.
+
+#### Production Installation
+
+Once your PR is approved, merge the PR, and request Production Installation from a Medic Admin.
+
+> **Note** This will be an automated process in the future.
+
+#### Tagging
+
+Once the pack's PR has been merged into master, create a tag for the version that was just merged into master.
+
+For example, if the `pack.yaml` in `master` now shows:
+```
+version: 0.1.5
+```
+
+Then do:
+```
+git tag 0.1.5 && git push --tags
+```
+
+
+
 ### Hooks & Services
 
 All medic-exchange repos should be configured with the following webhook:
 
-* **Payload URL:** https://sre-tools.apple.com/api/v1/webhooks/medic_github?st2-api-key=NTZiNDUwMmMyNjM5ODkyYzU5ZjVmMzVkMjUzNGI5NGIxNTYzZTNhODNlZWFkNjJlODhiNjhmYmVhZmI3NzFkMA
+* **Payload URL:** 
+```
+https://medic-admin.apple.com/api/v1/webhooks/medic_github?st2-api-key=YjRhMGVmZWEzYTQzZThhMGFiNTQ3YzAyM2ExZTRiY2VhOTE5YWRlMDZjMWYzOWU4MTdhNzIzNmFmMjhiMDNlMA
+```
 * **Content type:** `application/json`
 * **Let me select individual events** Select at least the followng
     * Commit comment
@@ -79,6 +116,8 @@ All medic-exchange repos should be configured with the following webhook:
 
 > **Note** `micloud` is part of the `medic-dev` team, but for some reason that is not enough to allow the `micloud` user to create pull requests.  More investigation is needed.
 
+
+### 
 
 
 ## Install a pack from medic-exchange
