@@ -8,6 +8,7 @@ const debug = require('debug')('medic:auth');
 module.exports = function () {
   const app = this;
   const authConfig = app.get('authentication');
+  const DEFAULT_STRATEGY = 'custom';
 
   const oldSetup = app.setup;
   app.setup = function (...args) {
@@ -50,22 +51,18 @@ module.exports = function () {
           // where it attempts to use the existing JWT. This enforces a policy
           // of re-authenticating users against DS on every socket connection.
           debug('Creating new session to be verified against Directory Services');
-          hook.data = { strategy: 'custom' };
+          hook.data = { strategy: DEFAULT_STRATEGY };
           return hook;
         },
-        // performs the actual authentication
-        authentication.hooks.authenticate('custom'),
+        // Perform the actual authentication
+        authentication.hooks.authenticate(DEFAULT_STRATEGY),
         (hook) => {
-          // The user service is an in-memory service. We need to create the user
-          // in memory and then attach the userId to the JWT payload.
-          debug('Creating user on users service', hook.params.user);
           const userSvc = app.service(authConfig.service);
-          return userSvc.create(hook.params.user).then(result => {
-            debug('Decorating auth payload with userID', result);
-            // `hook.params.payload` is a special property which will be appended
-            // to the JWT claim. Do not put the user in the payload!!
-            hook.params.payload = hook.params.payload || {};
-            Object.assign(hook.params.payload, { userId: hook.params.user[userSvc.id] });
+          debug('Adding User ID to auth payload', hook.params.user[userSvc.id]);
+          // `hook.params.payload` is a special property which will be merged
+          // with the JWT claim. Do NOT put the entire user in the payload (see below)!!
+          hook.params.payload = Object.assign({}, hook.params.payload, {
+            userId: hook.params.user[userSvc.id]
           });
         }
       ],
@@ -77,7 +74,8 @@ module.exports = function () {
       create: [
         (hook) => {
           // This makes the user available on the auth response so we don't have
-          // to request it separately. This is NOT part of the JWT claim.
+          // to request it separately. This data is NOT part of the JWT claim/payload.
+          debug('Sending user with auth response', hook.params.user);
           hook.result.user = hook.params.user;
           return hook;
         }

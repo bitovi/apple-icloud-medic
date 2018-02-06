@@ -75,6 +75,7 @@
     "db-migrate": "^0.10.0-beta.24",
     "db-migrate-pg": "^0.2.5",
     "debug": "^3.1.0",
+    "dot-prop": "^4.2.0",
     "feathers": "^2.2.2",
     "feathers-authentication": "^1.2.7",
     "feathers-authentication-custom": "feathersjs-ecosystem/feathers-authentication-custom#build-test",

@@ -23,6 +23,7 @@ module.exports = function () {
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service(location);
+  service.skipGlobalPermissionCheck = true;
 
   service.hooks(hooks);
   service.filter(filters);

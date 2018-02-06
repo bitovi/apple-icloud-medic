@@ -77,7 +77,7 @@ const algebra = makeAlgebra({
   }
 });
 
-const url = `/${env.API_BASE_URI}/executions`;
+const url = `${env.API_BASE_URI}/executions`;
 
 Executions.List = DefineList.extend({
   '#': Executions

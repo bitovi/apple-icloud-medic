@@ -1,5 +1,6 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const errors = require('feathers-errors');
+const decoratePermissions = require('../../hooks/permission-decorator');
 
 module.exports = {
   before: {
@@ -21,8 +22,8 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [],
-    create: [],
+    get: [decoratePermissions({ getUserFrom: 'result' })],
+    create: [decoratePermissions({ getUserFrom: 'result' })],
     update: [],
     patch: [],
     remove: []

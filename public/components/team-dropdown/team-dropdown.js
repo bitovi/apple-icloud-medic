@@ -20,10 +20,13 @@ class TeamDropdown extends Component {
   }
 
   render() {
-    const { options } = this.viewModel;
     const { teamName } = this.context.appState;
+    if (!teamName) {
+      return <div>initializing...</div>;
+    }
 
-    if (!options || !options.length || !teamName) {
+    const { options } = this.viewModel;
+    if (!options || !options.length) {
       return <div>loading...</div>;
     }
 

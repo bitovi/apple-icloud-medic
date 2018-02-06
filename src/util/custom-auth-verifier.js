@@ -1,4 +1,5 @@
 const errors = require('feathers-errors');
+const debug = require('debug')('medic:auth:verifier');
 const { makeValidator } = require('../middleware/sso/validate-cookie');
 const { makeExtractor } = require('../middleware/sso/extract-user-from-headers');
 const env = require('../../shared/env');
@@ -18,12 +19,19 @@ const splitGroups = (str) => {
 };
 
 class CustomVerifier {
-  constructor(app/*, settings*/) {
+  constructor(app/*, options*/) {
+    debug('Constructing custom auth verifier');
+    const authConfig = app.get('authentication');
     const ssoConfig = app.get('sso');
 
     // super admin groups must be defined
     if( !ssoConfig.superAdminGroups || !REG_VALID_GROUPS.test(ssoConfig.superAdminGroups) ) {
       throw new Error('You must specify at least one Super Admin Group ID environment variable. Please review the projects README for more information.');
+    }
+
+    this.service = typeof authConfig.service === 'string' ? app.service(authConfig.service) : authConfig.service;
+    if (!this.service) {
+      throw new Error('authConfig.service does not exist.\n\tMake sure you are passing a valid service path or service instance.');
     }
 
     this.app = app;
@@ -49,13 +57,16 @@ class CustomVerifier {
     if (env.IS_REMOTE && (''+ssoConfig.enabled !== 'false')) {
       if (ssoConfig.trustAuthHeaders && reqHasAuthHeaders(req)) {
         // Auth headers appended by load balancer (ex: Orchard)
+        debug('Verifying request using auth headers');
         userPromise = this.extract(req);
       } else {
         // Manually validate the auth cookie
+        debug('Verifying request using DS auth cookie');
         userPromise = this.validate(req);
       }
     } else {
       // Local dev mode
+      debug('Generating DEV user');
       userPromise = Promise.resolve({
         firstName: 'Dev',
         lastName: 'User',
@@ -65,26 +76,29 @@ class CustomVerifier {
       });
     }
 
-    userPromise
-      .then(user => {
-        // Make a display name so we don't have to check for nickName everywhere
-        user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
-        user.isSuperAdmin = false;
-        user.allGroups = user.allGroups.map(groupId => {
-          groupId = parseInt(groupId, 10);
-          if(this.superAdminGroups.indexOf(groupId) !== -1) {
-            this.app.info(`MSG="User is a super admin." USER=${user.emailAddress}`);
-            user.isSuperAdmin = true;
-          }
-          return groupId;
-        });
-        this.app.info(`MSG="User successfully authenticated." USER="${user.displayName} <${user.emailAddress}>"`);
-        done(null, user);
-      })
-      // convert error to a NotAuthenticated error
-      .catch(err => {
-        done(new errors.NotAuthenticated(err));
+    userPromise.then(user => {
+      // Make a display name so we don't have to check for nickName everywhere
+      user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
+      user.isSuperAdmin = false;
+      user.allGroups = user.allGroups.map(groupId => {
+        groupId = parseInt(groupId, 10);
+        if(this.superAdminGroups.indexOf(groupId) !== -1) {
+          debug(`User is a super admin: ${user.emailAddress}`);
+          user.isSuperAdmin = true;
+        }
+        return groupId;
       });
+      return user;
+    }).then(user => {
+      debug('Creating user on users service', user);
+      return this.service.create(user);
+    }).then(user => {
+      debug('User successfully authenticated and created', user);
+      done(null, user);
+    }).catch(err => {
+      // convert error to a NotAuthenticated error
+      done(new errors.NotAuthenticated(err));
+    });
   }
 }
 
