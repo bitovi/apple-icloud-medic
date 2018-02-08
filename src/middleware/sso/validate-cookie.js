@@ -20,6 +20,10 @@ function parseResponse (txt) {
   }, {});
 }
 
+// This is used for determining whether or not a user
+// needs to get a new cookie.
+class StaleCookieError extends Error {}
+
 function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
   return new Promise((resolve, reject) => {
     const data = qs.stringify({
@@ -71,6 +75,14 @@ function validateUser(fields, cookie, authHost, appId, appAdminPassword, ip) {
         // 14: Application not authorized to call validate
         // 98: Unknown (ex: Decrypt DAW token Failed)
         // 99: DS_AUTH_WEB_UNDER_MAINTENANCE
+        case '1':
+        case '4':
+        case '6':
+          // These are special cases where everything is working, we just
+          // need the user to get a new cookie.
+          err = new StaleCookieError(`Your session seems to be stale. Please logout and back in (#${resultObj.status} - ${resultObj.reason}).`);
+          break;
+
         default:
           err = new Error(`Auth validation error #${resultObj.status} - ${resultObj.reason}`);
           break;

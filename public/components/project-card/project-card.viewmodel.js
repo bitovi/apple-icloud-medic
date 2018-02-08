@@ -37,8 +37,7 @@ export default DefineMap.extend('ProjectCard', {
    *
    * Removes project from list.
    */
-  handleRemove(e) {
-    e.preventDefault();
+  handleRemove() {
     this.project.destroy().then(data => {
       debug(`Project ID ${data.id}: ${data.title} deleted`, data);
     });

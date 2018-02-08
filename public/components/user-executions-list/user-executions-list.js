@@ -4,6 +4,7 @@ import DefineMap from 'can-define/map/map';
 import PropTypes from 'prop-types';
 import UserExecutionsModel from '@public/models/user-executions';
 import { Table, Divider, Button } from '@public/semantic-ui/index';
+import { formatDate } from '@public/util/view-helpers';
 
 const ViewModel = DefineMap.extend('UserExecutionsList', {
   appState: { type: 'any' },
@@ -90,7 +91,7 @@ class UserExecutionsList extends Component {
           <a href={'/executions/' + item.executionId}>{item.executionId}</a>
         </Table.Cell>
         <Table.Cell>{item.description}</Table.Cell>
-        <Table.Cell>{item.createdAt}</Table.Cell>
+        <Table.Cell>{formatDate(item.createdAt)}</Table.Cell>
         <Table.Cell>
           <Button onClick={() => continueExecution(item)}>Continue</Button>
           <Button onClick={() => cancelExecution(item)}>Cancel</Button>
@@ -106,7 +107,7 @@ class UserExecutionsList extends Component {
           <a href={'/executions/' + item.executionId}>{item.executionId}</a>
         </Table.Cell>
         <Table.Cell>{item.description}</Table.Cell>
-        <Table.Cell>{item.createdAt}</Table.Cell>
+        <Table.Cell>{formatDate(item.createdAt)}</Table.Cell>
         <Table.Cell>{item.status}</Table.Cell>
       </Table.Row>
     );

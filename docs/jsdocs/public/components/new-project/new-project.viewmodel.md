@@ -9,6 +9,8 @@ NewProject View Model
     * [~projectName](#module_NewProject VM..projectName)
     * [~projectDescription](#module_NewProject VM..projectDescription)
     * [~projectCategory](#module_NewProject VM..projectCategory)
+    * [~newProjectId](#module_NewProject VM..newProjectId)
+    * [~error](#module_NewProject VM..error)
     * [~Updates VM properties when form is updated.()](#module_NewProject VM..Updates VM properties when form is updated.)
     * [~Save new project.()](#module_NewProject VM..Save new project.)
     * [~Handles cancel button click.()](#module_NewProject VM..Handles cancel button click.)
@@ -43,6 +45,26 @@ NewProject View Model
 | Name | Description |
 | --- | --- |
 | Input | value for the project category. |
+
+<a name="module_NewProject VM..newProjectId"></a>
+
+### NewProject VM~newProjectId
+**Kind**: inner property of [<code>NewProject VM</code>](#module_NewProject VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| The | ID for the newly created project |
+
+<a name="module_NewProject VM..error"></a>
+
+### NewProject VM~error
+**Kind**: inner property of [<code>NewProject VM</code>](#module_NewProject VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| An | error object for any input/save errors |
 
 <a name="module_NewProject VM..Updates VM properties when form is updated."></a>
 

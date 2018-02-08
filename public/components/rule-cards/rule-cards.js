@@ -18,21 +18,17 @@ class RuleCards extends Component {
    */
   render() {
     const { isLoading, isEditing, rules, itemsPerRow } = this.viewModel;
+    if (isLoading || !rules) {
+      return <p>Loading...</p>;
+    }
+    if (!rules.length) {
+      return <p>There are no rules to display.</p>;
+    }
     return (
       <Card.Group itemsPerRow={itemsPerRow}>
-        {(() => {
-          if (isLoading || !rules) {
-            return <p>Loading...</p>;
-          }
-          if (!rules.length) {
-            return <p>There are no items to display.</p>;
-          }
-          return rules.map(rule => {
-            return (
-              <RuleCard rule={rule} key={rule.id} isEditing={isEditing}></RuleCard>
-            );
-          });
-        })()}
+        {rules.map(rule => (
+          <RuleCard rule={rule} key={rule.id} isEditing={isEditing}></RuleCard>
+        ))}
       </Card.Group>
     );
   }

@@ -1,15 +1,8 @@
-import styled from 'styled-components';
-// import { darken, desaturate } from 'polished';
 import { Form as SemanticForm } from 'semantic-ui-react';
 import 'semantic-ui-less/semantic.less';
 
 // <Form />
-const Form = styled(SemanticForm)`
-  &&& {
-    background-color: blue
-  }
-`;
-
+const Form = SemanticForm;
 Form.Field = SemanticForm.Field;
 Form.Button = SemanticForm.Button;
 Form.Checkbox = SemanticForm.Checkbox;

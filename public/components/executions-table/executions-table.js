@@ -3,8 +3,8 @@ import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/list';
 import route from 'can-route-pushstate';
-import moment from 'moment';
 
+import { formatDate } from '@public/util/view-helpers';
 import { Table, Divider } from '@public/semantic-ui/index';
 import { ComponentWrapper } from './partials/styled';
 
@@ -59,7 +59,7 @@ class ExecutionsTable extends Component {
                   return (
                     <Table.Row key={execution.id}>
                       <Table.Cell>{execution.status}</Table.Cell>
-                      <Table.Cell>{moment(execution.start_timestamp).format(DATE_FORMAT)}</Table.Cell>
+                      <Table.Cell>{formatDate(execution.start_timestamp, DATE_FORMAT)}</Table.Cell>
                       <Table.Cell><ValueWithJSON execution={execution} valueProp='trigger.type' jsonProp='trigger' /></Table.Cell>
                       <Table.Cell><ValueWithJSON execution={execution} valueProp='liveaction.action' jsonProp='liveaction' /></Table.Cell>
                       <Table.Cell><ValueWithJSON execution={execution} valueProp='runner.name' jsonProp='runner' /></Table.Cell>

@@ -2,6 +2,7 @@ import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/list';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
+import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
 
@@ -13,12 +14,14 @@ const url = `${env.API_BASE_URI}/projects`;
  * @class
  * Defines the Projects model and its associated properties
  */
-const Projects = DefineMap.extend('Projects', {}, {
+const Projects = DefineMap.extend('Projects', withCommonFields({
   /* PROTOTYPE */
-  id: 'number',
   description: 'string',
   title: 'string',
-  categories: 'any',
+  categories: {
+    type: 'any',
+    default: []
+  },
   rules: {
     type: 'any',
     default: []
@@ -27,7 +30,7 @@ const Projects = DefineMap.extend('Projects', {}, {
     type: 'any',
     default: []
   }
-});
+}));
 
 /**
  * Projects.List model.

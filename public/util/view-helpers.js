@@ -1,4 +1,5 @@
 import makeDebug from 'debug';
+import moment from 'moment';
 import Session from '@public/models/session';
 import { userHasPermission as _userHasPermission } from '@root/shared/permission-helper';
 
@@ -16,6 +17,12 @@ const listAsArray = (list) => {
   return [...list];
 };
 
+/**
+ * Determine if a user has permission for a particular entity.
+ * @param  {String} entityName
+ * @param  {String} action
+ * @return {Boolean}
+ */
 const userHasPermission = (entityName, action) => {
   if (!Session.current || !Session.current.user) {
     sessionDebug('No user defined for permission check');
@@ -29,4 +36,14 @@ const userHasPermission = (entityName, action) => {
   return true;
 };
 
-export { listAsArray, userHasPermission };
+/**
+ * Format a date using moment
+ * @param  {String|Date} date
+ * @param  {String} format
+ * @return {String}
+ */
+const formatDate = (date, format = 'YYYY-MM-DD hh:ss') => {
+  return moment(date).format(format);
+};
+
+export { listAsArray, formatDate, userHasPermission };

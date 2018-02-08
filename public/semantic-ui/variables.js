@@ -17,11 +17,13 @@
 import siteVars from './globals/Site/site.variables!systemjs-plugin-text';
 import gridVars from './collections/Grid/grid.variables!systemjs-plugin-text';
 import cardVars from './views/Card/card.variables!systemjs-plugin-text';
+import containerVars from './elements/Container/container.variables!systemjs-plugin-text';
 
 const files = {
   site: siteVars,
   grid: gridVars,
-  card: cardVars
+  card: cardVars,
+  container: containerVars
 };
 
 const VAR_START = '@';

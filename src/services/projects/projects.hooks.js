@@ -29,7 +29,14 @@ module.exports = {
     all: [],
     find: [populateShallow],
     get: [populateDeep],
-    create: [],
+    create: [(hook) => {
+      const models = hook.app.get('sequelizeClient').models;
+      const Project = models.projects;
+      hook.params.sequelize = Object.assign({}, hook.params.sequelize, {
+        include: [ Project.Categories ]
+      });
+      return hook;
+    }],
     update: [],
     patch: [],
     remove: []

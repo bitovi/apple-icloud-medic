@@ -16,5 +16,5 @@ rendered on the underlying DOM element.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ({ | <code>Object</code> | bgColor, ...restProps }) |
+| ({ | <code>Object</code> | bgColor, detailUrl, ...restProps }) |
 

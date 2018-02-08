@@ -18,21 +18,17 @@ class ProjectCards extends Component {
    */
   render() {
     const { isLoading, isEditing, projects, itemsPerRow } = this.viewModel;
+    if (isLoading || !projects) {
+      return <p>Loading...</p>;
+    }
+    if (!projects.length) {
+      return <p>There are no projects to display.</p>;
+    }
     return (
       <Card.Group itemsPerRow={itemsPerRow}>
-        {(() => {
-          if (isLoading || !projects) {
-            return <p> Loading...</p>;
-          }
-          if (!projects.length) {
-            return <p> There are no items to display. </p>;
-          }
-          return projects.map(project => {
-            return (
-              <ProjectCard project={project} key={project.id} isEditing={isEditing}></ProjectCard>
-            );
-          });
-        })()}
+        {projects.map(project => (
+          <ProjectCard project={project} key={project.id} isEditing={isEditing}></ProjectCard>
+        ))}
       </Card.Group>
     );
   }

@@ -45,7 +45,7 @@ class ProjectPage extends Component {
           <PageHeader
             title={project.title}
             description={project.description}
-            category={project.category}
+            category={project.categories.length ? project.categories[0].title : null}
             toggleEditFn={toggleEdit}
             backUrl={backUrl}
           >
