@@ -61,7 +61,8 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   moduleId: 'string',
   executionId: 'string',
-  projectId: 'number',
+  projectId: 'string',
+  tabId: 'string',
   teamName: {
     set(newVal) {
       if (newVal) {

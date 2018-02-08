@@ -9,7 +9,7 @@ Project View Model
     * [~projectId](#module_Project VM..projectId)
     * [~project](#module_Project VM..project)
     * [~edit](#module_Project VM..edit)
-    * [~pages](#module_Project VM..pages)
+    * [~tabs](#module_Project VM..tabs)
     * [~toggleEdit
 
 Toggles edit state()](#module_Project VM..toggleEdit
@@ -46,9 +46,9 @@ Toggles edit state)
 | --- | --- |
 | edit | Edit state triggers page body to be editable. |
 
-<a name="module_Project VM..pages"></a>
+<a name="module_Project VM..tabs"></a>
 
-### Project VM~pages
+### Project VM~tabs
 **Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
 **Properties**
 

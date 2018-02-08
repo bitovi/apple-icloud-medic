@@ -57,11 +57,11 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
    *
    * Page and route options for the page-header tabs
    */
-  pages: {
+  tabs: {
     default: [
-      { title: 'Rules', route: '/rules' },
-      { title: 'Contributors', route: '/contributors' },
-      { title: 'Dashboard', route: '/dashboard' }
+      { title: 'Rules', tabId: 'rules' },
+      { title: 'Contributors', tabId: 'contributors' },
+      { title: 'Dashboard', tabId: 'dashboard' }
     ],
     type: 'array'
   }

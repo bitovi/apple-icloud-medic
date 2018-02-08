@@ -24,6 +24,7 @@ class ProjectsPage extends Component {
         <Message success><p>{message}</p></Message>
       </Grid.Column>;
     }
+
     return (
       <Grid padded>
         <Grid.Row>
@@ -31,11 +32,10 @@ class ProjectsPage extends Component {
             <h1>Projects</h1>
           </Grid.Column>
           <Grid.Column width={1}>
-            <Icon name='pencil' size='large' className='pull-right' onClick={this.viewModel.toggleEdit}/>
+            <Icon name='pencil' size='large' className='floatRight' onClick={this.viewModel.toggleEdit}/>
           </Grid.Column>
+          {messageRow}
         </Grid.Row>
-
-        {messageRow}
 
         <Grid.Row>
           <Grid.Column width={8}>

@@ -4,7 +4,7 @@ import Projects from '@public/models/projects';
 import mockServer from './mock-socket-server';
 
 function mock(){
-  let count = 100;
+  let count = 20;
   const arr = [];
   const ordinals = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'];
   while(count--) {

@@ -27,11 +27,22 @@
 Rule Cards View Model  
 
 * [RuleCards VM](#module_RuleCards VM)
+    * [~projectId](#module_RuleCards VM..projectId)
     * [~rulesPromise](#module_RuleCards VM..rulesPromise) ⇒
     * [~rules](#module_RuleCards VM..rules) ⇒
     * [~isLoading](#module_RuleCards VM..isLoading)
     * [~isEditing](#module_RuleCards VM..isEditing)
     * [~itemsPerRow](#module_RuleCards VM..itemsPerRow)
+
+<a name="module_RuleCards VM..projectId"></a>
+
+### RuleCards VM~projectId
+**Kind**: inner property of [<code>RuleCards VM</code>](#module_RuleCards VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| projectId | Project ID for the rules to load |
 
 <a name="module_RuleCards VM..rulesPromise"></a>
 

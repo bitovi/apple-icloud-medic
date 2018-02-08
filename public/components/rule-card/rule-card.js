@@ -36,7 +36,9 @@ class RuleCard extends Component {
         <Card.Content extra>
           <Label empty circular color={rule.enabled ? 'green' : 'red'} /> Enabled
           <div className="floatRight">
-            <Label color="black">{rule.tags[0].title}</Label>
+            {rule.tags.length ?
+              <Label color="black">{rule.tags[0].title}</Label>
+              : null}
           </div>
         </Card.Content>
       </StyledCard>

@@ -12,6 +12,7 @@ module.exports = function() {
   app.use('/stealjs', feathers.static('stealjs'));
   // todo: should not need public route, but steal uses it (see package "main")
   app.use('/public', feathers.static('public'));
+  app.use('/dist', feathers.static('dist'));
   app.use('/img', feathers.static('img'));
   app.use('/node_modules', feathers.static('node_modules'));
   app.use('/package.json', feathers.static('package.json'));

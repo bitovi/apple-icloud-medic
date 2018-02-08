@@ -9,16 +9,12 @@ PageHeader View Model
     * [~title](#module_PageHeader VM..title)
     * [~description](#module_PageHeader VM..description)
     * [~category](#module_PageHeader VM..category)
-    * [~toggleEdit
+    * [~backUrl](#module_PageHeader VM..backUrl)
+    * [~toggleEditFn
 
-Toggles edit state, passed from parent.()](#module_PageHeader VM..toggleEdit
+Toggles edit state, passed from parent.()](#module_PageHeader VM..toggleEditFn
 
 Toggles edit state, passed from parent.)
-    * [~navigateBack
-
-Navigates to the previous page.()](#module_PageHeader VM..navigateBack
-
-Navigates to the previous page.)
 
 <a name="module_PageHeader VM..title"></a>
 
@@ -50,19 +46,21 @@ Navigates to the previous page.)
 | --- | --- |
 | category | category for PageHeader component |
 
-<a name="module_PageHeader VM..toggleEdit
+<a name="module_PageHeader VM..backUrl"></a>
+
+### PageHeader VM~backUrl
+**Kind**: inner property of [<code>PageHeader VM</code>](#module_PageHeader VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| backUrl | The URL to navigate to when "back" is clicked - passed from parent |
+
+<a name="module_PageHeader VM..toggleEditFn
 
 Toggles edit state, passed from parent."></a>
 
-### PageHeader VM~toggleEdit
+### PageHeader VM~toggleEditFn
 
 Toggles edit state, passed from parent.()
-**Kind**: inner method of [<code>PageHeader VM</code>](#module_PageHeader VM)  
-<a name="module_PageHeader VM..navigateBack
-
-Navigates to the previous page."></a>
-
-### PageHeader VM~navigateBack
-
-Navigates to the previous page.()
 **Kind**: inner method of [<code>PageHeader VM</code>](#module_PageHeader VM)  

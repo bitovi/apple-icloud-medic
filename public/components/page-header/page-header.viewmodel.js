@@ -32,19 +32,19 @@ export default DefineMap.extend('PageHeader', {
     type: 'string'
   },
   /**
-   * @method toggleEdit
+   * @method toggleEditFn
    *
    * Toggles edit state, passed from parent.
    */
-  toggleEdit: {
+  toggleEditFn: {
     type: 'any'
   },
   /**
-   * @method navigateBack
+   * @prop backUrl
    *
-   * Navigates to the previous page.
+   * The URL to navigate to when "back" is clicked - passed from parent
    */
-  navigateBack() {
-    window.history.back();
+  backUrl: {
+    type: 'string'
   }
 });

@@ -13,6 +13,7 @@ function mock(){
         'This is a rule description. Click the rule title for more information.',
       tags: [{ id: 1, title: 'rule_tag' }],
       enabled: Math.random() > 0.7,
+      projectId: 100 + Math.round(count/5),
       id: 100 + count
     });
   }

@@ -2,7 +2,7 @@ const path = require('path');
 const env = require('../../shared/env');
 const { routeConfig, REG_PARAM_CURLY } = require('../../shared/routes');
 const ssoLoginRedirect = require('./sso/login-redirect');
-const indexFile = path.join(process.cwd(), `./public/${(env.IS_PROD_UI) ? 'index.production.html' : 'index.html'}`);
+const indexFile = path.join(process.cwd(), `./public/${(env.IS_PROD_UI) ? 'index.production.html' : 'index.development.html'}`);
 
 // Render the index page for defined routes
 module.exports = function() {

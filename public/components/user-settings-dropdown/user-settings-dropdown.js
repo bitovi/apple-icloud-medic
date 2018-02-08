@@ -23,8 +23,8 @@ UserSettingsDropdown.ViewModel = DefineMap.extend('UserSettingsDropdown', {
   },
   get options() {
     const values = [
-      { text: 'Manage Teams', onClick: this.handleClick },
-      { text: 'Log Out', onClick: this.handleClick },
+      { text: 'Manage Teams', onClick: this.handleClick, key: 'manage-teams' },
+      { text: 'Log Out', onClick: this.handleClick, key: 'logout' },
     ];
     return values.map(val => Object.assign(val, {
       selected: false

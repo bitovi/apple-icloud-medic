@@ -22,10 +22,10 @@ class RuleCards extends Component {
       <Card.Group itemsPerRow={itemsPerRow}>
         {(() => {
           if (isLoading || !rules) {
-            return <p> Loading...</p>;
+            return <p>Loading...</p>;
           }
           if (!rules.length) {
-            return <p> There are no items to display. </p>;
+            return <p>There are no items to display.</p>;
           }
           return rules.map(rule => {
             return (
@@ -45,6 +45,14 @@ class RuleCards extends Component {
 */
 RuleCards.ViewModel = DefineMap.extend('RuleCards', {
   /**
+   * @prop projectId
+   *
+   * Project ID for the rules to load
+   */
+  projectId: {
+    type: 'number'
+  },
+  /**
    * Get promise for rules list.
    *
    * @returns a promise that resolves to a list of rules.
@@ -52,7 +60,10 @@ RuleCards.ViewModel = DefineMap.extend('RuleCards', {
   rulesPromise: {
     type: 'any',
     get() {
-      return Rules.getList({});
+      if (this.projectId) {
+        return Rules.getList({ projectId: this.projectId });
+      }
+      return Promise.resolve([]);
     }
   },
   /**
