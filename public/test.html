@@ -1,5 +1,6 @@
 <!doctype html>
 <title>medic tests</title>
 <script>FuncUnit = { frameMode: true };</script>
-<script src="../node_modules/steal/steal.js" main="@public/test"></script>
+<!-- note, if using this file, you will want to run `npm run test-bundle` first -->
+<script src="/node_modules/steal/steal.js" env="window-test" dev-bundle="public/test-bundles/dev-bundle" main="@public/test"></script>
 <div id="qunit-fixture"></div>

@@ -49,7 +49,7 @@ PageHeader.propTypes = {
   category: PropTypes.string,
   backUrl: PropTypes.string,
   toggleEditFn: PropTypes.func,
-  children: PropTypes.array
+  children: PropTypes.object
 };
 
 export default PageHeader;

@@ -8,19 +8,23 @@ import makeAlgebra from './algebras/feathers';
 
 const url = `${env.API_BASE_URI}/rules`;
 
+const definitions = withCommonFields({
+  projectId: 'number',
+  title: 'string',
+  description: 'string',
+  enabled: 'boolean',
+  tags: 'any'
+});
+
 /**
  * Rules model.
  * @module models/rules
  * @class
  * Defines the Rules model and its associated properties
  */
-const Rules = DefineMap.extend('Rules', withCommonFields({
-  projectId: 'number',
-  title: 'string',
-  description: 'string',
-  enabled: 'boolean',
-  tags: 'any'
-}));
+const Rules = DefineMap.extend('Rules', definitions);
+// Used by the EditForm component
+Rules.definitions = definitions;
 
 /**
  * Rules.List model.

@@ -7,16 +7,16 @@
 
 Want to connect with Medic?  Here are some resources to help get you started.
 
-* [How to connect with Medic](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/how-to-connect.md)
-* [New Carnival Configuration](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/new-carnival-config.md)
+* [How to connect with Medic](docs/guides/how-to-connect.md)
+* [New Carnival Configuration](docs/guides/new-carnival-config.md)
 
 ## Medic Design & Dev Resources
 Helpful resources for Medic Developers
 
-* [Designer/Developer Process](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/design-dev-process.md)
-* [Local Development](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/docker.md)
-* [Creating and Contributing Packs](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
-* [Webhooks and API Keys](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/webhooks-and-api-keys.md)
+* [Designer/Developer Process](docs/guides/design-dev-process.md)
+* [Local Development](docs/guides/docker.md)
+* [Creating and Contributing Packs](docs/guides/medic-exchange.md)
+* [Webhooks and API Keys](docs/guides/webhooks-and-api-keys.md)
 
 ## About
 
@@ -39,6 +39,8 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
     ```
     npm start
+    # npm run develop
+    # npm run debug
     ```
 
 ## Development / Debugging (with auto-restart)
@@ -50,6 +52,7 @@ This app is configured to use StealJS' dev-bundle. Any time you install a new pa
 ```
 npm run dev-bundle
 ```
+> **Note:** the above command is configured to run as a `postinstall` script which will run every time your run `npm install`.
 
 ### nodemon / watch
 
@@ -65,42 +68,39 @@ npm run debug
 
 ### Creating components
 
-This app is configured with a [yeoman generator](https://github.pie.apple.com/icloud-automation-sre/generator-rvm-component) for creating components.
+This app is configured with a [yeoman generator](https://github.pie.apple.com/icloud-automation-sre/generator-rvm-component) for creating components. First, ensure yeoman is installed and then you can create components:
 
-First, ensure yeoman is installed:
 ```
 npm install -g yo
-```
-
-Then, create a component with:
-```
 yo rvm-component
 ```
 
-#### Yeoman issues
-
-**Yeoman version**
-
-If you have an older version of yeoman installed, you may need to clean the npm cache and reinstall.
-
-Try
-```
-npm cache clean && npm rm -g yo && npm cache clean && npm install -g yo
-```
-
-**nvm**
-
-If you use nvm, you'll need to make sure that the yeoman binary in `/usr/local/bin` points to the version installed in your nvm directory.
+> #### Yeoman issues
+>
+> If you have an older version of yeoman installed, you may need to clean the npm cache and reinstall.
+> 
+> ```
+> npm cache clean && npm rm -g yo && npm cache clean && npm install -g yo
+> ```
+> 
+> If you use nvm, you might need to make sure that the yeoman binary in `/usr/local/bin` points to the version installed in your nvm directory.
 One way around this is to create a symlink:
-
-```
-ln -s /Users/yoursystemusername/.nvm/versions/node/v6.7.0/bin/yo /usr/local/bin/yo
-```
+> 
+> ```
+> ln -s /Users/yoursystemusername/.nvm/versions/node/v6.7.0/bin/yo /usr/local/bin/yo
+> ```
 
 
 ## Testing
 
-Simply run `npm test` and all your tests in the `test/` directory will be run.
+Simply run `npm test` and all your client and server tests will be run.
+
+If you are using the browser for client tests, you will want to create a test bundle first:
+
+```
+npm run test-bundle && npm run develop
+# Open the test page: http://localhost:PORT/test.html
+```
 
 
 ## Documentation
@@ -123,9 +123,3 @@ npm run storybook
 __0.1.0__
 
 - Initial release
-
-## License
-
-Copyright (c) 2016
-
-Licensed under the [MIT license](LICENSE).

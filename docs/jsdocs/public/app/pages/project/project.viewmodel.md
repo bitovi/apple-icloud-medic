@@ -8,13 +8,26 @@ Project View Model
 * [Project VM](#module_Project VM)
     * [~projectId](#module_Project VM..projectId)
     * [~project](#module_Project VM..project)
-    * [~edit](#module_Project VM..edit)
+    * [~urls](#module_Project VM..urls)
     * [~tabs](#module_Project VM..tabs)
+    * [~selectedTabId](#module_Project VM..selectedTabId)
+    * [~tabItemId](#module_Project VM..tabItemId)
+    * [~isEditing](#module_Project VM..isEditing)
     * [~toggleEdit
 
-Toggles edit state()](#module_Project VM..toggleEdit
+Toggles isEditing state()](#module_Project VM..toggleEdit
 
-Toggles edit state)
+Toggles isEditing state)
+    * [~newProjectSuccess
+
+Called when a new project is created.()](#module_Project VM..newProjectSuccess
+
+Called when a new project is created.)
+    * [~newRuleSuccess
+
+Called when a new rule is created.()](#module_Project VM..newRuleSuccess
+
+Called when a new rule is created.)
 
 <a name="module_Project VM..projectId"></a>
 
@@ -36,15 +49,15 @@ Toggles edit state)
 | --- | --- |
 | project | The gets the project data if it wasn't already passed into the component. |
 
-<a name="module_Project VM..edit"></a>
+<a name="module_Project VM..urls"></a>
 
-### Project VM~edit
+### Project VM~urls
 **Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
 **Properties**
 
 | Name | Description |
 | --- | --- |
-| edit | Edit state triggers page body to be editable. |
+| urls | A dictionary of different URLs for the project page |
 
 <a name="module_Project VM..tabs"></a>
 
@@ -54,13 +67,59 @@ Toggles edit state)
 
 | Name | Description |
 | --- | --- |
-| pages | Page and route options for the page-header tabs |
+| tabs | Options for the tabbed nav component |
+
+<a name="module_Project VM..selectedTabId"></a>
+
+### Project VM~selectedTabId
+**Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| selectedTabId | The tabId for the currently selected tab |
+
+<a name="module_Project VM..tabItemId"></a>
+
+### Project VM~tabItemId
+**Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| tabItemId | The ID for a particular item under the selected tab |
+
+<a name="module_Project VM..isEditing"></a>
+
+### Project VM~isEditing
+**Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| isEditing | Edit state triggers page body to be editable. |
 
 <a name="module_Project VM..toggleEdit
 
-Toggles edit state"></a>
+Toggles isEditing state"></a>
 
 ### Project VM~toggleEdit
 
-Toggles edit state()
+Toggles isEditing state()
+**Kind**: inner method of [<code>Project VM</code>](#module_Project VM)  
+<a name="module_Project VM..newProjectSuccess
+
+Called when a new project is created."></a>
+
+### Project VM~newProjectSuccess
+
+Called when a new project is created.()
+**Kind**: inner method of [<code>Project VM</code>](#module_Project VM)  
+<a name="module_Project VM..newRuleSuccess
+
+Called when a new rule is created."></a>
+
+### Project VM~newRuleSuccess
+
+Called when a new rule is created.()
 **Kind**: inner method of [<code>Project VM</code>](#module_Project VM)  

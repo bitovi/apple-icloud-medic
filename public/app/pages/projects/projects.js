@@ -29,16 +29,16 @@ class ProjectsPage extends Component {
           <Message success><p>{message}</p></Message>
           :null}
         <Grid>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Button as="a" href={newProjectUrl} basic>New Project</Button>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Icon name='pencil' size='large' className='floatRight' onClick={this.viewModel.toggleEdit}/>
-            </Grid.Column>
-          </Grid.Row>
+          <Grid.Column width={8}>
+            <Button as="a" href={newProjectUrl} basic>New Project</Button>
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Icon name='pencil' size='large' className='floatRight' onClick={this.viewModel.toggleEdit}/>
+          </Grid.Column>
+          <Grid.Column width={16}>
+            <ProjectCards isEditing={this.viewModel.isEditing}></ProjectCards>
+          </Grid.Column>
         </Grid>
-        <ProjectCards isEditing={this.viewModel.isEditing}></ProjectCards>
       </Container>
     );
   }

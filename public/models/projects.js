@@ -8,16 +8,9 @@ import makeAlgebra from './algebras/feathers';
 
 const url = `${env.API_BASE_URI}/projects`;
 
-/**
- * Projects model.
- * @module models/projects
- * @class
- * Defines the Projects model and its associated properties
- */
-const Projects = DefineMap.extend('Projects', withCommonFields({
-  /* PROTOTYPE */
-  description: 'string',
+const definitions = withCommonFields({
   title: 'string',
+  description: 'string',
   categories: {
     type: 'any',
     default: []
@@ -30,7 +23,17 @@ const Projects = DefineMap.extend('Projects', withCommonFields({
     type: 'any',
     default: []
   }
-}));
+});
+
+/**
+ * Projects model.
+ * @module models/projects
+ * @class
+ * Defines the Projects model and its associated properties
+ */
+const Projects = DefineMap.extend('Projects', definitions);
+// Used by the EditForm component
+Projects.definitions = definitions;
 
 /**
  * Projects.List model.

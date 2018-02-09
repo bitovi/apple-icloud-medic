@@ -1,5 +1,6 @@
 import DefineMap from 'can-define/map/map';
 import route from 'can-route-pushstate';
+import { PAGES } from '@root/shared/routes';
 import ProjectsModel from '@public/models/projects';
 
 /**
@@ -36,34 +37,90 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
     }
   },
   /**
-   * @prop edit
+   * @prop urls
+   *
+   * A dictionary of different URLs for the project page
+   */
+  urls: {
+    type: 'any',
+    default() {
+      const { teamName, projectId } = route.data;
+      return {
+        projectsList: route.url({ teamName, moduleId: PAGES.projects }),
+        project: route.url({ teamName, projectId,  }),
+        rulesTab: route.url({ teamName, projectId, tabId: 'rules' }),
+        newRule: route.url({ teamName, projectId, tabId: 'rules', tabItemId: 'new' })
+      };
+    }
+  },
+  /**
+   * @prop tabs
+   *
+   * Options for the tabbed nav component
+   */
+  tabs: {
+    type: 'array',
+    default: [
+      { title: 'Rules', tabId: 'rules' },
+      { title: 'Contributors', tabId: 'contributors' },
+      { title: 'Dashboard', tabId: 'dashboard' }
+    ]
+  },
+  /**
+   * @prop selectedTabId
+   *
+   * The tabId for the currently selected tab
+   */
+  selectedTabId: {
+    get() {
+      return route.data.tabId || this.tabs[0].tabId;
+    }
+  },
+  /**
+   * @prop tabItemId
+   *
+   * The ID for a particular item under the selected tab
+   */
+  tabItemId: {
+    type: 'number',
+    get(lastVal) {
+      // lastVal will be set if passed from parent component
+      return lastVal || route.data.tabItemId;
+    }
+  },
+  /**
+   * @prop isEditing
    *
    * Edit state triggers page body to be editable.
    */
-  edit: {
+  isEditing: {
     type: 'boolean',
     default: false
   },
   /**
    * @method toggleEdit
    *
-   * Toggles edit state
+   * Toggles isEditing state
    */
   toggleEdit() {
-    this.edit = !this.edit;
+    this.isEditing = !this.isEditing;
   },
   /**
-   * @prop pages
+   * @method newProjectSuccess
    *
-   * Page and route options for the page-header tabs
+   * Called when a new project is created.
    */
-  tabs: {
-    default: [
-      { title: 'Rules', tabId: 'rules' },
-      { title: 'Contributors', tabId: 'contributors' },
-      { title: 'Dashboard', tabId: 'dashboard' }
-    ],
-    type: 'array'
+  newProjectSuccess(project) {
+    route.data.projectId = project.id;
+  },
+  /**
+   * @method newRuleSuccess
+   *
+   * Called when a new rule is created.
+   */
+  newRuleSuccess(rule) {
+    route.data.tabId = 'rules';
+    route.data.tabItemId = rule.id;
   }
 });
 
