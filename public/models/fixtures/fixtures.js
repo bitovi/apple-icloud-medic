@@ -7,3 +7,4 @@ import './executions/executions';
 import './executions/filters';
 import './projects';
 import './rules';
+import './project-contributors';

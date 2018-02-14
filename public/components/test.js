@@ -5,6 +5,7 @@ import './json-viewer/json-viewer-test';
 import './pagination/pagination-test';
 import './project-card/project-card-test';
 import './project-cards/project-cards-test';
+import './project-contributor/project-contributor-test';
 import './rule-card/rule-card-test';
 import './edit-form/edit-form-test';
 // import './team-dropdown/team-dropdown-test';
