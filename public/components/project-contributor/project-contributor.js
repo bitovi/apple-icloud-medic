@@ -8,7 +8,7 @@ import { Dropdown, Icon, Image, Segment, StyledSegment } from '@public/semantic-
  * @module ProjectContributor
  * @parent components
  *
- * ProjectContributor Description
+ * ProjectContributor renders a single segment view for the project contributor view
  */
 class ProjectContributor extends Component {
   /**

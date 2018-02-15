@@ -8,7 +8,7 @@ import { Segment } from '@public/semantic-ui/index';
  * @module ProjectContributors
  * @parent components
  *
- * ProjectContributors Description
+ * ProjectContributors is the list component for the project contributors.
  */
 class ProjectContributors extends Component {
   /**

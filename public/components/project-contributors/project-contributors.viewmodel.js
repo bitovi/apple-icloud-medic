@@ -8,7 +8,7 @@ import ProjectContributors from '@public/models/project-contributors/project-con
  */
 export default DefineMap.extend('ProjectContributors', {
   /**
-   * Get promise for contributors list.
+   * Get promise for contributors list. Requires the projectId to be defined.
    *
    * @returns a promise that resolves to a list of contributors.
    */
@@ -54,14 +54,5 @@ export default DefineMap.extend('ProjectContributors', {
       });
       return true;
     }
-  },
-  /**
-   * @prop isEditing
-   *
-   * Contributor edit state
-   */
-  isEditing: {
-    type: 'boolean',
-    default: false
   }
 });

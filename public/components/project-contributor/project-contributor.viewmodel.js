@@ -19,9 +19,9 @@ export default DefineMap.extend('ProjectContributor', {
   },
 
   /**
-   * Get promise for contributor list.
+   * Get promise for single contributor.
    *
-   * @returns a promise that resolves to a list of contributor.
+   * @returns a promise that resolves to a contributor.
   */
   contributorPromise: {
     type: 'any',
@@ -30,9 +30,9 @@ export default DefineMap.extend('ProjectContributor', {
     }
   },
   /**
-   * Get list of contributor
+   * Get list of contributors
    * @type ProjectContributors
-   * @returns a list of contributor resolved from contributorPromise
+   * @returns a contributor instance resolved from contributorPromise
    */
   contributor: {
     get(lastSetVal, setVal){
@@ -51,7 +51,11 @@ export default DefineMap.extend('ProjectContributor', {
   handleRemove() {
     this.contributor.destroy();
   },
-
+  /**
+   * @prop permissionsOptions
+   *
+   * The different levels of permissions for a project.
+   */
   permissionOptions: {
     value: [
       { key: 'Admin', value: 'Admin', text: 'Admin' },
@@ -60,7 +64,11 @@ export default DefineMap.extend('ProjectContributor', {
     ],
     Type: DefineList
   },
-
+  /**
+   * @method handlePermissionsChange
+   *
+   * Updates permission property for a contributor.
+   */
   handlePermissionsChange(ev, data) {
     if (this.contributor.permissions != data.value) {
       this.contributor.permissions = data.value;

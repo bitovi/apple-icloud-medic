@@ -23,7 +23,6 @@ const definitions = withCommonFields({
  * Defines the ProjectContributors model and its associated properties
  */
 const ProjectContributors = DefineMap.extend('ProjectContributors', definitions);
-// Used by the EditForm component
 ProjectContributors.definitions = definitions;
 
 /**
