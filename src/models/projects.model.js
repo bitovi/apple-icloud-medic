@@ -42,6 +42,7 @@ module.exports = function (app) {
    */
   projects.associate = function (models) {
     this.Rules = this.hasMany(models.rules);
+    this.Contributors = this.hasMany(models.contributors);
     this.Categories = this.belongsToMany(models.categories, {
       through: {
         model: models['item-categories'],
