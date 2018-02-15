@@ -94,6 +94,7 @@
     "helmet": "^3.8.2",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.19.1",
+    "node-balanced": "0.0.14",
     "pg": "^7.4.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",

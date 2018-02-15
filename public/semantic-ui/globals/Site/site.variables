@@ -1,3 +1,53 @@
+// ------------------------------------------------
+//   Custom color variables
+//   These are defined by "us" (not Semantic UI)
+// ------------------------------------------------
+
+@color-cobalt-blue: #4156a6;
+@color-light-cobalt-blue: #738bbf;
+@color-primary-button: #2e8ecd;
+@color-light-blue: #74bde4;
+
+@color-background-darkest: #141a23;
+@color-background-dark: #252f3f;
+@color-background-medium-dark: #4b607f;
+@color-background-medium: #7a8899;
+@color-background-medium-light: #b8c2cc;
+@color-background-light: #d7dee2;
+@color-background: #f5f5f7;
+@color-white: #ffffff;
+@color-background-tan: #f4f0ea;
+@color-border: #e8e8ea;
+@color-hover: @color-border;
+
+@color-copy: #343a42;
+@color-caption: #616d7a;
+@color-label: #8b979e;
+
+@color-status-running: #55c6d6;
+@color-status-success: #52bc7d;
+@color-status-warning: #fcc861;
+@color-status-failed: #f05563;
+@color-status-canceled: #c6c1ab;
+
+@color-ui-purple: #6e5b9e;
+@color-ui-magenta: #b75da4;
+@color-ui-pink: #e95ea2;
+@color-ui-burgandy: #7a1a52;
+@color-ui-salmon: #ef5a64;
+@color-ui-orange: #f68d49;
+@color-ui-turquoise: #027b88;
+@color-ui-teal: #38beb6;
+@color-ui-grass: #70c16e;
+
+
+// =====================================================
+// =====================================================
+//   SEMANTIC UI VARIABLES
+//   Everything below is defined by Semantic UI
+// =====================================================
+// =====================================================
+
 // https://github.com/Semantic-Org/Semantic-UI-LESS/blob/master/themes/default/globals/site.variables
 
 /*-------------------
@@ -19,6 +69,58 @@
 
 @defaultBorderRadius: .3em;
 
+/*-------------------
+      Site Colors
+--------------------*/
+@red              : @color-status-failed;
+@orange           : @color-ui-orange;
+@yellow           : @color-status-warning;
+@olive            : @color-ui-grass;
+@green            : @color-status-success;
+@teal             : @color-ui-teal;
+@blue             : @color-primary-button;
+@violet           : @color-ui-purple;
+@purple           : @color-ui-magenta;
+@pink             : @color-ui-pink;
+@brown            : @color-ui-burgandy;
+@grey             : @color-background-medium;
+@black            : @color-background-darkest;
+
+/*---  Light Colors  ---*/
+@lightRed         : lighten(@red, 10);
+@lightOrange      : lighten(@orange, 10);
+@lightYellow      : lighten(@yellow, 10);
+@lightOlive       : lighten(@olive, 10);
+@lightGreen       : lighten(@green, 10);
+@lightTeal        : lighten(@teal, 10);
+@lightBlue        : lighten(@blue, 10);
+@lightViolet      : lighten(@violet, 10);
+@lightPurple      : lighten(@purple, 10);
+@lightPink        : lighten(@pink, 10);
+@lightBrown       : lighten(@brown, 10);
+@lightGrey        : lighten(@grey, 10);
+@lightBlack       : lighten(@black, 10);
+
+/*---   Neutrals  ---*/
+@fullBlack        : #000000;
+@offWhite         : #F9FAFB;
+@darkWhite        : #F3F4F5;
+@midWhite         : #DCDDDE;
+@white            : #FFFFFF;
+
+/*--- Colored Backgrounds ---*/
+@redBackground    : #FFE8E6;
+@orangeBackground : #FFEDDE;
+@yellowBackground : #FFF8DB;
+@oliveBackground  : #FBFDEF;
+@greenBackground  : #E5F9E7;
+@tealBackground   : #E1F7F7;
+@blueBackground   : #DFF0FF;
+@violetBackground : #EAE7FF;
+@purpleBackground : #F6E7FF;
+@pinkBackground   : #FFE3FB;
+@brownBackground  : #F1E2D3;
+
 
 /*-------------------
     Brand Colors
@@ -29,6 +131,7 @@
 
 @lightPrimaryColor   : @lightBlue;
 @lightSecondaryColor : @lightBlack;
+
 
 /*-------------------
         Page
@@ -119,55 +222,18 @@
       Site Colors
 --------------------*/
 
-/*---  Colors  ---*/
-@red              : #DB2828;
-@orange           : #F2711C;
-@yellow           : #FBBD08;
-@olive            : #B5CC18;
-@green            : #21BA45;
-@teal             : #00B5AD;
-@blue             : #2185D0;
-@violet           : #6435C9;
-@purple           : #A333C8;
-@pink             : #E03997;
-@brown            : #A5673F;
-@grey             : #767676;
-@black            : #1B1C1D;
-
-/*---  Light Colors  ---*/
-@lightRed         : #FF695E;
-@lightOrange      : #FF851B;
-@lightYellow      : #FFE21F;
-@lightOlive       : #D9E778;
-@lightGreen       : #2ECC40;
-@lightTeal        : #6DFFFF;
-@lightBlue        : #54C8FF;
-@lightViolet      : #A291FB;
-@lightPurple      : #DC73FF;
-@lightPink        : #FF8EDF;
-@lightBrown       : #D67C1C;
-@lightGrey        : #DCDDDE;
-@lightBlack       : #545454;
-
-/*---   Neutrals  ---*/
-@fullBlack        : #000000;
-@offWhite         : #F9FAFB;
-@darkWhite        : #F3F4F5;
-@midWhite         : #DCDDDE;
-@white            : #FFFFFF;
-
-/*--- Colored Backgrounds ---*/
-@redBackground    : #FFE8E6;
-@orangeBackground : #FFEDDE;
-@yellowBackground : #FFF8DB;
-@oliveBackground  : #FBFDEF;
-@greenBackground  : #E5F9E7;
-@tealBackground   : #E1F7F7;
-@blueBackground   : #DFF0FF;
-@violetBackground : #EAE7FF;
-@purpleBackground : #F6E7FF;
-@pinkBackground   : #FFE3FB;
-@brownBackground  : #F1E2D3;
+/*--- Colored Text ---*/
+@redTextColor    : @red;
+@orangeTextColor : @orange;
+@yellowTextColor : darken(@yellow, 20%); // Yellow text is difficult to read
+@oliveTextColor  : darken(@olive, 20%); // Olive is difficult to read
+@greenTextColor  : darken(@green, 20%); // Green is difficult to read
+@tealTextColor   : darken(@teal, 20%); // Teal text is difficult to read
+@blueTextColor   : @blue;
+@violetTextColor : @violet;
+@purpleTextColor : @purple;
+@pinkTextColor   : @pink;
+@brownTextColor  : @brown;
 
 /*--- Colored Headers ---*/
 @redHeaderColor    : darken(@redTextColor, 5);
@@ -181,19 +247,6 @@
 @purpleHeaderColor : darken(@purpleTextColor, 5);
 @orangeHeaderColor : darken(@orangeTextColor, 5);
 @brownHeaderColor  : darken(@brownTextColor, 5);
-
-/*--- Colored Text ---*/
-@redTextColor    : @red;
-@orangeTextColor : @orange;
-@yellowTextColor : #B58105; // Yellow text is difficult to read
-@oliveTextColor  : #8ABC1E; // Olive is difficult to read
-@greenTextColor  : #1EBC30; // Green is difficult to read
-@tealTextColor   : #10A3A3; // Teal text is difficult to read
-@blueTextColor   : @blue;
-@violetTextColor : @violet;
-@purpleTextColor : @purple;
-@pinkTextColor   : @pink;
-@brownTextColor  : @brown;
 
 /*--- Colored Border ---*/
 @redBorderColor    : @redTextColor;

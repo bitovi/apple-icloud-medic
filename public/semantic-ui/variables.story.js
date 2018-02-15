@@ -8,8 +8,8 @@ const REG_COLOR = /^(#[A-Fa-f\d]{3,8}|rgba?\(|hsla?\()/;
 
 const ColorBlock = styled.span`
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 1.5em;
+  height: 1.5em;
   margin-right: .5em;
   border: 1px solid ${props => darken(0.3, props.color)};
   background-color: ${props => props.color}

@@ -1,2 +1,15 @@
 .ui.button.hover:extend(.ui.button:hover) {}
 .ui.button.down:extend(.ui.button:active) {}
+.ui.button.focus:extend(.ui.button:focus) {}
+
+.ui.button.basic.hover:extend(.ui.basic.button:hover) {}
+.ui.button.basic.down:extend(.ui.basic.button:active) {}
+.ui.button.basic.focus:extend(.ui.basic.button:focus) {}
+
+.ui.button.primary.hover:extend(.ui.primary.button:hover) {}
+.ui.button.primary.down:extend(.ui.primary.button:active) {}
+.ui.button.primary.focus:extend(.ui.primary.button:focus) {}
+
+.ui.button.secondary.hover:extend(.ui.secondary.button:hover) {}
+.ui.button.secondary.down:extend(.ui.secondary.button:active) {}
+.ui.button.secondary.focus:extend(.ui.secondary.button:focus) {}

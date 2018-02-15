@@ -1,9 +1,2 @@
 // https://github.com/Semantic-Org/Semantic-UI-LESS/blob/master/themes/default/elements/button.variables
 
-@backgroundColor: #abc;
-@hoverBackgroundColor: lighten(@backgroundColor, 7);
-@downBackgroundColor: darken(@backgroundColor, 15);
-// keyboard focus, after user releases mouse (still focused)
-@focusBackgroundColor: darken(@backgroundColor, 5);
-// only .active (not :active)
-@activeBackgroundColor: @focusBackgroundColor;
