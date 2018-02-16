@@ -10,12 +10,11 @@ ProjectContributors View Model
     * [~contributors](#module_ProjectContributors VM..contributors) ⇒
     * [~projectId](#module_ProjectContributors VM..projectId)
     * [~isLoading](#module_ProjectContributors VM..isLoading)
-    * [~isEditing](#module_ProjectContributors VM..isEditing)
 
 <a name="module_ProjectContributors VM..contributorsPromise"></a>
 
 ### ProjectContributors VM~contributorsPromise ⇒
-Get promise for contributors list.
+Get promise for contributors list. Requires the projectId to be defined.
 
 **Kind**: inner property of [<code>ProjectContributors VM</code>](#module_ProjectContributors VM)  
 **Returns**: a promise that resolves to a list of contributors.  
@@ -45,14 +44,4 @@ Get list of contributors
 | Name | Description |
 | --- | --- |
 | isLoading | ProjectContributors loading state. |
-
-<a name="module_ProjectContributors VM..isEditing"></a>
-
-### ProjectContributors VM~isEditing
-**Kind**: inner property of [<code>ProjectContributors VM</code>](#module_ProjectContributors VM)  
-**Properties**
-
-| Name | Description |
-| --- | --- |
-| isEditing | Contributor edit state |
 

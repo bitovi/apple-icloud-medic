@@ -1,8 +1,8 @@
-// Initializes the `contributors` service on path `/contributors`
+// Initializes the `project-contributors` service on path `/project-contributors`
 const createService = require('feathers-sequelize');
-const createModel = require('../../models/contributors.model');
-const hooks = require('./contributors.hooks');
-const filters = require('./contributors.filters');
+const createModel = require('../../models/project-contributors.model');
+const hooks = require('./project-contributors.hooks');
+const filters = require('./project-contributors.filters');
 const env = require('../../../shared/env');
 
 module.exports = function () {
@@ -11,12 +11,12 @@ module.exports = function () {
   const paginate = app.get('paginate');
 
   const options = {
-    name: 'contributors',
+    name: 'project-contributors',
     Model,
     paginate
   };
 
-  const location = `${env.API_BASE_URI}/contributors`;
+  const location = `${env.API_BASE_URI}/project-contributors`;
   // Initialize our service with any options it requires
   app.use(location, createService(options));
 

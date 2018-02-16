@@ -7,7 +7,7 @@ const projects = require('./projects/projects.service.js');
 const categories = require('./categories/categories.service.js');
 const rules = require('./rules/rules.service.js');
 const roles = require('./roles/roles.service.js');
-const contributors = require('./contributors/contributors.service.js');
+const projectContributors = require('./project-contributors/project-contributors.service.js');
 
 module.exports = function () {
   const app = this;
@@ -20,5 +20,5 @@ module.exports = function () {
   app.configure(categories);
   app.configure(rules);
   app.configure(roles);
-  app.configure(contributors);
+  app.configure(projectContributors);
 };

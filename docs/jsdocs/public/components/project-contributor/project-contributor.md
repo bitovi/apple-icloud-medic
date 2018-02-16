@@ -3,7 +3,7 @@
 ## ProjectContributor
 **Parent**: components
 
-ProjectContributor Description  
+ProjectContributor renders a single segment view for the project contributor view  
 <a name="module_ProjectContributor..render"></a>
 
 ### ProjectContributor~render() ⇒

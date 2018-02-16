@@ -14,7 +14,7 @@ function mock(){
   ];
 }
 
-const url = `${env.API_BASE_URI}/contributors`;
+const url = `${env.API_BASE_URI}/project-contributors`;
 const store = fixture.store(mock(), ProjectContributors.connection.algebra);
 fixture(url, store);
 mockServer.onFeathersService(url, store);

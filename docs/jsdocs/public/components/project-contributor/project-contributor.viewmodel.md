@@ -9,11 +9,17 @@ ProjectContributor View Model
     * [~contributorId](#module_ProjectContributor VM..contributorId)
     * [~contributorPromise](#module_ProjectContributor VM..contributorPromise) ⇒
     * [~contributor](#module_ProjectContributor VM..contributor) ⇒
+    * [~permissionOptions](#module_ProjectContributor VM..permissionOptions)
     * [~handleRemove
 
 Removes contributor from project.()](#module_ProjectContributor VM..handleRemove
 
 Removes contributor from project.)
+    * [~handlePermissionsChange
+
+Updates permission property for a contributor.()](#module_ProjectContributor VM..handlePermissionsChange
+
+Updates permission property for a contributor.)
 
 <a name="module_ProjectContributor VM..contributorId"></a>
 
@@ -28,17 +34,27 @@ Removes contributor from project.)
 <a name="module_ProjectContributor VM..contributorPromise"></a>
 
 ### ProjectContributor VM~contributorPromise ⇒
-Get promise for contributor list.
+Get promise for single contributor.
 
 **Kind**: inner property of [<code>ProjectContributor VM</code>](#module_ProjectContributor VM)  
-**Returns**: a promise that resolves to a list of contributor.  
+**Returns**: a promise that resolves to a contributor.  
 <a name="module_ProjectContributor VM..contributor"></a>
 
 ### ProjectContributor VM~contributor ⇒
-Get list of contributor
+Get list of contributors
 
 **Kind**: inner property of [<code>ProjectContributor VM</code>](#module_ProjectContributor VM)  
-**Returns**: a list of contributor resolved from contributorPromise  
+**Returns**: a contributor instance resolved from contributorPromise  
+<a name="module_ProjectContributor VM..permissionOptions"></a>
+
+### ProjectContributor VM~permissionOptions
+**Kind**: inner property of [<code>ProjectContributor VM</code>](#module_ProjectContributor VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| permissionsOptions | The different levels of permissions for a project. |
+
 <a name="module_ProjectContributor VM..handleRemove
 
 Removes contributor from project."></a>
@@ -46,4 +62,12 @@ Removes contributor from project."></a>
 ### ProjectContributor VM~handleRemove
 
 Removes contributor from project.()
+**Kind**: inner method of [<code>ProjectContributor VM</code>](#module_ProjectContributor VM)  
+<a name="module_ProjectContributor VM..handlePermissionsChange
+
+Updates permission property for a contributor."></a>
+
+### ProjectContributor VM~handlePermissionsChange
+
+Updates permission property for a contributor.()
 **Kind**: inner method of [<code>ProjectContributor VM</code>](#module_ProjectContributor VM)  

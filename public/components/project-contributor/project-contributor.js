@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './project-contributor.viewmodel.js';
 import { listAsArray } from '@public/util/view-helpers';
-import { Dropdown, Icon, Image, Segment, StyledSegment } from '@public/semantic-ui/index';
+import { Dropdown, Icon, Image, Segment } from '@public/semantic-ui/index';
 
 /**
  * @module ProjectContributor
@@ -21,14 +21,14 @@ class ProjectContributor extends Component {
       return <p>Loading contributor...</p>;
     }
     return (<Segment.Group horizontal>
-      <StyledSegment className="contributor-details">
+      <Segment className="contributor-details">
         <Image src={contributor.avatarUrl} avatar />
         <span> {contributor.name} </span>
-      </StyledSegment>
-      <StyledSegment align="right">
+      </Segment>
+      <Segment align="right">
         <Dropdown placeholder={contributor.permissions} selection options={listAsArray(permissionOptions)} onChange={handlePermissionsChange}/>
         <Icon name="delete" onClick={handleRemove}/>
-      </StyledSegment>
+      </Segment>
     </Segment.Group>);
   }
 }

@@ -6,24 +6,24 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   /**
-   * Defines Contributor model.
+   * Defines ProjectContributor model.
    *
-   * @class Contributors
+   * @class ProjectContributors
    */
-  const contributors = sequelizeClient.define('contributors', {
+  const projectContributors = sequelizeClient.define('project-contributors', {
     /**
      * The userId is the email address of the associated user.
      * @type {String}
-     * @memberof Contributors#
+     * @memberof ProjectContributors#
      */
     userId: {
       type: DataTypes.STRING,
       allowNull: false
     },
     /**
-     * The permissions level granted to the contributor.
+     * The permissions level granted to the project-contributor.
      * @type {String}
-     * @memberof Contributors#
+     * @memberof ProjectContributors#
      */
     permissions: {
       type: DataTypes.STRING,
@@ -37,14 +37,14 @@ module.exports = function (app) {
     }
   });
   /**
-   *  Defines the relationships between contributors and other entities.
-   * @memberof Contributors
+   *  Defines the relationships between projectContributors and other entities.
+   * @memberof ProjectContributors
    */
-  contributors.associate = function (models) { // eslint-disable-line no-unused-vars
+  projectContributors.associate = function (models) { // eslint-disable-line no-unused-vars
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     this.Project = this.belongsTo(models.projects);
   };
 
-  return contributors;
+  return projectContributors;
 };

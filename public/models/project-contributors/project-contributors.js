@@ -6,7 +6,7 @@ import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from '@public/models/algebras/feathers';
 
-const url = `${env.API_BASE_URI}/contributors`;
+const url = `${env.API_BASE_URI}/project-contributors`;
 
 const definitions = withCommonFields({
   name: 'string',

@@ -3,7 +3,7 @@
 ## ProjectContributors
 **Parent**: components
 
-ProjectContributors Description  
+ProjectContributors is the list component for the project contributors.  
 <a name="module_ProjectContributors..render"></a>
 
 ### ProjectContributors~render() ⇒

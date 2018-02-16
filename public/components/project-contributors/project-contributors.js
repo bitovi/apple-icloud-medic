@@ -16,7 +16,7 @@ class ProjectContributors extends Component {
    * @returns template
    */
   render() {
-    const { isLoading, isEditing, contributors, projectId } = this.viewModel;
+    const { isLoading, contributors, projectId } = this.viewModel;
     if (isLoading || !contributors) {
       return <p>Loading...</p>;
     }
@@ -26,7 +26,7 @@ class ProjectContributors extends Component {
     return (
       <Segment.Group projectid={projectId}>
         {contributors.map(contributor => (
-          <ProjectContributor contributor={contributor} key={contributor.id} isEditing={isEditing}></ProjectContributor>
+          <ProjectContributor contributor={contributor} key={contributor.id}></ProjectContributor>
         ))}
       </Segment.Group>
     );
