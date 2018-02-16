@@ -177,6 +177,15 @@ st2 pack install file:////opt/stackstorm/medic-exchange/your_awesome_pack
 
 For more information on developing packs for medic-exchange, head over to the [medic-exchange contribution docs](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
 
+####Optional Development workflow :
+
+When you have lot of workflow changes that requires frequent testing, you can :
+
+- `work directly by having your pack at /opt/stackstorm/packs/your_awesome_pack (instead of /medic-exchange)`
+- `when changes are complete and ready, move all changes back into the appropriate medic-exchange pack repo, commit, and push`
+
+> **Note** metadata and rules changes require `st2ctl reload --register-all `
+
 ## Installing CLI tools
 
 If your team has an existing CLI tool, it should be installed into this directory.
