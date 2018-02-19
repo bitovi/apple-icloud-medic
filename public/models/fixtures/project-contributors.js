@@ -9,8 +9,8 @@ function mock(){
     {name: 'Joe Cananagh', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 102, userId: 102 },
     {name: 'Liz Tom', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 103, userId: 103 },
     {name: 'Mick McGrath', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 104, userId: 104 },
-    {name: 'Andrea Periera de Alameida', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 101, id: 105, userId: 105 },
-    {name: 'Ryan Wheale', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 101, id: 106, userId: 106 },
+    {name: 'Andrea Periera de Alameida', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 104, id: 105, userId: 105 },
+    {name: 'Ryan Wheale', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 104, id: 106, userId: 106 },
   ];
 }
 

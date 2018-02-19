@@ -7,7 +7,7 @@ const queryInterface = sequelize.getQueryInterface();
 const { withCommonFields } = require('../util');
 
 exports.up = function(db) {
-  return queryInterface.createTable('contributors', withCommonFields({
+  return queryInterface.createTable('project-contributors', withCommonFields({
     projectId: {
       type: DataTypes.INTEGER,
       references: {
@@ -29,7 +29,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return queryInterface.dropTable('contributors');
+  return queryInterface.dropTable('project-contributors');
 };
 
 exports._meta = {

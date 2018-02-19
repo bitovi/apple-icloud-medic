@@ -49,7 +49,8 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
         projectsList: route.url({ teamName, moduleId: PAGES.projects }),
         project: route.url({ teamName, projectId,  }),
         rulesTab: route.url({ teamName, projectId, tabId: 'rules' }),
-        newRule: route.url({ teamName, projectId, tabId: 'rules', tabItemId: 'new' })
+        newRule: route.url({ teamName, projectId, tabId: 'rules', tabItemId: 'new' }),
+        contributorsTab: route.url({ teamName, projectId, tabId: 'contributors' })
       };
     }
   },
@@ -72,8 +73,9 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
    * The tabId for the currently selected tab
    */
   selectedTabId: {
-    get() {
-      return route.data.tabId || this.tabs[0].tabId;
+    get(lastVal) {
+      // lastVal will be set if passed from parent component
+      return route.data.tabId || lastVal || this.tabs[0].tabId;
     }
   },
   /**

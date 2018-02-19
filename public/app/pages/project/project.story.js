@@ -10,6 +10,12 @@ storiesOf('App Components', module)
         sectionFn: () => (
           <ProjectPage projectId={104} />
         )
+      },
+      {
+        title: 'Contributors tab',
+        sectionFn: () => (
+          <ProjectPage projectId={104} selectedTabId='contributors'/>
+        )
       }]
     }]
   });

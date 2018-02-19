@@ -7,6 +7,7 @@ import NewProject from '@public/components/new-project/new-project';
 import NavTabs from '@public/components/nav-tabs/nav-tabs';
 import RuleCards from '@public/components/rule-cards/rule-cards';
 import NewRule from '@public/components/new-rule/new-rule';
+import ProjectContributors from '@public/components/project-contributors/project-contributors';
 
 /**
  * @module ProjectPage
@@ -29,6 +30,14 @@ class ProjectPage extends Component {
           </Grid.Column>
           <Grid.Column width={16}>
             <RuleCards projectId={projectId} />
+          </Grid.Column>
+        </Grid>
+      );
+    case 'contributors':
+      return (
+        <Grid>
+          <Grid.Column width={16}>
+            <ProjectContributors projectId={projectId} />
           </Grid.Column>
         </Grid>
       );
