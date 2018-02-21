@@ -5,10 +5,13 @@ import feathersConnection from '@public/connections/feathers';
 import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
+import ProjectContributors from '@public/models/project-contributors/project-contributors';
+
 
 const url = `${env.API_BASE_URI}/projects`;
 
 const definitions = withCommonFields({
+  teamId: 'number',
   title: 'string',
   description: 'string',
   categories: {
@@ -19,9 +22,8 @@ const definitions = withCommonFields({
     type: 'any',
     default: () => []
   },
-  contributions: {
-    type: 'any',
-    default: () => []
+  contributors: {
+    Type: ProjectContributors.List
   }
 });
 

@@ -28,23 +28,5 @@ module.exports = function (app) {
     }
   });
 
-  categories.associate = function (models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
-
-    /**
-     * Defines the many-to-many relationship stored in the item-categories table.
-     * @memberof Categories#
-     */
-    this.Projects = this.belongsToMany(models.projects, {
-      through: {
-        model: models['item-categories'],
-        unique: false
-      },
-      foreignKey: 'categoryId',
-      constraints: false
-    });
-  };
-
   return categories;
 };

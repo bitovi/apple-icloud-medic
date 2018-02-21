@@ -9,6 +9,7 @@ import PageHeader from '@public/components/page-header/page-header';
 import PageTabs from '@public/app/page-tabs/page-tabs';
 import RuleCards from '@public/components/rule-cards/rule-cards';
 import NewRule from '@public/components/new-rule/new-rule';
+import TeamMemberSearch from '@public/components/team-member-search/team-member-search';
 import ProjectContributors from '@public/components/project-contributors/project-contributors';
 
 const debug = makeDebug('medic:pages:project-content');
@@ -87,12 +88,12 @@ class ProjectContent extends Component {
    * Renders the "contributors list" with search
    */
   contributorsContent() {
-    const { project } = this.viewModel;
+    const { project, handleResultSelect, currentUser, isProjectAdmin } = this.viewModel;
     return (
       <Grid>
         <Grid.Column width={16}>
-          <ProjectContributors query={{ projectId: project.id }} />
-          {/*<ProjectContributors contributors={project.contributors} />*/}
+          <TeamMemberSearch teamId={project.teamId} handleResultSelect={handleResultSelect} isProjectAdmin={isProjectAdmin(currentUser)}/>
+          <ProjectContributors query={{ projectId: project.id }} isProjectAdmin={isProjectAdmin(currentUser)}/>
         </Grid.Column>
       </Grid>
     );

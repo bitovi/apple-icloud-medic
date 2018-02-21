@@ -5,7 +5,7 @@ import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import env from '@root/shared/env';
 
-const ID_PROP = 'emailAddress';
+const ID_PROP = 'prsId';
 
 const algebra = new canSet.Algebra(
   canSet.props.id(ID_PROP)
@@ -14,6 +14,9 @@ const algebra = new canSet.Algebra(
 const User = DefineMap.extend({
   isSuperAdmin: { default: false },
   displayName: 'string',
+
+  // Below are fields from Directory Services
+  prsId: 'number',
   firstName: 'string',
   lastName: 'string',
   nickName: 'string',

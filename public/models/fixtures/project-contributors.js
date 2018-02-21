@@ -4,12 +4,12 @@ import ProjectContributors from '@public/models/project-contributors/project-con
 import mockServer from './mock-socket-server';
 
 const contributors = [
-  { name: 'Nikunj Virani', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 101 },
-  { name: 'Joe Cananagh', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 102 },
-  { name: 'Liz Tom', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 103 },
-  { name: 'Mick McGrath', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 104 },
-  { name: 'Andrea Periera de Alameida', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 105 },
-  { name: 'Ryan Wheale', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 106 },
+  {firstName: 'Nikunj', lastName: 'Virani', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 101, emailAddress: 'nv@apple.com' },
+  {firstName: 'Joe', lastName: 'Cananagh', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 102, emailAddress: 'jc@apple.com' },
+  {firstName: 'Liz', lastName: 'Tom', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 103, emailAddress: 'lt@apple.com' },
+  {firstName: 'Mick',  lastName: 'McGrath', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 104, emailAddress: 'mm@apple.com' },
+  {firstName: 'Andrea', lastName: 'Alameida', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 105, emailAddress: 'aa@apple.com' },
+  {firstName: 'Ryan', lastName: 'Wheale',avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 106, emailAddress: 'rw@apple.com' },
 ];
 
 function mock(){

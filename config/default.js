@@ -51,5 +51,12 @@ module.exports = {
     "apiKey": "ST2_API_KEY",
     "secret": "ST2_SECRET",
     "receiveAction": "medic_auth.receive_approval"
+  },
+  'ds': {
+    'host': 'DS_HOST',
+    'appId': 'DS_APP_ID',
+    'appPwd': 'DS_APP_PWD',
+    'acctName': 'DS_SYSTEM_ACCT_NAME',
+    'acctPwd': 'DS_SYSTEM_ACCT_PWD'
   }
 };

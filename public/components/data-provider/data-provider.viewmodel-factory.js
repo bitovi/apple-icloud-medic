@@ -51,7 +51,11 @@ const BaseDataProvider = DefineMap.extend('BaseDataProvider', {
    * @prop isSingleObject
    */
   get isSingleObject() {
-    return !!this.id || (this.query && this.query.id && typeof this.query.id !== 'object');
+    if (this.shouldLoadData) {
+      return !!this.id || (this.query && this.query.id && typeof this.query.id !== 'object');
+    }
+    const data = this[this.dataProp];
+    return !Array.isArray(data) && !(data instanceof DefineList);
   },
   /** @prop isLoading */
   get isLoading() {

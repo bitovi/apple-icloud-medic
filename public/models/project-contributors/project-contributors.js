@@ -9,11 +9,14 @@ import makeAlgebra from '@public/models/algebras/feathers';
 const url = `${env.API_BASE_URI}/project-contributors`;
 
 const definitions = withCommonFields({
-  name: 'string',
-  avatarUrl: 'string',
-  permissions: 'string',
   projectId: 'number',
-  userId: 'number'
+  userId: 'string',
+  permissions: {
+    type: 'string',
+    set(value) {
+      return value.toLowerCase();
+    }
+  },
 });
 
 /**
@@ -31,7 +34,13 @@ ProjectContributors.definitions = definitions;
  * Defines a collection of ProjectContributors associated with a projectId
  */
 ProjectContributors.List = DefineList.extend('ProjectContributors.List', {
-  '#': ProjectContributors
+  '#': ProjectContributors,
+  isProjectAdmin(userId){
+    return this.reduce((contributor, isFound) => {
+      if (!isFound) return contributor.userId === userId;
+      return !!isFound;
+    }, false);
+  }
 });
 
 const algebra = makeAlgebra({});

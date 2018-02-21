@@ -3,7 +3,7 @@
 const https = require('https');
 const qs = require('querystring');
 
-const DEFAULT_FIELDS = ['firstName', 'lastName', 'nickName', 'emailAddress', 'allGroups'];
+const DEFAULT_FIELDS = ['prsId', 'firstName', 'lastName', 'nickName', 'emailAddress', 'allGroups'];
 const REQUIRED_APP_SETTINGS = ['cookieName', 'authHost', 'appId', 'appAdminPassword'];
 
 function parseResponse (txt) {

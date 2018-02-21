@@ -9,8 +9,9 @@ import ProjectsModel from '@public/models/projects';
  *
  * NewProject Description
  */
-const NewProject = ({ successCallback }) => {
+const NewProject = ({ teamId, successCallback }) => {
   const formDef = {
+    'teamId': { value: teamId, disabled: true },
     'title': { required: true },
     'description': { required: true }
   };
@@ -25,6 +26,7 @@ const NewProject = ({ successCallback }) => {
 };
 
 NewProject.propTypes = {
+  teamId: PropTypes.number,
   successCallback: PropTypes.func
 };
 

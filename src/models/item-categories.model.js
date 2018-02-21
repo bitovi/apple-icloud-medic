@@ -2,6 +2,7 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const ModelHelper = require('../util/model-helper');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -39,7 +40,9 @@ module.exports = function (app) {
   });
 
   itemCategories.associate = function (models) {
-    this.Category = this.belongsTo(models.categories);
+    ModelHelper
+      .subject(this, models)
+      .isChildOf(models.categories);
   };
 
   return itemCategories;

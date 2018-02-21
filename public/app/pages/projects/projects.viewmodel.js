@@ -1,4 +1,5 @@
 import DefineMap from 'can-define/map/map';
+import route from 'can-route-pushstate';
 
 /**
  * @module Projects VM
@@ -7,6 +8,12 @@ import DefineMap from 'can-define/map/map';
  * Projects View Model
  */
 const ProjectsPage = DefineMap.extend('ProjectsPage', {
+  teamId: {
+    type: 'number',
+    get(lastVal) {
+      return lastVal || (route.data.team && route.data.team.id);
+    }
+  },
   /**
    * @prop toggleEdit
    *

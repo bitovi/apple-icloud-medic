@@ -16,7 +16,7 @@ const Session = DefineMap.extend('Session', {
   iss: 'any',
   sub: 'any',
   exp: 'any',
-  userId: 'string',
+  userId: 'number',
 
   user: {
     Type: User,

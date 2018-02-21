@@ -2,6 +2,7 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const ModelHelper = require('../util/model-helper');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -26,6 +27,16 @@ module.exports = function (app) {
      */
     codeName: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    /**
+     * This is the Directory Services groupID associated with the team
+     * @type {Number}
+     * @memberof Teams#
+     */
+    groupId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {
@@ -36,9 +47,10 @@ module.exports = function (app) {
     }
   });
 
-  team.associate = function (models) { // eslint-disable-line no-unused-vars
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+  team.associate = function (models) {
+    ModelHelper
+      .subject(this, models)
+      .containsManyFrom(models.projects);
   };
 
   return team;

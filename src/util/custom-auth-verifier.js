@@ -68,6 +68,7 @@ class CustomVerifier {
       // Local dev mode
       debug('Generating DEV user');
       userPromise = Promise.resolve({
+        prsId: 38910381,
         firstName: 'Dev',
         lastName: 'User',
         nickName: 'Dev_Nickname',

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProjectContributor from '@public/components/project-contributor/project-contributor';
-import { Segment } from '@public/semantic-ui/index';
 import ProjectContributorsModel from '@public/models/project-contributors/project-contributors';
 import DataProvider from '@public/components/data-provider/data-provider';
+import { ContribSegment } from '@public/semantic-ui/index';
 
 /**
  * @module ProjectContributors
@@ -13,11 +13,11 @@ import DataProvider from '@public/components/data-provider/data-provider';
  */
 const ProjectContributors = ({ contributors }) => {
   return (
-    <Segment.Group>
+    <ContribSegment.Group>
       {contributors.map(contributor => (
         <ProjectContributor contributor={contributor} key={contributor.id}></ProjectContributor>
       ))}
-    </Segment.Group>
+    </ContribSegment.Group>
   );
 };
 

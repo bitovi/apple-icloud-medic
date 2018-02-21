@@ -32,7 +32,7 @@ class ProjectCard extends Component {
           <Card.Description>{project.description}</Card.Description>
           <Label.Group>
             <Label>{project.rules.length} rules</Label>
-            <Label>{project.contributions.length} contributions</Label>
+            <Label>{project.contributors.length} contributors</Label>
             {project.categories.length ?
               <Label>{project.categories[0].title}</Label>
               : null}

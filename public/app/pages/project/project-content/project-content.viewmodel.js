@@ -2,6 +2,7 @@ import DefineMap from 'can-define/map/map';
 import route from 'can-route-pushstate';
 import { PAGES } from '@root/shared/routes';
 import ProjectsModel from '@public/models/projects';
+import ProjectContributorsModel from '@public/models/project-contributors/project-contributors';
 
 /**
  * @module ProjectContent VM
@@ -70,12 +71,48 @@ const ProjectContent = DefineMap.extend('ProjectContent', {
       return lastVal || route.data.tabItemId;
     }
   },
+  currentUser: {
+    get() {
+      return route.data.currentUser;
+    }
+  },
   /**
    * Called when a new rule is created.
    */
   newRuleSuccess(rule) {
     route.data.tabKey = 'rules';
     route.data.tabItemId = rule.id;
+  },
+  /**
+   * @method handleResultSelect
+   *
+   * Assigns the selected team member from the team-member-search to the newContributor
+   * prop which is used in the contributors list component.
+   */
+  handleResultSelect(e, results) {
+    this.addContributor(results.result.data);
+  },
+  /**
+   * @method addContributor
+   */
+  addContributor(teamMember) {
+    //convert the TeamMember instance into a ProjectContributor instance
+    const contributor = new ProjectContributorsModel(teamMember);
+    //add projectId to instance
+    contributor.projectId = this.project.id;
+
+    return contributor.save().then((contributor) => {
+      this.project.contributors.push(contributor);
+      this.project.save();
+    }).catch(function(err){
+      throw new Error(err);
+    });
+  },
+  isProjectAdmin(user) {
+    if(this.project.contributors) {
+      return this.project.contributors.isProjectAdmin(user.userId);
+    }
+    return false;
   }
 });
 

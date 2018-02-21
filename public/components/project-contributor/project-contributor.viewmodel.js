@@ -17,24 +17,29 @@ export default DefineMap.extend('ProjectContributor', {
     Type: ProjectContributors
   },
   /**
+   * Whether or not this is a project admin
+   */
+  isProjectAdmin: {
+    type: 'boolean'
+  },
+  /**
+   * The different levels of permissions for a project.
+   */
+  permissionOptions: {
+    type: 'any',
+    default: () => [
+      { key: 'Admin', value: 'Admin', text: 'Admin' },
+      { key: 'Read/Write', value: 'Read/Write', text: 'Read/Write' },
+      { key: 'Read', value: 'Read', text: 'Read' }
+    ]
+  },
+  /**
    * @method handleRemove
    *
    * Removes contributor from project.
    */
   handleRemove() {
     this.contributor.destroy();
-  },
-  /**
-   * @prop permissionsOptions
-   *
-   * The different levels of permissions for a project.
-   */
-  permissionOptions: {
-    default: () => [
-      { key: 'Admin', value: 'Admin', text: 'Admin' },
-      { key: 'Read/Write', value: 'Read/Write', text: 'Read/Write' },
-      { key: 'Read', value: 'Read', text: 'Read' }
-    ]
   },
   /**
    * @method handlePermissionsChange

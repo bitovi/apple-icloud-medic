@@ -9,6 +9,7 @@ const debug = makeDebug('medic:session:authentication');
 const ID_PROP = UserModel.connection.idProp;
 
 const user = {
+  prsId: 38910381,
   firstName: 'Dev',
   lastName: 'User',
   nickName: 'Dev_Nickname',
@@ -26,7 +27,7 @@ mockServer.on('authenticate', (data, callback) => {
   debug('Mocking authentication response');
   const payload = {
     // NOTE: The body should contain a userId property.
-    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyIsInR5cGUiOiJhY2Nlc3MifQ.eyJ1c2VySWQiOiJkZXZfdXNlckBkZXYuYXBwbGUuY29tIiwiaWF0IjoxNTE1MDgzMzM0LCJleHAiOjE1MTUwOTA1MzQsImF1ZCI6Imh0dHBzOi8vbWVkaWMuYXBwbGUuY29tIiwiaXNzIjoiZmVhdGhlcnMiLCJzdWIiOiJBcHBsZURTVXNlcnMiLCJqdGkiOiJjZDg0ZTBiNi0xYzkzLTQzODEtYWY4Yy03YjEyMDkxMzQyNTkifQ.KTi7zpMTDsh0aNlI2dvWtckW_cAdDKh9ZcnE0IEtLVg',
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyIsInR5cGUiOiJhY2Nlc3MifQ.eyJ1c2VySWQiOjM4OTEwMzgxLCJpYXQiOjE1MjAzNzgwNDcsImV4cCI6MTUyMDM4NTI0NywiYXVkIjoiaHR0cHM6Ly9tZWRpYy5hcHBsZS5jb20iLCJpc3MiOiJmZWF0aGVycyIsInN1YiI6IkFwcGxlRFNVc2VycyIsImp0aSI6IjMzMzIwZWZhLTkyMmQtNDMzZC1hY2FhLTg5N2NiNDk0YjU0ZCJ9.bdd8ozSw-VdBhTqUkvXklXtXCWDoxyqtdsGsecvYXWw',
     user
   };
   callback(null, payload);

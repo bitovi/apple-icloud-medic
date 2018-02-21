@@ -29,3 +29,4 @@ export * from './modules/Dimmer/Dimmer';
 export * from './modules/Dropdown/Dropdown';
 export * from './modules/Modal/Modal';
 export * from './modules/Tab/Tab';
+export * from './modules/Search/Search';

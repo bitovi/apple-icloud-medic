@@ -19,6 +19,15 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
     }
   },
   /**
+   * The teamId
+   */
+  teamId: {
+    type: 'number',
+    get(lastVal) {
+      return lastVal || (route.data.team && route.data.team.id);
+    }
+  },
+  /**
    * Whether or not this is a new project
    */
   isNewProject: {

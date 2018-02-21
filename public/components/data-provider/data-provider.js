@@ -13,7 +13,7 @@ const factory = (WrappedComponent, Model, dataProp) => {
     static displayName = WrappedComponent.name || 'DataProvider';
 
     render() {
-      const { isLoading, dataProp, error } = this.viewModel;
+      const { isLoading, dataProp, isSingleObject, error } = this.viewModel;
       if (isLoading) {
         return <Loader active inline>Loading {dataProp}</Loader>;
       }
@@ -21,6 +21,9 @@ const factory = (WrappedComponent, Model, dataProp) => {
         return <Message error>
           Error: <b>{error.message || 'There was an error loading data for this component.'}</b>
         </Message>;
+      }
+      if (!isSingleObject && !this.viewModel[dataProp].length) {
+        return <Message>There are no {dataProp} to display</Message>;
       }
       return <WrappedComponent {...this.viewModel} />;
     }

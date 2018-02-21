@@ -30,14 +30,20 @@ class AppComponent extends Component {
   render() {
     debug('Component render');
 
-    const { currentUser } = this.viewModel;
+    const { currentUser, authError } = this.viewModel;
     let mainContent;
 
     if (!currentUser) {
-      mainContent = <div>{this.viewModel.statusMessage}</div>;
+      if (authError) {
+        mainContent = <div>Failed to authenticate: {authError.message}</div>;
+      } else {
+        mainContent = <div>Authenticating...</div>;
+      }
     } else {
-      const { teamName, CurrentPage, moduleId } = this.viewModel;
-      if (!teamName || !CurrentPage) {
+      const { teamName, teamError, CurrentPage, moduleId } = this.viewModel;
+      if (teamError) {
+        mainContent = <div>Error loading team: {teamError.message}</div>;
+      } else if (!teamName || !CurrentPage) {
         debug('Rendering loading message', moduleId);
         mainContent = <div>Loading page data...</div>;
       } else {
@@ -92,6 +98,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   tabItemId: 'string',
   /** teamName */
   teamName: {
+    type: 'string',
     set(newVal) {
       if (newVal) {
         localStorage.setItem('defaultTeam', newVal);
@@ -102,25 +109,38 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   /*  END ROUTE PARAMS  */
   /**********************/
-
+  teamPromise: {
+    get() {
+      return teamConnection.getList({ codeName: this.teamName }).then(results => {
+        if (!results.length) {
+          throw new Error('No team found for ' + this.teamName);
+        }
+        return results[0];
+      });
+    }
+  },
   team: {
-    get(val, setVal) {
-      debug('Loading team', this.teamName);
-      teamConnection.getList({ codeName: this.teamName })
-        .then(teams => {
-          debug('Team loaded');
-          setVal(teams[0] || null);
+    get(lastVal, setVal) {
+      if (this.teamName) {
+        debug('Loading team', this.teamName);
+        this.teamPromise.then(team => {
+          debug('Team loaded', team);
+          setVal(team);
         });
-      return val;
+      }
+      return null;
+    }
+  },
+  teamError: {
+    get(lastVal, setVal) {
+      if (this.teamName) {
+        this.teamPromise.catch(setVal);
+      }
     }
   },
   authError: {
     serialize: false,
     default: false
-  },
-  statusMessage: {
-    serialize: false,
-    default: 'Loading...'
   },
   get currentUser () {
     const user = !this.authError && Session.current && Session.current.user;
@@ -158,11 +178,9 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
       route.data = this;
       route.start();
     }).catch(err => {
-      // TODO: better UX
       debug('Auth error', err);
       debug('==== Session failed to create! ====', err);
-      this.authError = true;
-      this.statusMessage = 'Failed to authenticate: ' + err.message;
+      this.authError = err;
     });
   }
 });

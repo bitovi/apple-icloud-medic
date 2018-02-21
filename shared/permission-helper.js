@@ -82,6 +82,10 @@ const userHasPermission = (user, entityName, action) => {
     return new Error(`Insufficient permissions information: user: ${!!user}, entityName: ${!!entityName}, action: ${!!action}.`);
   }
 
+  if (user.isSuperAdmin) {
+    return true;
+  }
+
   // { '[entityName]': '[permission]' }
   if (!user.permissions[entityName] && !user.permissions['*']) {
     return new errors.Forbidden(`You do not have permissions for the "${entityName}" resource. Please contact an administrator.`);

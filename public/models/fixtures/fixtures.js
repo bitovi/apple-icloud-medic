@@ -8,3 +8,4 @@ import './executions/filters';
 import './projects';
 import './rules';
 import './project-contributors';
+import './team-members';

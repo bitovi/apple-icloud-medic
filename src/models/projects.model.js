@@ -2,7 +2,7 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
-
+const ModelHelper = require('../util/model-helper');
 const itemCat = require('./item-categories.model');
 
 module.exports = function (app) {
@@ -41,19 +41,12 @@ module.exports = function (app) {
    * @memberof Projects
    */
   projects.associate = function (models) {
-    this.Rules = this.hasMany(models.rules);
-    this.ProjectContributors = this.hasMany(models['project-contributors']);
-    this.Categories = this.belongsToMany(models.categories, {
-      through: {
-        model: models['item-categories'],
-        unique: false,
-        scope: {
-          itemType: 'projects'
-        }
-      },
-      foreignKey: 'itemId',
-      constraints: false
-    });
+    ModelHelper
+      .subject(this, models)
+      .isChildOf(models.teams)
+      .containsManyFrom(models.rules)
+      .containsManyFrom(models['project-contributors'], { as: 'contributors' })
+      .hasCategories();
   };
 
   itemCat(app);

@@ -1,0 +1,28 @@
+import React from 'react';
+import Component from 'react-view-model/component';
+import ViewModel from './team-member-search.viewmodel.js';
+import { Search } from '@public/semantic-ui/index';
+
+/**
+ * @module TeamMemberSearch
+ * @parent components
+ *
+ * TeamMemberSearch searches the Apple Directory for members of a group.
+ */
+class TeamMemberSearch extends Component {
+  /**
+   * @method render
+   */
+  render() {
+    const { selectedValue, results, isProjectAdmin } = this.viewModel;
+    const { handleSearchChange, handleResultSelect } = this.viewModel;
+
+    return (
+      <Search value={selectedValue} results={results} placeholder="Search for a teammate" onSearchChange={handleSearchChange} onResultSelect={handleResultSelect} disabled={!isProjectAdmin}/>
+    );
+  }
+}
+
+TeamMemberSearch.ViewModel = ViewModel;
+
+export default TeamMemberSearch;

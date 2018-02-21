@@ -19,14 +19,14 @@ class ProjectPage extends Component {
   static ViewModel = ViewModel;
 
   render() {
-    const { projectId, isNewProject, urls, newProjectSuccess } = this.viewModel;
+    const { projectId, teamId, isNewProject, urls, newProjectSuccess } = this.viewModel;
     debug('RENDER', projectId);
 
     if (isNewProject) {
       return (
         <Container fluid>
           <PageHeader title='New Project' backUrl={urls.projectsList} />
-          <NewProject successCallback={newProjectSuccess} />
+          <NewProject teamId={teamId} successCallback={newProjectSuccess} />
         </Container>
       );
     }

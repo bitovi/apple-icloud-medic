@@ -9,6 +9,7 @@ function mock(){
   const ordinals = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'];
   while(count--) {
     arr.unshift({
+      teamId: fixture.rand(1, 5),
       title: `${ordinals[(count+6)%6]} Project`,
       description:
         'This is a project description. Learn all about this project here. Wow! It is so exciting',

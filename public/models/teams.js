@@ -10,7 +10,8 @@ const url = `${env.API_BASE_URI}/teams`;
 
 const Teams = DefineMap.extend('Teams', withCommonFields({
   name: 'string',
-  codeName: 'string'
+  codeName: 'string',
+  groupId: 'number'
 }));
 
 Teams.List = DefineList.extend({

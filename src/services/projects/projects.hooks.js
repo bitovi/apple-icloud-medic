@@ -4,7 +4,8 @@ const populateShallow =(hook) => {
     raw: false,
     include: [
       Project.Categories,
-      Project.Rules
+      Project.Contributors,
+      Project.Rules,
     ]
   });
   return hook;
@@ -18,9 +19,20 @@ const populateDeep = (hook) => {
     raw: false,
     include: [
       Project.Categories,
+      Project.Contributors,
       { model: Rule, include: [Rule.Tags] }
     ]
   });
+  return hook;
+};
+
+const addDefaultAdminContributor = hook => {
+  const contributor = {
+    userId: hook.params.user.prsId,
+    permissions: 'admin'
+  };
+  hook.data.contributors = [contributor];
+
   return hook;
 };
 
@@ -28,15 +40,20 @@ module.exports = {
   before: {
     all: [],
     find: [populateShallow],
-    get: [populateDeep],
-    create: [(hook) => {
-      const models = hook.app.get('sequelizeClient').models;
-      const Project = models.projects;
-      hook.params.sequelize = Object.assign({}, hook.params.sequelize, {
-        include: [ Project.Categories ]
-      });
-      return hook;
-    }],
+    get: [
+      populateDeep
+    ],
+    create: [
+      addDefaultAdminContributor,
+      hook => {
+        const models = hook.app.get('sequelizeClient').models;
+        const Project = models.projects;
+
+        hook.params.sequelize = Object.assign({}, hook.params.sequelize, {
+          include: [ Project.Categories, Project.Contributors ],
+        });
+      }
+    ],
     update: [],
     patch: [],
     remove: []

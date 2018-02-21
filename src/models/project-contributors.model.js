@@ -2,6 +2,7 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const ModelHelper = require('../util/model-helper');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -12,7 +13,7 @@ module.exports = function (app) {
    */
   const projectContributors = sequelizeClient.define('project-contributors', {
     /**
-     * The userId is the email address of the associated user.
+     * The userId (prsId) for the user
      * @type {String}
      * @memberof ProjectContributors#
      */
@@ -41,9 +42,10 @@ module.exports = function (app) {
    * @memberof ProjectContributors
    */
   projectContributors.associate = function (models) { // eslint-disable-line no-unused-vars
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    this.Project = this.belongsTo(models.projects);
+    ModelHelper
+      .subject(this, models)
+      .isChildOf(models.projects)
+      .hasComposedIndexWith('projectId', 'userId');
   };
 
   return projectContributors;

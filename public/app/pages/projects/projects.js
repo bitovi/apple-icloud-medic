@@ -19,7 +19,7 @@ class ProjectsPage extends Component {
    * @returns Projects page template
    */
   render() {
-    const { message } = this.viewModel;
+    const { message, teamId } = this.viewModel;
     const newProjectUrl = route.url({ teamName: route.data.teamName, projectId: 'new' });
 
     return (
@@ -36,7 +36,7 @@ class ProjectsPage extends Component {
             <Icon name='pencil' size='large' className='floatRight' onClick={this.viewModel.toggleEdit}/>
           </Grid.Column>
           <Grid.Column width={16}>
-            <ProjectCards isEditing={this.viewModel.isEditing}></ProjectCards>
+            <ProjectCards query={{ teamId }} isEditing={this.viewModel.isEditing}></ProjectCards>
           </Grid.Column>
         </Grid>
       </Container>

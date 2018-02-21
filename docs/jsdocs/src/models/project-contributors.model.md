@@ -13,7 +13,7 @@
 <a name="ProjectContributors+userId"></a>
 
 ### projectContributors.userId : <code>String</code>
-The userId is the email address of the associated user.
+The userId (prsId) for the user
 
 **Kind**: instance property of [<code>ProjectContributors</code>](#ProjectContributors)  
 <a name="ProjectContributors+permissions"></a>

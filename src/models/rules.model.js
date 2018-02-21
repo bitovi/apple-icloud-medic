@@ -2,6 +2,7 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const ModelHelper = require('../util/model-helper');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -52,19 +53,10 @@ module.exports = function (app) {
    * @memberof Projects
    */
   rules.associate = function (models) {
-    this.Project = this.belongsTo(models.projects);
-    this.Tags = this.belongsToMany(models.categories, {
-      through: {
-        model: models['item-categories'],
-        unique: false,
-        scope: {
-          itemType: 'rules'
-        }
-      },
-      as: 'tags',
-      foreignKey: 'itemId',
-      constraints: false
-    });
+    ModelHelper
+      .subject(this, models)
+      .isChildOf(models.projects)
+      .hasCategories({ as: 'tags' });
   };
 
   return rules;

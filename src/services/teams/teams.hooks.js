@@ -1,4 +1,12 @@
 
+const loadTeamMembers = (hook) => {
+  const groupId = hook.result.groupId;
+  const teamMembersSvc = hook.app.service('team-members');
+  return teamMembersSvc.find({ query: { groupId } }).then(results => {
+    hook.result.members = results;
+    return hook;
+  });
+};
 
 module.exports = {
   before: {
@@ -14,7 +22,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [loadTeamMembers],
     create: [],
     update: [],
     patch: [],
