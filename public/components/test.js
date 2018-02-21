@@ -10,5 +10,3 @@ import './rule-card/rule-card-test';
 import './edit-form/edit-form-test';
 // import './team-dropdown/team-dropdown-test';
 // import './user-executions-list/user-executions-list-test';
-
-

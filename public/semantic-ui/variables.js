@@ -48,7 +48,7 @@ const reduceValues = (dict) => {
       let _prop = p ? p + final : final;
       return dict[_prop] || final || '@' + _prop;
     }, '');
-  }
+  };
 
   Object.keys(dict).forEach(prop => {
     REG_VAR.lastIndex = -1; // regex is stateful

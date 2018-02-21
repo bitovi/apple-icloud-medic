@@ -14,16 +14,16 @@ const REG_PARTIAL_COLOR_VAL = /^(?:rgba?|hsla?)\([^)]+$/; // matches rgb/hsl val
 const FUNC_MAP = {
   spin: (color, deg) => {
     deg = parseFloat(deg, 10);
-    return adjustHue(deg, color);
+    return polished.adjustHue(deg, color);
   },
   mix: (color1, color2, amt = 50) => {
     amt = parseFloat(amt, 10)/100;
-    return mix(amt, color1, color2);
+    return polished.mix(amt, color1, color2);
   },
   fade: (color, amt) => {
     const alpha = parseFloat(amt, 10)/100;
-    const rgb = parseToRgb(color);
-    return rgba(Object.assign(rgb, { alpha }));
+    const rgb = polished.parseToRgb(color);
+    return polished.rgba(Object.assign(rgb, { alpha }));
   }
 };
 
