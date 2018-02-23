@@ -7,17 +7,17 @@ email, or any other method with the owners of this repository before making a ch
 - Refer to the README.md to get your development environment setup.
 - Use a feature branch workflow
     - The branch name convention is `radarID-feature-name`. Example: `36138805-project-new`.
-    - Branch off the `develop` branch, not `master`.
+    - Branch off the `dev` branch, not `master`. All PRs should be opened against the `dev` branch.
 - Commit message conventions:
     - Use the present tense ("Add feature" not "Added feature")
     - Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
     - Limit the first line to 72 characters or less
-    - Reference radars and pull requests
+    - Reference radars and pull requests in the message body
 
 ## Pull Request Process
 1. Create PR from your branch to the develop branch.
     - Ensure you have a reference to all the Radars as well as a short description of the features that are implemented.
-2. You may merge the Pull Request into the `develop` branch once you have the sign-off of two other developers.
+2. You may merge the Pull Request into the `dev` branch once you have the sign-off from at least one other developer.
 
 ### A Note on PR Approval
   - Ensure your PR gets approved ASAP by going through the code review process below on your own before submitting a PR.
