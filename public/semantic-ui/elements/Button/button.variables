@@ -1,2 +1,14 @@
 // https://github.com/Semantic-Org/Semantic-UI-LESS/blob/master/themes/default/elements/button.variables
 
+/*******************************
+            Button
+*******************************/
+
+/*-------------------
+       Element
+--------------------*/
+
+/* Text */
+@fontWeight: 300;
+
+@basicBackground: #FFFFFF none;

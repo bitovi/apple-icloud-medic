@@ -1,0 +1,11 @@
+/*******************************
+             Modal
+*******************************/
+
+@headerFontWeight: normal;
+
+@actionBackground: rgba(235, 238, 243, .5);
+
+@borderRadius: 0.1em;
+@actionBorder: 1px solid rgba(68, 69, 70, 0.1);
+@headerBorder: 1px solid rgba(68, 69, 70, 0.1);
