@@ -1,8 +1,8 @@
 import React from 'react';
 import Component from 'react-view-model/component';
+import route from 'can-route-pushstate';
 import ViewModel from './project-card.viewmodel.js';
 import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
-import route from 'can-route-pushstate';
 
 /**
  * @module ProjectCard

@@ -1,5 +1,6 @@
 import React from 'react';
 import Component from 'react-view-model/component';
+import route from 'can-route-pushstate';
 import ViewModel from './rule-card.viewmodel.js';
 import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
 
@@ -21,8 +22,10 @@ class RuleCard extends Component {
       return <p>Loading rule...</p>;
     }
 
+    const url = route.url({ teamName: route.data.teamName, ruleId: rule.id });
+
     return (
-      <StyledCard bgColor='#5069af'>
+      <StyledCard bgColor='#5069af' detailUrl={isEditing ? null : url}>
         <Card.Header>
           {rule.title}
           { isEditing ?

@@ -1,19 +1,19 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import ProjectPage from './project';
+import RulePage from './rule';
 
 storiesOf('App Components/Pages', module)
-  .addWithChapters('Project', {
+  .addWithChapters('Rule', {
     chapters: [{
       sections: [{
         sectionFn: () => (
-          <ProjectPage projectId={104} />
+          <RulePage ruleId={104} />
         )
       },
       {
         title: 'Specifying the selectedTabKey',
         sectionFn: () => (
-          <ProjectPage projectId={104} selectedTabKey='contributors'/>
+          <RulePage ruleId={104} selectedTabKey='executions'/>
         )
       }]
     }]

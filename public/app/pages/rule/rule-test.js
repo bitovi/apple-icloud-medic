@@ -1,13 +1,13 @@
 import QUnit from 'steal-qunit';
-import ViewModel from './project.viewmodel';
+import ViewModel from './rule.viewmodel';
 
 // ViewModel unit tests
-QUnit.module('@public/app/pages/project');
+QUnit.module('@public/app/pages/rule');
 
-QUnit.test('toggles the edit state', function(){
+QUnit.test('toggleEdit toggles editing state', function(){
   var vm = new ViewModel();
   QUnit.equal(vm.isEditing, false);
-  vm.toggleEdit();
+  vm.toggleEdit(new Event('click'));
   QUnit.equal(vm.isEditing, true);
 });
 

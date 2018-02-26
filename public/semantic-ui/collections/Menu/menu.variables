@@ -1,0 +1,9 @@
+@activeColor: #378acc;
+
+@secondaryPointingBorderWidth: 6px;
+@secondaryPointingBorderColor: transparent;
+@secondaryPointingActiveTextColor: @activeColor;
+@secondaryPointingActiveBorderColor: @activeColor;
+@secondaryPointingActiveFontWeight: initial;
+
+@secondaryPointingItemHorizontalPadding: 3px;

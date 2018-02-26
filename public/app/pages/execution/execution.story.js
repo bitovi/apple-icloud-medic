@@ -9,9 +9,9 @@ export default (makeAppComponent) => {
     }
   });
 
-  storiesOf('App Components', module)
+  storiesOf('App Components/Pages', module)
     .addDecorator(story => <MockApp>{story()}</MockApp>)
-    .addWithChapters('Page - Execution', {
+    .addWithChapters('Execution', {
       chapters: [{
         sections: [{
           sectionFn: () => (

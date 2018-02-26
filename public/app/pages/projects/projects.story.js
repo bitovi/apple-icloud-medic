@@ -2,8 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import ProjectsPage from './projects';
 
-storiesOf('App Components', module)
-  .addWithChapters('Page - Projects', {
+storiesOf('App Components/Pages', module)
+  .addWithChapters('Projects', {
     chapters: [{
       sections: [{
         title: 'isEditing false state',

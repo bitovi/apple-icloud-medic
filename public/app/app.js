@@ -16,6 +16,12 @@ import { registerRoutes } from '@public/util/route-helper';
 
 const debug = makeDebug('medic:app');
 
+/**
+ * @module AppComponent
+ * @parent components
+ *
+ * The main application component
+ */
 class AppComponent extends Component {
   getChildContext() {
     return { appState: this.viewModel };
@@ -59,11 +65,30 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   /* BEGIN ROUTE PARAMS */
   /**********************/
+  /**
+   * The module ID for the current page (see route config)
+   */
   moduleId: 'string',
+  /** executionId */
   executionId: 'string',
+  /** projectId */
   projectId: 'string',
-  tabId: 'string',
+  /** ruleId */
+  ruleId: 'string',
+  /**
+   * For sections with tabs, the "key" for the selected tab
+   *
+   *  - example: rules/1234 => `{ tabKey: 'rules', tabItemId: 1234 }`
+   */
+  tabKey: 'string',
+  /**
+   * For sections with tabs, the tabItemId is an entity ID for an item
+   * selected within the tab.
+   *
+   *  - example: rules/1234 => `{ tabKey: 'rules', tabItemId: 1234 }`
+   */
   tabItemId: 'string',
+  /** teamName */
   teamName: {
     set(newVal) {
       if (newVal) {

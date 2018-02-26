@@ -1,0 +1,10 @@
+.ui.secondary.pointing.menu {
+  box-shadow: 0 1px 0 @borderColor;
+}
+
+.ui.secondary.pointing.menu .item {
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding-top: 1.3em;
+  padding-bottom: calc(~"1.3em - "@secondaryPointingBorderWidth);
+}

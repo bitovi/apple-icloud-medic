@@ -48,9 +48,9 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
       return {
         projectsList: route.url({ teamName, moduleId: PAGES.projects }),
         project: route.url({ teamName, projectId,  }),
-        rulesTab: route.url({ teamName, projectId, tabId: 'rules' }),
-        newRule: route.url({ teamName, projectId, tabId: 'rules', tabItemId: 'new' }),
-        contributorsTab: route.url({ teamName, projectId, tabId: 'contributors' })
+        rulesTab: route.url({ teamName, projectId, tabKey: 'rules' }),
+        newRule: route.url({ teamName, projectId, tabKey: 'rules', tabItemId: 'new' }),
+        contributorsTab: route.url({ teamName, projectId, tabKey: 'contributors' })
       };
     }
   },
@@ -62,20 +62,30 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
   tabs: {
     type: 'array',
     default: [
-      { title: 'Rules', tabId: 'rules' },
-      { title: 'Contributors', tabId: 'contributors' },
-      { title: 'Dashboard', tabId: 'dashboard' }
+      { key: 'rules', menuItem: 'Rules' },
+      { key: 'contributors', menuItem: 'Contributors' },
+      { key: 'dashboard', menuItem: 'Dashboard' }
     ]
   },
   /**
-   * @prop selectedTabId
+   * @prop selectedTabKey
    *
-   * The tabId for the currently selected tab
+   * The tabKey for the currently selected tab
    */
-  selectedTabId: {
+  selectedTabKey: {
     get(lastVal) {
       // lastVal will be set if passed from parent component
-      return route.data.tabId || lastVal || this.tabs[0].tabId;
+      return route.data.tabKey || lastVal || this.tabs[0].key;
+    }
+  },
+  /**
+   * @prop selectedTabIndex
+   *
+   * The index for the selected tab
+   */
+  selectedTabIndex: {
+    get() {
+      return this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
     }
   },
   /**
@@ -121,7 +131,7 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
    * Called when a new rule is created.
    */
   newRuleSuccess(rule) {
-    route.data.tabId = 'rules';
+    route.data.tabKey = 'rules';
     route.data.tabItemId = rule.id;
   }
 });

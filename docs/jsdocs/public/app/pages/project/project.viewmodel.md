@@ -11,6 +11,7 @@ Project View Model
     * [~urls](#module_Project VM..urls)
     * [~tabs](#module_Project VM..tabs)
     * [~selectedTabId](#module_Project VM..selectedTabId)
+    * [~selectedTabIndex](#module_Project VM..selectedTabIndex)
     * [~tabItemId](#module_Project VM..tabItemId)
     * [~isEditing](#module_Project VM..isEditing)
     * [~toggleEdit
@@ -72,6 +73,16 @@ Called when a new rule is created.)
 <a name="module_Project VM..selectedTabId"></a>
 
 ### Project VM~selectedTabId
+**Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| selectedTabId | The tabId for the currently selected tab |
+
+<a name="module_Project VM..selectedTabIndex"></a>
+
+### Project VM~selectedTabIndex
 **Kind**: inner property of [<code>Project VM</code>](#module_Project VM)  
 **Properties**
 

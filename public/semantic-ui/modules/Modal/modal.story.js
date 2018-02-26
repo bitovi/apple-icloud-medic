@@ -1,8 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Modal } from './Modal';
-import { Button, Header, Icon } from 'semantic-ui-react';
-import EditForm from '@public/components/edit-form/edit-form';
+import { Button } from 'semantic-ui-react';
 
 storiesOf('Semantic UI/Modules', module)
   .addWithChapters('Modal', {
@@ -10,7 +9,6 @@ storiesOf('Semantic UI/Modules', module)
       sections: [{
         title: 'Basic modal',
         sectionFn: () =>  (
-          <div>
           <Modal trigger={<Button>Show Modal</Button>}>
             <Modal.Header>Select a Photo</Modal.Header>
             <Modal.Content>
@@ -19,11 +17,10 @@ storiesOf('Semantic UI/Modules', module)
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-            <Button basic size="tiny"> Cancel </Button>
-            <Button primary size="tiny">  Save </Button>
+              <Button basic size="tiny"> Cancel </Button>
+              <Button primary size="tiny">  Save </Button>
             </Modal.Actions>
           </Modal>
-          </div>
         )
       }]
     }]
