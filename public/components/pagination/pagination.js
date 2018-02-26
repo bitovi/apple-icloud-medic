@@ -39,11 +39,11 @@ class Pagination extends Component {
 Pagination.ViewModel = DefineMap.extend('Pagination', {
   limit: {
     type: 'number',
-    value: 10
+    default: 10
   },
   offset: {
     type: 'number',
-    value: 0,
+    default: 0,
     set(v){
       if(typeof this.onOffsetChange === 'function'){
         this.onOffsetChange(v);

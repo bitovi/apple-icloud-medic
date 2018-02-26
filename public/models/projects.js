@@ -13,15 +13,15 @@ const definitions = withCommonFields({
   description: 'string',
   categories: {
     type: 'any',
-    default: []
+    default: () => []
   },
   rules: {
     type: 'any',
-    default: []
+    default: () => []
   },
   contributions: {
     type: 'any',
-    default: []
+    default: () => []
   }
 });
 

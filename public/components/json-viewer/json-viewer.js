@@ -23,17 +23,17 @@ class JSONViewer extends Component {
 
 JSONViewer.ViewModel = DefineMap.extend('JSONViewer', {
   src: {
-    value: () => ({})
+    default: () => ({})
   },
   theme: {
-    value: 'ocean'
+    default: 'ocean'
   },
   displayDataTypes: {
-    value: false
+    default: false
   },
   collapsed: {
     type: 'any',
-    value: true
+    default: true
   }
 });
 

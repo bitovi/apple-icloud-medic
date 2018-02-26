@@ -72,7 +72,6 @@ ProjectCards.ViewModel = DefineMap.extend('ProjectCards', {
    */
   isLoading: {
     type: 'boolean',
-    value: () => false,
     get(lastSetVal, setVal){
       this.projectsPromise.then(() => {
         setVal(false);

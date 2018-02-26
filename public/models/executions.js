@@ -24,7 +24,7 @@ const Executions = DefineMap.extend({
   'trigger_instance': 'any', //{}
   'trigger': {
     type: 'any',
-    value: () => ({})
+    default: () => ({})
   },
   'id': 'string'
 });

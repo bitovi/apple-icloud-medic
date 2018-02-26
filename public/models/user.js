@@ -12,7 +12,7 @@ const algebra = new canSet.Algebra(
 );
 
 const User = DefineMap.extend({
-  isSuperAdmin: { value: false },
+  isSuperAdmin: { default: false },
   displayName: 'string',
   firstName: 'string',
   lastName: 'string',
@@ -20,7 +20,7 @@ const User = DefineMap.extend({
   emailAddress: 'string',
   allGroups: {
     type: 'any',
-    value: () => []
+    default: () => []
   }
 });
 

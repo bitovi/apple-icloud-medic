@@ -5,7 +5,7 @@ import Execution from './execution';
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
     teamName: {
-      value: 'icloud'
+      default: 'icloud'
     }
   });
 

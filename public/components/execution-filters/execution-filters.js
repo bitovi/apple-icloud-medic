@@ -34,7 +34,7 @@ class ExecutionFilters extends Component {
 ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   isLoading: {
     type: 'boolean',
-    value: () => false,
+    default: () => false,
     get(lastSetVal, setVal){
       this.filtersPromise.then(() => {
         setVal(false);
@@ -44,7 +44,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   },
   filterTypes:{
     Type: DefineList,
-    value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
+    default: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
   },
   filtersPromise: {
     type: 'any',
@@ -56,7 +56,7 @@ ExecutionFilters.ViewModel = DefineMap.extend('ExecutionFilters', {
   },
   filters: {
     type: 'any',
-    value(){
+    default(){
       const filters = {};
       this.filterTypes.forEach(type => {
         filters[type] = [];

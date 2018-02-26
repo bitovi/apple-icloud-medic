@@ -114,11 +114,11 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   },
   authError: {
     serialize: false,
-    value: false
+    default: false
   },
   statusMessage: {
     serialize: false,
-    value: 'Loading...'
+    default: 'Loading...'
   },
   get currentUser () {
     const user = !this.authError && Session.current && Session.current.user;

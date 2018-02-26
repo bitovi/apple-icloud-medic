@@ -83,7 +83,6 @@ RuleCards.ViewModel = DefineMap.extend('RuleCards', {
    */
   isLoading: {
     type: 'boolean',
-    value: () => false,
     get(lastSetVal, setVal){
       this.rulesPromise.then(() => {
         setVal(false);

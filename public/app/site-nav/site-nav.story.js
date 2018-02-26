@@ -12,7 +12,7 @@ const DarkBackground = styled.div`
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
     teamName: {
-      value: 'icloud'
+      default: 'icloud'
     }
   });
 

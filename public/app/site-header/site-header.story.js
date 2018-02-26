@@ -6,7 +6,7 @@ import UserModel from '@public/models/user';
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
     teamName: {
-      value: 'icloud'
+      default: 'icloud'
     }
   });
   const currentUser = new UserModel({

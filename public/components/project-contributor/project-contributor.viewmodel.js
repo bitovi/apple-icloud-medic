@@ -57,7 +57,7 @@ export default DefineMap.extend('ProjectContributor', {
    * The different levels of permissions for a project.
    */
   permissionOptions: {
-    value: [
+    default: () => [
       { key: 'Admin', value: 'Admin', text: 'Admin' },
       { key: 'Read/Write', value: 'Read/Write', text: 'Read/Write' },
       { key: 'Read', value: 'Read', text: 'Read' }

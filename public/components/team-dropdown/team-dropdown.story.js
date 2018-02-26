@@ -5,7 +5,7 @@ import TeamDropdown from './team-dropdown';
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
     teamName: {
-      value: 'icloud'
+      default: 'icloud'
     }
   });
 

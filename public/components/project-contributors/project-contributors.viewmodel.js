@@ -47,7 +47,6 @@ export default DefineMap.extend('ProjectContributors', {
    */
   isLoading: {
     type: 'boolean',
-    value: () => false,
     get(lastSetVal, setVal){
       this.contributorsPromise.then(() => {
         setVal(false);

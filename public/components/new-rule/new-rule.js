@@ -31,7 +31,10 @@ const NewRule = ({ projectId, successCallback }) => {
 };
 
 NewRule.propTypes = {
-  projectId: PropTypes.string.isRequired,
+  projectId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
   successCallback: PropTypes.func
 };
 

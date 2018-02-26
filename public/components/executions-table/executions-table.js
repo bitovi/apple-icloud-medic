@@ -93,21 +93,21 @@ class ExecutionsTable extends Component {
 ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   limit: {
     type: 'number',
-    value: 10
+    default: 10
   },
   offset: {
     // TODO: derive from streams
     type: 'number',
-    value: 0
+    default: 0
   },
   exclude_attributes: {
-    value: function(){
+    default: function(){
       return ['result','trigger_instance'];
     }
   },
   isLoading: {
     type: 'boolean',
-    value: () => false,
+    default: () => false,
     get(lastSetVal, setVal){
       this.executionsPromise.then(() => {
         setVal(false);
@@ -116,7 +116,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
     }
   },
   executionsSet:{
-    value: () => ({}),
+    default: () => ({}),
     get() {
       // TODO: Make streamable
       let opts = {
@@ -152,7 +152,7 @@ ExecutionsTable.ViewModel = DefineMap.extend('ExecutionsTable', {
   },
   filterTypes:{
     Type: DefineList,
-    value: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
+    default: () => ['action', 'rule', 'runner', 'status', 'trigger_type', 'user']
   },
   filter_action: 'string',
   filter_rule: 'string',

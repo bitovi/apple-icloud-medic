@@ -19,10 +19,10 @@ class ExecutionDetails extends Component {
 ExecutionDetails.ViewModel = DefineMap.extend('ExecutionDetails', {
   executionId: {
     type: 'string',
-    value: ''
+    default: ''
   },
   execution: {
-    value: () => ({}),
+    default: () => ({}),
     get(lastSetVal, setVal){
       Executions.get({ id: this.executionId }).then(execution => {
         setVal(execution);

@@ -60,8 +60,7 @@ const ProjectPage = DefineMap.extend('ProjectPage', {
    * Options for the tabbed nav component
    */
   tabs: {
-    type: 'array',
-    default: [
+    default: () => [
       { key: 'rules', menuItem: 'Rules' },
       { key: 'contributors', menuItem: 'Contributors' },
       { key: 'dashboard', menuItem: 'Dashboard' }
