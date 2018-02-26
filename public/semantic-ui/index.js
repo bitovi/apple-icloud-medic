@@ -22,6 +22,7 @@ export * from './views/Card/Card';
 
 export * from './globals/Site/Site';
 
+export * from './modules/Accordion/Accordion';
 export * from './modules/Checkbox/Checkbox';
 export * from './modules/Dropdown/Dropdown';
 export * from './modules/Modal/Modal';

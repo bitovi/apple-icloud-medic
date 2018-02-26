@@ -20,9 +20,9 @@ const SiteHeader = ({currentUser}) => {
       </LinksColumn>
 
       <UserColumn>
-        { currentUser ?
-          <UserSettingsDropdown user={currentUser} /> :
-          <div>loading...</div>
+        {currentUser ?
+          <UserSettingsDropdown user={currentUser} />
+          : <div>loading...</div>
         }
       </UserColumn>
     </Header>

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { darken, saturate } from 'polished';
 import variables from '@public/semantic-ui/variables';
 import { Button } from '@public/semantic-ui/index';
+import { getDarkenedBg, getDarkenedBorder, getInverseLuminance } from '@public/util/style-helpers';
 import { Card } from './Card';
 
 const Overlay = styled(({ children, className }) => (
@@ -57,20 +57,18 @@ const StyledCard = styled(({ bgColor, detailUrl, children, ...props }) => ( // e
       </Overlay>
       : null}
   </Card>
-)).attrs({
-  saturated: (props) => saturate(0.1, props.bgColor)
-})`
+))`
   &&&&& {
+    color: ${props => getInverseLuminance(props.bgColor)};
     background-color: ${props => props.bgColor};
-    border: 1px solid ${props => darken(0.1, props.saturated)};
-    color: white;
+    border: 1px solid ${props => getDarkenedBorder(props.bgColor)};
 
     > .header {
       color: inherit;
       font-size: ${variables.card.headerFontSize};
       padding: 1em ${variables.card.contentPadding};
-      background-color: ${props => darken(0.07, props.saturated)};
-      border-bottom: 1px solid ${props => darken(0.1, props.saturated)};
+      background-color: ${props => getDarkenedBg(props.bgColor)};
+      border-bottom: inherit;
       a {
         color: inherit;
       }
