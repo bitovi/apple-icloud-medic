@@ -1,6 +1,6 @@
 import fixture from 'can-fixture';
 import env from '@root/shared/env';
-import Rules from '@public/models/projects';
+import Rules from '@public/models/rules';
 import mockServer from './mock-socket-server';
 
 function mock(){

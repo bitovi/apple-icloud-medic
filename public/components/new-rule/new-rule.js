@@ -18,7 +18,8 @@ const NewRule = ({ projectId, successCallback }) => {
   const formDef = {
     'title': { required: true },
     'description': { required: true },
-    'projectId': { value: projectId, disabled: true }
+    'projectId': { value: projectId, disabled: true },
+    'pack': { type: 'string', required: true }
   };
 
   return (

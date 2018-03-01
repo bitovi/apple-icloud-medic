@@ -2,20 +2,19 @@ import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/list';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
-import { withCommonFields } from '@public/util/model-helper';
+import { ID_FIELD } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
+import ProjectsModel from './projects';
+import PacksModel from './projects';
 
-const url = `${env.API_BASE_URI}/rules`;
+const url = `${env.API_BASE_URI}/project-packs`;
 
-const definitions = withCommonFields({
+const definitions = Object.assign({}, ID_FIELD, {
   projectId: 'number',
-  tags: 'any',
-
-  title: 'string',
-  description: 'string',
-  enabled: 'boolean',
-  pack: 'string'
+  packId: 'string',
+  project: { Type: ProjectsModel },
+  pack: { Type: PacksModel }
 });
 
 /**

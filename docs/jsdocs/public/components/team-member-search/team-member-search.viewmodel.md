@@ -14,9 +14,14 @@ TeamMemberSearch View Model
 Gets a list of team members with a matching email.()](#module_TeamMemberSearch VM..handleSearchChange
 
 Gets a list of team members with a matching email.)
-    * [~handleResultSelect
+    * [~handleSearchChange
 
-Handles selected result. Should be passed in from the parent component()](#module_TeamMemberSearch VM..handleResultSelect
+Gets a list of team members with a matching email.()](#module_TeamMemberSearch VM..handleSearchChange
+
+Gets a list of team members with a matching email.)
+    * [~onResultSelect
+
+Handles selected result. Should be passed in from the parent component()](#module_TeamMemberSearch VM..onResultSelect
 
 Handles selected result. Should be passed in from the parent component)
     * [~resetSearch
@@ -63,11 +68,19 @@ Gets a list of team members with a matching email."></a>
 
 Gets a list of team members with a matching email.()
 **Kind**: inner method of [<code>TeamMemberSearch VM</code>](#module_TeamMemberSearch VM)  
-<a name="module_TeamMemberSearch VM..handleResultSelect
+<a name="module_TeamMemberSearch VM..handleSearchChange
+
+Gets a list of team members with a matching email."></a>
+
+### TeamMemberSearch VM~handleSearchChange
+
+Gets a list of team members with a matching email.()
+**Kind**: inner method of [<code>TeamMemberSearch VM</code>](#module_TeamMemberSearch VM)  
+<a name="module_TeamMemberSearch VM..onResultSelect
 
 Handles selected result. Should be passed in from the parent component"></a>
 
-### TeamMemberSearch VM~handleResultSelect
+### TeamMemberSearch VM~onResultSelect
 
 Handles selected result. Should be passed in from the parent component()
 **Kind**: inner method of [<code>TeamMemberSearch VM</code>](#module_TeamMemberSearch VM)  

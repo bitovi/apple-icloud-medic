@@ -13,13 +13,6 @@ ProjectContent View Model
     * [~selectedTabIndex](#module_ProjectContent VM..selectedTabIndex)
     * [~tabItemId](#module_ProjectContent VM..tabItemId)
     * [~newRuleSuccess()](#module_ProjectContent VM..newRuleSuccess)
-    * [~handleResultSelect
-
-Assigns the selected team member from the team-member-search to the newContributor
-prop which is used in the contributors list component.()](#module_ProjectContent VM..handleResultSelect
-
-Assigns the selected team member from the team-member-search to the newContributor
-prop which is used in the contributors list component.)
     * [~addContributor()](#module_ProjectContent VM..addContributor)
 
 <a name="module_ProjectContent VM..project"></a>
@@ -63,16 +56,6 @@ The ID for a particular item under the selected tab
 ### ProjectContent VM~newRuleSuccess()
 Called when a new rule is created.
 
-**Kind**: inner method of [<code>ProjectContent VM</code>](#module_ProjectContent VM)  
-<a name="module_ProjectContent VM..handleResultSelect
-
-Assigns the selected team member from the team-member-search to the newContributor
-prop which is used in the contributors list component."></a>
-
-### ProjectContent VM~handleResultSelect
-
-Assigns the selected team member from the team-member-search to the newContributor
-prop which is used in the contributors list component.()
 **Kind**: inner method of [<code>ProjectContent VM</code>](#module_ProjectContent VM)  
 <a name="module_ProjectContent VM..addContributor"></a>
 

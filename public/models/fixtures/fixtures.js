@@ -11,3 +11,5 @@ import './executions/executions';
 import './projects';
 import './rules';
 import './project-contributors';
+import './packs';
+import './project-packs';

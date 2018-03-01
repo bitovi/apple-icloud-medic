@@ -8,6 +8,7 @@ const errors = require('feathers-errors');
 const dotProp = require('dot-prop');
 const debug = require('debug')('medic:permissions');
 const { mergePermissions } = require('../../shared/permission-helper');
+const env = require('../../shared/env');
 
 /**
  * Mapping of entities which should inherit permissions from another entity.
@@ -35,7 +36,7 @@ const decorateUserPermissions = (user, app) => {
   debug('Loading roles');
   // Load the permissions from the database
   // This should only happen once per user per session
-  return app.service('roles').Model.findAll({
+  return app.service(env.API_BASE_URI + '/roles').Model.findAll({
     // We do in-memory filtering of roles (below) because users might belong to too many
     // groups to perform an efficient WHERE IN db query. There should only ever be a
     // small (rather finite, < 100) list of roles in the DB, so loading them all and
