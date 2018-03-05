@@ -12,8 +12,8 @@ function mock(){
       title: `${ordinals[(count+6)%6]} Project`,
       description:
         'This is a project description. Learn all about this project here. Wow! It is so exciting',
-      rules: [1, 2, 3],
-      contributions: [4, 5, 6],
+      rules: [],
+      contributors: [],
       category: 'category',
       id: 100 + count
     });

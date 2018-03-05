@@ -124,9 +124,6 @@ const EditForm = DefineMap.extend('EditForm', {
       });
       debug('Getting form def:', formDef);
       return formDef;
-    },
-    set() {
-      throw new Error('You cannot set the _formDef property!');
     }
   },
   /**

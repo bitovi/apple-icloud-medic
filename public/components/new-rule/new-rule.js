@@ -30,11 +30,20 @@ const NewRule = ({ projectId, successCallback }) => {
   );
 };
 
+/**
+ * @memberof module:NewRule
+ */
 NewRule.propTypes = {
+  /**
+   * The projectId for the new rule
+   */
   projectId: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
   ]).isRequired,
+  /**
+   * The callback function for successful creation.
+   */
   successCallback: PropTypes.func
 };
 

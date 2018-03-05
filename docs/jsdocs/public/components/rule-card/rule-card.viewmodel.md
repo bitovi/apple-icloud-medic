@@ -6,24 +6,13 @@
 RuleCard View Model  
 
 * [RuleCard VM](#module_RuleCard VM)
-    * [~ruleId](#module_RuleCard VM..ruleId)
     * [~rule](#module_RuleCard VM..rule)
     * [~isEditing](#module_RuleCard VM..isEditing)
     * [~handleRemove
 
-Removes project from list.()](#module_RuleCard VM..handleRemove
+Calls the rules destroy() method()](#module_RuleCard VM..handleRemove
 
-Removes project from list.)
-
-<a name="module_RuleCard VM..ruleId"></a>
-
-### RuleCard VM~ruleId
-**Kind**: inner property of [<code>RuleCard VM</code>](#module_RuleCard VM)  
-**Properties**
-
-| Name | Description |
-| --- | --- |
-| ruleId | The ruleId used to get the project data. |
+Calls the rules destroy_new method)
 
 <a name="module_RuleCard VM..rule"></a>
 
@@ -31,9 +20,9 @@ Removes project from list.)
 **Kind**: inner property of [<code>RuleCard VM</code>](#module_RuleCard VM)  
 **Properties**
 
-| Name | Description |
-| --- | --- |
-| project | The gets the project data if it wasn't already passed into the component. |
+| Name |
+| --- |
+| rule | 
 
 <a name="module_RuleCard VM..isEditing"></a>
 
@@ -43,13 +32,13 @@ Removes project from list.)
 
 | Name | Description |
 | --- | --- |
-| isEditing | Project edit state allows a project to be deleted. |
+| isEditing | Rule edit state allows a rule to be deleted. |
 
 <a name="module_RuleCard VM..handleRemove
 
-Removes project from list."></a>
+Calls the rules destroy_new method"></a>
 
 ### RuleCard VM~handleRemove
 
-Removes project from list.()
+Calls the rules destroy() method()
 **Kind**: inner method of [<code>RuleCard VM</code>](#module_RuleCard VM)  

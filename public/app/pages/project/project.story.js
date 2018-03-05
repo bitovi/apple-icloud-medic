@@ -9,11 +9,10 @@ storiesOf('App Components/Pages', module)
         sectionFn: () => (
           <ProjectPage projectId={104} />
         )
-      },
-      {
-        title: 'Specifying the selectedTabKey',
+      }, {
+        title: 'New Project form',
         sectionFn: () => (
-          <ProjectPage projectId={104} selectedTabKey='contributors'/>
+          <ProjectPage projectId="new" />
         )
       }]
     }]

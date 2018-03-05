@@ -119,6 +119,7 @@
     "can-define": "^2.0.3",
     "can-fixture": "^2.0.3",
     "can-fixture-socket": "^0.7.2",
+    "can-observation-recorder": "^1.0.2",
     "can-route-pushstate": "^4.0.2",
     "can-set": "^1.4.0",
     "can-stream-kefir": "^1.0.1",

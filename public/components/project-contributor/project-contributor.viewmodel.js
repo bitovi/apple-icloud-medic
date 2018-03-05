@@ -1,5 +1,4 @@
 import DefineMap from 'can-define/map/map';
-import DefineList from 'can-define/list/list';
 import ProjectContributors from '@public/models/project-contributors/project-contributors';
 
 /**
@@ -10,37 +9,11 @@ import ProjectContributors from '@public/models/project-contributors/project-con
  */
 export default DefineMap.extend('ProjectContributor', {
   /**
-   * @prop contributorId
-   *
-   * The contributorId used to get the contributor data.
-   */
-  contributorId: {
-    type: 'number'
-  },
-
-  /**
-   * Get promise for single contributor.
-   *
-   * @returns a promise that resolves to a contributor.
-  */
-  contributorPromise: {
-    type: 'any',
-    get() {
-      return ProjectContributors.get({id: this.contributorId});
-    }
-  },
-  /**
    * Get list of contributors
    * @type ProjectContributors
    * @returns a contributor instance resolved from contributorPromise
    */
   contributor: {
-    get(lastSetVal, setVal){
-      this.contributorPromise.then(contributor => {
-        setVal(contributor);
-      });
-      return lastSetVal;
-    },
     Type: ProjectContributors
   },
   /**
@@ -61,8 +34,7 @@ export default DefineMap.extend('ProjectContributor', {
       { key: 'Admin', value: 'Admin', text: 'Admin' },
       { key: 'Read/Write', value: 'Read/Write', text: 'Read/Write' },
       { key: 'Read', value: 'Read', text: 'Read' }
-    ],
-    Type: DefineList
+    ]
   },
   /**
    * @method handlePermissionsChange

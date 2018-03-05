@@ -8,7 +8,7 @@ storiesOf('Components', module)
       sections: [{
         title: 'Default use',
         sectionFn: () => (
-          <ProjectContributors projectId={100}/>
+          <ProjectContributors query={{ projectId: 100 }}/>
         )
       }]
     }]

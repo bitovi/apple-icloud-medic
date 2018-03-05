@@ -11,7 +11,7 @@ const SiteHeader = ({currentUser}) => {
   return (
     <Header padded stackable as="header">
       <LightColumn>
-        <Logo href="/"> iCloud Medic</Logo>
+        <Logo href="/"> Medic</Logo>
         <TeamDropdown />
       </LightColumn>
 

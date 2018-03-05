@@ -1,8 +1,9 @@
 import React from 'react';
-import Component from 'react-view-model/component';
-import ViewModel from './project-contributors.viewmodel.js';
+import PropTypes from 'prop-types';
 import ProjectContributor from '@public/components/project-contributor/project-contributor';
 import { Segment } from '@public/semantic-ui/index';
+import ProjectContributorsModel from '@public/models/project-contributors/project-contributors';
+import DataProvider from '@public/components/data-provider/data-provider';
 
 /**
  * @module ProjectContributors
@@ -10,29 +11,18 @@ import { Segment } from '@public/semantic-ui/index';
  *
  * ProjectContributors is the list component for the project contributors.
  */
-class ProjectContributors extends Component {
-  /**
-   * @method render
-   * @returns template
-   */
-  render() {
-    const { isLoading, contributors, projectId } = this.viewModel;
-    if (isLoading || !contributors) {
-      return <p>Loading...</p>;
-    }
-    if (!contributors.length) {
-      return <p>There are no contributors to display.</p>;
-    }
-    return (
-      <Segment.Group projectid={projectId}>
-        {contributors.map(contributor => (
-          <ProjectContributor contributor={contributor} key={contributor.id}></ProjectContributor>
-        ))}
-      </Segment.Group>
-    );
-  }
-}
+const ProjectContributors = ({ contributors }) => {
+  return (
+    <Segment.Group>
+      {contributors.map(contributor => (
+        <ProjectContributor contributor={contributor} key={contributor.id}></ProjectContributor>
+      ))}
+    </Segment.Group>
+  );
+};
 
-ProjectContributors.ViewModel = ViewModel;
+ProjectContributors.propTypes = {
+  contributors: PropTypes.object // DefineLists are objects
+};
 
-export default ProjectContributors;
+export default DataProvider(ProjectContributors, ProjectContributorsModel, 'contributors');

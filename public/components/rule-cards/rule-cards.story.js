@@ -7,7 +7,7 @@ storiesOf('Components', module)
     chapters: [{
       sections: [{
         sectionFn: () => (
-          <RuleCards projectId={104} />
+          <RuleCards query={{ projectId: 104 }} />
         )
       }]
     }]

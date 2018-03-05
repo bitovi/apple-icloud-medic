@@ -9,12 +9,6 @@ storiesOf('App Components/Pages', module)
         sectionFn: () => (
           <RulePage ruleId={104} />
         )
-      },
-      {
-        title: 'Specifying the selectedTabKey',
-        sectionFn: () => (
-          <RulePage ruleId={104} selectedTabKey='executions'/>
-        )
       }]
     }]
   });

@@ -8,7 +8,7 @@ storiesOf('Components', module)
       sections: [{
         title: 'Default use',
         sectionFn: () => (
-          <RuleCard ruleId={104} />
+          <RuleCard id={104} />
         )
       }]
     }]

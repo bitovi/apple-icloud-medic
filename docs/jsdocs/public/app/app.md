@@ -10,7 +10,7 @@ The main application component
     * [~executionId](#module_AppComponent..executionId)
     * [~projectId](#module_AppComponent..projectId)
     * [~ruleId](#module_AppComponent..ruleId)
-    * [~tabId](#module_AppComponent..tabId)
+    * [~tabKey](#module_AppComponent..tabKey)
     * [~tabItemId](#module_AppComponent..tabItemId)
     * [~teamName](#module_AppComponent..teamName)
 
@@ -38,20 +38,21 @@ projectId
 ruleId
 
 **Kind**: inner property of [<code>AppComponent</code>](#module_AppComponent)  
-<a name="module_AppComponent..tabId"></a>
+<a name="module_AppComponent..tabKey"></a>
 
-### AppComponent~tabId
-For sections with tabs, the tabId is the key/id for the selected tab
+### AppComponent~tabKey
+For sections with tabs, the "key" for the selected tab
 
- - example: rules/1234 => `{ tabId: 'rules', tabItemId: 1234 }`
+ - example: rules/1234 => `{ tabKey: 'rules', tabItemId: 1234 }`
 
 **Kind**: inner property of [<code>AppComponent</code>](#module_AppComponent)  
 <a name="module_AppComponent..tabItemId"></a>
 
 ### AppComponent~tabItemId
-For sections with tabs, the tabItemId is an entity ID
+For sections with tabs, the tabItemId is an entity ID for an item
+selected within the tab.
 
- - example: rules/1234 => `{ tabId: 'rules', tabItemId: 1234 }`
+ - example: rules/1234 => `{ tabKey: 'rules', tabItemId: 1234 }`
 
 **Kind**: inner property of [<code>AppComponent</code>](#module_AppComponent)  
 <a name="module_AppComponent..teamName"></a>

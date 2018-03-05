@@ -5,7 +5,7 @@ import ViewModel from './rule-card.viewmodel';
 QUnit.module('@public/components/rule-card');
 
 QUnit.asyncTest('handleRemove calls destroy on the rule instance', () => {
-  var vm = new ViewModel({
+  const vm = new ViewModel({
     rule: {
       destroy() {
         QUnit.ok(true, 'destroy method called');

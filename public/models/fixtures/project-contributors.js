@@ -3,15 +3,26 @@ import env from '@root/shared/env';
 import ProjectContributors from '@public/models/project-contributors/project-contributors';
 import mockServer from './mock-socket-server';
 
+const contributors = [
+  { name: 'Nikunj Virani', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 101 },
+  { name: 'Joe Cananagh', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 102 },
+  { name: 'Liz Tom', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 103 },
+  { name: 'Mick McGrath', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 104 },
+  { name: 'Andrea Periera de Alameida', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 105 },
+  { name: 'Ryan Wheale', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', userId: 106 },
+];
+
 function mock(){
-  return [
-    {name: 'Nikunj Virani', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 101, userId: 101 },
-    {name: 'Joe Cananagh', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 102, userId: 102 },
-    {name: 'Liz Tom', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 103, userId: 103 },
-    {name: 'Mick McGrath', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 100, id: 104, userId: 104 },
-    {name: 'Andrea Periera de Alameida', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 104, id: 105, userId: 105 },
-    {name: 'Ryan Wheale', avatarUrl: 'http://placekitten.com/g/200/200', permissions: 'admin', projectId: 104, id: 106, userId: 106 },
-  ];
+  let count = 20; // number of projects
+  const arr = [];
+  while(count--) {
+    const data = fixture.rand(contributors).map((pc, i) => Object.assign({
+      id: 10 * count + i,
+      projectId: 100 + count
+    }, pc));
+    Array.prototype.push.apply(arr, data);
+  }
+  return arr;
 }
 
 const url = `${env.API_BASE_URI}/project-contributors`;

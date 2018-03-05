@@ -2,13 +2,24 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import ProjectCard from './project-card';
 
+const project = {
+  id: 1234,
+  title: 'Sample project name',
+  description: 'This is the project description'
+};
+
 storiesOf('Components', module)
   .addWithChapters('ProjectCard', {
     chapters: [{
       sections: [{
-        title: 'Default use',
+        title: 'Passing just the ID',
         sectionFn: () => (
-          <ProjectCard projectId={102}/>
+          <ProjectCard id={102}/>
+        )
+      }, {
+        title: 'Passing data directly',
+        sectionFn: () => (
+          <ProjectCard project={project}/>
         )
       }]
     }]

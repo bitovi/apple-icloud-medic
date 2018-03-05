@@ -1,103 +1,42 @@
 import React from 'react';
-import Component from 'react-view-model/component';
-import DefineMap from 'can-define/map/';
+import PropTypes from 'prop-types';
 import { Card } from '@public/semantic-ui/index';
+import ProjectsModel from '@public/models/projects';
+import DataProvider from '@public/components/data-provider/data-provider';
 import ProjectCard from '@public/components/project-card/project-card';
-import Projects from '@public/models/projects';
 
 /**
- * @Component ProjectCards
+ * @module ProjectCards
+ * @parent components
  *
  * List of projects in a card template.
  */
-class ProjectCards extends Component {
-  /**
-   * @method render
-   *
-   * @returns ProjectCard template
-   */
-  render() {
-    const { isLoading, isEditing, projects, itemsPerRow } = this.viewModel;
-    if (isLoading || !projects) {
-      return <p>Loading...</p>;
-    }
-    if (!projects.length) {
-      return <p>There are no projects to display.</p>;
-    }
-    return (
-      <Card.Group itemsPerRow={itemsPerRow}>
-        {projects.map(project => (
-          <ProjectCard project={project} key={project.id} isEditing={isEditing}></ProjectCard>
-        ))}
-      </Card.Group>
-    );
-  }
-}
-/**
-* @module ProjectCards VM
-* @parent ProjectCards
-*
-* Project Cards View Model
-*/
-ProjectCards.ViewModel = DefineMap.extend('ProjectCards', {
-  /**
-   * Get promise for projects list.
-   *
-   * @returns a promise that resolves to a list of projects.
-   */
-  projectsPromise: {
-    type: 'any',
-    get() {
-      return Projects.getList({});
-    }
-  },
-  /**
-   * Get list of projects
-   * @type Projects.List
-   * @returns a list of projects resolved from projectsPromise
-   */
-  projects: {
-    get(lastSetVal, setVal){
-      this.projectsPromise.then(projects => {
-        setVal(projects);
-      });
-      return lastSetVal;
-    },
-    Type: Projects.List
-  },
-  /**
-   * @prop isLoading
-   *
-   * Projects loading state.
-   */
-  isLoading: {
-    type: 'boolean',
-    get(lastSetVal, setVal){
-      this.projectsPromise.then(() => {
-        setVal(false);
-      });
-      return true;
-    }
-  },
-  /**
-   * @prop isEditing
-   *
-   * Project edit state allows a project to be deleted.
-   */
-  isEditing: {
-    type: 'boolean',
-    default: false
-  },
-  /**
-   * @prop itemsPerRow
-   *
-   * Number of cards to be shown per row.
-   * @default 3
-   */
-  itemsPerRow: {
-    type: 'number',
-    default: 3
-  }
-});
+const ProjectCards = ({ projects, isEditing, itemsPerRow = 3 }) => {
+  return (
+    <Card.Group itemsPerRow={itemsPerRow}>
+      {projects.map(project => (
+        <ProjectCard project={project} key={project.id} isEditing={isEditing}></ProjectCard>
+      ))}
+    </Card.Group>
+  );
+};
 
-export default ProjectCards;
+/**
+ * @memberof module:ProjectCards
+ */
+ProjectCards.propTypes = {
+  /**
+   * DefineList of projects
+   */
+  projects: PropTypes.object,
+  /**
+   * Whether or not the list is in edit mode
+   */
+  isEditing: PropTypes.bool,
+  /**
+   * Number of items per row
+   */
+  itemsPerRow: PropTypes.number
+};
+
+export default DataProvider(ProjectCards, ProjectsModel, 'projects');

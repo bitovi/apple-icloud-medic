@@ -1,6 +1,6 @@
 import makeDebug from 'debug';
 import DefineMap from 'can-define/map/map';
-import Projects from '@public/models/projects';
+import ProjectsModel from '@public/models/projects';
 
 const debug = makeDebug('medic:components:project-card');
 
@@ -12,34 +12,22 @@ const debug = makeDebug('medic:components:project-card');
  */
 export default DefineMap.extend('ProjectCard', {
   /**
-   * @prop projectId
-   *
-   * The projectId used to get the project data.
-   */
-  projectId: {
-    type: 'number'
-  },
-  /**
    * @prop project
    *
-   * The gets the project data if it wasn't already passed into the component.
+   * Should be passed from the parent
    */
   project: {
-    get(lastSet, resolve) {
-      if (!lastSet && this.projectId) {
-        Projects.get({id: this.projectId}).then(resolve);
-      }
-      return lastSet;
-    }
+    Type: ProjectsModel
   },
   /**
    * @method handleRemove
    *
-   * Removes project from list.
+   * Calls the projects destroy method
    */
   handleRemove() {
     this.project.destroy().then(data => {
       debug(`Project ID ${data.id}: ${data.title} deleted`, data);
+      return data;
     });
   },
 

@@ -10,7 +10,7 @@ Rule View Model
     * [~rule](#module_Rule VM..rule)
     * [~urls](#module_Rule VM..urls)
     * [~tabs](#module_Rule VM..tabs)
-    * [~selectedTabId](#module_Rule VM..selectedTabId)
+    * [~selectedTabKey](#module_Rule VM..selectedTabKey)
     * [~selectedTabIndex](#module_Rule VM..selectedTabIndex)
     * [~tabItemId](#module_Rule VM..tabItemId)
     * [~isEditing](#module_Rule VM..isEditing)
@@ -40,16 +40,16 @@ A dictionary of different URLs for the rule page
 Options for the tabbed nav component
 
 **Kind**: inner property of [<code>Rule VM</code>](#module_Rule VM)  
-<a name="module_Rule VM..selectedTabId"></a>
+<a name="module_Rule VM..selectedTabKey"></a>
 
-### Rule VM~selectedTabId
-The tabId for the currently selected tab
+### Rule VM~selectedTabKey
+The tabKey for the currently selected tab
 
 **Kind**: inner property of [<code>Rule VM</code>](#module_Rule VM)  
 <a name="module_Rule VM..selectedTabIndex"></a>
 
 ### Rule VM~selectedTabIndex
-The tabId for the currently selected tab
+The index for the currently selected tab
 
 **Kind**: inner property of [<code>Rule VM</code>](#module_Rule VM)  
 <a name="module_Rule VM..tabItemId"></a>

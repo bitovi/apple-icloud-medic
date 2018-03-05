@@ -6,24 +6,13 @@
 ProjectCard View Model  
 
 * [ProjectCard VM](#module_ProjectCard VM)
-    * [~projectId](#module_ProjectCard VM..projectId)
     * [~project](#module_ProjectCard VM..project)
     * [~isEditing](#module_ProjectCard VM..isEditing)
     * [~handleRemove
 
-Removes project from list.()](#module_ProjectCard VM..handleRemove
+Calls the projects destroy method()](#module_ProjectCard VM..handleRemove
 
-Removes project from list.)
-
-<a name="module_ProjectCard VM..projectId"></a>
-
-### ProjectCard VM~projectId
-**Kind**: inner property of [<code>ProjectCard VM</code>](#module_ProjectCard VM)  
-**Properties**
-
-| Name | Description |
-| --- | --- |
-| projectId | The projectId used to get the project data. |
+Calls the projects destroy method)
 
 <a name="module_ProjectCard VM..project"></a>
 
@@ -33,7 +22,7 @@ Removes project from list.)
 
 | Name | Description |
 | --- | --- |
-| project | The gets the project data if it wasn't already passed into the component. |
+| project | Should be passed from the parent |
 
 <a name="module_ProjectCard VM..isEditing"></a>
 
@@ -47,9 +36,9 @@ Removes project from list.)
 
 <a name="module_ProjectCard VM..handleRemove
 
-Removes project from list."></a>
+Calls the projects destroy method"></a>
 
 ### ProjectCard VM~handleRemove
 
-Removes project from list.()
+Calls the projects destroy method()
 **Kind**: inner method of [<code>ProjectCard VM</code>](#module_ProjectCard VM)  

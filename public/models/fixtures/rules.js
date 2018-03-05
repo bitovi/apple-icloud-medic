@@ -4,18 +4,21 @@ import Rules from '@public/models/projects';
 import mockServer from './mock-socket-server';
 
 function mock(){
-  let count = 100;
+  let count = 20; // number of projects
   const arr = [];
   while(count--) {
-    arr.unshift({
-      title: 'Rule #' + count,
-      description:
-        'This is a rule description. Click the rule title for more information.',
-      tags: [{ id: 1, title: 'rule_tag' }],
-      enabled: Math.random() > 0.7,
-      projectId: 100 + Math.round(count/5),
-      id: 100 + count
-    });
+    let i = fixture.rand(2, 7);
+    while(i--) {
+      arr.unshift({
+        title: 'Rule #' + count + i,
+        description:
+          'This is a rule description. Click the rule title for more information.',
+        tags: [{ id: 1, title: 'rule_tag' }],
+        enabled: Math.random() > 0.3,
+        projectId: 100 + count,
+        id: 10 * count + i
+      });
+    }
   }
   return arr;
 }

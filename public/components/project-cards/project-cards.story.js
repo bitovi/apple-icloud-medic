@@ -7,7 +7,7 @@ storiesOf('Components', module)
     chapters: [{
       sections: [{
         sectionFn: () => (
-          <ProjectCards/>
+          <ProjectCards />
         )
       }]
     }]

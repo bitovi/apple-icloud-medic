@@ -4,7 +4,15 @@ import ViewModel from './project-card.viewmodel';
 // ViewModel unit tests
 QUnit.module('@public/components/project-card');
 
-QUnit.test('Has a projectId property', function(){
-  var vm = new ViewModel({projectId: '102'});
-  QUnit.equal(vm.projectId, '102');
+QUnit.asyncTest('handleRemove calls destroy on the project instance', () => {
+  const vm = new ViewModel({
+    project: {
+      destroy() {
+        QUnit.ok(true, 'destroy method called');
+        QUnit.start();
+        return Promise.resolve({ id: 123 });
+      }
+    }
+  });
+  vm.handleRemove();
 });

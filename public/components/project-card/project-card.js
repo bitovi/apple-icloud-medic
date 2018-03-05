@@ -3,6 +3,8 @@ import Component from 'react-view-model/component';
 import route from 'can-route-pushstate';
 import ViewModel from './project-card.viewmodel.js';
 import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
+import ProjectsModel from '@public/models/projects';
+import DataProvider from '@public/components/data-provider/data-provider';
 
 /**
  * @module ProjectCard
@@ -11,18 +13,10 @@ import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
  * ProjectCard renders a single card view for a project
  */
 class ProjectCard extends Component {
+  static ViewModel = ViewModel;
 
-  /**
-   * @method render
-   * @returns styled card template
-   */
   render() {
     const { project, isEditing, handleRemove } = this.viewModel;
-
-    if (!project) {
-      return <p>Loading project...</p>;
-    }
-
     const url = route.url({ teamName: route.data.teamName, projectId: project.id });
 
     return (
@@ -49,6 +43,4 @@ class ProjectCard extends Component {
   }
 }
 
-ProjectCard.ViewModel = ViewModel;
-
-export default ProjectCard;
+export default DataProvider(ProjectCard, ProjectsModel, 'project');

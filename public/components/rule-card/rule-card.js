@@ -2,6 +2,8 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import route from 'can-route-pushstate';
 import ViewModel from './rule-card.viewmodel.js';
+import RulesModel from '@public/models/rules';
+import DataProvider from '@public/components/data-provider/data-provider';
 import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
 
 /**
@@ -11,17 +13,10 @@ import { Card, Label, Icon, StyledCard } from '@public/semantic-ui/index';
  * RuleCard Description
  */
 class RuleCard extends Component {
-  /**
-   * @method render
-   * @returns template
-   */
+  static ViewModel = ViewModel;
+
   render() {
     const { rule, isEditing } = this.viewModel;
-
-    if (!rule) {
-      return <p>Loading rule...</p>;
-    }
-
     const url = route.url({ teamName: route.data.teamName, ruleId: rule.id });
 
     return (
@@ -39,7 +34,7 @@ class RuleCard extends Component {
         <Card.Content extra>
           <Label empty circular color={rule.enabled ? 'green' : 'red'} /> Enabled
           <div className="floatRight">
-            {rule.tags.length ?
+            {rule.tags && rule.tags.length ?
               <Label color="black">{rule.tags[0].title}</Label>
               : null}
           </div>
@@ -49,6 +44,4 @@ class RuleCard extends Component {
   }
 }
 
-RuleCard.ViewModel = ViewModel;
-
-export default RuleCard;
+export default DataProvider(RuleCard, RulesModel, 'rule');

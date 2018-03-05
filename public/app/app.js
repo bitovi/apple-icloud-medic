@@ -36,10 +36,12 @@ class AppComponent extends Component {
     if (!currentUser) {
       mainContent = <div>{this.viewModel.statusMessage}</div>;
     } else {
-      const { teamName, CurrentPage } = this.viewModel;
+      const { teamName, CurrentPage, moduleId } = this.viewModel;
       if (!teamName || !CurrentPage) {
+        debug('Rendering loading message', moduleId);
         mainContent = <div>Loading page data...</div>;
       } else {
+        debug('Rendering page', moduleId);
         mainContent = <CurrentPage />;
       }
     }

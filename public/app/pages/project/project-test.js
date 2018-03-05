@@ -1,18 +1,14 @@
 import QUnit from 'steal-qunit';
+import route from 'can-route-pushstate';
 import ViewModel from './project.viewmodel';
+import './project-content/project-content-test';
 
 // ViewModel unit tests
 QUnit.module('@public/app/pages/project');
 
-QUnit.test('toggles the edit state', function(){
-  var vm = new ViewModel();
-  QUnit.equal(vm.isEditing, false);
-  vm.toggleEdit();
-  QUnit.equal(vm.isEditing, true);
-});
-
-QUnit.test('selects the first tab by default', function(){
-  var vm = new ViewModel({ tabs: [{ key: 123 }, { key: 456 }] });
-  QUnit.equal(vm.selectedTabKey, 123);
-  QUnit.equal(vm.selectedTabIndex, 0);
+QUnit.test('newProjectSuccess sets the projectId on route data', function(){
+  const vm = new ViewModel();
+  route.data = {};
+  vm.newProjectSuccess({ id: 1234 });
+  QUnit.equal(route.data.projectId, 1234);
 });
