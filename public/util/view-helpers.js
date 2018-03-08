@@ -20,7 +20,7 @@ const listAsArray = (list) => {
 /**
  * Determine if a user has permission for a particular entity.
  * @param  {String} entityName
- * @param  {String} action
+ * @param  {String} action ("get", "find", "create", "update", "patch", "remove")
  * @return {Boolean}
  */
 const userHasPermission = (entityName, action) => {

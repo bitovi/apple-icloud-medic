@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './project-contributor.viewmodel.js';
-import { listAsArray } from '@public/util/view-helpers';
+import { userHasPermission } from '@public/util/view-helpers';
 import DataProvider from '@public/components/data-provider/data-provider';
 import ProjectContributorsModel from '@public/models/project-contributors/project-contributors';
 import { Dropdown, Icon, ContribSegment } from '@public/semantic-ui/index';
@@ -15,20 +15,37 @@ import { Dropdown, Icon, ContribSegment } from '@public/semantic-ui/index';
 class ProjectContributor extends Component {
   static ViewModel = ViewModel;
 
+  userInfo() {
+    const { user } = this.viewModel.contributor;
+    return (
+      <ContribSegment>
+        <div> {user.nickName || user.firstName} {user.lastName} </div>
+        <div> {user.emailAddress} </div>
+      </ContribSegment>
+    );
+  }
+
+  adminBlock() {
+    const { contributor, handleRemove, permissionOptions, handlePermissionsChange } = this.viewModel;
+    return (
+      <ContribSegment align="right">
+        <Dropdown defaultValue={contributor.permissions} selection options={permissionOptions} onChange={handlePermissionsChange}/>
+        <Icon name="delete" onClick={handleRemove}/>
+      </ContribSegment>
+    );
+  }
+
   render() {
-    const { contributor, handleRemove, permissionOptions, handlePermissionsChange, isProjectAdmin } = this.viewModel;
+    const { contributor, isProjectAdmin } = this.viewModel;
 
     return (
       <ContribSegment.Group horizontal key={contributor.id}>
-        <ContribSegment>
-          <div> {contributor.nickName || contributor.firstName} {contributor.lastName} </div>
-          <div> {contributor.emailAddress} </div>
-        </ContribSegment>
-        { isProjectAdmin &&
-          (<ContribSegment align="right">
-            <Dropdown placeholder={contributor.permissions} selection options={listAsArray(permissionOptions)} onChange={handlePermissionsChange}/>
-            <Icon name="delete" onClick={handleRemove}/>
-          </ContribSegment>)
+        { contributor.user ?
+          this.userInfo() :
+          <ContribSegment>Unknown user with ID: {contributor.userId}</ContribSegment>
+        }
+        { contributor.user && (isProjectAdmin || userHasPermission('project-contributors', 'update')) &&
+          this.adminBlock()
         }
       </ContribSegment.Group>
     );

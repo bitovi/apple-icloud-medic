@@ -1,22 +1,21 @@
 import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/list';
+import route from 'can-route-pushstate';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from '@public/models/algebras/feathers';
+import UserModel from '@public/models/user';
 
 const url = `${env.API_BASE_URI}/project-contributors`;
 
 const definitions = withCommonFields({
   projectId: 'number',
-  userId: 'string',
+  userId: 'number',
   permissions: {
-    type: 'string',
-    set(value) {
-      return value.toLowerCase();
-    }
-  },
+    type: 'string'
+  }
 });
 
 /**
@@ -25,7 +24,16 @@ const definitions = withCommonFields({
  * @class
  * Defines the ProjectContributors model and its associated properties
  */
-const ProjectContributors = DefineMap.extend('ProjectContributors', definitions);
+const ProjectContributors = DefineMap.extend('ProjectContributors', Object.assign({
+  user: {
+    Type: UserModel,
+    get() {
+      if (route.data.team) {
+        return route.data.team.members.findTeamMemberByUserId(this.userId);
+      }
+    }
+  }
+}, definitions));
 ProjectContributors.definitions = definitions;
 
 /**

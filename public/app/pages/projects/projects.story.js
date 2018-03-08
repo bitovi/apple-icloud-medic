@@ -8,19 +8,19 @@ storiesOf('App Components/Pages', module)
       sections: [{
         title: 'isEditing false state',
         sectionFn: () => (
-          <ProjectsPage />
+          <ProjectsPage teamId={1} />
         )
       },
       {
         title: 'isEditing true state',
         sectionFn: () => (
-          <ProjectsPage isEditing='true'/>
+          <ProjectsPage teamId={2} isEditing='true'/>
         )
       },
       {
         title: 'success message',
         sectionFn: () => (
-          <ProjectsPage message='Project sucessfully saved.'/>
+          <ProjectsPage teamId={2} message='Project sucessfully saved.'/>
         )
       }]
     }]

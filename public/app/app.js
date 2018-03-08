@@ -111,6 +111,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   teamPromise: {
     get() {
+      debug('Loading team', this.teamName);
       return teamConnection.getList({ codeName: this.teamName }).then(results => {
         if (!results.length) {
           throw new Error('No team found for ' + this.teamName);
@@ -122,7 +123,6 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   team: {
     get(lastVal, setVal) {
       if (this.teamName) {
-        debug('Loading team', this.teamName);
         this.teamPromise.then(team => {
           debug('Team loaded', team);
           setVal(team);

@@ -34,10 +34,10 @@ Determine if a user has permission for a particular entity.
 
 **Kind**: global function  
 
-| Param | Type |
-| --- | --- |
-| entityName | <code>String</code> | 
-| action | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| entityName | <code>String</code> |  |
+| action | <code>String</code> | ("get", "find", "create", "update", "patch", "remove") |
 
 <a name="formatDate"></a>
 

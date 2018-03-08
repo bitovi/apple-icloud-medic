@@ -28,9 +28,9 @@ export default DefineMap.extend('ProjectContributor', {
   permissionOptions: {
     type: 'any',
     default: () => [
-      { key: 'Admin', value: 'Admin', text: 'Admin' },
-      { key: 'Read/Write', value: 'Read/Write', text: 'Read/Write' },
-      { key: 'Read', value: 'Read', text: 'Read' }
+      { key: 'admin', value: 'admin', text: 'Admin' },
+      { key: 'rw-user', value: 'rw-user', text: 'Read/Write' },
+      { key: 'ro-user', value: 'ro-user', text: 'Read' }
     ]
   },
   /**

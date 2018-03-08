@@ -13,7 +13,7 @@ const factory = (WrappedComponent, Model, dataProp) => {
     static displayName = WrappedComponent.name || 'DataProvider';
 
     render() {
-      const { isLoading, dataProp, isSingleObject, error } = this.viewModel;
+      const { isLoading, dataProp, isSingleObject, error, query } = this.viewModel;
       if (isLoading) {
         return <Loader active inline>Loading {dataProp}</Loader>;
       }
@@ -23,7 +23,7 @@ const factory = (WrappedComponent, Model, dataProp) => {
         </Message>;
       }
       if (!isSingleObject && !this.viewModel[dataProp].length) {
-        return <Message>There are no {dataProp} to display</Message>;
+        return <Message>There are no {dataProp} to display: {JSON.stringify(query)}</Message>;
       }
       return <WrappedComponent {...this.viewModel} />;
     }

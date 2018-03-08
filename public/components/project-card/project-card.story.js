@@ -14,7 +14,7 @@ storiesOf('Components', module)
       sections: [{
         title: 'Passing just the ID',
         sectionFn: () => (
-          <ProjectCard id={102}/>
+          <ProjectCard id={100}/>
         )
       }, {
         title: 'Passing data directly',

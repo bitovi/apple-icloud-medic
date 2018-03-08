@@ -1,21 +1,13 @@
-import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/list';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
-import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from '@public/models/algebras/feathers';
+import UserModel from '../user';
+
+const ID_PROP = UserModel.connection.idProp;
 
 const url = `${env.API_BASE_URI}/team-members`;
-
-const definitions = withCommonFields({
-  firstName: 'string',
-  lastName: 'string',
-  nickName: 'string',
-  teamId: 'number',
-  userId: 'string',
-  emailAddress: 'string'
-});
 
 /**
  * TeamMembers model.
@@ -23,8 +15,9 @@ const definitions = withCommonFields({
  * @class
  * Defines the TeamMembers model and its associated properties
  */
-const TeamMembers = DefineMap.extend('TeamMembers', definitions);
-TeamMembers.definitions = definitions;
+const TeamMembers = UserModel.extend('TeamMembers', {
+  groupId: 'number'
+});
 
 /**
  * TeamMembers.List model.
@@ -33,10 +26,9 @@ TeamMembers.definitions = definitions;
  */
 TeamMembers.List = DefineList.extend('TeamMembers.List', {
   '#': TeamMembers,
-  findTeamMemberByUserId(userId) {
-    return this.filter((teamMember) => {
-      return teamMember.userId === userId;
-    });
+  findTeamMemberByUserId(id) {
+    const result = this.filter(teamMember => teamMember[ID_PROP] === id);
+    return result.length ? result[0] : null;
   }
 });
 

@@ -23,7 +23,8 @@ const definitions = withCommonFields({
     default: () => []
   },
   contributors: {
-    Type: ProjectContributors.List
+    Type: ProjectContributors.List,
+    default: () => []
   }
 });
 

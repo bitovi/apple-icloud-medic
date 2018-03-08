@@ -4,6 +4,7 @@ import DefineMap from 'can-define/map/map';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Case from 'case';
+import route from 'can-route-pushstate';
 import { Site as BaseSite } from '../../public/semantic-ui';
 
 // some of these were taken directly from markdown parser source code
@@ -27,13 +28,19 @@ function getScopeFromPath (f) {
 // Create a mock app to provide context to elements
 const makeAppComponent = (VM) => {
   if (typeof VM !== 'function') {
-    VM = DefineMap.extend(VM);
+    VM = DefineMap.extend({ seal: false }, VM);
   }
   return class MockApp extends Component {
     static ViewModel = VM
 
     static childContextTypes = {
       appState: PropTypes.object
+    }
+
+    componentWillMount() {
+      super.componentWillMount();
+      route.data = this.viewModel;
+      // route.start();
     }
 
     getChildContext() {

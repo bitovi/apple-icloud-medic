@@ -5,13 +5,18 @@ import feathersConnection from '@public/connections/feathers';
 import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
+import TeamMembersModel from './team-members/team-members';
 
 const url = `${env.API_BASE_URI}/teams`;
 
 const Teams = DefineMap.extend('Teams', withCommonFields({
   name: 'string',
   codeName: 'string',
-  groupId: 'number'
+  groupId: 'number',
+  members: {
+    Type: TeamMembersModel.List,
+    default: () => []
+  }
 }));
 
 Teams.List = DefineList.extend({
