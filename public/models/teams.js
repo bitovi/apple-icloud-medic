@@ -9,7 +9,7 @@ import TeamMembersModel from './team-members/team-members';
 
 const url = `${env.API_BASE_URI}/teams`;
 
-const Teams = DefineMap.extend('Teams', withCommonFields({
+const definitions =  withCommonFields({
   name: 'string',
   codeName: 'string',
   groupId: 'number',
@@ -17,8 +17,22 @@ const Teams = DefineMap.extend('Teams', withCommonFields({
     Type: TeamMembersModel.List,
     default: () => []
   }
-}));
+});
+/**
+ * Teams model.
+ * @module models/teams
+ * @class
+ * Defines the Teams model and its associated properties
+ */
+const Teams = DefineMap.extend('Teams', definitions);
+// Used by the EditForm component
+Teams.definitions = definitions;
 
+/**
+ * Teams.List model.
+ * @class
+ * Defines a collection of Teams
+ */
 Teams.List = DefineList.extend({
   '#': Teams
 });

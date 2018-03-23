@@ -52,11 +52,23 @@ until the data is loaded - so components can always expect data to be there. The
 underlying components can have their own state, but should not need to
 worry about loading data or the states therein.
 
+**If you would like to render a custom loading, no data, or error state you can pass in the componant in as options from the parent component**
+dataLoadingStateComponent
+noDataStateComponent
+errorStateComponent.
 ~~~
 const RenderComponent = ({ project }) => {
   return &lt;div&gt;{project.id} - {project.enabled}&lt;/div&gt;;
 };
-const Component = DataProvider(RenderComponent, PersonModel, 'project');
+
+const LoadingStateComponent = () => {
+  return &lt;div&gt;Loading...&lt;/div&gt;;
+};
+
+// Overwrite default loading template with your own by passing the component as the 4th argument to the DataProvider.
+const options = { LoadingStateComponent }
+
+const Component = DataProvider(RenderComponent, PersonModel, 'project', options);
 
 &lt;Component id={1234} query={{ enabled: true }} /&gt;
 ~~~

@@ -34,7 +34,7 @@ filters out fields which should not be edited.)
 
 | Name | Description |
 | --- | --- |
-| ItemType | The constructor to use for bulding the form. |
+| ItemType | The constructor model to use for building the form fields. |
 
 <a name="module_EditForm VM..formDef"></a>
 

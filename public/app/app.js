@@ -31,6 +31,7 @@ class AppComponent extends Component {
     debug('Component render');
 
     const { currentUser, authError } = this.viewModel;
+    let teamName;
     let mainContent;
 
     if (!currentUser) {
@@ -40,7 +41,9 @@ class AppComponent extends Component {
         mainContent = <div>Authenticating...</div>;
       }
     } else {
-      const { teamName, teamError, CurrentPage, moduleId } = this.viewModel;
+      const { teamError, CurrentPage, moduleId } = this.viewModel;
+      teamName = this.viewModel.teamName;
+
       if (teamError) {
         mainContent = <div>Error loading team: {teamError.message}</div>;
       } else if (!teamName || !CurrentPage) {
@@ -51,10 +54,9 @@ class AppComponent extends Component {
         mainContent = <CurrentPage />;
       }
     }
-
     return (
       <Site>
-        <SiteHeader currentUser={currentUser} />
+        <SiteHeader currentUser={currentUser} teamName={teamName}/>
         <main role="main">
           {mainContent}
         </main>

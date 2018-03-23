@@ -2,6 +2,8 @@ import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './team-member-search.viewmodel.js';
 import { Search } from '@public/semantic-ui/index';
+import DataProvider from '@public/components/data-provider/data-provider';
+import TeamMembers from '@public/models/team-members/team-members';
 
 /**
  * @module TeamMemberSearch
@@ -25,4 +27,4 @@ class TeamMemberSearch extends Component {
 
 TeamMemberSearch.ViewModel = ViewModel;
 
-export default TeamMemberSearch;
+export default DataProvider(TeamMemberSearch, TeamMembers, 'results');

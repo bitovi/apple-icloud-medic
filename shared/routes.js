@@ -11,7 +11,8 @@ const PAGES = {
   'execution': 'public/app/pages/execution/execution',
   'projects': 'public/app/pages/projects/projects',
   'project': 'public/app/pages/project/project',
-  'rule': 'public/app/pages/rule/rule'
+  'rule': 'public/app/pages/rule/rule',
+  'team-management': 'public/app/pages/team-management/team-management'
 };
 
 /**
@@ -41,6 +42,7 @@ const routeConfig = [
   { route: '/{teamName}/rules/{ruleId}', data: { moduleId: PAGES.rule } },
   { route: '/{teamName}/rules/{ruleId}/{tabKey}', data: { moduleId: PAGES.rule } },
   { route: '/{teamName}/rules/{ruleId}/{tabKey}/{tabItemId}', data: { moduleId: PAGES.rule } },
+  { route: '/{teamName}/team-management', data: { moduleId: PAGES['team-management'] } },
 ];
 
 module.exports = { routeConfig, PAGES, REG_PARAM_CURLY };

@@ -78,7 +78,7 @@ const BaseDataProvider = DefineMap.extend('BaseDataProvider', {
         return this.connection.get(Object.assign({ id: this.id }, this.query));
       }
       debug(`Loading ${this.dataProp} with query:`, this.query);
-      return this.connection.getList(this.query);
+      return this.connection.getList(this.query && this.query.serialize());
     }
   },
   /**
@@ -122,7 +122,7 @@ const makeViewModel = (Model, dataProp = 'data') => BaseDataProvider.extend({
       if (this.shouldLoadData) {
         debug(`About to load ${this.dataProp} data`);
         this.dataPromise.then(data => {
-          debug(`Loaded ${this.dataProp} data`);
+          debug(`Loaded ${this.dataProp} data:`, data);
           return data;
         }).then(resolve);
       }

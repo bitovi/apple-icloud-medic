@@ -21,7 +21,7 @@ const EditForm = DefineMap.extend('EditForm', {
   /**
    * @prop ItemType
    *
-   * The constructor to use for bulding the form.
+   * The constructor model to use for building the form fields.
    */
   ItemType: 'any',
   /**
@@ -206,8 +206,12 @@ const EditForm = DefineMap.extend('EditForm', {
   handleCancel(e) {
     debug('handleCancel method');
     e.preventDefault();
+    if (typeof this.cancelCallback === 'function') {
+      this.cancelCallback(e);
+    }
     this.resetProps();
   },
+  cancelCallback: 'any',
   /**
    * @method
    *

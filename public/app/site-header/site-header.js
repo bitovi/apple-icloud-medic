@@ -7,7 +7,7 @@ import { Header, LightColumn, Logo, UserColumn, LinksColumn } from './partials';
 import 'semantic-ui-less/semantic.less';
 
 
-const SiteHeader = ({currentUser}) => {
+const SiteHeader = ({currentUser, teamName}) => {
   return (
     <Header padded stackable as="header">
       <LightColumn>
@@ -21,7 +21,7 @@ const SiteHeader = ({currentUser}) => {
 
       <UserColumn>
         {currentUser ?
-          <UserSettingsDropdown user={currentUser} />
+          <UserSettingsDropdown user={currentUser} teamName={teamName}/>
           : <div>loading...</div>
         }
       </UserColumn>
@@ -30,7 +30,8 @@ const SiteHeader = ({currentUser}) => {
 };
 
 SiteHeader.propTypes = {
-  currentUser: PropTypes.object
+  currentUser: PropTypes.object,
+  teamName: PropTypes.string
 };
 
 export default SiteHeader;

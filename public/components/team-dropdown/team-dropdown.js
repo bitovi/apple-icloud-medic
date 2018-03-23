@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import teamConnection from '@public/models/teams';
+import Teams from '@public/models/teams';
 import { listAsArray } from '@public/util/view-helpers';
 import { FlatDropdownRainbow } from '@public/semantic-ui/index';
-
+import DataProvider from '@public/components/data-provider/data-provider';
 /**
  * @constructor
  */
@@ -38,14 +38,12 @@ class TeamDropdown extends Component {
 
 TeamDropdown.ViewModel = DefineMap.extend('TeamDropdown', {
   options: {
-    get(val, setVal) {
-      teamConnection.getList({}).then(results => {
-        setVal(results.map(team => {
-          return { text: team.name, value: team.codeName };
-        }));
+    set(teams) {
+      return teams.map(team => {
+        return { text: team.name, value: team.codeName };
       });
     }
   }
 });
 
-export default TeamDropdown;
+export default DataProvider(TeamDropdown, Teams, 'options');

@@ -9,7 +9,7 @@ import { Divider, Grid, Icon, Label, Header } from '@public/semantic-ui/index';
  *
  * A simple renderer component for consistent page headers.
  */
-const PageHeader = ({ title, description, category, backUrl, toggleEditFn, children }) => {
+const PageHeader = ({ title, description, category, backUrl, toggleEditFn, children, ActionButtonComponent }) => {
   return (
     <ComponentWrapper>
       <Grid>
@@ -32,6 +32,7 @@ const PageHeader = ({ title, description, category, backUrl, toggleEditFn, child
             {toggleEditFn ?
               <Icon name='pencil' size='large' className='floatRight' onClick={toggleEditFn}/>
               : null}
+            {ActionButtonComponent ? ActionButtonComponent : null}
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -49,7 +50,8 @@ PageHeader.propTypes = {
   category: PropTypes.string,
   backUrl: PropTypes.string,
   toggleEditFn: PropTypes.func,
-  children: PropTypes.object
+  children: PropTypes.object,
+  ActionButtonComponent: PropTypes.object
 };
 
 export default PageHeader;

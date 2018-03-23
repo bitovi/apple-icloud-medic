@@ -29,7 +29,7 @@ There are a number of ways to extend components for use in different contexts wi
 	);
 	
 	const ModalCancel = ({ className, children }) => (
-		<SemanticButton as="a" className={className} size="small" secondary>
+		<SemanticButton as="a" className={className} size="small" secondary='true'>
 			{children}
 		</SemanticButton>
 	);

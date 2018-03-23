@@ -1,3 +1,6 @@
+import './data-provider/data-provider-test';
+import './edit-form/edit-form-test';
+import './edit-team-modal/edit-team-modal-test';
 import './execution-details/execution-details-test';
 import './execution-filters/execution-filters-test';
 import './executions-table/executions-table-test';
@@ -5,8 +8,8 @@ import './json-viewer/json-viewer-test';
 import './pagination/pagination-test';
 import './project-card/project-card-test';
 import './project-contributor/project-contributor-test';
+import './teams-accordion/teams-accordion-test';
 import './rule-card/rule-card-test';
-import './edit-form/edit-form-test';
-import './data-provider/data-provider-test';
+
 // import './team-dropdown/team-dropdown-test';
 // import './user-executions-list/user-executions-list-test';
