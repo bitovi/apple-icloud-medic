@@ -51,8 +51,8 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 1. Start your app
 
     ```
-    npm start
-    # npm run develop
+    npm run develop
+    # npm start
     # npm run debug
     ```
 
