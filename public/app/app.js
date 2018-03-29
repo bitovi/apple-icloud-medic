@@ -41,16 +41,16 @@ class AppComponent extends Component {
         mainContent = <div>Authenticating...</div>;
       }
     } else {
-      const { teamError, CurrentPage, moduleId } = this.viewModel;
-      teamName = this.viewModel.teamName;
+      const { team, teamError, CurrentPage, moduleId } = this.viewModel;
 
       if (teamError) {
         mainContent = <div>Error loading team: {teamError.message}</div>;
-      } else if (!teamName || !CurrentPage) {
+      } else if (!team || !CurrentPage) {
         debug('Rendering loading message', moduleId);
         mainContent = <div>Loading page data...</div>;
       } else {
         debug('Rendering page', moduleId);
+        teamName = this.viewModel.teamName;
         mainContent = <CurrentPage />;
       }
     }

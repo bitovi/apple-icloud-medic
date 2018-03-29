@@ -26,9 +26,6 @@ class TeamDropdown extends Component {
     }
 
     const { options } = this.viewModel;
-    if (!options || !options.length) {
-      return <div>loading...</div>;
-    }
 
     return (
       <FlatDropdownRainbow size="huge" options={listAsArray(options)} value={teamName} onChange={this.handleChange} />

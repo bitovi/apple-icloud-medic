@@ -11,9 +11,12 @@ and story for details.
     * [~id](#module_BaseDataProvider VM..id)
     * [~query](#module_BaseDataProvider VM..query)
     * [~shouldLoadData](#module_BaseDataProvider VM..shouldLoadData)
-    * [~error](#module_BaseDataProvider VM..error)
     * [~isSingleObject](#module_BaseDataProvider VM..isSingleObject)
     * [~isLoading](#module_BaseDataProvider VM..isLoading)
+    * [~error](#module_BaseDataProvider VM..error)
+    * [~noData](#module_BaseDataProvider VM..noData)
+    * [~memoize](#module_BaseDataProvider VM..memoize)
+    * [~promiseCache](#module_BaseDataProvider VM..promiseCache)
     * [~dataPromise](#module_BaseDataProvider VM..dataPromise)
     * [~dataProp](#module_BaseDataProvider VM..dataProp)
     * [~connection](#module_BaseDataProvider VM..connection)
@@ -27,71 +30,57 @@ and story for details.
 Optional id of the the object to load.
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| id | 
-
 <a name="module_BaseDataProvider VM..query"></a>
 
 ### BaseDataProvider VM~query
 Optional query used in the GET request
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| id | 
-
 <a name="module_BaseDataProvider VM..shouldLoadData"></a>
 
 ### BaseDataProvider VM~shouldLoadData
 Determines whether or not this component should load data.
 This is crucial to how this component works: it allows a parent
-component to provide the data, thus skipping the loading logic.
+component to provide the data, thus skipping the loading code.
 See the init() method below.
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| shouldLoadData | 
-
-<a name="module_BaseDataProvider VM..error"></a>
-
-### BaseDataProvider VM~error
-**Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| error | 
-
 <a name="module_BaseDataProvider VM..isSingleObject"></a>
 
 ### BaseDataProvider VM~isSingleObject
-Determines whether or not this should load a single object (by id).
+Whether or not this is represents a single object (by id).
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| isSingleObject | 
-
 <a name="module_BaseDataProvider VM..isLoading"></a>
 
 ### BaseDataProvider VM~isLoading
+Whether or not data is loading
+
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
+<a name="module_BaseDataProvider VM..error"></a>
 
-| Name |
-| --- |
-| isLoading | 
+### BaseDataProvider VM~error
+The error object with a message property
 
+**Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
+<a name="module_BaseDataProvider VM..noData"></a>
+
+### BaseDataProvider VM~noData
+Message to display when there is no data
+
+**Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
+<a name="module_BaseDataProvider VM..memoize"></a>
+
+### BaseDataProvider VM~memoize
+Whether or not this should memoize the result.
+
+**Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
+<a name="module_BaseDataProvider VM..promiseCache"></a>
+
+### BaseDataProvider VM~promiseCache
+Promise cache used for memoization, keyed by the stringified query
+
+**Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
 <a name="module_BaseDataProvider VM..dataPromise"></a>
 
 ### BaseDataProvider VM~dataPromise
@@ -99,27 +88,15 @@ Calls get() or getList() accordingly.
 Note: If "shouldLoadData" is false, this intentionally returns "undefined".
 Anything accessing this property should first check "shouldLoadData"
 before reading this property. This is done intentionally as this module
-should should never load data if it is provided from a parent component.
+should should never load data if data is provided from a parent component.
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| dataPromise | 
-
 <a name="module_BaseDataProvider VM..dataProp"></a>
 
 ### BaseDataProvider VM~dataProp
 The name of the property which will hold the loaded data.
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| dataProp | 
-
 <a name="module_BaseDataProvider VM..connection"></a>
 
 ### BaseDataProvider VM~connection
@@ -127,12 +104,6 @@ The connection used for loading data.
 Should implement get() and/or getList() methods.
 
 **Kind**: inner property of [<code>BaseDataProvider VM</code>](#module_BaseDataProvider VM)  
-**Properties**
-
-| Name |
-| --- |
-| connection | 
-
 <a name="module_BaseDataProvider VM..dataProp"></a>
 
 ### BaseDataProvider VM~dataProp

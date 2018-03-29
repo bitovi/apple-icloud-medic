@@ -3,9 +3,8 @@
 ## CodeBlock
 **Parent**: components
 
-CodeBlock Description  
+Code Block component renders code in an editor.  
 <a name="module_CodeBlock..render"></a>
 
-### CodeBlock~render() ⇒
+### CodeBlock~render()
 **Kind**: inner method of [<code>CodeBlock</code>](#module_CodeBlock)  
-**Returns**: template  

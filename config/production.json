@@ -1,5 +1,10 @@
 {
   "host": "0.0.0.0",
+  "authentication": {
+    "jwt": {
+      "expiresIn": "2h"
+    }
+  },
   "sso": {
     "authHost": "idmsauth.corp.apple.com",
     "appRedirectVersion": "3",

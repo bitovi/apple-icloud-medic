@@ -1,17 +1,18 @@
-const { authenticate } = require('feathers-authentication').hooks;
 const errors = require('feathers-errors');
 const decoratePermissions = require('../../hooks/permission-decorator');
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [],
     find: [],
     get: [(hook) => {
-      if (hook.params.user && (hook.id === 'me' || hook.id === hook.params.user.prsId)) {
-        hook.result = hook.params.user;
-        return hook;
+      if (hook.params.provider) {
+        if (hook.params.user && (hook.id === 'me' || hook.id === hook.params.user.prsId)) {
+          hook.result = hook.params.user;
+          return hook;
+        }
+        throw new errors.Forbidden('You do not have permission to load other users.');
       }
-      throw new errors.Forbidden('You do not have permission to load other users.');
     }],
     create: [],
     update: [],

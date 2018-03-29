@@ -1,0 +1,3 @@
+.ui.modal:not(.scrolling) {
+  transform: translateX(50%) translateY(50%);
+}

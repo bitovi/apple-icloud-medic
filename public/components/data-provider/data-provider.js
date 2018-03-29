@@ -3,34 +3,53 @@ import Component from 'react-view-model/component';
 import { makeViewModel } from './data-provider.viewmodel-factory';
 import { Message, Loader } from '@public/semantic-ui/index';
 
+const LoadingStateComponent = ({ Loader }) => Loader;
+const ErrorStateComponent = ({ Message }) => Message;
+const NoDataStateComponent = ({ Message }) => Message;
+
 /**
  * @module DataProvider
  * @parent components
  */
-const factory = (WrappedComponent, Model, dataProp, options) => {
+const factory = (WrappedComponent, Model, options) => {
+  // allow consumers to pass a string dataProp for options
+  if (typeof options === 'string') {
+    options = { dataProp: options };
+  }
+  options = Object.assign({
+    dataProp: 'data',
+    LoadingStateComponent,
+    ErrorStateComponent,
+    NoDataStateComponent
+  }, options);
+
   class DataProvider extends Component {
-    static ViewModel = makeViewModel(Model, dataProp);
+    static ViewModel = makeViewModel(Model, options.dataProp);
     static displayName = WrappedComponent.name || 'DataProvider';
 
     render() {
-      const { isLoading, dataProp, isSingleObject, error, query } = this.viewModel;
-      if (isLoading) {
-        return options && options.LoadingStateComponent ?
-          <options.LoadingStateComponent {...this.viewModel}/> :
-          <Loader active inline></Loader>;
+      const { isLoading, error, noData } = this.viewModel;
+      const { LoadingStateComponent, ErrorStateComponent, NoDataStateComponent } = options;
+
+      if (isLoading && LoadingStateComponent) {
+        const LoaderComponent = <Loader active inline></Loader>;
+        return <LoadingStateComponent Loader={LoaderComponent} {...this.viewModel} />;
       }
-      if (error) {
-        return options &&  options.ErrorStateComponent ?
-          <options.ErrorStateComponent {...this.viewModel}/> :
+      if (error && ErrorStateComponent) {
+        const ErrorMessage = (
           <Message error>
             Error: <b>{error.message || 'There was an error loading data for this component.'}</b>
-          </Message>;
+          </Message>
+        );
+        return <ErrorStateComponent Message={ErrorMessage} {...this.viewModel} />;
       }
-      if (!isSingleObject && !this.viewModel[dataProp].length) {
-        return options && options.NoDataStateComponent ?
-          <options.NoDataStateComponent {...this.viewModel}/> :
-          <Message>There are no {dataProp} to display: {JSON.stringify(query)}</Message>;
+      if (noData && NoDataStateComponent) {
+        const NoDataMessage = (
+          <Message>There are no {options.dataProp} to display: {JSON.stringify(this.viewModel.query)}</Message>
+        );
+        return <NoDataStateComponent Message={NoDataMessage} {...this.viewModel}/>;
       }
+
       return <WrappedComponent {...this.viewModel} />;
     }
   }

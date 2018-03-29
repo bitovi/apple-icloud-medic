@@ -50,6 +50,7 @@ const AddTeamsComponent = () => (
 
 TeamsAccordion.ViewModel = ViewModel;
 
-export default DataProvider(TeamsAccordion, Teams, 'teams',  {
+export default DataProvider(TeamsAccordion, Teams, {
+  dataProp: 'teams',
   'NoDataStateComponent': AddTeamsComponent
 });

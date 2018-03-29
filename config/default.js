@@ -25,7 +25,7 @@ module.exports = {
       "subject": "AppleDSUsers",
       "issuer": "feathers",
       "algorithm": "HS256",
-      "expiresIn": "2h"
+      "expiresIn": "10h"
     }
   },
   "sso": {

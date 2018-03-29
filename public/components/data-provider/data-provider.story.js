@@ -13,6 +13,7 @@ const mockData = [
 
 const PersonModel = DefineMap.extend({
   connection: {
+    idProp: 'id',
     name: 'sample-connection',
     get: (query) => Promise.resolve(mockData.filter(item => item.id === query.id)[0]),
     getList: () => Promise.resolve(mockData)
@@ -46,37 +47,45 @@ storiesOf('Components', module)
 This is a "higher order component" for wrapping "render" components.
 Given a Model with a connection, this will take care of loading data either
 by "id" (single item) or by "query" (list of items).
-This handles "loading" and "error" states and evenutally renders the underlying
+This handles "loading", "error", and "noData" states and evenutally renders the underlying
 component with its required data. The underlying components will not be rendered
 until the data is loaded - so components can always expect data to be there. The
 underlying components can have their own state, but should not need to
-worry about loading data or the states therein.
+worry about the intermediate states therein.
 
-**If you would like to render a custom loading, no data, or error state you can pass in the componant in as options from the parent component**
-dataLoadingStateComponent
-noDataStateComponent
-errorStateComponent.
+**Default options:**
+
+~~~
+{
+  dataProp: 'data',
+  LoadingStateComponent: ({ Loader }) => Loader,
+  ErrorStateComponent: ({ Message }) => Message,
+  NoDataStateComponent: ({ Message }) => Message
+}
+~~~
+
+**Example Usage:**
+
 ~~~
 const RenderComponent = ({ project }) => {
   return &lt;div&gt;{project.id} - {project.enabled}&lt;/div&gt;;
 };
 
-const LoadingStateComponent = () => {
-  return &lt;div&gt;Loading...&lt;/div&gt;;
+// Overwrite default loading template with your own by passing the component as the 4th argument to the DataProvider.
+const options = {
+  dataProp: 'project',
+  LoadingStateComponent: () => &lt;div&gt;Loading...&lt;/div&gt;
 };
 
-// Overwrite default loading template with your own by passing the component as the 4th argument to the DataProvider.
-const options = { LoadingStateComponent }
-
-const Component = DataProvider(RenderComponent, PersonModel, 'project', options);
+const Component = DataProvider(RenderComponent, PersonModel, options);
 
 &lt;Component id={1234} query={{ enabled: true }} /&gt;
 ~~~
 
-**Parent components can also pass data directly!**
+**Parent components can also pass data directly! (notice the dataProp being used to pass data)**
 
 ~~~
-&lt;Component project={{ id: 1, enabled: true }} /&gt;
+&lt;Component project={{ id: 1234, enabled: true }} /&gt;
 ~~~
       `,
       sections: [{
@@ -130,7 +139,7 @@ const ListComponent = DataProvider(ListRenderer, PersonModel, 'people');
           }, {});
           const LoadingComponent = DataProvider(() => {}, Model);
           return (
-            <div style={{position: 'relative', height: '200px'}}>
+            <div>
               <LoadingComponent />
             </div>
           );
@@ -148,6 +157,23 @@ const ListComponent = DataProvider(ListRenderer, PersonModel, 'people');
           const ErrorComponent = DataProvider(() => {}, Model);
           return (
             <ErrorComponent />
+          );
+        }
+      }, {
+        options: { allowSourceToggling: false },
+        title: 'No data state',
+        sectionFn: () => {
+          const Model = DefineMap.extend({
+            connection: {
+              name: 'no-data-connection',
+              getList: () => {
+                return Promise.resolve([]);
+              }
+            }
+          }, {});
+          const NoDataComponent = DataProvider(() => <div>Here</div>, Model, 'projects');
+          return (
+            <NoDataComponent />
           );
         }
       }]

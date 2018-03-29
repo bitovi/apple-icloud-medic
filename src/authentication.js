@@ -50,7 +50,7 @@ module.exports = function () {
           // This is needed because of socket reconnection/re-authentication,
           // where it attempts to use the existing JWT. This enforces a policy
           // of re-authenticating users against DS on every socket connection.
-          debug('Creating new session to be verified against Directory Services');
+          debug(`Creating new session using "${DEFAULT_STRATEGY}" strategy`);
           hook.data = { strategy: DEFAULT_STRATEGY };
           return hook;
         },

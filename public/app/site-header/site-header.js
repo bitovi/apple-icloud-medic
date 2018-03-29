@@ -12,7 +12,10 @@ const SiteHeader = ({currentUser, teamName}) => {
     <Header padded stackable as="header">
       <LightColumn>
         <Logo href="/"> Medic</Logo>
-        <TeamDropdown />
+        {currentUser ?
+          <TeamDropdown />
+          : <div>loading...</div>
+        }
       </LightColumn>
 
       <LinksColumn>

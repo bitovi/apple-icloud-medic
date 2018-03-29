@@ -1,4 +1,5 @@
 import QUnit from 'steal-qunit';
+import DefineMap from 'can-define/map/map';
 import { makeViewModel } from './data-provider.viewmodel-factory';
 
 QUnit.module('@public/components/data-provider');
@@ -8,6 +9,7 @@ QUnit.module('@public/components/data-provider');
 const makeModel = (connection) => {
   return {
     connection: Object.assign({
+      idProp: 'id',
       get: () => { throw new Error('Should not get called'); },
       getList: () => { throw new Error('Should not get called'); }
     }, connection)
@@ -42,6 +44,12 @@ QUnit.test('"shouldLoadData" set to true when no data is provided', () => {
   QUnit.equal(vm.shouldLoadData, true);
 });
 
+QUnit.test('"query" is always returned as a plain object', () => {
+  const ViewModel = makeViewModel(makeModel());
+  const vm = new ViewModel({ query: new DefineMap({ foo: 'bar' }) });
+  QUnit.equal(vm.query instanceof DefineMap, false);
+});
+
 QUnit.test('Calls connection.get() if "id" prop is set, extending the "query" object', (assert) => {
   assert.expect(2);
   const Model = makeModel({
@@ -53,6 +61,20 @@ QUnit.test('Calls connection.get() if "id" prop is set, extending the "query" ob
   });
   const ViewModel = makeViewModel(Model);
   const vm = new ViewModel({ id: 1234, query: { foo: 'bar' } });
+  vm.get(vm.dataProp);
+});
+
+QUnit.test('Passes "id" on the idProp as defined on the connection', (assert) => {
+  assert.expect(1);
+  const Model = makeModel({
+    idProp: 'fooIdProp',
+    get: (query) => {
+      assert.equal(query.fooIdProp, 1234);
+      return Promise.resolve({});
+    }
+  });
+  const ViewModel = makeViewModel(Model);
+  const vm = new ViewModel({ id: 1234 });
   vm.get(vm.dataProp);
 });
 
