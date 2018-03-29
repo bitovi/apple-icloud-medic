@@ -75,7 +75,7 @@ Once your PR is approved, merge the PR, and request Production Installation from
 
 #### Tagging
 
-Once the pack's PR has been merged into master, create a tag for the version that was just merged into master.
+**After** the pack's PR has been merged into master, create a tag for the version that was just merged into master.
 
 For example, if the `pack.yaml` in `master` now shows:
 ```
@@ -87,6 +87,7 @@ Then do:
 git tag 0.1.5 && git push --tags
 ```
 
+> **Note:**  There will be an automated process for new tags to install the `master` branch onto Production Medic - hence, the desired changes **must** be in master **prior** to tagging.
 
 
 ### Hooks & Services
@@ -114,21 +115,24 @@ https://medic-admin.apple.com/api/v1/webhooks/medic_github?st2-api-key=YjRhMGVmZ
 * Add `medic-dev` as a team, and give the team [at least] write access
 * Add `micloud` as a collaborator, and give the user write access.
 
-> **Note** `micloud` is part of the `medic-dev` team, but for some reason that is not enough to allow the `micloud` user to create pull requests.  More investigation is needed.
 
+## Install a pack from medic-exchange (Medic Admin Only)
 
-### 
-
-
-## Install a pack from medic-exchange
-
-- Log onto the [admin interface](https://medic.apple.com)
-- Go to [Actions](https://medic.apple.com/#/actions)
+- Log onto the Admin Interface
+    - [UAT](https://medic-admin-uat.apple.com)
+    - [Prod](https://medic-admin.apple.com)
+- Go to Actions
+    - [UAT](https://medic-admin-uat.apple.com/#/actions)
+    - [Prod](https://medic-admin.apple.com/#/actions)
 - Open `MEDIC_GITHUB` and click on `medic_exchange_pack_install`
 - Input the pack name into the `pack` parameter (i.e. `my_awesome_pack`)
 - Click **Run**
-- Follow the progress in the [hisory page](https://medic.apple.com/#/history)
-- When the execution completes, refresh the [Actions](https://medic.apple.com/#/actions) page, and your pack should be available.
+- Follow the progress in the History page
+    - [UAT](https://medic-admin-uat.apple.com/#/history)
+    - [Prod](https://medic-admin.apple.com/#/history)
+- When the execution completes, refresh the Actions page, and your pack should be available.
+    - [UAT](https://medic-admin-uat.apple.com/#/actions) 
+    - [Prod](https://medic-admin.apple.com/#/actions) 
 
 
 ## Making changes to medic-exchange packs
@@ -136,28 +140,14 @@ https://medic-admin.apple.com/api/v1/webhooks/medic_github?st2-api-key=YjRhMGVmZ
 ### Local
 
 - Check out a new branch
-  - i.e. **NOT** master
+  - i.e. **NOT** `master` or `dev`
   - `git checkout -b my-awesome-branch`
   - dashes are okay in branch names
   - Make changes as necessary
   - When ready, push new branch, and create a PR for review
   - Once the PR is reviewed and merged, follow the steps in `Install a pack from medic-exchange` above to include update Medic with the changes.
 
-### Via the Workflow designer (admin only)
-
-> **Note** This method is experimental and is subject to change.  For [Docker Development](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/docker.md), use the `Local` strategy described above.
-
-- For UI created mistral workflows, click on the workflow/action from the [Actions](https://medic.apple.com/#/actions) page
-- Click **Edit**
-- Make necessary changes
-- When the changes are ready to be saved in GitHub (be sure the changes are 'saved' in the database by clicking the down arrow from the top menu above the work surface)
-- Go to the [Actions](https://medic.apple.com/#/actions) page
-- Open `MEDIC_GITHUB` and click on `medic_exchange_pack_create_pr`
-- Input the pack name in the `pack` input field (i.e. `my_awesome_pack`)
-- Optionally include `branch_name`, `commit_message`, `pr_title`, and `pr_body` parameters
-- Click **Run**
-- This will create a PR in the packs repository in medic-exchange for review.
-- Once the PR is reviewed and merged, follow the steps in `Install a pack from medic-exchange` above to include update the pack's file system with the changes.
+> For more information on pack development, see the [Medic Docker Guide](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/docker.md)
 
 ## Help
 

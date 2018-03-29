@@ -93,6 +93,8 @@ Volumes are useful to allow modification of files from outside the docker contai
 - This is where all [Medic Exchange](https://github.pie.apple.com/medic-exchange) packs should be installed.
 - When you [start the docker container](#start), any medic-exchange pack repositories in this directory will be [installed automatically](#install-scripts).
 
+> For more information on medic-exchange, see the [Medic Exchange Guide](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
+
 #### stackstorm-bin
 
 > st2-docker directory: `st2-docker/stackstorm-bin`
@@ -125,21 +127,21 @@ Volumes are useful to allow modification of files from outside the docker contai
 - This is where .env files will live for system level CLI tool configurations. (Example: [medic_chatops pack](https://github.pie.apple.com/medic-exchange/medic_chatops#env))
 - In some cases, .env files are preferable to pack configurations because they allow for non-python server code to utilize system-level pack configurations without a risk of those values propogating up into execution history.
 
-#### stackstorm-ssh
+#### stackstorm-ssh (**Experimental**)
 
 > st2-docker directory: `st2-docker/stackstorm-ssh`
 
 > Docker Container Directory: `/opt/stackstorm/.ssh`
 
-**Experimental**
+> **This is Experimental**
 
-#### stackstorm-gitconfig
+#### stackstorm-gitconfig (**Experimental**)
 
 > st2-docker directory: `st2-docker/stackstorm-gitconfig`
 
 > Docker Container Directory: `/opt/stackstorm/.gitconfig`
 
-**Experimental**
+> **This is Experimental**
 
 
 ### Install Scripts
@@ -165,7 +167,11 @@ git clone git@github.pie.apple.com:medic-exchange/test.git
 
 This is where pack development should happen.
 
+> For more information on medic-exchange, see the [Medic Exchange Guide](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
+
 ### Seeing changes to packs during development
+
+The typical development workflow is to work **outside of** the docker container in the IDE of your choice by modifying files in `/path/to/st2-docker/medic-exchange/your_awesome_pack`.
 
 When **changes are made to files in a pack** or when **new packs are installed into the medic-exchange directory**, you'll need to re install the pack to sync the changes to the stackstorm database
 
@@ -173,11 +179,11 @@ From within the docker container:
 ```
 st2 pack install file:////opt/stackstorm/medic-exchange/your_awesome_pack
 ```
-> **Note** When updating packs while the docker container is running, changes must be committed for the changes to take effect (i.e. `git add . && git commit -m "message"`)
+> **Note** When updating packs while the docker container is running, changes must be committed for the changes to take effect (i.e. `git add . && git commit -m "message"`).  This has the added benefit of ensuring your local changes are always up-to-date in your pack's repo, and when changes are tested and ready, you can simply push your branch.
 
 For more information on developing packs for medic-exchange, head over to the [medic-exchange contribution docs](https://github.pie.apple.com/icloud-automation-sre/medic/blob/master/docs/guides/medic-exchange.md)
 
-####Optional Development workflow :
+####Optional Development workflow (not recommended):
 
 When you have lot of workflow changes that requires frequent testing, you can :
 
