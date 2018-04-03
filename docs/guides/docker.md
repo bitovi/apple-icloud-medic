@@ -329,6 +329,8 @@ This will create a file in the `stackstorm-configs` (`/opt/stackstorm/config`) c
 
 > **Note** For more information on pack configuration, see [StackStorm's docs on Pack Configuration](https://docs.stackstorm.com/reference/pack_configs.html)
 
+> **Note** For your packs to endup in UAT automatically, Add "repo_url:" to pack.yaml 
+
 
 ### Set up some configuration files:
 
