@@ -13,11 +13,11 @@ module.exports = function (app) {
    */
   const projectContributors = sequelizeClient.define('project-contributors', {
     /**
-     * The userId (prsId) for the user
+     * The DS personId for the user
      * @type {String}
      * @memberof ProjectContributors#
      */
-    userId: {
+    personId: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -45,7 +45,7 @@ module.exports = function (app) {
     ModelHelper
       .subject(this, models)
       .isChildOf(models.projects)
-      .hasComposedIndexWith('projectId', 'userId');
+      .hasComposedIndexWith('projectId', 'personId');
   };
 
   return projectContributors;

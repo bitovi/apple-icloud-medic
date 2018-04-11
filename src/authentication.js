@@ -62,7 +62,7 @@ module.exports = function () {
           // `hook.params.payload` is a special property which will be merged
           // with the JWT claim. Do NOT put the entire user in the payload (see below)!!
           hook.params.payload = Object.assign({}, hook.params.payload, {
-            userId: hook.params.user[userSvc.id]
+            personId: hook.params.user[userSvc.id]
           });
         }
       ],

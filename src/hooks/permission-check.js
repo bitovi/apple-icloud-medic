@@ -14,7 +14,11 @@ const checkPermissions = () => {
     const user = hook.params.user;
     const Model = hook.service.Model;
 
-    const entityName = (Model && Model.name) || (hook.service.name) || (hook.service.config && hook.service.config.name);
+    const entityName = (hook.service.config && hook.service.config.name) || (Model && Model.name);
+    if (!entityName) {
+      throw new Error(`Unable to determine entity name for the ${hook.path} service. The service should have a "config.name" property.`);
+    }
+
     debug(`Checking user permissions for "${hook.method} ${entityName}":`, user.permissions);
     // Returns true, or an error object
     const result = userHasPermission(user, entityName, hook.method);

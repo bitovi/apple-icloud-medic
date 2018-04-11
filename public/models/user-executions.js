@@ -24,7 +24,7 @@ const UserExecutions = DefineMap.extend({
 }, withCommonFields({
   /** PROTOTYPE **/
   executionId: 'string',
-  userId: 'string',
+  userEmail: 'string',
   groupIds: {
     value: () => []
   }

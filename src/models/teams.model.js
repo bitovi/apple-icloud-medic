@@ -50,6 +50,7 @@ module.exports = function (app) {
   team.associate = function (models) {
     ModelHelper
       .subject(this, models)
+      .containsManyFrom(models['team-members'])
       .containsManyFrom(models.projects);
   };
 

@@ -38,8 +38,10 @@ class BaseClient {
     if (('' + options.secret).length < 400) {
       throw new Error('The Stackstorm secret must be at least 400 characters in length');
     }
-    // All stackstorm config will be available under this.config
     const parsed = url.parse(options.host);
+
+    // IMPORTANT: All stackstorm config should be available under the `config` property.
+    // This is especially important for permission checks.
     this.config = Object.assign({}, options, {
       // `parsed.host` includes the :port
       host: `${parsed.protocol}//${parsed.host}`,

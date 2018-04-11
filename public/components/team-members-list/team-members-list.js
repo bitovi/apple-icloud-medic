@@ -14,17 +14,15 @@ import { TeamMemberRow } from './partials';
 const TeamMembersList = ({ teamMembers }) => {
   return (
     <Segment.Group>
-      {
-        teamMembers.map(teamMember => {
-          return (
-            <TeamMemberRow key={teamMember.userId} horizontal>
-              <Segment>{`${teamMember.firstName} ${teamMember.lastName}`}</Segment>
-              <Segment>{teamMember.emailAddress}</Segment>
-              <Segment><Label horizontal color='grey'>{teamMember.permissions || 'No Permissions'}</Label></Segment>
-            </TeamMemberRow>
-          );
-        })
-      }
+      {teamMembers.map(teamMember => (
+        <TeamMemberRow key={teamMember.personId} horizontal>
+          <Segment>{teamMember.user.displayName}</Segment>
+          <Segment>{teamMember.user.emailAddress}</Segment>
+          <Segment>
+            <Label horizontal color='grey'>{teamMember.permissions}</Label>
+          </Segment>
+        </TeamMemberRow>
+      ))}
     </Segment.Group>
   );
 };

@@ -12,19 +12,23 @@ import TeamMembers from '@public/models/team-members/team-members';
  * TeamMemberSearch searches the Apple Directory for members of a group.
  */
 class TeamMemberSearch extends Component {
-  /**
-   * @method render
-   */
+  static ViewModel = ViewModel;
+
   render() {
     const { selectedValue, results, isProjectAdmin } = this.viewModel;
     const { handleSearchChange, handleResultSelect } = this.viewModel;
 
     return (
-      <Search value={selectedValue} results={results} placeholder="Search for a teammate" onSearchChange={handleSearchChange} onResultSelect={handleResultSelect} disabled={!isProjectAdmin}/>
+      <Search
+        value={selectedValue}
+        results={results}
+        placeholder="Search for a teammate"
+        onSearchChange={handleSearchChange}
+        onResultSelect={handleResultSelect}
+        disabled={!isProjectAdmin}
+      />
     );
   }
 }
 
-TeamMemberSearch.ViewModel = ViewModel;
-
-export default DataProvider(TeamMemberSearch, TeamMembers, 'results');
+export default DataProvider(TeamMemberSearch, TeamMembers, 'allTeamMembers');

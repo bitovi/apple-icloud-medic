@@ -9,12 +9,12 @@ import TeamMembers from '@public/models/team-members/team-members';
  */
 export default DefineMap.extend('TeamMemberSearch', {
   /**
-   * @prop teamId
+   * @prop allTeamMembers
    *
-   * The teamId used to find a member of that team.
+   * A list of all team members.
    */
-  teamId: {
-    type: 'number'
+  allTeamMembers: {
+    Type: TeamMembers.List
   },
   /**
    * @prop results
@@ -25,14 +25,12 @@ export default DefineMap.extend('TeamMemberSearch', {
    */
   results: {
     type: 'array',
-    set(v) {
-      return v.map(data => {
-        return {
-          title: `${data.nickName} ${data.lastName}`,
-          description: `email: ${data.userId}`,
-          data: data
-        };
-      });
+    set(teamMembers) {
+      return teamMembers.map(teamMember => ({
+        title: `${teamMember.user.displayName}`,
+        description: `email: ${teamMember.user.emailAddress}`,
+        data: teamMember
+      }));
     }
   },
   /**
@@ -47,25 +45,27 @@ export default DefineMap.extend('TeamMemberSearch', {
    * @method handleSearchChange
    *
    * Gets a list of team members with a matching email.
-   *
    */
   handleSearchChange(e, searchQuery) {
-    TeamMembers.getList({
-      teamId: this.teamId
-    }).then((data) => {
-      if (data.length) {
-        this.results = data.findTeamMemberByUserId(searchQuery.value);
-      }
-    }).catch(err => {
-      throw err;
-    });
+    this.results = this.allTeamMembers.filterByQuery(searchQuery.value);
   },
   /**
-   * @method handleResultSelect
+   * @method handleSearchChange
+   *
+   * Gets a list of team members with a matching email.
+   */
+  handleResultSelect(e, data) {
+    const teamMember = data.result.data;
+    if (typeof this.onResultSelect === 'function') {
+      this.onResultSelect(teamMember);
+    }
+  },
+  /**
+   * @method onResultSelect
    *
    * Handles selected result. Should be passed in from the parent component
    */
-  handleResultSelect: {
+  onResultSelect: {
     type: 'any'
   },
   /**
@@ -75,8 +75,9 @@ export default DefineMap.extend('TeamMemberSearch', {
    */
   resetSearch() {
     this.results = [];
-    this.value = '';
+    this.selectedValue = '';
   },
+
   isProjectAdmin: {
     type: 'boolean'
   }

@@ -88,12 +88,12 @@ class ProjectContent extends Component {
    * Renders the "contributors list" with search
    */
   contributorsContent() {
-    const { project, handleResultSelect, currentUser, isProjectAdmin } = this.viewModel;
+    const { project, addContributor, currentUser, isProjectAdmin } = this.viewModel;
     return (
       <Grid>
         <Grid.Column width={16}>
-          <TeamMemberSearch teamId={project.teamId} handleResultSelect={handleResultSelect} isProjectAdmin={isProjectAdmin(currentUser)}/>
-          <ProjectContributors query={{ projectId: project.id }} isProjectAdmin={isProjectAdmin(currentUser)}/>
+          <TeamMemberSearch query={{ teamId: project.teamId }} onResultSelect={addContributor} isProjectAdmin={isProjectAdmin(currentUser)}/>
+          <ProjectContributors query={{ projectId: project.id, teamId: project.teamId }} isProjectAdmin={isProjectAdmin(currentUser)} />
         </Grid.Column>
       </Grid>
     );

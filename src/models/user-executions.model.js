@@ -20,7 +20,7 @@ module.exports = function (app) {
       allowNull: false,
       defaultValue: 'pending'
     },
-    userId: {
+    userEmail: {
       type: DataTypes.STRING
     },
     groupIds: {

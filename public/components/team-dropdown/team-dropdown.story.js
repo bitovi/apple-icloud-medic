@@ -14,7 +14,6 @@ export default (makeAppComponent) => {
     .addWithChapters('Team Dropdown', {
       chapters: [{
         sections: [{
-          title: 'Default use',
           sectionFn: () => (
             <TeamDropdown />
           )

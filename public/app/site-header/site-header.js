@@ -4,10 +4,8 @@ import TeamDropdown from '@public/components/team-dropdown/team-dropdown';
 import UserSettingsDropdown from '@public/components/user-settings-dropdown/user-settings-dropdown';
 import SiteNav from '@public/app/site-nav/site-nav';
 import { Header, LightColumn, Logo, UserColumn, LinksColumn } from './partials';
-import 'semantic-ui-less/semantic.less';
 
-
-const SiteHeader = ({currentUser, teamName}) => {
+const SiteHeader = ({ currentUser }) => {
   return (
     <Header padded stackable as="header">
       <LightColumn>
@@ -24,7 +22,7 @@ const SiteHeader = ({currentUser, teamName}) => {
 
       <UserColumn>
         {currentUser ?
-          <UserSettingsDropdown user={currentUser} teamName={teamName}/>
+          <UserSettingsDropdown user={currentUser} />
           : <div>loading...</div>
         }
       </UserColumn>
@@ -33,8 +31,7 @@ const SiteHeader = ({currentUser, teamName}) => {
 };
 
 SiteHeader.propTypes = {
-  currentUser: PropTypes.object,
-  teamName: PropTypes.string
+  currentUser: PropTypes.object
 };
 
 export default SiteHeader;

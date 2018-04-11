@@ -5,18 +5,21 @@ import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import env from '@root/shared/env';
 
-const ID_PROP = 'prsId';
+const ID_PROP = 'personId';
 
 const algebra = new canSet.Algebra(
   canSet.props.id(ID_PROP)
 );
 
+// A user represents a Directory Services user
+// with additional metadata attached by Medic
 const User = DefineMap.extend({
+  // These are fields defined by Medic
   isSuperAdmin: { default: false },
   displayName: 'string',
 
-  // Below are fields from Directory Services
-  prsId: 'number',
+  // These are fields defined by Directory Services
+  [ID_PROP]: 'number',
   firstName: 'string',
   lastName: 'string',
   nickName: 'string',

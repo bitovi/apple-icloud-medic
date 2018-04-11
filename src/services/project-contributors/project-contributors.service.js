@@ -8,12 +8,11 @@ const env = require('../../../shared/env');
 module.exports = function () {
   const app = this;
   const Model = createModel(app);
-  const paginate = app.get('paginate');
 
   const options = {
     name: 'project-contributors',
     Model,
-    paginate
+    // do not paginate
   };
 
   const location = `${env.API_BASE_URI}/project-contributors`;

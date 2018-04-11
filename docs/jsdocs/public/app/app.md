@@ -7,6 +7,7 @@ The main application component
 
 * [AppComponent](#module_AppComponent)
     * [~moduleId](#module_AppComponent..moduleId)
+    * [~isAdmin](#module_AppComponent..isAdmin)
     * [~executionId](#module_AppComponent..executionId)
     * [~projectId](#module_AppComponent..projectId)
     * [~ruleId](#module_AppComponent..ruleId)
@@ -18,6 +19,12 @@ The main application component
 
 ### AppComponent~moduleId
 The module ID for the current page (see route config)
+
+**Kind**: inner property of [<code>AppComponent</code>](#module_AppComponent)  
+<a name="module_AppComponent..isAdmin"></a>
+
+### AppComponent~isAdmin
+Whether or not the current route is an admin page (see route config)
 
 **Kind**: inner property of [<code>AppComponent</code>](#module_AppComponent)  
 <a name="module_AppComponent..executionId"></a>

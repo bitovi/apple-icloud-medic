@@ -30,19 +30,19 @@ const PAGES = {
  * @type {Array}
  */
 const routeConfig = [
-  { route: '/', data: { moduleId: PAGES.executions }, needsDefault: ['teamName'] },
-  { route: '/{teamName}', data: { moduleId: PAGES.executions }, needsDefault: ['teamName'] },
-  { route: '/{teamName}/user-executions', nav: 'User Executions', data: { moduleId: PAGES['user-executions'] } },
-  { route: '/{teamName}/executions', nav: 'Executions', data: { moduleId: PAGES.executions } },
-  { route: '/{teamName}/executions/{executionId}', data: { moduleId: PAGES.execution } },
-  { route: '/{teamName}/projects', nav: 'Projects', data: { moduleId: PAGES.projects } },
-  { route: '/{teamName}/projects/{projectId}', data: { moduleId: PAGES.project } },
-  { route: '/{teamName}/projects/{projectId}/{tabKey}', data: { moduleId: PAGES.project } },
-  { route: '/{teamName}/projects/{projectId}/{tabKey}/{tabItemId}', data: { moduleId: PAGES.project } },
-  { route: '/{teamName}/rules/{ruleId}', data: { moduleId: PAGES.rule } },
-  { route: '/{teamName}/rules/{ruleId}/{tabKey}', data: { moduleId: PAGES.rule } },
-  { route: '/{teamName}/rules/{ruleId}/{tabKey}/{tabItemId}', data: { moduleId: PAGES.rule } },
-  { route: '/{teamName}/team-management', data: { moduleId: PAGES['team-management'] } },
+  { route: '/', data: { isAdmin: false, moduleId: PAGES.executions }, needsDefault: ['teamName'] },
+  { route: '/admin/team-management', data: { isAdmin: true, moduleId: PAGES['team-management'] } },
+  { route: '/{teamName}', data: { isAdmin: false, moduleId: PAGES.executions }, needsDefault: ['teamName'] },
+  { route: '/{teamName}/user-executions', nav: 'User Executions', data: { isAdmin: false, moduleId: PAGES['user-executions'] } },
+  { route: '/{teamName}/executions', nav: 'Executions', data: { isAdmin: false, moduleId: PAGES.executions } },
+  { route: '/{teamName}/executions/{executionId}', data: { isAdmin: false, moduleId: PAGES.execution } },
+  { route: '/{teamName}/projects', nav: 'Projects', data: { isAdmin: false, moduleId: PAGES.projects } },
+  { route: '/{teamName}/projects/{projectId}', data: { isAdmin: false, moduleId: PAGES.project } },
+  { route: '/{teamName}/projects/{projectId}/{tabKey}', data: { isAdmin: false, moduleId: PAGES.project } },
+  { route: '/{teamName}/projects/{projectId}/{tabKey}/{tabItemId}', data: { isAdmin: false, moduleId: PAGES.project } },
+  { route: '/{teamName}/rules/{ruleId}', data: { isAdmin: false, moduleId: PAGES.rule } },
+  { route: '/{teamName}/rules/{ruleId}/{tabKey}', data: { isAdmin: false, moduleId: PAGES.rule } },
+  { route: '/{teamName}/rules/{ruleId}/{tabKey}/{tabItemId}', data: { isAdmin: false, moduleId: PAGES.rule } },
 ];
 
 module.exports = { routeConfig, PAGES, REG_PARAM_CURLY };

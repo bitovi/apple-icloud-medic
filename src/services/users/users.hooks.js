@@ -7,7 +7,7 @@ module.exports = {
     find: [],
     get: [(hook) => {
       if (hook.params.provider) {
-        if (hook.params.user && (hook.id === 'me' || hook.id === hook.params.user.prsId)) {
+        if (hook.params.user && (hook.id === 'me' || hook.id === hook.params.user.personId)) {
           hook.result = hook.params.user;
           return hook;
         }

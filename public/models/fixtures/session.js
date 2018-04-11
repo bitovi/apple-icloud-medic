@@ -1,23 +1,7 @@
 import makeDebug from 'debug';
-import fixture from 'can-fixture';
-import env from '@root/shared/env';
-import Session from '@public/models/session';
-import UserModel from '@public/models/user';
 import mockServer from './mock-socket-server';
 
 const debug = makeDebug('medic:session:authentication');
-const ID_PROP = UserModel.connection.idProp;
-
-const user = {
-  prsId: 38910381,
-  firstName: 'Dev',
-  lastName: 'User',
-  nickName: 'Dev_Nickname',
-  emailAddress: 'dev_user@dev.apple.com',
-  allGroups: [1234],
-  displayName: 'Dev_Nickname User',
-  isSuperAdmin: true
-};
 
 // The Session model emits an 'authenticate' event, analogous to
 // a POST request to create a session with feathers. `data` will be
@@ -26,26 +10,10 @@ const user = {
 mockServer.on('authenticate', (data, callback) => {
   debug('Mocking authentication response');
   const payload = {
-    // NOTE: The body should contain a userId property.
-    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyIsInR5cGUiOiJhY2Nlc3MifQ.eyJ1c2VySWQiOjM4OTEwMzgxLCJpYXQiOjE1MjAzNzgwNDcsImV4cCI6MTUyMDM4NTI0NywiYXVkIjoiaHR0cHM6Ly9tZWRpYy5hcHBsZS5jb20iLCJpc3MiOiJmZWF0aGVycyIsInN1YiI6IkFwcGxlRFNVc2VycyIsImp0aSI6IjMzMzIwZWZhLTkyMmQtNDMzZC1hY2FhLTg5N2NiNDk0YjU0ZCJ9.bdd8ozSw-VdBhTqUkvXklXtXCWDoxyqtdsGsecvYXWw',
-    user
+    // NOTE: The following JWT body contains personId: 101 (which should match a fixture user personId)
+    // This JWT was generated at https://jwt.io/ using the secret "medic-secret"
+    // You should be able to paste this JWT to that website to see the payload.
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJwZXJzb25JZCI6MTAxfQ.fL34X5TiEPuRTW3x_r0_EQ13epE7i4K8W7Qd3OfdL4Y'
   };
   callback(null, payload);
 });
-
-const url = `${env.API_BASE_URI}/users`;
-const store = fixture.store([user], UserModel.connection.algebra);
-
-// We allow for a special "me" parameter to signify the current user
-const originalGetData = store.getData;
-store.getData = function (req) {
-  debug('User store - loading user', req.data);
-  if (req.data && req.data[ID_PROP] === 'me') {
-    debug('User store - loading "me" user', Session.current);
-    req.data[ID_PROP] = Session.current && Session.current.userId;
-  }
-  return originalGetData.apply(store, arguments);
-};
-
-fixture(url, store);
-mockServer.onFeathersService(url, store, { id: ID_PROP });

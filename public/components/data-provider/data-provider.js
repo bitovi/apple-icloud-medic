@@ -50,6 +50,12 @@ const factory = (WrappedComponent, Model, options) => {
         return <NoDataStateComponent Message={NoDataMessage} {...this.viewModel}/>;
       }
 
+      //!steal-remove-start
+      const data = this.viewModel[this.viewModel.dataProp];
+      if (this.viewModel.isSingleObject && data[0]) {
+        throw new Error(`The data provider got a list when expecting a single object. This likely because the "ViewModel.${options.dataProp}.Type" is not set to a DefineList.`);
+      }
+      //!steal-remove-end
       return <WrappedComponent {...this.viewModel} />;
     }
   }

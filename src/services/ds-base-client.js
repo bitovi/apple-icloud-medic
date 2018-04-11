@@ -10,6 +10,28 @@ const formatError = err => {
   throw new errors.GeneralError(msg, err.error);
 };
 
+// simple cache until something better is needed
+let AUTH_CACHE = null;
+const AUTH_CACHE_TIMEOUT = 1000 * 60 * 60 * 2; // ms
+
+const rejectIfError = (response) => {
+  let err = null;
+  if (response.errorCode) {
+    err = {
+      code: response.errorCode,
+      message: response.errorMsg
+    };
+  } else if(response.dsresponse && response.dsresponse.allExceptions && response.dsresponse.allExceptions.length) {
+    err = {
+      message: response.dsresponse.allExceptions[0].errorMessage
+    };
+  }
+  if (err) {
+    return Promise.reject(err);
+  }
+  return Promise.resolve(response);
+};
+
 /**
  * Base Directory Services Client - should be extended by services for communicating with Apple Directoy Services.
  */
@@ -33,24 +55,26 @@ class BaseClient {
     if (!options.apiPath) {
       throw new Error('All DS services must declare their apiPath.');
     }
-    this.dsConfig = Object.assign({}, options);
+    // IMPORTANT: All config should be available under the `config` property.
+    // This is especially important for permission checks.
+    this.config = Object.assign({}, options);
     return this;
   }
 
   request (method, params) {
-    if (!this.dsConfig || !this.dsConfig.host || !this.dsConfig.appId || !this.dsConfig.apiPath) {
+    if (!this.config || !this.config.host || !this.config.appId || !this.config.apiPath) {
       return Promise.reject(new Error('The Directory Services client is not initialized properly. Did you forget to call super() inside your constructor?'));
     }
 
-    const uri = this.dsConfig.host + this.dsConfig.apiPath;
+    const uri = this.config.host + this.config.apiPath;
     const body = {
       'dSRequest' : {
         'session' : {
           'userSession' : null
         },
         'appCredentials' : {
-          'appPassword' : this.dsConfig.appPwd,
-          'appID' : this.dsConfig.appId
+          'appPassword' : this.config.appPwd,
+          'appID' : this.config.appId
         }
       },
       'groupID' : params.query.groupId
@@ -58,29 +82,35 @@ class BaseClient {
     const headers = {
       'Accept':'application/json',
       'Content-Type':'application/json',
-      'appPwd' : this.dsConfig.appPwd,
-      'appID' : this.dsConfig.appId
+      'appPwd' : this.config.appPwd,
+      'appID' : this.config.appId
     };
 
-    return this.authSession(headers).then((response) => {
+    return this.authSession(headers).then(response => {
       body.dSRequest.session.userSession = response.session.userSession;
-      return request({ uri, method, headers, body, json: true }).catch(formatError);
+      return request({ uri, method, headers, body, json: true })
+        .then(rejectIfError)
+        .catch(formatError);
     });
   }
   authSession(headers) {
+    if (AUTH_CACHE && (new Date() - AUTH_CACHE._timestamp) < AUTH_CACHE_TIMEOUT) {
+      return AUTH_CACHE;
+    }
+
     const body = {
       'dsRequest' : {
         'languageCd' : 'US-EN',
         'clientVersion' : 'v1',
         'appCredentials' : {
-          'appID' : this.dsConfig.appId,
-          'appPassword' : this.dsConfig.appPwd
+          'appID' : this.config.appId,
+          'appPassword' : this.config.appPwd
         }
       },
       'account' : {
-        'accountName' : this.dsConfig.acctName,
-        'password' : this.dsConfig.acctPwd,
-        'appId' : this.dsConfig.appId,
+        'accountName' : this.config.acctName,
+        'password' : this.config.acctPwd,
+        'appId' : this.config.appId,
         'updated' : true
       },
       'personFetchPrefs' : {
@@ -88,10 +118,25 @@ class BaseClient {
         'fetchCoreInfo' : true
       }
     };
-    const uri =  `${this.dsConfig.host}/service/authservice/authenticate/`;
-    return request({ uri, method: 'POST', headers, body, json: true }).catch(formatError);
+    const uri =  `${this.config.host}/service/authservice/authenticate/`;
+    AUTH_CACHE = request({ uri, method: 'POST', headers, body, json: true }).then(response => {
+      if(!response.session) {
+        return rejectIfError(response).then(() => {
+          // If we make it here, it's an unknown error.
+          // We likely need to update the error parser above.
+          throw new Error('Unkown error during DS authentication');
+        });
+      }
+      return response;
+    }).catch(err => {
+      AUTH_CACHE = null;
+      return formatError(err);
+    });
+
+    AUTH_CACHE._timestamp = new Date();
+
+    return AUTH_CACHE;
   }
 }
-
 
 module.exports = BaseClient;

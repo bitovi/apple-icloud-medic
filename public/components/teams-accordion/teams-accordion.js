@@ -1,12 +1,12 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import ViewModel from './teams-accordion.viewmodel.js';
 import { Accordion, Segment } from 'semantic-ui-react';
 import TeamMembersList from '@public/components/team-members-list/team-members-list';
 import EditTeamModal from '@public/components/edit-team-modal/edit-team-modal';
-import { ComponentWrapper } from './partials/styled';
 import DataProvider from '@public/components/data-provider/data-provider';
 import Teams from '@public/models/teams';
+import ViewModel from './teams-accordion.viewmodel.js';
+import { ComponentWrapper } from './partials/styled';
 
 /**
  * @module TeamsAccordion
@@ -31,7 +31,9 @@ class TeamsAccordion extends Component {
                 <EditTeamModal isNew='false' floatedButton='right' team={team}/>
               </Accordion.Title>
               <Accordion.Content active={activeIndex === index}>
-                <TeamMembersList query={{teamId: team.id}} teamMembers={team.teamMembers}></TeamMembersList>
+                {activeIndex === index &&
+                  <TeamMembersList query={{teamId: team.id}} teamMembers={team.teamMembers}></TeamMembersList>
+                }
               </Accordion.Content>
             </div>
           );
@@ -52,5 +54,5 @@ TeamsAccordion.ViewModel = ViewModel;
 
 export default DataProvider(TeamsAccordion, Teams, {
   dataProp: 'teams',
-  'NoDataStateComponent': AddTeamsComponent
+  NoDataStateComponent: AddTeamsComponent
 });

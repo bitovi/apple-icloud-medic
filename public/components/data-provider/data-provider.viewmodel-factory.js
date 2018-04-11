@@ -78,15 +78,17 @@ const BaseDataProvider = DefineMap.extend('BaseDataProvider', {
   noData: {
     type: 'string',
     get(lastVal, setVal) {
+      const fn = (data) => {
+        if (!this.isSingleObject && !data.length) {
+          debug(`No ${this.dataProp} to display for query:`, this.query, data);
+          setVal(`There are no ${this.dataProp} to display.`);
+        }
+      };
       if (this.shouldLoadData) {
-        this.dataPromise.then(result => {
-          if (!this.isSingleObject && !result.length) {
-            debug(`No ${this.dataProp} to display for query:`, this.query, result);
-            setVal(`There are no ${this.dataProp} to display.`);
-          }
-        });
+        this.dataPromise.then(fn);
+        return null;
       }
-      return null;
+      return fn(this[this.dataProp]);
     }
   },
   /**

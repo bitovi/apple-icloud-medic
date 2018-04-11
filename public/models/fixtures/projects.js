@@ -5,7 +5,7 @@ import ProjectContributors from '@public/models/project-contributors/project-con
 import mockServer from './mock-socket-server';
 
 function mock(){
-  let count = 20;
+  let count = 20; // NOTE: other fixtures rely on this fixed number of projects
   const arr = [];
   const ordinals = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'];
   while(count--) {

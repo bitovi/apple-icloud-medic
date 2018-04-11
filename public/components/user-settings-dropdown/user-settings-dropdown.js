@@ -1,9 +1,9 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import { FlatDropdown } from '@public/semantic-ui/index';
 import route from 'can-route-pushstate';
 import { PAGES } from '@root/shared/routes';
+import { FlatDropdown } from '@public/semantic-ui/index';
 
 /**
  * @constructor
@@ -19,9 +19,8 @@ class UserSettingsDropdown extends Component {
 
 UserSettingsDropdown.ViewModel = DefineMap.extend('UserSettingsDropdown', {
   user: {},
-  teamName: 'string',
   handleClick (e, data) {
-    route.data.moduleId = PAGES[data.value.page];
+    route.data.update({ moduleId: PAGES[data.value] });
   },
   get options() {
     const values = [
@@ -29,6 +28,7 @@ UserSettingsDropdown.ViewModel = DefineMap.extend('UserSettingsDropdown', {
       { text: 'Log Out', onClick: this.handleClick, value: 'logout' }
     ];
     return values.map(val => Object.assign(val, {
+      // this ensures that items never appear selected
       selected: false
     }));
   }

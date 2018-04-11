@@ -1,11 +1,11 @@
 import React from 'react';
 import Component from 'react-view-model/component';
+import TeamsModel from '@public/models/teams';
+import DataProvider from '@public/components/data-provider/data-provider';
 import TeamsAccordion from '@public/components/teams-accordion/teams-accordion';
 import PageHeader from '@public/components/page-header/page-header';
 import EditTeamModal from '@public/components/edit-team-modal/edit-team-modal';
 import { Container } from '@public/semantic-ui/index';
-import route from 'can-route-pushstate';
-const { currentUser } = route.data;
 import ViewModel from './team-management.viewmodel';
 
 /**
@@ -16,10 +16,8 @@ import ViewModel from './team-management.viewmodel';
  * associated directory services group on this page.
  */
 class TeamManagementPage extends Component {
-  static ViewModel = ViewModel
-  /**
-  * @method render
-  */
+  static ViewModel = ViewModel;
+
   render() {
     const { teams } = this.viewModel;
 
@@ -30,13 +28,10 @@ class TeamManagementPage extends Component {
           ActionButtonComponent={<EditTeamModal isNew='true'/>}
         >
         </PageHeader>
-        { teams ?
-          <TeamsAccordion teams={teams}></TeamsAccordion> :
-          <TeamsAccordion query={{groupId: { $in: currentUser.allGroups }}}></TeamsAccordion>
-        }
+        <TeamsAccordion teams={teams} />
       </Container>
     );
   }
 }
 
-export default TeamManagementPage;
+export default DataProvider(TeamManagementPage, TeamsModel, 'teams');

@@ -6,6 +6,7 @@ import feathersClient from '@public/feathers-client';
 import User from './user';
 
 const debug = makeDebug('medic:session');
+const USER_ID_PROP = User.connection.idProp;
 
 const Session = DefineMap.extend('Session', {
   seal: false
@@ -16,25 +17,25 @@ const Session = DefineMap.extend('Session', {
   iss: 'any',
   sub: 'any',
   exp: 'any',
-  userId: 'number',
+  [USER_ID_PROP]: 'number',
 
   user: {
     Type: User,
-    // Automatically populate the user data when a userId is received.
+    // Automatically populate the user data when a personId is received.
     get (lastSetVal, setVal) {
       if (lastSetVal) {
         return lastSetVal;
       }
-      debug('session.user.get - Loading user', this.userId);
+      debug('session.user.get - Loading user', this[USER_ID_PROP]);
       this.getUserPromise().then(result => {
-        debug('session.user.get - GOT USER', result.serialize(), 'userId:::', this.userId);
+        debug('session.user.get - GOT USER', result.serialize(), USER_ID_PROP + ':::', this[USER_ID_PROP]);
         setVal(result);
       });
     }
   },
   getUserPromise: function () {
-    debug('session.getUserPromise', User.connection.idProp, ':', this.userId);
-    return User.get({ [User.connection.idProp]: this.userId || 'me' });
+    debug('session.getUserPromise', USER_ID_PROP, ':', this[USER_ID_PROP]);
+    return User.get({ [USER_ID_PROP]: this[USER_ID_PROP] || 'me' });
   }
 });
 

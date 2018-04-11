@@ -1,13 +1,12 @@
 import React from 'react';
+import route from 'can-route-pushstate';
 import Component from 'react-view-model/component';
 import DefineMap from 'can-define/map/map';
-import PropTypes from 'prop-types';
 import UserExecutionsModel from '@public/models/user-executions';
 import { Table, Divider, Button } from '@public/semantic-ui/index';
 import { formatDate } from '@public/util/view-helpers';
 
 const ViewModel = DefineMap.extend('UserExecutionsList', {
-  appState: { type: 'any' },
   isLoading: {
     type: 'boolean',
     get(lastSetVal, setVal) {
@@ -24,14 +23,14 @@ const ViewModel = DefineMap.extend('UserExecutionsList', {
     }
   },
   getListSet(status) {
-    const { emailAddress, allGroups } = this.appState.currentUser;
+    const { emailAddress, allGroups } = route.data.currentUser;
     return {
       $or: [{
         groupIds: {
           $overlap: allGroups
         }
       }, {
-        userId: emailAddress
+        userEmail: emailAddress
       }],
       status,
       $sort: { createdAt: -1 }
@@ -66,21 +65,11 @@ const ViewModel = DefineMap.extend('UserExecutionsList', {
 class UserExecutionsList extends Component {
   static ViewModel = ViewModel;
 
-  //add appState
-  static contextTypes = {
-    appState: PropTypes.object
-  }
-
   constructor() {
     super();
     ['renderPending', 'renderCompleted'].forEach(method => {
       this[method] = this[method].bind(this);
     });
-  }
-
-  componentWillMount() {
-    super.componentWillMount();
-    this.viewModel.appState = this.context.appState;
   }
 
   renderPending(item) {

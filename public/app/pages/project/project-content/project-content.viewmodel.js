@@ -84,33 +84,24 @@ const ProjectContent = DefineMap.extend('ProjectContent', {
     route.data.tabItemId = rule.id;
   },
   /**
-   * @method handleResultSelect
-   *
-   * Assigns the selected team member from the team-member-search to the newContributor
-   * prop which is used in the contributors list component.
-   */
-  handleResultSelect(e, results) {
-    this.addContributor(results.result.data);
-  },
-  /**
    * @method addContributor
    */
   addContributor(teamMember) {
     //convert the TeamMember instance into a ProjectContributor instance
-    const contributor = new ProjectContributorsModel(teamMember);
-    //add projectId to instance
-    contributor.projectId = this.project.id;
-
-    return contributor.save().then((contributor) => {
-      this.project.contributors.push(contributor);
-      this.project.save();
-    }).catch(function(err){
-      throw new Error(err);
+    const contributor = new ProjectContributorsModel({
+      personId: teamMember.personId,
+      projectId: this.project.id,
+      permissions: 'ro-user'
+    });
+    return contributor.save().then(result => {
+      // expand the team user onto the contributor
+      result.user = teamMember.user;
+      return result;
     });
   },
   isProjectAdmin(user) {
     if(this.project.contributors) {
-      return this.project.contributors.isProjectAdmin(user.userId);
+      return this.project.contributors.isProjectAdmin(user.personId);
     }
     return false;
   }

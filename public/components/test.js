@@ -10,6 +10,3 @@ import './project-card/project-card-test';
 import './project-contributor/project-contributor-test';
 import './teams-accordion/teams-accordion-test';
 import './rule-card/rule-card-test';
-
-// import './team-dropdown/team-dropdown-test';
-// import './user-executions-list/user-executions-list-test';

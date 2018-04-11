@@ -31,7 +31,6 @@ class AppComponent extends Component {
     debug('Component render');
 
     const { currentUser, authError } = this.viewModel;
-    let teamName;
     let mainContent;
 
     if (!currentUser) {
@@ -41,22 +40,24 @@ class AppComponent extends Component {
         mainContent = <div>Authenticating...</div>;
       }
     } else {
-      const { team, teamError, CurrentPage, moduleId } = this.viewModel;
+      const { isAdmin, team, teamError, CurrentPage, moduleId } = this.viewModel;
 
       if (teamError) {
         mainContent = <div>Error loading team: {teamError.message}</div>;
-      } else if (!team || !CurrentPage) {
-        debug('Rendering loading message', moduleId);
-        mainContent = <div>Loading page data...</div>;
+      } else if (!isAdmin && !team) {
+        debug('Rendering team loading message', moduleId);
+        mainContent = <div>Loading team information...</div>;
+      } else if (!CurrentPage) {
+        debug('Rendering page loading message', moduleId);
+        mainContent = <div>Loading page module...</div>;
       } else {
         debug('Rendering page', moduleId);
-        teamName = this.viewModel.teamName;
         mainContent = <CurrentPage />;
       }
     }
     return (
       <Site>
-        <SiteHeader currentUser={currentUser} teamName={teamName}/>
+        <SiteHeader currentUser={currentUser} />
         <main role="main">
           {mainContent}
         </main>
@@ -75,10 +76,10 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   /* BEGIN ROUTE PARAMS */
   /**********************/
-  /**
-   * The module ID for the current page (see route config)
-   */
+  /** The module ID for the current page (see route config) */
   moduleId: 'string',
+  /** Whether or not the current route is an admin page (see route config) */
+  isAdmin: 'boolean',
   /** executionId */
   executionId: 'string',
   /** projectId */
@@ -113,13 +114,15 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
   /**********************/
   teamPromise: {
     get() {
-      debug('Loading team', this.teamName);
-      return teamConnection.getList({ codeName: this.teamName }).then(results => {
-        if (!results.length) {
-          throw new Error('No team found for ' + this.teamName);
-        }
-        return results[0];
-      });
+      if (this.teamName) {
+        debug('Loading team', this.teamName);
+        return teamConnection.getList({ codeName: this.teamName }).then(results => {
+          if (!results.length) {
+            throw new Error('No team found for ' + this.teamName);
+          }
+          return results[0];
+        });
+      }
     }
   },
   team: {
@@ -138,6 +141,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
       if (this.teamName) {
         this.teamPromise.catch(setVal);
       }
+      return null;
     }
   },
   authError: {
@@ -160,6 +164,7 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
           setVal(res && res.default || res);
         });
       }
+      return null;
     }
   },
   init () {

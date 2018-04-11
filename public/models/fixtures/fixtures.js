@@ -2,10 +2,11 @@
 import './mock-socket-server';
 
 import './session';
+import './user';
+import './team-members';
 import './teams/teams';
 import './executions/executions';
 import './executions/filters';
 import './projects';
 import './rules';
 import './project-contributors';
-import './team-members';

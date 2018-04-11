@@ -28,7 +28,7 @@ const populateDeep = (hook) => {
 
 const addDefaultAdminContributor = hook => {
   const contributor = {
-    userId: hook.params.user.prsId,
+    personId: hook.params.user.personId,
     permissions: 'admin'
   };
   hook.data.contributors = [contributor];

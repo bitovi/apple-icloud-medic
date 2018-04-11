@@ -3,8 +3,12 @@ const debug = require('debug')('medic:auth:verifier');
 const { makeValidator } = require('../middleware/sso/validate-cookie');
 const { makeExtractor } = require('../middleware/sso/extract-user-from-headers');
 const env = require('../../shared/env');
+const { normalizePerson } = require('./ds-helper');
 
 const REG_VALID_GROUPS = /^[\d,]+$/;
+const PROP_MAP = {
+  'prsId': 'personId'
+};
 
 // When using Orchard's Apple Connect, the load balancer will append
 // user information to the request headers and strip the cookie. We do
@@ -68,7 +72,7 @@ class CustomVerifier {
       // Local dev mode
       debug('Generating DEV user');
       userPromise = Promise.resolve({
-        prsId: 38910381,
+        personId: 38910381,
         firstName: 'Dev',
         lastName: 'User',
         nickName: 'Dev_Nickname',
@@ -78,8 +82,7 @@ class CustomVerifier {
     }
 
     userPromise.then(user => {
-      // Make a display name so we don't have to check for nickName everywhere
-      user.displayName = (user.nickName || user.firstName) + ' ' + user.lastName;
+      user = normalizePerson(user, PROP_MAP);
       user.isSuperAdmin = false;
       user.allGroups = user.allGroups.map(groupId => {
         groupId = parseInt(groupId, 10);

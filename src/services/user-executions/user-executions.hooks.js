@@ -6,7 +6,7 @@ module.exports = {
     find: [],
     get: [],
     create: [(hook) => {
-      if (!hook.data.userId && (!hook.data.groupIds || !hook.data.groupIds.length)) {
+      if (!hook.data.userEmail && (!hook.data.groupIds || !hook.data.groupIds.length)) {
         throw new errors.BadRequest('Must pass at least one User Id or Group ID for approving this execution.');
       }
       return hook;

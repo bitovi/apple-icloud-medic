@@ -1,11 +1,11 @@
+import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/list';
+import canSet from 'can-set';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
+import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
-import makeAlgebra from '@public/models/algebras/feathers';
 import UserModel from '../user';
-
-const ID_PROP = UserModel.connection.idProp;
 
 const url = `${env.API_BASE_URI}/team-members`;
 
@@ -15,9 +15,13 @@ const url = `${env.API_BASE_URI}/team-members`;
  * @class
  * Defines the TeamMembers model and its associated properties
  */
-const TeamMembers = UserModel.extend('TeamMembers', {
-  groupId: 'number'
-});
+const TeamMembers = DefineMap.extend('TeamMembers', withCommonFields({
+  teamId: 'number',
+  personId: 'number',
+  permissions: 'string',
+  // user object loaded dynamically from DS
+  user: { Type: UserModel }
+}));
 
 /**
  * TeamMembers.List model.
@@ -26,13 +30,19 @@ const TeamMembers = UserModel.extend('TeamMembers', {
  */
 TeamMembers.List = DefineList.extend('TeamMembers.List', {
   '#': TeamMembers,
-  findTeamMemberByUserId(id) {
-    const result = this.filter(teamMember => teamMember[ID_PROP] === id);
-    return result.length ? result[0] : null;
+  filterByQuery(q) {
+    const reg = new RegExp(q, 'i');
+    return this.filter(teamMember => {
+      const { user } = teamMember;
+      return reg.test(user.firstName) ||
+      reg.test(user.lastName) ||
+      user.nickName && reg.test(user.nickName) ||
+      reg.test(user.emailAddress);
+    });
   }
 });
 
-const algebra = makeAlgebra({});
+const algebra = new canSet.Algebra({});
 
 /**
  * TeamMembers.connection

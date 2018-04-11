@@ -6,7 +6,7 @@
 TeamMemberSearch View Model  
 
 * [TeamMemberSearch VM](#module_TeamMemberSearch VM)
-    * [~teamId](#module_TeamMemberSearch VM..teamId)
+    * [~allTeamMembers](#module_TeamMemberSearch VM..allTeamMembers)
     * [~results](#module_TeamMemberSearch VM..results)
     * [~selectedValue](#module_TeamMemberSearch VM..selectedValue)
     * [~handleSearchChange
@@ -25,15 +25,15 @@ Resets search data and loading state.()](#module_TeamMemberSearch VM..resetSearc
 
 Resets search data and loading state.)
 
-<a name="module_TeamMemberSearch VM..teamId"></a>
+<a name="module_TeamMemberSearch VM..allTeamMembers"></a>
 
-### TeamMemberSearch VM~teamId
+### TeamMemberSearch VM~allTeamMembers
 **Kind**: inner property of [<code>TeamMemberSearch VM</code>](#module_TeamMemberSearch VM)  
 **Properties**
 
 | Name | Description |
 | --- | --- |
-| teamId | The teamId used to find a member of that team. |
+| allTeamMembers | A list of all team members. |
 
 <a name="module_TeamMemberSearch VM..results"></a>
 

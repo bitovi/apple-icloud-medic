@@ -5,15 +5,15 @@
 
 * [ProjectContributors](#ProjectContributors)
     * _instance_
-        * [.userId](#ProjectContributors+userId) : <code>String</code>
+        * [.personId](#ProjectContributors+personId) : <code>String</code>
         * [.permissions](#ProjectContributors+permissions) : <code>String</code>
     * _static_
         * [.projectContributors.associate()](#ProjectContributors.projectContributors.associate)
 
-<a name="ProjectContributors+userId"></a>
+<a name="ProjectContributors+personId"></a>
 
-### projectContributors.userId : <code>String</code>
-The userId (prsId) for the user
+### projectContributors.personId : <code>String</code>
+The DS personId for the user
 
 **Kind**: instance property of [<code>ProjectContributors</code>](#ProjectContributors)  
 <a name="ProjectContributors+permissions"></a>

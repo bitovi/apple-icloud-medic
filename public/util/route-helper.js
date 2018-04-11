@@ -53,13 +53,16 @@ const makeUrlFromRoute = (template, context) => {
  * - `route`: the parameterized route template
  * - `url`: the "resolved" route template - a usable URL
  *
- * @param  {Object} context  Dictionary used to resolve route templates into URLs
+ * @param  {Object} context  Dictionary used to resolve route templates into URLs (eg. app state)
  * @return {Array}           Nav items
  */
 const buildNavItems = (context) => {
   return routeConfig.filter(config => !!config.nav).map(config => {
+    if (context.isAdmin && (config.data && !config.data.isAdmin)) {
+      return null;
+    }
     return { text: config.nav, route: config.route, url: makeUrlFromRoute(config.route, context) };
-  });
+  }).filter(Boolean);
 };
 
 export { registerRoutes, buildNavItems };

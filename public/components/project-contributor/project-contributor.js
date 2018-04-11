@@ -37,12 +37,11 @@ class ProjectContributor extends Component {
 
   render() {
     const { contributor, isProjectAdmin } = this.viewModel;
-
     return (
       <ContribSegment.Group horizontal key={contributor.id}>
         { contributor.user ?
           this.userInfo() :
-          <ContribSegment>Unknown user with ID: {contributor.userId}</ContribSegment>
+          <ContribSegment>User not populated on contributor (personId: {contributor.personId})</ContribSegment>
         }
         { contributor.user && (isProjectAdmin || userHasPermission('project-contributors', 'update')) &&
           this.adminBlock()

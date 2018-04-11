@@ -10,14 +10,14 @@ const values = [
   { id: 3, groupId: 10003, name: 'Maps team', codeName: 'maps' },
   { id: 4, groupId: 10004, name: 'iTunes team', codeName: 'itunes' },
   { id: 5, groupId: 10005, name: 'PIE2 team', codeName: 'pie' },
-  { id: 1234, groupId: 1234, name: 'Medic team', codeName: 'medic', teamMembers: [
-    {emailAddres: 'lt@apple.com'}
-  ] },
+  { id: 6, groupId: 10006, name: 'Medic team', codeName: 'medic' },
+  // NOTE: other fixtures rely on the number of teams and sequential IDs/groupIds
+  // NOTE: team members are added using an "after" hook (below). This mimics the server behavior.
 ];
 
 const loadTeamMembers = (teams) => Promise.all(
   teams.map(team => TeamMembers.getList({
-    groupId: team.groupId
+    teamId: team.id
   }).then(results => team.members = results))
 );
 

@@ -65,5 +65,5 @@ nav item consists of the following properties:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| context | <code>Object</code> | Dictionary used to resolve route templates into URLs |
+| context | <code>Object</code> | Dictionary used to resolve route templates into URLs (eg. app state) |
 

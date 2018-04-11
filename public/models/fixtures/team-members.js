@@ -1,29 +1,46 @@
 import fixture from 'can-fixture';
 import env from '@root/shared/env';
 import TeamMembers from '@public/models/team-members/team-members';
+import User from '@public/models/user';
 import mockServer from './mock-socket-server';
 
-const users = [
-  { prsId: 101, firstName: 'Nikunj', lastName: 'Virani', emailAddress: 'nv@apple.com' },
-  { prsId: 102, firstName: 'Joe', lastName: 'Cananagh', emailAddress: 'jc@apple.com' },
-  { prsId: 103, firstName: 'Liz', lastName: 'Tom', emailAddress: 'lt@apple.com' },
-  { prsId: 104, firstName: 'Mick',  lastName: 'McGrath', emailAddress: 'mm@apple.com' },
-  { prsId: 105, firstName: 'Andrea', lastName: 'Alameida', emailAddress: 'aa@apple.com' },
-  { prsId: 106, firstName: 'Ryan', lastName: 'Wheale', emailAddress: 'rw@apple.com' },
-  { prsId: 107, firstName: 'Dev', lastName: 'User', emailAddress: 'dev_user@dev.apple.com' }
-];
+const PERMISSIONS = ['ro-user', 'rw-user', 'admin'];
 
 function mock() {
-  let count = 5; // number of teams
+  let teamCount = 6; // number of fixture teams
   const arr = [];
-  while(count--) {
-    // For ease of testing, assign all users to all teams (groups)
-    Array.prototype.push.apply(arr, users.map(user => Object.assign({
-      groupId: 10001 + count
-    }, user)));
+  while(teamCount--) {
+    // To keep things easy, we assign all users to all teams
+    // This makes it easier to mock project contributors.
+    let userCount = 7; // number of fixture users
+    while (userCount--) {
+      // NOTE: The teams fixture loads team members on demand (based on teamId).
+      arr.push({
+        id: teamCount * 100 + userCount,
+        personId: 101 + userCount, // must match user.personId
+        teamId: 1 + teamCount, // must match teamIds
+        permissions: fixture.rand(PERMISSIONS, 1)[0],
+      });
+    }
   }
   return arr;
 }
+
+const loadUsers = (teamMembers) => Promise.all(
+  teamMembers.map(member => {
+    return User.get({
+      [User.connection.idProp]: member.personId
+    }).then(result => member.user = result);
+  })
+);
+
+TeamMembers.connection.feathersService.hooks({
+  after: {
+    // Load the users for team members
+    get: [(hook) => loadUsers([hook.result]).then(() => hook)],
+    find: [(hook) => loadUsers(hook.result.data).then(() => hook)]
+  }
+});
 
 const url = `${env.API_BASE_URI}/team-members`;
 const store = fixture.store(mock(), TeamMembers.connection.algebra);

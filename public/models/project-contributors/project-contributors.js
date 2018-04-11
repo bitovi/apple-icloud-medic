@@ -1,6 +1,5 @@
 import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/list';
-import route from 'can-route-pushstate';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import { withCommonFields } from '@public/util/model-helper';
@@ -11,11 +10,11 @@ import UserModel from '@public/models/user';
 const url = `${env.API_BASE_URI}/project-contributors`;
 
 const definitions = withCommonFields({
+  id: 'number',
   projectId: 'number',
-  userId: 'number',
-  permissions: {
-    type: 'string'
-  }
+  personId: 'number',
+  permissions: 'string',
+  user: { Type: UserModel }
 });
 
 /**
@@ -24,16 +23,7 @@ const definitions = withCommonFields({
  * @class
  * Defines the ProjectContributors model and its associated properties
  */
-const ProjectContributors = DefineMap.extend('ProjectContributors', Object.assign({
-  user: {
-    Type: UserModel,
-    get() {
-      if (route.data.team) {
-        return route.data.team.members.findTeamMemberByUserId(this.userId);
-      }
-    }
-  }
-}, definitions));
+const ProjectContributors = DefineMap.extend('ProjectContributors', definitions);
 ProjectContributors.definitions = definitions;
 
 /**
@@ -43,15 +33,22 @@ ProjectContributors.definitions = definitions;
  */
 ProjectContributors.List = DefineList.extend('ProjectContributors.List', {
   '#': ProjectContributors,
-  isProjectAdmin(userId){
+  isProjectAdmin(personId){
     return this.reduce((contributor, isFound) => {
-      if (!isFound) return contributor.userId === userId;
+      if (!isFound) return contributor.personId === personId;
       return !!isFound;
     }, false);
   }
 });
 
-const algebra = makeAlgebra({});
+const algebra = makeAlgebra({
+  teamId() {
+    // "teamId" is not part of the contributor but is required by
+    // the server in order to be able to load/sync group members.
+    // This tells can-set not to use "teamId" in its comparrison logic.
+    return true;
+  }
+});
 
 /**
  * ProjectContributors.connection
