@@ -1,6 +1,5 @@
 const debug = require('debug')('medic:permissions');
 const errors = require('feathers-errors');
-const env = require('./env');
 
 /**
  * List of valid permissions ordered from lowest to highest privelege
@@ -89,10 +88,6 @@ const userHasPermission = (user, entityName, action) => {
 
   if (!user.permissions) {
     let msg = 'User is not decorated with permissions.';
-    if (!env.IS_REMOTE) {
-      msg += '\nIf you are in the browser, then your server likely restarted and you need to refresh the browser.';
-      msg += '\nIf you are using a REST client, then load/refresh the app in the browser and try again. This will ensure that the DEV user gets created and decorated.';
-    }
     return new Error(msg);
   }
 

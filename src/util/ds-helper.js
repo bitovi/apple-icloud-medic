@@ -8,6 +8,9 @@ const normalizePerson = (person, propMap) => {
     return obj;
   }, {});
 
+  if (typeof result.personId === 'string'){
+    result.personId = parseInt(result.personId, 10);
+  }
   if (!result.displayName) {
     result.displayName = (result.nickName || result.firstName) + ' ' + result.lastName;
   }

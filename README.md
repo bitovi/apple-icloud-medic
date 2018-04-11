@@ -115,6 +115,42 @@ npm run test-bundle && npm run develop
 # Open the test page: http://localhost:PORT/test.html
 ```
 
+## Deploying
+
+Add the UAT and Production remotes (you only need to do this once):
+
+```
+git remote add uat git@deploy.orchard.apple.com:icloud-sre/medic-uat.git
+git remote add prod git@deploy.orchard.apple.com:icloud-sre/medic.git
+```
+
+Run one of the deploy scripts:
+
+```
+npm run deploy:uat
+npm run deploy:prod
+```
+
+> **To test production builds locally**
+> 
+> 1. Ensure your `.env` file contains the following:
+> 
+>   ```
+>   SSO_AUTH_ENABLED=true
+>   DEV_CLIENT_IP=17.xxx.xxx.xxx
+>   ```
+> 
+>    > Use `ifconfig` to find your 17.xxx.xxx.xxx address.
+> 
+> 2. Copy your auth cookie (`myacinfo`) to your localhost. You can use a tool like [EditThisCookie](http://www.editthiscookie.com/) to do this. The "domain" field must be "localhost".
+> 
+> 3. Run the following commands:
+> 
+>   ```
+>   npm run build
+>   NODE_ENV=production node -r dotenv/config ./src
+>   ```
+
 
 ## Documentation
 

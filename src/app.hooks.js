@@ -1,4 +1,5 @@
 // Application hooks that run for every service
+const debug = require('debug')('medic:auth:app-hooks');
 const authentication = require('feathers-authentication');
 const { iff } = require('feathers-hooks-common');
 const logger = require('./hooks/logger');
@@ -32,7 +33,9 @@ module.exports = {
   before: {
     all: [
       iff(shouldAuthenticate, [
-        authentication.hooks.authenticate('jwt')
+        (hook) => { debug(`${hook.method} ${hook.path} - Authenitcating request using JWT strategy`, hook.params); },
+        authentication.hooks.authenticate('jwt'),
+        (hook) => { debug(`${hook.method} ${hook.path} - JWT validated successfully`, hook.params); }
       ]),
       iff(shouldCheckPermissions, [
         checkPermissions()

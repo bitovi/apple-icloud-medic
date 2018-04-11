@@ -58,12 +58,11 @@ module.exports = function () {
         authentication.hooks.authenticate(DEFAULT_STRATEGY),
         (hook) => {
           const userSvc = app.service(authConfig.service);
-          debug('Adding User ID to auth payload', hook.params.user[userSvc.id]);
+          const userId = hook.params.user[userSvc.id];
+          debug('Adding User ID to auth payload', userId);
           // `hook.params.payload` is a special property which will be merged
           // with the JWT claim. Do NOT put the entire user in the payload (see below)!!
-          hook.params.payload = Object.assign({}, hook.params.payload, {
-            personId: hook.params.user[userSvc.id]
-          });
+          hook.params.payload = Object.assign({}, hook.params.payload, { userId });
         }
       ],
       remove: [

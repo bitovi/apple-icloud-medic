@@ -148,10 +148,12 @@ AppComponent.ViewModel = DefineMap.extend('AppComponent', {
     serialize: false,
     default: false
   },
-  get currentUser () {
-    const user = !this.authError && Session.current && Session.current.user;
-    debug('ViewModel - get currentUser', user && user.serialize());
-    return user;
+  currentUser: {
+    get() {
+      const user = !this.authError && Session.current && Session.current.user;
+      debug('ViewModel - get currentUser', user && user.serialize());
+      return user;
+    }
   },
   CurrentPage: {
     get(val, setVal) {

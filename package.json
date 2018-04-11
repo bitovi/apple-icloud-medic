@@ -60,7 +60,8 @@
     "develop": "npm run prestart && nodemon -r dotenv/config src/",
     "debug": "npm run prestart && nodemon -r dotenv/config --inspect src/",
     "build-commit": "git branch -D dist; git checkout -b dist && npm run build && git add dist -f && git commit -m 'Update dists for deploy'",
-    "deploy-prod": "npm run build-commit && git push prod dist:master -f; git checkout -",
+    "deploy:uat": "npm run build-commit && git push uat dist:master -f; git checkout -",
+    "deploy:prod": "npm run build-commit && git push prod dist:master -f; git checkout -",
     "postinstall": "if [ -z \"$npm_config_production\" ]; then npm run bundle:dev && npm run bundle:test; fi",
     "jsdoc": "node ./scripts/jsdoc",
     "storybook": "npm run jsdoc && start-storybook -p 9001 -c storybook"

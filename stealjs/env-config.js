@@ -5,13 +5,7 @@ const IS_PRODUCTION = /production$/.test(env);
 const { PAGES } = require('../shared/routes');
 
 console.log('Configuring steal for environment:', env);
-const stealConfig = {
-  map: {
-    // this is needed - don't ask me why
-    // please don't change it or remove it
-    '@root': '.'
-  }
-};
+const stealConfig = {};
 
 if (IS_TEST) {
   stealConfig.main = "public/test";

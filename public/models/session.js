@@ -17,25 +17,27 @@ const Session = DefineMap.extend('Session', {
   iss: 'any',
   sub: 'any',
   exp: 'any',
-  [USER_ID_PROP]: 'number',
+  userId: 'number',
 
   user: {
     Type: User,
     // Automatically populate the user data when a personId is received.
     get (lastSetVal, setVal) {
-      if (lastSetVal) {
+      if (lastSetVal || !this.userId) {
         return lastSetVal;
       }
-      debug('session.user.get - Loading user', this[USER_ID_PROP]);
-      this.getUserPromise().then(result => {
-        debug('session.user.get - GOT USER', result.serialize(), USER_ID_PROP + ':::', this[USER_ID_PROP]);
+      debug('session.user.get - Loading user', this.userId);
+      this.userPromise.then(result => {
+        debug('session.user.get - GOT USER', result.serialize(), 'userId:::', this.userId);
         setVal(result);
       });
     }
   },
-  getUserPromise: function () {
-    debug('session.getUserPromise', USER_ID_PROP, ':', this[USER_ID_PROP]);
-    return User.get({ [USER_ID_PROP]: this[USER_ID_PROP] || 'me' });
+  userPromise: {
+    get() {
+      debug('session.userPromise', USER_ID_PROP, ':', this.userId);
+      return User.get({ [USER_ID_PROP]: this.userId || 'me' });
+    }
   }
 });
 

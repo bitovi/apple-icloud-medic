@@ -56,6 +56,11 @@ class CustomVerifier {
     // TODO: This should not be needed. See middleware which sets req.feathers.connection
     // Also see: https://github.com/feathersjs/feathers-authentication/issues/494
     req.connection = req.params.connection;
+    if (process.env.DEV_CLIENT_IP) {
+      // allows us to test locally using the same cookie as prod
+      debug('Using DEV_CLIENT_IP: ' + process.env.DEV_CLIENT_IP);
+      req.headers['x-forwarded-for'] = process.env.DEV_CLIENT_IP;
+    }
 
     let userPromise;
     if (env.IS_REMOTE && (''+ssoConfig.enabled !== 'false')) {
