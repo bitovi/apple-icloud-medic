@@ -50,7 +50,10 @@ PageHeader.propTypes = {
   category: PropTypes.string,
   backUrl: PropTypes.string,
   toggleEditFn: PropTypes.func,
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
   ActionButtonComponent: PropTypes.object
 };
 

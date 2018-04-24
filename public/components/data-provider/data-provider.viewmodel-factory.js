@@ -67,7 +67,7 @@ const BaseDataProvider = DefineMap.extend('BaseDataProvider', {
     type: 'any',
     get(lastSet, setVal) {
       if (this.shouldLoadData) {
-        this.dataPromise.catch(setVal);
+        this.dataPromise.catch((err) => { debug('Error loading data:', err) && setVal(err); });
       }
       return lastSet;
     }

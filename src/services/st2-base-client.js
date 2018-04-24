@@ -60,7 +60,7 @@ class BaseClient {
       params = id;
       id = null;
     }
-    const uri = this.config.host + this.config.apiPath + (id ? `/${id}` : '');
+    const uri = this.config.host + this.config.apiPath + (id ? `/${id}` : '') + (this.config.secondaryPath || '');
     // replace feathers-style query params with those expected by StackStorm
     const qs = Object.keys(params.query).reduce((obj, key) => {
       obj[PARAM_MAP[key] || key] = params.query[key];

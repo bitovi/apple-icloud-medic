@@ -36,6 +36,8 @@ const routeConfig = [
   { route: '/{teamName}/user-executions', nav: 'User Executions', data: { isAdmin: false, moduleId: PAGES['user-executions'] } },
   { route: '/{teamName}/executions', nav: 'Executions', data: { isAdmin: false, moduleId: PAGES.executions } },
   { route: '/{teamName}/executions/{executionId}', data: { isAdmin: false, moduleId: PAGES.execution } },
+  { route: '/{teamName}/executions/{executionId}/{tabKey}', data: { isAdmin: false, moduleId: PAGES.execution } },
+  { route: '/{teamName}/executions/{executionId}/{tabKey}/{tabItemId}', data: { isAdmin: false, moduleId: PAGES.execution } },
   { route: '/{teamName}/projects', nav: 'Projects', data: { isAdmin: false, moduleId: PAGES.projects } },
   { route: '/{teamName}/projects/{projectId}', data: { isAdmin: false, moduleId: PAGES.project } },
   { route: '/{teamName}/projects/{projectId}/{tabKey}', data: { isAdmin: false, moduleId: PAGES.project } },

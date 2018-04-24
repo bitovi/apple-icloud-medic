@@ -9,13 +9,14 @@ import env from '@root/shared/env';
  * we keep a singleton reference and return it whenever data is fetched.
  */
 const SINGLETON = {
-  'status': [],
-  'trigger_type': [],
-  'runner': [],
-  'rule': [],
-  'trigger': [],
-  'user': [],
-  'action': []
+  'status': 'any',
+  'trigger_type': 'any',
+  'runner': 'any',
+  'rule': 'any',
+  'trigger': 'any',
+  'user': 'any',
+  'action': 'any',
+  'execution_type': 'any',
 };
 
 const url = `/${env.API_BASE_URI}/execution-filters`;
@@ -24,6 +25,7 @@ const service = feathersClient.service(url);
 service.hooks({
   after: {
     find: [(hook) => {
+      if(hook.result.data) hook.result = hook.result.data[0];
       Object.keys(SINGLETON).forEach(key => {
         if (hook.result[key]) {
           SINGLETON[key] = hook.result[key];
@@ -34,5 +36,4 @@ service.hooks({
     }]
   }
 });
-
 export default service;

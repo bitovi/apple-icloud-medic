@@ -1,16 +1,15 @@
 import React from 'react';
-import route from 'can-route-pushstate';
-import { Container } from '@public/semantic-ui/index';
-import ExecutionDetails from '@public/components/execution-details/';
+import Component from 'react-view-model/component';
+import ViewModel from './execution.viewmodel';
+import ExecutionContent from './execution-content/';
 
-const ExecutionPage = () => {
-  return (
-    <Container fluid>
-      <h1>Execution</h1>
-      <ExecutionDetails executionId={route.data.executionId} />
-    </Container>
-  );
-};
+class ExecutionPage extends Component {
+  static ViewModel = ViewModel;
+
+  render() {
+    const { executionId, activeIndex } = this.viewModel;
+    return <ExecutionContent query={{id: executionId}} activeIndex={activeIndex}/>;
+  }
+}
 
 export default ExecutionPage;
-

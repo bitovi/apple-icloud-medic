@@ -1,6 +1,7 @@
 import './variables';
 
 export * from './addons/Textarea/Textarea';
+export * from './addons/Pagination/Pagination';
 
 export * from './collections/Grid/Grid';
 export * from './collections/Form/Form';

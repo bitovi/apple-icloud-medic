@@ -14,9 +14,16 @@ export default (makeAppComponent) => {
     .addWithChapters('Execution', {
       chapters: [{
         sections: [{
-          sectionFn: () => (
-            <Execution />
-          )
+          sectionFn: () => <Execution executionId="103" activeIndex={0}/>
+        },
+        {
+          sectionFn: () => <Execution executionId="103" activeIndex={1}/>
+        },
+        {
+          sectionFn: () => <Execution executionId="103" activeIndex={2}/>
+        },
+        {
+          sectionFn: () => <Execution executionId="103" activeIndex={3}/>
         }]
       }]
     });

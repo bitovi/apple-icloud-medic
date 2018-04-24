@@ -4,84 +4,64 @@ import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
+// import Projects from './projects';
+import ExecutionsData from './executions-data';
 
-const Executions = DefineMap.extend({
-  'status': 'string',
-  'start_timestamp': 'date',
-  'end_timestamp': 'date',
-  'log': 'any', //[]
-  'parameters': 'any', //{}
-  'runner': 'any', //{}
-  'elapsed_seconds': 'number',
-  'web_url': 'string',
-  'parent': 'string',
-  'result': 'any', //{}
-  'context': 'any', //{}
-  'action': 'any', //{}
-  'liveaction': 'any', //{}
-  'trigger_type': 'any', //{}
-  'rule': 'any', //{}
-  'trigger_instance': 'any', //{}
-  'trigger': {
-    type: 'any',
-    default: () => ({})
+const $in = (serverVal, setVal) => {
+  if (setVal && typeof setVal !== 'string') {
+    if (setVal.$in) {
+      return setVal.$in.indexOf(serverVal) > -1;
+    }
+  }
+  return serverVal === setVal;
+};
+
+const Executions = DefineMap.extend('ExecutionsModel', {
+  id: 'any',
+  type: {
+    get() {
+      return this.liveaction.action_is_workflow ?
+        'workflow' :
+        'other';
+    }
   },
-  'id': 'string'
+  liveaction: 'any',
+  action: 'any',
+  workflowName: {
+    get(){
+      return this.type === 'workflow' ?
+        this.liveaction.workflowName :
+        null;
+    }
+  },
+  rule: 'any',
+  trigger: 'any',
+  // project: Projects //coming soon
+  start_timestamp: 'date',
+  end_timestamp: 'date',
+  duration: {
+    get() {
+      return this.rawData && this.rawData.elapsed_seconds;
+    }
+  },
+  status: 'any',
+  rawData: ExecutionsData,
+  children: 'any'
 });
 
 const algebra = makeAlgebra({
-  parent(serverVal, setVal) {
-    if (('' + setVal) === 'null') {
-      return ('' + serverVal) === 'null' || typeof serverVal === 'undefined';
-    }
-    return true;
-  },
-  status(serverVal, setVal) {
-    if (typeof setVal !== 'undefined'){
-      return serverVal === setVal;
-    }
-    return true;
-  },
-  runner(serverVal, setVal) {
-    if (typeof setVal !== 'undefined'){
-      return serverVal.name === setVal;
-    }
-    return true;
-  },
-  user(serverVal, setVal, serverItem) {
-    if (typeof setVal !== 'undefined'){
-      return serverItem.context.user === setVal;
-    }
-    return true;
-  },
-  action(serverVal, setVal) {
-    if (typeof setVal !== 'undefined'){
-      return serverVal.ref === setVal;
-    }
-    return true;
-  },
-  trigger_type(serverVal, setVal) {
-    if (typeof setVal !== 'undefined'){
-      return serverVal.name === setVal;
-    }
-    return true;
-  },
-  rule(serverVal, setVal) {
-    if (typeof setVal !== 'undefined'){
-      return serverVal.name === setVal;
-    }
-    return true;
-  },
-  exclude_attributes(){
-    return true;
-  }
+  status: $in,
+  type: $in,
+  teamName: () => true
 });
 
 const url = `${env.API_BASE_URI}/executions`;
+const service = feathersClient.service(url);
 
-Executions.List = DefineList.extend({
+Executions.List = DefineList.extend('ExecutionsListModel',{
   '#': Executions
 });
+
 
 Executions.connection = feathersConnection({
   url,
@@ -89,7 +69,7 @@ Executions.connection = feathersConnection({
   List: Executions.List,
   name: 'executions',
   algebra,
-  feathersService: feathersClient.service(url)
+  feathersService: service
 });
 
 export default Executions;

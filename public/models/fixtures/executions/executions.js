@@ -1,36 +1,36 @@
 import fixture from 'can-fixture';
 import env from '@root/shared/env';
 import Executions from '@public/models/executions';
-import clone from '@public/util/clone';
-import executionFailedTemplate from './data/get-execution-failed';
-import executionSucceededTemplate from './data/get-execution-succeeded';
 import mockServer from '../mock-socket-server';
 
-// Clone the template item
-function mock(num){
-  const ret = [];
-  let item;
-  for(let i = 0; i < num; i++){
-    if(i % 3 === 0){
-      item = clone(executionFailedTemplate);
-    }else{
-      item = clone(executionSucceededTemplate);
-    }
+const STATUS = ['failed', 'succeeded', 'pending'];
 
-    if (Math.random() > 0.8) {
-      delete item.parent;
-    }
-
-    //modify item details
-    item.id = i;
-
-    ret.push(item);
+function mock(){
+  let count = 100; // number of executions
+  const arr = [];
+  while(count--) {
+    arr.push({
+      id: 100 + count,
+      type: 'workflow',
+      actionName: 'icloud3_daily_deployment',
+      workflowName: 'icloud3_daily_deployment',
+      ruleName: 'icloud3_daily_deployment',
+      trigger: 'core.st2.CronTimer',
+      project: { name: 'High Impact Project', teamId: 1234 },
+      team: { name: 'Medic', codeName: 'Medic-Dev', id: 1234 },
+      startTime: new Date(),
+      endTime: new Date(),
+      duration: '17',
+      status: fixture.rand(STATUS, 1)[0],
+      rawData: {},
+      children: []
+    });
   }
-  return ret;
+  return arr;
 }
 
 const url = `${env.API_BASE_URI}/executions`;
-const store = fixture.store(mock(100), Executions.connection.algebra);
+const store = fixture.store(mock(), Executions.connection.algebra);
 fixture(url, store);
 mockServer.onFeathersService(url, store);
 

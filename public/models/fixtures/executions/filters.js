@@ -1,17 +1,12 @@
 import fixture from 'can-fixture';
 import env from '@root/shared/env';
 import data_filters from './data/execution-filters';
+import mockServer from '../mock-socket-server';
+import canSet from 'can-set';
 
-export default fixture({
-  method: 'GET',
-  url: `${env.API_BASE_URI}/execution-filters`
-},(req/*, res, requestHeaders, ajaxSettings*/) => {
-  let dataOut = {};
-  for(var k in data_filters){
-    if(req.data.types.indexOf(k) >= 0){
-      dataOut[k] = data_filters[k];
-    }
-  }
-  return dataOut;
-});
+const store = fixture.store([data_filters], new canSet.Algebra({}));
 
+const url = `${env.API_BASE_URI}/execution-filters`;
+mockServer.onFeathersService(url, store);
+
+export default store;
