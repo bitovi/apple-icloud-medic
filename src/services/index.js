@@ -1,6 +1,8 @@
 const users = require('./users/users.service.js');
 const executions = require('./executions/executions.service.js');
+const st2executions = require('./st2-executions/st2-executions.service.js');
 const executionFilters = require('./execution-filters/execution-filters.service.js');
+const elasticsearchUtil = require('./elasticsearch-util/elasticsearch-util.service.js');
 const userExecutions = require('./user-executions/user-executions.service.js');
 const teams = require('./teams/teams.service.js');
 const projects = require('./projects/projects.service.js');
@@ -14,7 +16,10 @@ const teamMembers = require('./team-members/team-members.service.js');
 module.exports = function () {
   const app = this;
   app.configure(users);
+  // register the elasticsearch-util early so it's available for others
+  app.configure(elasticsearchUtil);
   app.configure(executions);
+  app.configure(st2executions);
   app.configure(executionFilters);
   app.configure(userExecutions);
   app.configure(teams);

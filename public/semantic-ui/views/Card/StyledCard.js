@@ -58,7 +58,7 @@ const StyledCard = styled(({ bgColor, detailUrl, children, ...props }) => ( // e
       : null}
   </Card>
 ))`
-  &&&&& {
+  &&&.card {
     color: ${props => getInverseLuminance(props.bgColor)};
     background-color: ${props => props.bgColor};
     border: 1px solid ${props => getDarkenedBorder(props.bgColor)};
@@ -75,6 +75,7 @@ const StyledCard = styled(({ bgColor, detailUrl, children, ...props }) => ( // e
     }
 
     .description {
+      color: inherit;
       font-size: 1.2rem;
     }
 

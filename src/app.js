@@ -25,6 +25,7 @@ const appHooks = require('./app.hooks');
 const healthCheck = require('./middleware/health-check');
 const authentication = require('./authentication');
 const sequelize = require('./sequelize');
+const elasticsearch = require('./elasticsearch');
 
 const app = feathers();
 
@@ -40,7 +41,7 @@ app.use(cors());
 app.use(helmet());
 app.use(compress());
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.configure(logger(winston));
 
@@ -50,6 +51,7 @@ app.use(['/__health', '/__stats'], healthCheck());
 
 // Set up Plugins and providers
 app.configure(sequelize);
+app.configure(elasticsearch);
 app.configure(hooks());
 app.configure(rest());
 app.configure(socketio());

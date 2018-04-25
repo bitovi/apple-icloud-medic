@@ -20,7 +20,7 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
     get() {
       let opts = {
         '$limit': this.limit,
-        '$skip': this.activePage * this.limit,
+        '$skip': (this.activePage - 1) * this.limit,
         'parent': null,
         '$format': true,
         'teamName': route.data.teamName

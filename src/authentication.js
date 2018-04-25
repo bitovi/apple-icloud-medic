@@ -73,7 +73,8 @@ module.exports = function () {
       create: [
         (hook) => {
           // This makes the user available on the auth response so we don't have
-          // to request it separately. This data is NOT part of the JWT claim/payload.
+          // to request it separately. This data is not (and should never be) part of
+          // the JWT claim/payload.
           debug('Sending user with auth response', hook.params.user);
           hook.result.user = hook.params.user;
           return hook;

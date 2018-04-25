@@ -4,6 +4,7 @@ const errors = require('feathers-errors');
 
 const REG_SLASHES = /(?:^\/|\/$)/g;
 const REG_PROTOCOL = /^https?:\/\//;
+// map feathers params to st2 API params
 const PARAM_MAP = {
   '$limit': 'limit',
   '$skip': 'offset',

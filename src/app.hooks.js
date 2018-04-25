@@ -7,10 +7,15 @@ const checkPermissions = require('./hooks/permission-check');
 
 const shouldAuthenticate = (hook) => {
   const authConfig = hook.app.get('authentication');
+  const svcConfig = hook.service.config || hook.service;
   const authService = hook.app.service(authConfig.path);
+
+  // We don't want to authenticate the auth request itself
   return (
+    // provider is set for REST/socket (not internal service calls)
     hook.params.provider &&
-    hook.service !== authService
+    hook.service !== authService &&
+    svcConfig.skipAuthentication !== true
   );
 };
 
@@ -23,9 +28,9 @@ const shouldCheckPermissions = (hook) => {
   return (
     // provider is set for REST/socket (not internal service calls)
     hook.params.provider &&
-    svcConfig.skipGlobalPermissionCheck !== true &&
     hook.service !== authService &&
-    hook.service !== userService
+    hook.service !== userService &&
+    svcConfig.skipGlobalPermissionCheck !== true
   );
 };
 

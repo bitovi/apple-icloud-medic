@@ -52,7 +52,18 @@ const Executions = DefineMap.extend('ExecutionsModel', {
 const algebra = makeAlgebra({
   status: $in,
   type: $in,
-  teamName: () => true
+  teamName: () => true,
+  $format: () => true,
+  $missing(serverVal, setVal, serverItem) {
+    const fields = setVal;
+    return fields.every(field => !serverItem.hasOwnProperty(field));
+  },
+  parent(serverVal, setVal, serverItem) {
+    if (('' + setVal) === 'null') {
+      return !serverItem.hasOwnProperty('parent') || ('' + serverVal) === 'null';
+    }
+    return true;
+  }
 });
 
 const url = `${env.API_BASE_URI}/executions`;

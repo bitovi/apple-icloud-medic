@@ -18,6 +18,8 @@ DEV_USER_GROUPS=
 
 # db connection string
 DATABASE_URL=postgres://username:password@localhost:5432/dbname
+# elastic search host - using docker
+ELASTICSEARCH_HOST=localhost:9200
 
 # stackstorm info
 ST2_HOST=

@@ -1,18 +1,12 @@
-import loader from '@loader';
 import React from 'react';
 import Component from 'react-view-model/component';
-import route from 'can-route-pushstate';
-import DefineMap from 'can-define/map/';
-import PropTypes from 'prop-types';
 import makeDebug from 'debug';
 
 // import the Site component before any models/connections!
-import { Site } from '@public/semantic-ui/index';
-import SiteHeader from './site-header/';
-import SiteFooter from './site-footer/';
-import Session from '@public/models/session';
-import teamConnection from '@public/models/teams';
-import { registerRoutes } from '@public/util/route-helper';
+import { Site, Loader, Dimmer, Icon, Header } from '@public/semantic-ui/index';
+import SiteHeader from './site-header/site-header';
+import SiteFooter from './site-footer/site-footer';
+import ViewModel from './app.viewmodel';
 
 const debug = makeDebug('medic:app');
 
@@ -23,175 +17,26 @@ const debug = makeDebug('medic:app');
  * The main application component
  */
 class AppComponent extends Component {
-  getChildContext() {
-    return { appState: this.viewModel };
-  }
+  static ViewModel = ViewModel;
 
   render() {
-    debug('Component render');
-
-    const { currentUser, authError } = this.viewModel;
-    let mainContent;
-
-    if (!currentUser) {
-      if (authError) {
-        mainContent = <div>Failed to authenticate: {authError.message}</div>;
-      } else {
-        mainContent = <div>Authenticating...</div>;
-      }
-    } else {
-      const { isAdmin, team, teamError, CurrentPage, moduleId } = this.viewModel;
-
-      if (teamError) {
-        mainContent = <div>Error loading team: {teamError.message}</div>;
-      } else if (!isAdmin && !team) {
-        debug('Rendering team loading message', moduleId);
-        mainContent = <div>Loading team information...</div>;
-      } else if (!CurrentPage) {
-        debug('Rendering page loading message', moduleId);
-        mainContent = <div>Loading page module...</div>;
-      } else {
-        debug('Rendering page', moduleId);
-        mainContent = <CurrentPage />;
-      }
-    }
+    const { loadingMessage, authError, teamError, currentUser, CurrentPage } = this.viewModel;
+    debug('Component render:', loadingMessage);
     return (
       <Site>
         <SiteHeader currentUser={currentUser} />
-        <main role="main">
-          {mainContent}
+        <main>
+          {CurrentPage && <CurrentPage />}
         </main>
         <SiteFooter />
+        <Dimmer active={!!loadingMessage || !!authError || !!teamError}>
+          {authError && <Header inverted icon as='h2'><Icon name='warning sign' />Error during authentication: {authError.message}</Header> }
+          {teamError && <Header inverted icon as='h2'><Icon name='warning sign' />Error loading team: {teamError.message}</Header> }
+          {!authError && !teamError && loadingMessage && <Loader size='massive'>{loadingMessage}</Loader>}
+        </Dimmer>
       </Site>
     );
   }
 }
-
-// TODO: Create HoC for providing app state
-AppComponent.childContextTypes = {
-  appState: PropTypes.object
-};
-
-AppComponent.ViewModel = DefineMap.extend('AppComponent', {
-  /**********************/
-  /* BEGIN ROUTE PARAMS */
-  /**********************/
-  /** The module ID for the current page (see route config) */
-  moduleId: 'string',
-  /** Whether or not the current route is an admin page (see route config) */
-  isAdmin: 'boolean',
-  /** executionId */
-  executionId: 'string',
-  /** projectId */
-  projectId: 'string',
-  /** ruleId */
-  ruleId: 'string',
-  /**
-   * For sections with tabs, the "key" for the selected tab
-   *
-   *  - example: rules/1234 => `{ tabKey: 'rules', tabItemId: 1234 }`
-   */
-  tabKey: 'string',
-  /**
-   * For sections with tabs, the tabItemId is an entity ID for an item
-   * selected within the tab.
-   *
-   *  - example: rules/1234 => `{ tabKey: 'rules', tabItemId: 1234 }`
-   */
-  tabItemId: 'string',
-  /** teamName */
-  teamName: {
-    type: 'string',
-    set(newVal) {
-      if (newVal) {
-        localStorage.setItem('defaultTeam', newVal);
-      }
-      return newVal;
-    }
-  },
-  /**********************/
-  /*  END ROUTE PARAMS  */
-  /**********************/
-  teamPromise: {
-    get() {
-      if (this.teamName) {
-        debug('Loading team', this.teamName);
-        return teamConnection.getList({ codeName: this.teamName }).then(results => {
-          if (!results.length) {
-            throw new Error('No team found for ' + this.teamName);
-          }
-          return results[0];
-        });
-      }
-    }
-  },
-  team: {
-    get(lastVal, setVal) {
-      if (this.teamName) {
-        this.teamPromise.then(team => {
-          debug('Team loaded', team);
-          setVal(team);
-        });
-      }
-      return null;
-    }
-  },
-  teamError: {
-    get(lastVal, setVal) {
-      if (this.teamName) {
-        this.teamPromise.catch(setVal);
-      }
-      return null;
-    }
-  },
-  authError: {
-    serialize: false,
-    default: false
-  },
-  currentUser: {
-    get() {
-      const user = !this.authError && Session.current && Session.current.user;
-      debug('ViewModel - get currentUser', user && user.serialize());
-      return user;
-    }
-  },
-  CurrentPage: {
-    get(val, setVal) {
-      if (this.moduleId) {
-        debug('CurrentPage - importing module:', this.moduleId);
-
-        // TODO: Use ES6 import() when/if steal supports it
-        loader.import(this.moduleId).then(res => {
-          debug('CurrentPage - module imported successfully:', this.moduleId);
-          setVal(res && res.default || res);
-        });
-      }
-      return null;
-    }
-  },
-  init () {
-    debug('ViewModel init');
-
-    // makes POST request to /authenticate
-    debug('About to create new session');
-    new Session({ strategy: 'custom' }).save().then(result => {
-      debug('User authenticated successfully!', result.serialize());
-
-      let defaultTeam = localStorage.getItem('defaultTeam');
-      if (!defaultTeam) {
-        defaultTeam = 'medic';
-        // defaultTeam = user.isSuperAdmin ? 'medic' : Object.keys(user.permissions.teams)[0];
-      }
-
-      registerRoutes(route, { teamName: defaultTeam });
-      route.data = this;
-      route.start();
-    }).catch(err => {
-      debug('Auth error', err);
-      debug('==== Session failed to create! ====', err);
-      this.authError = err;
-    });
-  }
-});
 
 export default AppComponent;

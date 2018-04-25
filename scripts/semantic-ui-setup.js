@@ -33,14 +33,14 @@ new Promise((resolve, reject) => {
     resolve();
   });
 }).then(() => new Promise((resolve, reject) => {
-  // Copy the theme.config.example to the site root
+  // Copy the theme.config to the site root if it doesn't exist
   const file = SITE_ROOT + '/theme.config';
   console.log('Checking', file);
   fs.access(file, fs.F_OK, (err) => {
     if (err) {
       if (err.code !== 'ENOENT') return reject(err);
       console.log('  Creating ' + file);
-      let content = fs.readFileSync(SEMANTIC_ROOT + '/theme.config.example', 'utf8');
+      let content = fs.readFileSync(SEMANTIC_ROOT + '/theme.config', 'utf8');
       // Update the @themesFolder and @siteFolder paths
       const depth = SITE_ROOT.split('/').length;
       const prefix = new Array(depth + 1).join('../');
@@ -51,7 +51,18 @@ new Promise((resolve, reject) => {
     resolve();
   });
 })).then(() => new Promise((resolve, reject) => {
-  // Copy the theme.less to the site root
+  // All of the less files reference a theme.config file we moved in the last step.
+  // So we create a new file and use it as a proxy to our own.
+  const file = SEMANTIC_ROOT + '/theme.config';
+  console.log('  Creating theme.config file inside of semantic-ui-less');
+  fs.writeFileSync(
+    file,
+    `@import "../../${SITE_ROOT}/theme.config";\n`,
+    'utf8'
+  );
+  resolve();
+})).then(() => new Promise((resolve, reject) => {
+  // Copy the theme.less to the site root if it doesn't exist
   const file = SITE_ROOT + '/theme.less';
   console.log('Checking', file);
   fs.access(file, fs.F_OK, (err) => {
@@ -60,23 +71,6 @@ new Promise((resolve, reject) => {
       console.log('  Creating ' + file);
       const content = fs.readFileSync(SEMANTIC_ROOT + '/theme.less', 'utf8');
       fs.writeFileSync(file, content, 'utf8');
-    }
-    resolve();
-  });
-})).then(() => new Promise((resolve, reject) => {
-  // All of the less files reference a theme.config file which does not
-  // exist. So we create the file and use it as a proxy to our own.
-  const file = SEMANTIC_ROOT + '/theme.config';
-  console.log('Checking', file);
-  fs.access(file, fs.F_OK, (err) => {
-    if (err) {
-      if (err.code !== 'ENOENT') return reject(err);
-      console.log('  Creating theme.config file inside of semantic-ui-less');
-      fs.writeFileSync(
-        file,
-        `@import "../../${SITE_ROOT}/theme.config";\n`,
-        'utf8'
-      );
     }
     resolve();
   });

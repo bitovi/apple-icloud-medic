@@ -104,7 +104,7 @@ const userHasPermission = (user, entityName, action) => {
   }
 
   if (!PERM_METHODS[perm]) {
-    return new Error(`Unrecognized permission "${perm}"`);
+    return new Error(`Unrecognized permission ${JSON.stringify(perm)}`);
   }
 
   if (!PERM_METHODS[perm].includes(action)) {

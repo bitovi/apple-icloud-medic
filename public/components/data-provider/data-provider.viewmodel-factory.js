@@ -67,7 +67,10 @@ const BaseDataProvider = DefineMap.extend('BaseDataProvider', {
     type: 'any',
     get(lastSet, setVal) {
       if (this.shouldLoadData) {
-        this.dataPromise.catch((err) => { debug('Error loading data:', err) && setVal(err); });
+        this.dataPromise.catch((err) => {
+          debug('Error loading data:', err);
+          setVal(err);
+        });
       }
       return lastSet;
     }
@@ -124,14 +127,15 @@ const BaseDataProvider = DefineMap.extend('BaseDataProvider', {
           query = this.query;
         }
 
-        debug(`Loading ${this.dataProp} with query:`, query);
         if (this.memoize) {
           const key = stringify(query);
           if (!this.promiseCache[key]) {
+            debug(`Loading ${this.dataProp} with query:`, query);
             this.promiseCache[key] = this.connection[fn](query);
           }
           return this.promiseCache[key];
         }
+        debug(`Loading ${this.dataProp} with query:`, query);
         return this.connection[fn](query);
       }
     }

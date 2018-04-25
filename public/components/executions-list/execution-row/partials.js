@@ -44,7 +44,7 @@ const LoadingStateComponent = ({ Loader, visible, depth }) =>
 
 LoadingStateComponent.propTypes = {
   Loader: PropTypes.object,
-  visible: PropTypes.boolean,
+  visible: PropTypes.bool,
   depth: PropTypes.number,
 };
 
@@ -55,7 +55,7 @@ const ErrorStateComponent = ({ Message, visible, depth }) =>
 
 ErrorStateComponent.propTypes = {
   Message: PropTypes.object,
-  visible: PropTypes.boolean,
+  visible: PropTypes.bool,
   depth: PropTypes.number,
 };
 
@@ -66,7 +66,7 @@ const NoDataStateComponent = ({ Message, visible, depth }) =>
 
 NoDataStateComponent.propTypes = {
   Message: PropTypes.object,
-  visible: PropTypes.boolean,
+  visible: PropTypes.bool,
   depth: PropTypes.number,
 };
 

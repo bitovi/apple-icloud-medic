@@ -5,6 +5,10 @@ module.exports = {
   "port": "PORT",
   "public": "../public/",
   "postgres": "DATABASE_URL",
+  "elasticsearch": {
+    "host": "ELASTICSEARCH_HOST",
+    "apiVersion": "5.0"
+  },
   "paginate": {
     "default": 25,
     "max": 100
