@@ -117,12 +117,27 @@ const belongsToTeam = (execution, REG_TEAMNAME) => {
  * This will be used to put the data in the correct index.
  */
 const assignTeamName = (prop = 'data') => {
+  const cacheName = 'executionsTeamMap';
   return (hook) => {
     let data = dotProp.get(hook, prop);
     const isArray = Array.isArray(data);
-    const teamsService = hook.app.service(`${API_BASE_URI}/teams`);
+    if (!isArray) data = [data];
+    if (hook.params.teamName) {
+      data.forEach(execution => execution.teamName = hook.params.teamName);
+      return hook;
+    }
+    if (hook.params[cacheName]) {
+      data.forEach(execution => execution.teamName = hook.params[cacheName][execution.id]);
+      return hook;
+    }
 
-    return reduceDataWithTeamNames(teamsService, (isArray ? data : [data]), belongsToTeam).then(results => {
+    const teamsService = hook.app.service(`${API_BASE_URI}/teams`);
+    return reduceDataWithTeamNames(teamsService, data, belongsToTeam).then(results => {
+      // create a mapping of id -> teamName for faster operations later
+      hook.params[cacheName] = results.reduce((map, execution) => {
+        return Object.assign(map, { [execution.id]: execution.teamName });
+      }, {});
+
       // finally, return the correct data
       dotProp.set(hook, prop, isArray ? results : results[0]);
       return hook;
@@ -145,10 +160,14 @@ const expandParentIds = (hook) => {
   return hook;
 };
 
-const prepFormat = hook => {
-  if(hook.params.query.$format) {
-    hook.params.$format = hook.params.query.$format;
-    delete hook.params.query.$format;
+const cacheHelpfulData = (hook) => {
+  const { params } = hook;
+  if(params.query.$format) {
+    params.$format = params.query.$format;
+    delete params.query.$format;
+  }
+  if(params.query.teamName) {
+    params.teamName = params.query.teamName;
   }
   return hook;
 };
@@ -169,7 +188,7 @@ const formatData = hook => {
 module.exports = {
   before: {
     all: [],
-    find: [normalizeSearchQuery, flattenQuery, prepFormat],
+    find: [normalizeSearchQuery, flattenQuery, cacheHelpfulData],
     get: [],
     create: [/*applyBlackList, */assignTeamName('data'), expandParentIds],
     update: [],
