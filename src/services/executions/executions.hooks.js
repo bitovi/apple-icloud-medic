@@ -6,19 +6,22 @@ const { reduceDataWithTeamNames } = require('../../util/ss-es-data-helper');
 
 // Applies a series of rules against data and
 // prevents certain data from getting through.
-const applyBlackList = (hook) => {
-  const isArray = Array.isArray(hook.data);
-  const data = isArray ? hook.data : [hook.data];
-  const algebra = new canSet.Algebra({});
-  const invalidSets = [
-    { parent: undefined, 'rule.ref': 'default.elastic-data-sync' }
-  ].map(set => flatten.unflatten(set));
-  const result = data.filter(item =>
-    !invalidSets.some(obj => algebra.subset(item, obj))
-  );
-  hook.data = isArray ? result : result[0];
-  return hook;
-};
+// const applyBlackList = (hook) => {
+//   const isArray = Array.isArray(hook.data);
+//   const data = isArray ? hook.data : [hook.data];
+//   const algebra = new canSet.Algebra({});
+//   const invalidSets = [
+//     { parent: undefined, 'rule.ref': 'default.elastic-data-sync' }
+//   ].map(set => flatten.unflatten(set));
+//   const result = data.filter(item =>
+//     !invalidSets.some(obj => algebra.subset(item, obj))
+//   );
+//   if (!result.length) {
+//     hook.result = [];
+//   }
+//   hook.data = isArray ? result : result[0];
+//   return hook;
+// };
 
 const queryMapper = {
   action: 'action.ref',
@@ -166,7 +169,7 @@ module.exports = {
     all: [],
     find: [normalizeSearchQuery, flattenQuery, prepFormat],
     get: [],
-    create: [applyBlackList, assignTeamName, expandParentIds],
+    create: [/*applyBlackList, */assignTeamName, expandParentIds],
     update: [],
     patch: [],
     remove: []

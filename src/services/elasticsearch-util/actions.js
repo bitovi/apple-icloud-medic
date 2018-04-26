@@ -175,14 +175,18 @@ const actions = {
     }}).then(results =>
       results.data.length ? results.data[0] : null
     ).then(execution => {
-      if (!execution) return;
+      if (!execution) {
+        // "now" for older, two days ago for newer
+        const dt = direction > 0 ? new Date() : new Date(Date.now() - 172800000);
+        execution = { start_timestamp: dt.toISOString() };
+      }
       const sortKey = direction > 0 ? 'timestamp_lt' : 'timestamp_gt';
       return st2executionsService.find({ query: {
         limit: SYNC_BATCH_SIZE,
         [sortKey]: execution.start_timestamp
       }});
     }).then(st2Executions => {
-      if (!st2Executions.length) return [];
+      if (!st2Executions || !st2Executions.length) return [];
       return executionsService.create(st2Executions);
     }).then(executions => {
       if (executions.length === SYNC_BATCH_SIZE && _count < SYNC_BATCH_COUNT) {

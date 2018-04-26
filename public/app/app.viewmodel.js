@@ -120,7 +120,7 @@ const AppViewModel = DefineMap.extend('AppViewModel', {
   sessionPromise: {
     type: 'any',
     serialize: false,
-    value() {
+    default() {
       debug('Setting session object');
       return new Session({ strategy: 'custom' }).save().then(session => {
         debug('Session authenticated, getting user!', session);

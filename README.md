@@ -32,28 +32,37 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
     cd path/to/medic; npm install
     ```
 
-1. Configure your DB.
+1. Install and configure postgres:
 
-	- Download postgresql using homebrew
-	```
-	brew install postgresql
-	```
+	- `brew install postgresql`
 	- Download [Postico](https://eggerapps.at/postico/)
-
 	- Create username `medic` and database `medic`. Follow this [tutorial](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb)
 
-4. Configure your environment variables: create a `.env` file using the `.default-env` file and set all required environment variables (read more about [dotenv](https://www.npmjs.com/package/dotenv)).
+1. Install and run elasticsearch ([docker images](https://www.docker.elastic.co/))
+    
+    ```
+    docker pull docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+    ```
+   
+    > **Note:** You can use a tool like [Kitematic](https://kitematic.com/) for starting/stopping the image after the first run.
+
+1. Configure your environment variables: create a `.env` file using the `.default-env` file and set all required environment variables (read more about [dotenv](https://www.npmjs.com/package/dotenv)). Most notably:
+
+	```
+    DATABASE_URL=postgres://username:password@localhost:5432/medic
+    ELASTICSEARCH_HOST=localhost:9200
+    AUTH_SECRET=must_be_500_chars_long_and_never_shared
+    ```
 
     > **Note:** For security reasons some variables have minimum length requirements. There are [online tools](http://textmechanic.com/text-tools/randomization-tools/random-string-generator) for generating long strings.
-
-    > **Note:** The db connection string uses the credentials you created in the previous step.
 
 1. Start your app
 
     ```
     npm run develop
-    # npm start
-    # npm run debug
+    # npm start (production only)
+    # npm run debug (read more below)
     ```
 
 ## Development / Debugging (with auto-restart)
@@ -63,9 +72,9 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 This app is configured to use StealJS' dev-bundle. Any time you install a new package, make sure to run the following command:
 
 ```
-npm run dev-bundle
+npm run postinstall
 ```
-> **Note:** the above command is configured to run as a `postinstall` script which will run every time your run `npm install`.
+> **Note:** the above command will run automatically every time you run `npm install`.
 
 ### nodemon / watch
 
@@ -108,7 +117,7 @@ One way around this is to create a symlink:
 
 Simply run `npm test` and all your client and server tests will be run.
 
-If you are using the browser for client tests, you will want to create a test bundle first:
+If you are using the browser for client tests, you will want to make sure the test bundle was created. This is done during the `postinstall` script mentioned above, but sometimes you need to generate it manaually:
 
 ```
 npm run test-bundle && npm run develop

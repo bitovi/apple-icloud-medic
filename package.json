@@ -26,6 +26,7 @@
     "map": {
       "@root": ".",
       "@public": "~/public",
+      "util": "@empty",
       "styled-components": "styled-components/dist/styled-components",
       "polished": "polished/dist/polished",
       "socket.io-client": "socket.io-client/dist/socket.io"

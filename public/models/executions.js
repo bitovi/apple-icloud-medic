@@ -25,7 +25,10 @@ const Executions = DefineMap.extend('ExecutionsModel', {
         'other';
     }
   },
-  liveaction: 'any',
+  liveaction: {
+    type: 'any',
+    default: () => ({})
+  },
   action: 'any',
   workflowName: {
     get(){

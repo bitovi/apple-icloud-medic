@@ -3,8 +3,8 @@ import './mock-socket-server';
 
 import './session';
 import './user';
-import './team-members';
 import './teams/teams';
+import './team-members';
 import './executions/executions-data';
 import './executions/filters';
 import './executions/executions';

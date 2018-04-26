@@ -17,7 +17,6 @@ import '@public/models/fixtures/fixtures';
 //!steal-remove-end
 
 import styled from 'styled-components';
-// import { darken, desaturate } from 'polished';
 import 'semantic-ui-less/semantic.less';
 import '@public/util/canjs-extensions';
 

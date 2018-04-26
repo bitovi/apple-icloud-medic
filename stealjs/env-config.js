@@ -5,15 +5,18 @@ const IS_PRODUCTION = /production$/.test(env);
 const { PAGES } = require('../shared/routes');
 
 console.log('Configuring steal for environment:', env);
-const stealConfig = {};
+const stealConfig = {
+  map: {},
+  meta: {}
+};
 
 if (IS_TEST) {
   stealConfig.main = "public/test";
-  stealConfig.map = Object.assign({}, stealConfig.map, {
+  stealConfig.map = Object.assign(stealConfig.map, {
     "dev-bundle.css": "public/test-bundles/dev-bundle.css"
   });
   // something in sinon dynamically depends on samsam...
-  stealConfig.meta = Object.assign({}, stealConfig.meta, {
+  stealConfig.meta = Object.assign(stealConfig.meta, {
     "sinon": {
       "deps": ["samsam"]
     }
@@ -29,7 +32,7 @@ if (IS_TEST) {
 // The build runs in "development" mode, so for build and
 // production modes we want to remap some things.
 if (IS_PRODUCTION) {
-  stealConfig.map = Object.assign({}, stealConfig.map, {
+  stealConfig.map = Object.assign(stealConfig.map, {
     "react": "react/umd/react.production.min",
     "react-dom": "react-dom/umd/react-dom.production.min",
     "can-debug": "@empty",
