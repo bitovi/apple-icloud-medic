@@ -4,8 +4,6 @@ import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
-// import Projects from './projects';
-import ExecutionsData from './executions-data';
 
 const $in = (serverVal, setVal) => {
   if (setVal && typeof setVal !== 'string') {
@@ -16,8 +14,12 @@ const $in = (serverVal, setVal) => {
   return serverVal === setVal;
 };
 
+const ANY_OBJ = {
+  type: 'any',
+  default: () => ({})
+};
+
 const Executions = DefineMap.extend('ExecutionsModel', {
-  id: 'any',
   type: {
     get() {
       return this.liveaction.action_is_workflow ?
@@ -25,11 +27,6 @@ const Executions = DefineMap.extend('ExecutionsModel', {
         'other';
     }
   },
-  liveaction: {
-    type: 'any',
-    default: () => ({})
-  },
-  action: 'any',
   workflowName: {
     get(){
       return this.type === 'workflow' ?
@@ -37,25 +34,22 @@ const Executions = DefineMap.extend('ExecutionsModel', {
         null;
     }
   },
-  rule: 'any',
-  trigger: 'any',
-  // project: Projects //coming soon
+  id: 'any',
   start_timestamp: 'date',
   end_timestamp: 'date',
-  duration: {
-    get() {
-      return this.rawData && this.rawData.elapsed_seconds;
-    }
-  },
+  elapsed_seconds: 'number',
   status: 'any',
-  rawData: ExecutionsData,
-  children: 'any'
+  children: 'any',
+  liveaction: ANY_OBJ,
+  action: ANY_OBJ,
+  rule: ANY_OBJ,
+  trigger: ANY_OBJ,
+  context: ANY_OBJ,
 });
 
 const algebra = makeAlgebra({
   status: $in,
   type: $in,
-  $format: () => true,
   $missing(serverVal, setVal, serverItem) {
     const fields = setVal;
     return fields.every(field => !serverItem.hasOwnProperty(field));

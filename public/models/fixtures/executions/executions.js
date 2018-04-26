@@ -22,7 +22,6 @@ function mock(){
       endTime: new Date(),
       duration: '17',
       status: fixture.rand(STATUS, 1)[0],
-      rawData: {},
       children: []
     });
   }

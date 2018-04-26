@@ -26,6 +26,22 @@ const ChildRows = DataProvider(ChildRowsRenderer, ExecutionsModel, {
 class ExecutionRow extends Component {
   static ViewModel = ExecutionRowVM;
 
+  descriptorContent(execution) {
+    const title = execution.type === 'workflow' ? 'Workflow Name' : 'Live Action Name';
+    let value = '';
+    if (execution.context.mistral && execution.context.mistral.task_name) {
+      value = execution.context.mistral.task_name;
+    } else if (execution.liveaction && execution.liveaction.action) {
+      value = execution.liveaction.action;
+    } else {
+      value = 'unknown';
+    }
+    return <div>
+      <strong>{title}</strong>,
+      <p>{value}</p>
+    </div>;
+  }
+
   render() {
     const { execution, visible, expanded, hasExpanded, depth, statusColor } = this.viewModel;
     const { handleClick, handleExpanderClick } = this.viewModel;
@@ -41,8 +57,7 @@ class ExecutionRow extends Component {
           <Grid divided>
             <Grid.Row>
               <Grid.Column offset={depth} width={8}>
-                <strong> {execution.liveaction.action_is_workflow ? 'Workflow Name' : 'Live Action Name' }</strong>
-                <p> {execution.liveaction && execution.liveaction.action} </p>
+                {this.descriptorContent(execution)}
               </Grid.Column>
               <Grid.Column width={3}>
                 <Label color={ statusColor[execution.status]}> {execution.status} </Label>
@@ -85,7 +100,7 @@ class ExecutionRow extends Component {
         <ChildRows
           memoize={true}
           visible={visible && expanded}
-          query={{ parent: execution.id, teamName: route.data.teamName, $format: 'true' }}
+          query={{ parent: execution.id, teamName: route.data.teamName }}
           depth={depth + 1}
           key={execution.id + '_children'} />
       );

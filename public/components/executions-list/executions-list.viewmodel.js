@@ -22,7 +22,6 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
         '$limit': this.limit,
         '$skip': (this.activePage - 1) * this.limit,
         'parent': null,
-        '$format': true,
         'teamName': route.data.teamName
       };
       if (this.activeFilters) {

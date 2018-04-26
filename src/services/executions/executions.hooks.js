@@ -48,12 +48,16 @@ const normalizeSearchQuery = (hook) => {
   });
   // SS uses `parent: null` to match docs which don't have a "parent" field
   if (('' + query.parent) === 'null') {
-    query.$missing = ['parent'];
+    Object.assign(query, {
+      // SS sorts top-level executions in DESC order by start date
+      $sort: { start_timestamp: -1 },
+      $missing: ['parent']
+    });
     delete query.parent;
   }
-  // SS sorts by start date descending by default
-  if (!query.$sort) {
-    query.$sort = { start_timestamp: -1 };
+  if (query.parent && !query.$sort) {
+    // SS sorts nested executions in ASC order by start date
+    query.$sort = { start_timestamp: 1 };
   }
   return hook;
 };
@@ -162,27 +166,10 @@ const expandParentIds = (hook) => {
 
 const cacheHelpfulData = (hook) => {
   const { params } = hook;
-  if(params.query.$format) {
-    params.$format = params.query.$format;
-    delete params.query.$format;
-  }
   if(params.query.teamName) {
     params.teamName = params.query.teamName;
   }
   return hook;
-};
-
-const formatData = hook => {
-  if(hook.params.$format){
-    hook.result.data = hook.result.data.map(execution => {
-      const props = ['id', 'teamName', 'rule', 'status', 'action', 'start_timestamp', 'end_timestamp', 'children', 'liveaction', 'parent'];
-      const pick = (ac, prop) => (ac[prop] = execution[prop], ac);
-      const pluckedExecution = props.reduce(pick, {});
-
-      pluckedExecution.rawData = execution;
-      return pluckedExecution;
-    });
-  }
 };
 
 module.exports = {
@@ -198,7 +185,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [assignTeamName('result.data'), formatData],
+    find: [assignTeamName('result.data')],
     get: [assignTeamName('result')],
     create: [assignTeamName('result')],
     update: [assignTeamName('result')],
