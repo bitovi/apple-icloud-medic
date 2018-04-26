@@ -14,6 +14,7 @@ const $in = (serverVal, setVal) => {
   return serverVal === setVal;
 };
 
+// useful for object properties
 const ANY_OBJ = {
   type: 'any',
   default: () => ({})

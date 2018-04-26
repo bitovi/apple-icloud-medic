@@ -125,16 +125,19 @@ const assignTeamName = (prop = 'data') => {
   return (hook) => {
     let data = dotProp.get(hook, prop);
     const isArray = Array.isArray(data);
-    if (!isArray) data = [data];
+    if (!isArray) data = [data]; // always deal with array
+    // If the teamName is there - use it for all data
     if (hook.params.teamName) {
       data.forEach(execution => execution.teamName = hook.params.teamName);
       return hook;
     }
+    // If a cache map is there - use it to decorate all data
     if (hook.params[cacheName]) {
       data.forEach(execution => execution.teamName = hook.params[cacheName][execution.id]);
       return hook;
     }
 
+    // the following operation is heavy - try not to do it twice in a single request
     const teamsService = hook.app.service(`${API_BASE_URI}/teams`);
     return reduceDataWithTeamNames(teamsService, data, belongsToTeam).then(results => {
       // create a mapping of id -> teamName for faster operations later
@@ -164,6 +167,10 @@ const expandParentIds = (hook) => {
   return hook;
 };
 
+/**
+ * Caches data from the request so that it is stripped from the
+ * request data but still available in an "after" hook
+ */
 const cacheHelpfulData = (hook) => {
   const { params } = hook;
   if(params.query.teamName) {

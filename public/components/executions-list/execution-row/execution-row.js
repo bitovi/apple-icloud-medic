@@ -26,6 +26,7 @@ const ChildRows = DataProvider(ChildRowsRenderer, ExecutionsModel, {
 class ExecutionRow extends Component {
   static ViewModel = ExecutionRowVM;
 
+  // Builds the "title" column (the left most column)
   descriptorContent(execution) {
     const title = execution.type === 'workflow' ? 'Workflow Name' : 'Live Action Name';
     let value = '';
