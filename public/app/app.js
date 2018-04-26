@@ -7,6 +7,9 @@ import { Site, Loader, Dimmer, Icon, Header } from '@public/semantic-ui/index';
 import SiteHeader from './site-header/site-header';
 import SiteFooter from './site-footer/site-footer';
 import ViewModel from './app.viewmodel';
+//!steal-remove-start
+import DevModule from '@public/components/dev-module/dev-module';
+//!steal-remove-end
 
 const debug = makeDebug('medic:app');
 
@@ -34,6 +37,7 @@ class AppComponent extends Component {
           {teamError && <Header inverted icon as='h2'><Icon name='warning sign' />Error loading team: {teamError.message}</Header> }
           {!authError && !teamError && loadingMessage && <Loader size='massive'>{loadingMessage}</Loader>}
         </Dimmer>
+        {typeof DevModule !== 'undefined' && <DevModule />}
       </Site>
     );
   }

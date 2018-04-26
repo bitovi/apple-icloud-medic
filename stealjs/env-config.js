@@ -10,6 +10,14 @@ const stealConfig = {
   meta: {}
 };
 
+// enable/disable fixtures (see the dev-module)
+if (typeof localStorage !== 'undefined' && localStorage.getItem('fixtures-enabled') === 'false') {
+  console.log('Disabling fixtures');
+  stealConfig.map = Object.assign(stealConfig.map, {
+    "@public/models/fixtures/fixtures": "@empty"
+  });
+}
+
 if (IS_TEST) {
   stealConfig.main = "public/test";
   stealConfig.map = Object.assign(stealConfig.map, {
@@ -38,6 +46,7 @@ if (IS_PRODUCTION) {
     "can-debug": "@empty",
     "can-fixture": "@empty",
     "@public/models/fixtures/fixtures": "@empty",
+    "@public/components/dev-module/dev-module": "@empty"
   });
 }
 
