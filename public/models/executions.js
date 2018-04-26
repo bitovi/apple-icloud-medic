@@ -55,7 +55,6 @@ const Executions = DefineMap.extend('ExecutionsModel', {
 const algebra = makeAlgebra({
   status: $in,
   type: $in,
-  teamName: () => true,
   $format: () => true,
   $missing(serverVal, setVal, serverItem) {
     const fields = setVal;

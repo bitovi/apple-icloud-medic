@@ -116,16 +116,18 @@ const belongsToTeam = (execution, REG_TEAMNAME) => {
  * Assigns a teamName property to each item in the list.
  * This will be used to put the data in the correct index.
  */
-const assignTeamName = (hook) => {
-  const isArray = Array.isArray(hook.data);
-  const data = isArray ? hook.data : [hook.data];
-  const teamsService = hook.app.service(`${API_BASE_URI}/teams`);
+const assignTeamName = (prop = 'data') => {
+  return (hook) => {
+    let data = dotProp.get(hook, prop);
+    const isArray = Array.isArray(data);
+    const teamsService = hook.app.service(`${API_BASE_URI}/teams`);
 
-  return reduceDataWithTeamNames(teamsService, data, belongsToTeam).then(results => {
-    // finally, return the correct data
-    hook.data = isArray ? results : results[0];
-    return hook;
-  });
+    return reduceDataWithTeamNames(teamsService, (isArray ? data : [data]), belongsToTeam).then(results => {
+      // finally, return the correct data
+      dotProp.set(hook, prop, isArray ? results : results[0]);
+      return hook;
+    });
+  };
 };
 
 /**
@@ -154,7 +156,7 @@ const prepFormat = hook => {
 const formatData = hook => {
   if(hook.params.$format){
     hook.result.data = hook.result.data.map(execution => {
-      const props = ['id', 'rule', 'status', 'action', 'start_timestamp', 'end_timestamp', 'children', 'liveaction', 'parent'];
+      const props = ['id', 'teamName', 'rule', 'status', 'action', 'start_timestamp', 'end_timestamp', 'children', 'liveaction', 'parent'];
       const pick = (ac, prop) => (ac[prop] = execution[prop], ac);
       const pluckedExecution = props.reduce(pick, {});
 
@@ -169,7 +171,7 @@ module.exports = {
     all: [],
     find: [normalizeSearchQuery, flattenQuery, prepFormat],
     get: [],
-    create: [/*applyBlackList, */assignTeamName, expandParentIds],
+    create: [/*applyBlackList, */assignTeamName('data'), expandParentIds],
     update: [],
     patch: [],
     remove: []
@@ -177,10 +179,10 @@ module.exports = {
 
   after: {
     all: [],
-    find: [formatData],
-    get: [],
-    create: [],
-    update: [],
+    find: [assignTeamName('result.data'), formatData],
+    get: [assignTeamName('result')],
+    create: [assignTeamName('result')],
+    update: [assignTeamName('result')],
     patch: [],
     remove: []
   },
