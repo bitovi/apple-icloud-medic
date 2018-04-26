@@ -1,6 +1,6 @@
 const dotProp = require('dot-prop');
 const flatten = require('flat');
-const canSet = require('can-set');
+// const canSet = require('can-set');
 const { API_BASE_URI } = require('../../../shared/env');
 const { reduceDataWithTeamNames } = require('../../util/ss-es-data-helper');
 
