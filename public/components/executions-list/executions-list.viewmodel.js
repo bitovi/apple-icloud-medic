@@ -55,13 +55,21 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
       return lastSetVal;
     }
   },
+  needsPagination: {
+    get() {
+      return this.totalPages > 1;
+    }
+  },
   /**
    * TODO: this should come from the backend.
    */
   totalPages: {
     type: 'number',
     get() {
-      return 10;
+      if (this.executions && this.executions.total) {
+        return Math.ceil(this.executions.total / this.limit);
+      }
+      return 0;
     },
   },
   /**
@@ -74,7 +82,7 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
   /**
    * Updates the activePage when the pagination menu is clicked.
    */
-  handlePaginationChange(e,  { activePage }) {
+  handlePaginationChange(e, { activePage }) {
     this.activePage = activePage;
   },
   /**

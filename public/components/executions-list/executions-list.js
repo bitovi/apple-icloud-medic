@@ -23,6 +23,7 @@ class ExecutionsList extends Component {
       executions,
       totalPages,
       activePage,
+      needsPagination,
       handlePaginationChange
     } = this.viewModel;
 
@@ -52,12 +53,12 @@ class ExecutionsList extends Component {
             })()}
           </Table.Body>
         </Table>
-        <Pagination
-          totalPages={totalPages}
-          activePage={activePage}
-          onPageChange={handlePaginationChange}
-          ellipsisItem={null}
-        />
+        {needsPagination &&
+          <Pagination
+            activePage={activePage}
+            totalPages={totalPages}
+            onPageChange={handlePaginationChange}
+          />}
       </div>
     );
   }
