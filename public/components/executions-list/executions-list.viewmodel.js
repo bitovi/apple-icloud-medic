@@ -38,6 +38,7 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
   executionsPromise: {
     type: 'any',
     get() {
+      console.log('Loading executions', this.executionsSet);
       return Executions.getList(this.executionsSet);
     }
   },
@@ -88,7 +89,7 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
    * The active page for pagination.
    */
   activePage:{
-    default: 1,
+    default: route.data.page || 1,
     type: 'number'
   }
 });
