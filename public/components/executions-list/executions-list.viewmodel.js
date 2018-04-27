@@ -38,7 +38,6 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
   executionsPromise: {
     type: 'any',
     get() {
-      console.log('Loading executions', this.executionsSet);
       return Executions.getList(this.executionsSet);
     }
   },

@@ -160,7 +160,7 @@
     "react-dom": "^16.2.0",
     "react-json-view": "^1.13.1",
     "react-storybook-addon-chapters": "^2.1.1",
-    "react-view-model": "^1.0.0",
+    "react-view-model": "canjs/react-view-model#fix-memory-leak",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "rimraf": "^2.6.2",
