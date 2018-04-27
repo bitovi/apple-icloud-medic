@@ -1,10 +1,4 @@
-<a name="Pagination"></a>
+<a name="PaginationControl"></a>
 
-## Pagination
+## PaginationControl
 **Kind**: global class  
-<a name="Pagination.ViewModel"></a>
-
-### Pagination.ViewModel
-ViewModel
-
-**Kind**: static property of [<code>Pagination</code>](#Pagination)  
