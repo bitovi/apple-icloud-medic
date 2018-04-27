@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import { Table, Pagination } from '@public/semantic-ui/index';
+import { Table } from '@public/semantic-ui/index';
+import Pagination from '@public/components/pagination/pagination';
 import ExecutionRow from './execution-row/execution-row';
 import ViewModel from './executions-list.viewmodel.js';
 
@@ -22,7 +23,6 @@ class ExecutionsList extends Component {
       dataError,
       executions,
       totalPages,
-      activePage,
       needsPagination,
       handlePaginationChange
     } = this.viewModel;
@@ -55,7 +55,6 @@ class ExecutionsList extends Component {
         </Table>
         {needsPagination &&
           <Pagination
-            activePage={activePage}
             totalPages={totalPages}
             onPageChange={handlePaginationChange}
           />}

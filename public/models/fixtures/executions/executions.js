@@ -13,7 +13,6 @@ function mock(){
       id: 100 + count,
       type: 'workflow',
       actionName: 'icloud3_daily_deployment',
-      workflowName: 'icloud3_daily_deployment',
       ruleName: 'icloud3_daily_deployment',
       trigger: 'core.st2.CronTimer',
       project: { name: 'High Impact Project', teamId: 1234 },

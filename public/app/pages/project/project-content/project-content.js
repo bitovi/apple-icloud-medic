@@ -41,7 +41,12 @@ class ProjectContent extends Component {
           category={project.categories.length && project.categories[0].title || null}
           backUrl={urls.projectsList}
         />
-        <PageTabs tabs={tabs} baseUrl={urls.project} renderTab={this.renderTab} activeIndex={selectedTabIndex} />
+        <PageTabs
+          tabs={tabs}
+          baseUrl={urls.project}
+          renderTab={this.renderTab}
+          activeIndex={selectedTabIndex}
+        />
 
         {selectedTabIndex === -1 ?
           <div>404 - Unrecognized tab &quot;{selectedTabKey}&quot;</div>

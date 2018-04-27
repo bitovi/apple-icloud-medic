@@ -54,8 +54,9 @@ const ExecutionContent = DefineMap.extend('ExecutionContent', {
    * The index for the selected tab
    */
   selectedTabIndex: {
-    get() {
-      return this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
+    get(lastVal) {
+      // lastVal will be set if passed from parent component
+      return lastVal || this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
     }
   },
   /**
@@ -67,8 +68,7 @@ const ExecutionContent = DefineMap.extend('ExecutionContent', {
       // lastVal will be set if passed from parent component
       return lastVal || route.data.tabItemId;
     }
-  },
-  activeIndex: 'number'
+  }
 });
 
 export default ExecutionContent;

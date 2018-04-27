@@ -21,18 +21,24 @@ const ANY_OBJ = {
 };
 
 const Executions = DefineMap.extend('ExecutionsModel', {
+  name: {
+    get() {
+      if (this.context.mistral && this.context.mistral.task_name) {
+        return this.context.mistral.task_name;
+      } else if (this.liveaction && this.liveaction.action) {
+        return this.liveaction.action;
+      } else if (this.liveaction && this.liveaction.workflowName) {
+        return this.liveaction.workflowName;
+      } else {
+        return 'unknown';
+      }
+    }
+  },
   type: {
     get() {
       return this.liveaction.action_is_workflow ?
         'workflow' :
         'other';
-    }
-  },
-  workflowName: {
-    get(){
-      return this.type === 'workflow' ?
-        this.liveaction.workflowName :
-        null;
     }
   },
   id: 'any',

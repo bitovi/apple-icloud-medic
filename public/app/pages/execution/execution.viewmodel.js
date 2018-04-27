@@ -16,8 +16,7 @@ const ExecutionPage = DefineMap.extend('ExecutionPage', {
     get(lastVal) {
       return lastVal || route.data.executionId;
     }
-  },
-  activeIndex: 'number'
+  }
 });
 
 export default ExecutionPage;

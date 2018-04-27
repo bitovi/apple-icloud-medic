@@ -81,7 +81,7 @@ const ViewModel = DefineMap.extend('ExecutionsTable', {
   /**
    * Updates the activePage when the pagination menu is clicked.
    */
-  handlePaginationChange(e, { activePage }) {
+  handlePaginationChange(activePage) {
     this.activePage = activePage;
   },
   /**

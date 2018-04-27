@@ -17,6 +17,8 @@ const AppViewModel = DefineMap.extend('AppViewModel', {
   moduleId: 'string',
   /** Whether or not the current route is an admin page (see route config) */
   isAdmin: 'boolean',
+  /** used for pagination */
+  page: 'number',
   /** executionId */
   executionId: 'string',
   /** projectId */

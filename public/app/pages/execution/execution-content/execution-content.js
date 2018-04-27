@@ -31,7 +31,7 @@ class ExecutionContent extends Component {
   }
 
   render() {
-    const { activeIndex, execution, tabs, urls } = this.viewModel;
+    const { selectedTabIndex, execution, tabs, urls } = this.viewModel;
 
     return (
       <Container fluid>
@@ -40,7 +40,7 @@ class ExecutionContent extends Component {
           tabs={tabs}
           renderTab={tabKey => { return this.renderTab(tabKey, execution);}}
           baseUrl={urls.execution}
-          activeIndex={activeIndex}
+          activeIndex={selectedTabIndex}
         />
       </Container>
     );

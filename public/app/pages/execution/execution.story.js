@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Execution from './execution';
+import ExecutionContent from './execution-content/execution-content';
 
 export default (makeAppComponent) => {
   const MockApp = makeAppComponent({
@@ -14,16 +14,13 @@ export default (makeAppComponent) => {
     .addWithChapters('Execution', {
       chapters: [{
         sections: [{
-          sectionFn: () => <Execution executionId="103" activeIndex={0}/>
+          sectionFn: () => <ExecutionContent query={{ id: 103 }} selectedTabIndex={0}/>
         },
         {
-          sectionFn: () => <Execution executionId="103" activeIndex={1}/>
+          sectionFn: () => <ExecutionContent query={{ id: 103 }} selectedTabIndex={1}/>
         },
         {
-          sectionFn: () => <Execution executionId="103" activeIndex={2}/>
-        },
-        {
-          sectionFn: () => <Execution executionId="103" activeIndex={3}/>
+          sectionFn: () => <ExecutionContent query={{ id: 103 }} selectedTabIndex={2}/>
         }]
       }]
     });

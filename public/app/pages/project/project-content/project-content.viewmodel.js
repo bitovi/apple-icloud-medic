@@ -57,8 +57,8 @@ const ProjectContent = DefineMap.extend('ProjectContent', {
    * The index for the selected tab
    */
   selectedTabIndex: {
-    get() {
-      return this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
+    get(lastVal) {
+      return lastVal || this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
     }
   },
   /**

@@ -1,13 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import RulePage from './rule';
+import RuleContent from './rule-content/rule-content';
 
 storiesOf('App Components/Pages', module)
   .addWithChapters('Rule', {
     chapters: [{
       sections: [{
         sectionFn: () => (
-          <RulePage ruleId={104} />
+          <RuleContent id={101} />
         )
       }]
     }]

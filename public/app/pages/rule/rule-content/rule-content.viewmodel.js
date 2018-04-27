@@ -55,8 +55,9 @@ const RuleContentVM = DefineMap.extend('RuleContentVM', {
    * The index for the currently selected tab
    */
   selectedTabIndex: {
-    get() {
-      return this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
+    get(lastVal) {
+      // lastVal will be set if passed from parent component
+      return lastVal || this.tabs.findIndex(tab => tab.key === this.selectedTabKey);
     }
   },
   /**
