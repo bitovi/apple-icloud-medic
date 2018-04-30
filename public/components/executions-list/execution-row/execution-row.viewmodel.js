@@ -1,7 +1,6 @@
 import DefineMap from 'can-define/map/map';
 import Executions from '@public/models/executions';
 import { PAGES } from '@root/shared/routes';
-import canBatch  from 'can-event/batch/batch';
 import route from 'can-route-pushstate';
 
 const ExecutionRowVM = DefineMap.extend('ExecutionRowVM', {
@@ -29,10 +28,11 @@ const ExecutionRowVM = DefineMap.extend('ExecutionRowVM', {
     }
   },
   handleClick(){
-    canBatch.start();
-    route.data.moduleId = PAGES.execution;
-    route.data.executionId = this.execution.id;
-    canBatch.stop();
+    route.data.update({
+      teamName: route.data.teamName,
+      moduleId: PAGES.execution,
+      executionId: this.execution.id,
+    });
   }
 });
 

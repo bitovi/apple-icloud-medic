@@ -171,7 +171,8 @@ const actions = {
     return executionsService.find({ query: {
       $sort,
       $limit: 1,
-      teamName: '_all'
+      teamName: '_all',
+      $sort: {}
     }}).then(results =>
       results.data.length ? results.data[0] : null
     ).then(execution => {
