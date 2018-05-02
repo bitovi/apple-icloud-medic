@@ -34,6 +34,7 @@ class EditForm extends Component {
       case 'boolean':
         _def.type = 'checkbox';
         _def.checked = value === true;
+        delete _def.value;
         return <Form.Checkbox {..._def} />;
       }
     });

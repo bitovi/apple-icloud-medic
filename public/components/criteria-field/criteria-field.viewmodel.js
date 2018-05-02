@@ -43,11 +43,23 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
   value: {
     type: 'any',
     set(val) {
-      this.criteria = Object.keys(val).map(key => ({
-        key,
-        type: val[key].type,
-        pattern: val[key].pattern,
-      }));
+      // Due to the fact that "onChange" events only get completed values,
+      // we have to do merge data manually.
+      const copy = Object.assign({}, val);
+      this.criteria.forEach(criterion => {
+        if (copy[criterion.key]) {
+          Object.assign(criterion, copy[criterion.key]);
+          delete copy[criterion.key];
+        }
+      });
+      // Any new values should be pushed onto the end
+      Object.keys(copy).forEach(key => {
+        this.criteria.push({
+          key,
+          type: copy[key].type,
+          pattern: copy[key].pattern
+        });
+      });
     }
   },
   onChange: 'any'

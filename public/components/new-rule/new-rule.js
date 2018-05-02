@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import route from 'can-route-pushstate';
 import EditForm from '@public/components/edit-form/edit-form';
 import CriteriaField from '@public/components/criteria-field/criteria-field';
 import { Message } from '@public/semantic-ui/index';
@@ -20,7 +21,8 @@ const NewRule = ({ projectId, successCallback }) => {
     'title': { required: true },
     'description': { required: true },
     'projectId': { value: projectId, disabled: true },
-    'pack': { required: true },
+    'pack': { disabled: true, value: route.data.teamName },
+    'enabled': { value: true },
     'criteria': { Field: CriteriaField }
   };
 
