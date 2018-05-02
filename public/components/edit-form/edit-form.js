@@ -13,19 +13,28 @@ class EditForm extends Component {
   static ViewModel = ViewModel;
 
   buildFormFields () {
-    return this.viewModel._formDef.map(def => {
-      const key = this.viewModel.getKeyFromId(def.id);
-      const value = this.viewModel.itemData[key];
+    const { fieldDefinitions, getPropFromId, itemData } = this.viewModel;
 
-      switch(def.type) {
+    return fieldDefinitions.map(def => {
+      const _def = Object.assign({}, def);
+      const prop = getPropFromId(_def.id);
+      const value = itemData[prop];
+
+      if (_def.Field) {
+        const { Field, ...rest } = _def;
+        return <Field {...rest} value={value} />;
+      }
+
+      switch(_def.type) {
       case 'string':
       case 'number':
-        def.value = value;
-        return <Form.Input {...def} />;
+        _def.value = value;
+        return <Form.Input {..._def} />;
 
-      case 'checkbox':
-        def.checked = value === true;
-        return <Form.Checkbox {...def} />;
+      case 'boolean':
+        _def.type = 'checkbox';
+        _def.checked = value === true;
+        return <Form.Checkbox {..._def} />;
       }
     });
   }

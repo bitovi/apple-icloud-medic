@@ -10,12 +10,13 @@ const url = `${env.API_BASE_URI}/rules`;
 
 const definitions = withCommonFields({
   projectId: 'number',
-  tags: 'any',
+  tags: { type: 'any', default: () => [] },
 
   title: 'string',
   description: 'string',
   enabled: 'boolean',
-  pack: 'string'
+  pack: 'string',
+  criteria: { type: 'any', default: () => ({}) }
 });
 
 /**

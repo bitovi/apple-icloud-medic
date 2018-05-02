@@ -29,21 +29,30 @@ class CriteriaField extends Component {
     this.viewModel.handleValueChange(idx, prop, data.value);
   }
 
+  removeCriterion = (ev) => {
+    const idx = this.getIdxFromParent(ev.target);
+    this.viewModel.removeCriterion(idx);
+  }
+
   render() {
-    const { criteria, operators, addCriterion, canAddCriterion } = this.viewModel;
+    const { label, criteria, operators, addCriterion, canAddCriterion } = this.viewModel;
     return (
-      <Form>
+      <Form.Field>
+        {label &&
+          <label>{label}</label>
+        }
         {criteria.map((criterion, i) => {
           return (
             <CriterionGroup widths="equal" key={'criterion_' + i} data-idx={i} className={!criterion.isComplete && 'incomplete'}>
               <Form.Input fluid placeholder="trigger.body / trigger.header" data-name="key" value={criterion.key} onChange={this.handleValueChange} />
               <Form.Select fluid options={operators} placeholder="operator" data-name="type" value={criterion.type} onChange={this.handleValueChange} />
               <Form.Input fluid data-name="pattern" value={criterion.pattern} onChange={this.handleValueChange} />
+              <Button basic onClick={this.removeCriterion}>X</Button>
             </CriterionGroup>
           );
         })}
         <Button onClick={addCriterion} disabled={!canAddCriterion}>Add Criterion</Button>
-      </Form>
+      </Form.Field>
     );
   }
 }

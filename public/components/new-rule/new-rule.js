@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EditForm from '@public/components/edit-form/edit-form';
+import CriteriaField from '@public/components/criteria-field/criteria-field';
 import { Message } from '@public/semantic-ui/index';
 import RulesModel from '@public/models/rules';
 
@@ -19,7 +20,8 @@ const NewRule = ({ projectId, successCallback }) => {
     'title': { required: true },
     'description': { required: true },
     'projectId': { value: projectId, disabled: true },
-    'pack': { type: 'string', required: true }
+    'pack': { required: true },
+    'criteria': { Field: CriteriaField }
   };
 
   return (

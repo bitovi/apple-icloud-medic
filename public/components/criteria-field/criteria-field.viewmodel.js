@@ -18,9 +18,13 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
   addCriterion() {
     this.criteria.push(new Criterion({}));
   },
+  removeCriterion(idx) {
+    this.criteria.splice(idx, 1);
+    this.handleValueChange();
+  },
   handleValueChange(idx, prop, val) {
     const { criteria, onChange } = this;
-    criteria[idx][prop] = val;
+    if (prop) criteria[idx][prop] = val;
 
     if (typeof onChange === 'function') {
       onChange(criteria.reduce((obj, criterion) => {
@@ -33,7 +37,20 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
         });
       }, {}));
     }
-  }
+  },
+  // passed from above
+  label: 'string',
+  value: {
+    type: 'any',
+    set(val) {
+      this.criteria = Object.keys(val).map(key => ({
+        key,
+        type: val[key].type,
+        pattern: val[key].pattern,
+      }));
+    }
+  },
+  onChange: 'any'
 });
 
 export default CriteriaFieldVM;

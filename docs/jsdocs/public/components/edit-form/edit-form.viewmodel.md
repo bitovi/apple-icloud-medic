@@ -14,13 +14,14 @@ EditForm View Model
     * [~successCallback](#module_EditForm VM..successCallback)
     * [~error](#module_EditForm VM..error)
     * [~isNew](#module_EditForm VM..isNew)
-    * [~_formDef](#module_EditForm VM.._formDef)
+    * [~fieldDefinitions](#module_EditForm VM..fieldDefinitions)
+    * [~Handles change events for consumer provided Field components()](#module_EditForm VM..Handles change events for consumer provided Field components)
+    * [~Handles Semantic UI form component events()](#module_EditForm VM..Handles Semantic UI form component events)
     * [~Makes an id to be used for an individual field()](#module_EditForm VM..Makes an id to be used for an individual field)
-    * [~Parses the field name (key) from an ID generated using makeIdForKey()()](#module_EditForm VM..Parses the field name (key) from an ID generated using makeIdForKey_new)
-    * [~Gets a list of field names (keys) to be rendered in the form. This
-filters out fields which should not be edited.()](#module_EditForm VM..Gets a list of field names (keys) to be rendered in the form. This
+    * [~Parses the field name (prop) from an ID generated using makeIdForProp()()](#module_EditForm VM..Parses the field name (prop) from an ID generated using makeIdForProp_new)
+    * [~Gets a list of field names (props) to be rendered in the form. This
+filters out fields which should not be edited.()](#module_EditForm VM..Gets a list of field names (props) to be rendered in the form. This
 filters out fields which should not be edited.)
-    * [~Updates the itemData properties when form is updated.()](#module_EditForm VM..Updates the itemData properties when form is updated.)
     * [~Save new project.()](#module_EditForm VM..Save new project.)
     * [~Handles cancel button click.()](#module_EditForm VM..Handles cancel button click.)
     * [~Reset new project form fields to empty strings.()](#module_EditForm VM..Reset new project form fields to empty strings.)
@@ -115,30 +116,34 @@ keyed by field name. Please see docs for individual form components.
 | --- | --- |
 | Whether | or not the currently edited item is new or existing |
 
-<a name="module_EditForm VM.._formDef"></a>
+<a name="module_EditForm VM..fieldDefinitions"></a>
 
-### EditForm VM~_formDef
+### EditForm VM~fieldDefinitions
 Creates a list of objects, each object is ...spread onto
 the rendered form component. This should NOT be set from a parent.
 
 **Kind**: inner property of [<code>EditForm VM</code>](#module_EditForm VM)  
+<a name="module_EditForm VM..Handles change events for consumer provided Field components"></a>
+
+### EditForm VM~Handles change events for consumer provided Field components()
+**Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
+<a name="module_EditForm VM..Handles Semantic UI form component events"></a>
+
+### EditForm VM~Handles Semantic UI form component events()
+**Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
 <a name="module_EditForm VM..Makes an id to be used for an individual field"></a>
 
 ### EditForm VM~Makes an id to be used for an individual field()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
-<a name="module_EditForm VM..Parses the field name (key) from an ID generated using makeIdForKey_new"></a>
+<a name="module_EditForm VM..Parses the field name (prop) from an ID generated using makeIdForProp_new"></a>
 
-### EditForm VM~Parses the field name (key) from an ID generated using makeIdForKey()()
+### EditForm VM~Parses the field name (prop) from an ID generated using makeIdForProp()()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
-<a name="module_EditForm VM..Gets a list of field names (keys) to be rendered in the form. This
+<a name="module_EditForm VM..Gets a list of field names (props) to be rendered in the form. This
 filters out fields which should not be edited."></a>
 
-### EditForm VM~Gets a list of field names (keys) to be rendered in the form. This
+### EditForm VM~Gets a list of field names (props) to be rendered in the form. This
 filters out fields which should not be edited.()
-**Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
-<a name="module_EditForm VM..Updates the itemData properties when form is updated."></a>
-
-### EditForm VM~Updates the itemData properties when form is updated.()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
 <a name="module_EditForm VM..Save new project."></a>
 
