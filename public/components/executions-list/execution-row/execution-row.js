@@ -29,17 +29,9 @@ class ExecutionRow extends Component {
   // Builds the "title" column (the left most column)
   descriptorContent(execution) {
     const title = execution.type === 'workflow' ? 'Workflow Name' : 'Live Action Name';
-    let value = '';
-    if (execution.context.mistral && execution.context.mistral.task_name) {
-      value = execution.context.mistral.task_name;
-    } else if (execution.liveaction && execution.liveaction.action) {
-      value = execution.liveaction.action;
-    } else {
-      value = 'unknown';
-    }
     return <div>
       <strong>{title}</strong>,
-      <p>{value}</p>
+      <p>{execution.name}</p>
     </div>;
   }
 
