@@ -19,12 +19,12 @@ class PackEnabler extends Component {
   }
 
   render() {
-    const { isOpen, excludePackIds, onPackSelect, handleSave, handleClose } = this.viewModel;
+    const { isOpen, excludePackIds, handlePackSelect, handleSave, handleClose } = this.viewModel;
     return (
       <Modal open={isOpen} onClose={handleClose} trigger={this.getTrigger()}>
         <Modal.Header>Select one or more Packs</Modal.Header>
         <Modal.Content scrolling>
-          <PackSelector multiple query={{ id: { $notin: excludePackIds }}} onSelect={onPackSelect} />
+          <PackSelector multiple query={{ id: { $notin: excludePackIds }}} onSelect={handlePackSelect} />
         </Modal.Content>
         <Modal.Actions>
           <Button basic size="tiny" onClick={handleClose}>Cancel</Button>

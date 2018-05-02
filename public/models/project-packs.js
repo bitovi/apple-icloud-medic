@@ -18,38 +18,38 @@ const definitions = Object.assign({}, ID_FIELD, {
 });
 
 /**
- * Rules model.
+ * ProjectPacks model.
  * @module models/rules
  * @class
- * Defines the Rules model and its associated properties
+ * Defines the ProjectPacks model and its associated properties
  */
-const Rules = DefineMap.extend('Rules', definitions);
+const ProjectPacks = DefineMap.extend('ProjectPacks', definitions);
 // Used by the EditForm component
-Rules.definitions = definitions;
+ProjectPacks.definitions = definitions;
 
 /**
- * Rules.List model.
+ * ProjectPacks.List model.
  * @class
- * Defines a collection of Rules
+ * Defines a collection of ProjectPacks
  */
-Rules.List = DefineList.extend('Rules.List', {
-  '#': Rules
+ProjectPacks.List = DefineList.extend('ProjectPacks.List', {
+  '#': ProjectPacks
 });
 
 const algebra = makeAlgebra({});
 
 /**
- * Rules.connection
+ * ProjectPacks.connection
  *
  * Defines our relationship between our frontend model and our Feathers service.
  */
-Rules.connection = feathersConnection({
+ProjectPacks.connection = feathersConnection({
   url,
-  Map: Rules,
-  List: Rules.List,
+  Map: ProjectPacks,
+  List: ProjectPacks.List,
   name: 'rules',
   algebra,
   feathersService: feathersClient.service(url)
 });
 
-export default Rules;
+export default ProjectPacks;
