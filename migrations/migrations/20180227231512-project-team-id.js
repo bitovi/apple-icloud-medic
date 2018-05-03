@@ -7,7 +7,7 @@ const queryInterface = sequelize.getQueryInterface();
 
 exports.up = function(db) {
   return queryInterface.describeTable('projects').then(attributes => {
-    if ( !attributes.groupId ) {
+    if ( !attributes.teamId ) {
       return queryInterface.addColumn('projects', 'teamId', {
         type: DataTypes.INTEGER,
         references: {

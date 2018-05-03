@@ -4,16 +4,18 @@ import Teams from '@public/models/teams';
 import TeamMembers from '@public/models/team-members/team-members';
 import mockServer from '../mock-socket-server';
 
-const values = [
-  { id: 1, groupId: 10001, name: 'Mail team', codeName: 'mail' },
-  { id: 2, groupId: 10002, name: 'iCloud team', codeName: 'icloud' },
-  { id: 3, groupId: 10003, name: 'Maps team', codeName: 'maps' },
-  { id: 4, groupId: 10004, name: 'iTunes team', codeName: 'itunes' },
-  { id: 5, groupId: 10005, name: 'PIE2 team', codeName: 'pie' },
-  { id: 6, groupId: 10006, name: 'Medic team', codeName: 'medic' },
+const teamNames = ['Medic', 'Mail', 'iCloud', 'Maps', 'iTunes', 'PIE'];
+
+const values = teamNames.map((name, i) => {
   // NOTE: other fixtures rely on the number of teams and sequential IDs/groupIds
   // NOTE: team members are added using an "after" hook (below). This mimics the server behavior.
-];
+  return {
+    id: i + 1,
+    groupId: 10001 + i,
+    name: `${name} team`,
+    codeName: name.toLowerCase()
+  };
+});
 
 const loadTeamMembers = (teams) => Promise.all(
   teams.map(team => TeamMembers.getList({
@@ -35,3 +37,4 @@ fixture(url, store);
 mockServer.onFeathersService(url, store);
 
 export default store;
+export { values };

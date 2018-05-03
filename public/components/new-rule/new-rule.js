@@ -18,7 +18,7 @@ const NewRule = ({ projectId, successCallback }) => {
   }
 
   const formDef = {
-    'title': { required: true },
+    'name': { required: true },
     'description': { required: true },
     'projectId': { value: projectId, disabled: true },
     'pack': { disabled: true, value: route.data.teamName },

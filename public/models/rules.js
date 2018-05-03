@@ -13,7 +13,7 @@ const definitions = withCommonFields({
   pack: 'string',
   tags: { type: 'any', default: () => [] },
 
-  title: 'string',
+  name: 'string',
   description: 'string',
   enabled: 'boolean',
   criteria: { type: 'any', default: () => ({}) }
