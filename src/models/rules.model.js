@@ -13,16 +13,16 @@ module.exports = function (app) {
    */
   const rules = sequelizeClient.define('rules', {
     /**
-     * The title fo the rule.
+     * The name of the rule.
      * @type {String}
      * @memberof Rules#
      */
-    title: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
     /**
-     * The title fo the rule.
+     * The title of the rule.
      * @type {String}
      * @memberof Rules#
      */
@@ -39,6 +39,23 @@ module.exports = function (app) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true
+    },
+    /**
+     * The name of the pack to which this belongs
+     * @type {String}
+     * @memberof Rules#
+     */
+    pack: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    /**
+     * The optional criteria for the rule
+     * @type {Object}
+     * @memberof Rules#
+     */
+    criteria: {
+      type: DataTypes.JSON
     }
   }, {
     hooks: {

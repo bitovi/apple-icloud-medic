@@ -22,7 +22,7 @@ class RuleCard extends Component {
     return (
       <StyledCard bgColor='#5069af' detailUrl={isEditing ? null : url}>
         <Card.Header>
-          {rule.title}
+          {rule.name}
           { isEditing ?
             <Icon name='close' onClick={(e) => this.viewModel.handleRemove(e, rule)}/>
             : null

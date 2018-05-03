@@ -26,8 +26,7 @@ const RuleContentVM = DefineMap.extend('RuleContentVM', {
       return {
         project: projectId ? route.url({ teamName, projectId, tabKey: 'rules' }) : null,
         rule: route.url({ teamName, ruleId,  }),
-        detailsTab: route.url({ teamName, ruleId, tabKey: 'details' }),
-        newDetail: route.url({ teamName, ruleId, tabKey: 'details', tabItemId: 'new' })
+        detailsTab: route.url({ teamName, ruleId, tabKey: 'details' })
       };
     }
   },

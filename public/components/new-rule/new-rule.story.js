@@ -7,9 +7,15 @@ storiesOf('Components', module)
     chapters: [{
       sections: [{
         title: 'Default use',
-        sectionFn: () => (
-          <NewRule projectId={104} />
-        )
+        sectionFn: () => {
+          const callback = (data) => {
+            document.getElementById('output').innerHTML = JSON.stringify(data.serialize(), null, ' ');
+          };
+          return <div>
+            <NewRule projectId={104} successCallback={callback} />
+            <pre id="output"></pre>
+          </div>;
+        }
       }]
     }]
   });

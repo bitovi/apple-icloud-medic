@@ -37,7 +37,7 @@ class RuleContent extends Component {
     return (
       <Container fluid>
         <PageHeader
-          title={rule.title}
+          title={rule.name}
           description={rule.description}
           category={rule.tags.length && rule.tags[0].title || null}
           backUrl={urls.project }
