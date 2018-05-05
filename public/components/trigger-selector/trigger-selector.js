@@ -3,7 +3,7 @@ import Component from 'react-view-model/component';
 import { Search, Form } from '@public/semantic-ui/index';
 import TriggerTypesModel from '@public/models/triggertypes';
 import DataProvider from '@public/components/data-provider/data-provider';
-import EditForm from '@public/components/edit-form/edit-form';
+import { EditForm$Stackstorm } from '@public/components/edit-form/edit-form';
 import ViewModel from './trigger-selector.viewmodel';
 import { FieldWrapper, FormWrapper } from './partials';
 
@@ -15,18 +15,6 @@ import { FieldWrapper, FormWrapper } from './partials';
 class TriggerSelector extends Component {
   static ViewModel = ViewModel;
 
-  componentWillMount() {
-    super.componentWillMount();
-    this.viewModel.on('searchValue', (ev, val) => {
-      this.viewModel.dispatchChange(null);
-    });
-  }
-
-  componentWillUnmount() {
-    this.viewModel.off('searchValue');
-    super.componentWillUnmount();
-  }
-
   resultRenderer(tt, other, other2) {
     return <div>
       <h3>{tt.name}</h3>
@@ -35,7 +23,7 @@ class TriggerSelector extends Component {
   }
 
   render() {
-    const { label, isValid, results, searchValue, handleResultSelect, handleSearchChange, selectedFormDef, formData, handleFormChange } = this.viewModel;
+    const { label, isValid, results, searchValue, handleResultSelect, handleSearchChange, selectedSchema, formData, handleFormChange } = this.viewModel;
 
     return (
       <FieldWrapper data-valid={isValid}>
@@ -49,10 +37,10 @@ class TriggerSelector extends Component {
           results={results}
           value={searchValue}
         />
-        {selectedFormDef &&
+        {selectedSchema &&
           <FormWrapper>
-            <EditForm
-              formDef={selectedFormDef}
+            <EditForm$Stackstorm
+              schema={selectedSchema}
               itemData={formData}
               showButtons={false}
               onChange={handleFormChange}

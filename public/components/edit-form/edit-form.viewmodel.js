@@ -118,6 +118,10 @@ const EditForm = DefineMap.extend('EditForm', {
           label: Case.title(prop)
         }, this.formDef[prop]);
 
+        if (fieldProps.options && !fieldProps.defaultValue) {
+          fieldProps.defaultValue = fieldProps.options[0].value;
+        }
+
         if (!fieldProps.onChange) {
           if (fieldProps.Field) {
             // If a Field was passed in. It must accept an onChange

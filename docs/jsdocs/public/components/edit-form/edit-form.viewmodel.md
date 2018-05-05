@@ -24,7 +24,13 @@ Also handles change events for consumer provided Field components)
     * [~Save new project.()](#module_EditForm VM..Save new project.)
     * [~Handles cancel button click.()](#module_EditForm VM..Handles cancel button click.)
     * [~Reset new project form fields to empty strings.()](#module_EditForm VM..Reset new project form fields to empty strings.)
-    * [~This sets the default values on the edited item.()](#module_EditForm VM..This sets the default values on the edited item.)
+    * [~This sets the default values on the edited item.
+This function should be overridden (passed as prop) to allow
+custom behavior. The function will be passed a reference to the
+edited item.()](#module_EditForm VM..This sets the default values on the edited item.
+This function should be overridden (passed as prop) to allow
+custom behavior. The function will be passed a reference to the
+edited item.)
 
 <a name="module_EditForm VM..formDef"></a>
 
@@ -149,7 +155,13 @@ Also handles change events for consumer provided Field components()
 
 ### EditForm VM~Reset new project form fields to empty strings.()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
-<a name="module_EditForm VM..This sets the default values on the edited item."></a>
+<a name="module_EditForm VM..This sets the default values on the edited item.
+This function should be overridden (passed as prop) to allow
+custom behavior. The function will be passed a reference to the
+edited item."></a>
 
-### EditForm VM~This sets the default values on the edited item.()
+### EditForm VM~This sets the default values on the edited item.
+This function should be overridden (passed as prop) to allow
+custom behavior. The function will be passed a reference to the
+edited item.()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  

@@ -18,18 +18,27 @@ export default DefineMap.extend('TriggerSelector', {
   value: {
     type: 'any',
     set(val) {
-      const { type, parameters } = val;
-      if (!type) {
-        if (this.isValid) this.resetAll();
-        return {};
-      }
-      if (this.selectedTriggerType && type === this.selectedTriggerType.ref) return val;
-      const results = this.triggertypes.filter(tt => tt.ref === type);
-      if (!results.length) return {}; // not found, ignore value
-
-      this.handleResultSelect(null, { result: results[0] });
-      this.setFormData(parameters);
-      return val;
+      ObservationRecorder.ignore(() => {
+        // DO NOT CHANGE THE FOLLOWING WITHOUT EXTENSIVE TESTING.
+        // SERIOUSLY - THIS TOOK FOREVER TO GET PERFECT.
+        const { type, parameters } = val;
+        if (!type) {
+          if (this.isValid) {
+            // This should happen when the parent form does a "reset"
+            this.resetAll();
+          }
+          return {};
+        }
+        // If the passed in type matches the currently select type, exit
+        if (this.selectedTriggerType && type === this.selectedTriggerType.ref) return val;
+        // The the passed in type does not exist, ignore the value
+        const results = this.triggertypes.filter(tt => tt.ref === type);
+        if (!results.length) return {};
+        // New data was passed in - update the state
+        this.handleResultSelect(null, { result: results[0] });
+        this.setFormData(parameters);
+        return val;
+      })();
     }
   },
 
@@ -39,50 +48,23 @@ export default DefineMap.extend('TriggerSelector', {
   },
 
   /** The value of the search input */
-  searchValue: { type: 'string', default: '' },
+  searchValue: 'string',
 
+  /** The currently selected triggertype */
   selectedTriggerType: {
     Type: TriggerTypesModel
   },
 
-  selectedFormDef: {
+  /**
+   * The schema object for the currently selected triggertype.
+   * The object must exist and have keys.
+   */
+  selectedSchema: {
     get() {
       if (!this.selectedTriggerType) return null;
       const schema = this.selectedTriggerType.parameters_schema.properties;
-      if(!schema) return null;
-      const keys = Object.keys(schema);
-      if(!keys.length) return null;
-
-      const formDef = keys.reduce((obj, field) => {
-        const $field = schema[field];
-        const def = obj[field] = {
-          type: $field.type,
-          required: $field.required,
-          description: $field.description
-        };
-        // Use a text input for "anyOf". We can make this smarter in the future.
-        if ($field.type === 'integer') {
-          def.type = 'number';
-        }
-        if ($field.anyOf) {
-          def.type = 'string';
-        }
-        if ($field.minimum) {
-          def.type = 'number';
-          def.min = def.minimum;
-        }
-        if ($field.maximum) {
-          def.type = 'number';
-          def.max = def.maximum;
-        }
-        if ($field.enum) {
-          def.type = 'enum';
-          def.options = $field.enum.map(val => ({ text: val, value: val }));
-          def.defaultValue = def.options[0].value;
-        }
-        return obj;
-      }, {});
-      return formDef;
+      if(!schema || !Object.keys(schema).length) return null;
+      return schema;
     }
   },
 
@@ -97,15 +79,25 @@ export default DefineMap.extend('TriggerSelector', {
     }
   },
 
-  // This will only have a value when the form is valid
+  /**
+   * Holds the form data for the currently selected triggertype.
+   * IMPORTANT: This will only have a value when the form is valid
+   */
   formData: { default: () => ({}) },
+
+  /**
+   * Whether or not the current selection and its form are complete.
+   * The following are considered "valid"
+   *  1. If there is no selection and no searchValue (empty)
+   *  2. If there is a selection and a) no schema or b) formData
+   */
   isValid: {
     get() {
       if (!this.selectedTriggerType) {
         if(this.searchValue) return false;
         return true;
       }
-      return !this.selectedFormDef || !!this.formData;
+      return !this.selectedSchema || !!this.formData;
     }
   },
 
@@ -121,7 +113,7 @@ export default DefineMap.extend('TriggerSelector', {
     this.setFormData(data);
     if(typeof this.onChange === 'function') {
       let val = {};
-      if (this.isValid) {
+      if (this.selectedTriggerType && this.isValid) {
         val = {
           type: this.selectedTriggerType.ref,
           parameters: this.formData || {}
@@ -132,19 +124,25 @@ export default DefineMap.extend('TriggerSelector', {
   },
 
   handleFormChange(data, form) {
+    // This is crucial: don't dispatch the data until the form is valid.
     this.dispatchChange(form.isValid ? data : null);
   },
 
   /** handles the "select" event of individual tiggertypes */
   handleResultSelect(ev, { result }) {
+    this.searchValue = result.ref;
     this.selectedTriggerType = result;
-    this.searchValue = result.ref; // set this last
     this.results = [result.serialize ? result.serialize() : result];
   },
 
+  /**
+   * Handles the "change" event for the search input
+   * This creates a list of results based on the input value.
+   */
   handleSearchChange(e, { value }) {
     this.searchValue = value;
     this.selectedTriggerType = null;
+    this.dispatchChange(null);
     const regexp = new RegExp(value, 'i');
     this.results = this.triggertypes.filter(tt => {
       return regexp.test(tt.name) || regexp.test(tt.description) || regexp.test(tt.ref);

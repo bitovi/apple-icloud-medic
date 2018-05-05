@@ -1,4 +1,5 @@
 import DefineMap from 'can-define/map/map';
+import ObservationRecorder from 'can-observation-recorder';
 import Criterion from '@public/models/criterion';
 
 const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
@@ -46,27 +47,29 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
   value: {
     type: 'any',
     set(val) {
-      if (!Object.keys(val).length) {
-        if (this.criteria.length === 1 && this.isValid || this.criteria.length > 1) this.resetAll();
-        return {};
-      }
-      // Due to the fact that "onChange" events only get completed values,
-      // we have to do merge data manually.
-      const copy = Object.assign({}, val);
-      this.criteria.forEach(criterion => {
-        if (copy[criterion.key]) {
-          Object.assign(criterion, copy[criterion.key]);
-          delete copy[criterion.key];
+      ObservationRecorder.ignore(() => {
+        if (!Object.keys(val).length) {
+          if (this.criteria.length === 1 && this.isValid || this.criteria.length > 1) this.resetAll();
+          return {};
         }
-      });
-      // Any new values should be pushed onto the end
-      Object.keys(copy).forEach(key => {
-        this.criteria.push({
-          key,
-          type: copy[key].type,
-          pattern: copy[key].pattern
+        // Due to the fact that "onChange" events only get completed values,
+        // we have to do merge data manually.
+        const copy = Object.assign({}, val);
+        this.criteria.forEach(criterion => {
+          if (copy[criterion.key]) {
+            Object.assign(criterion, copy[criterion.key]);
+            delete copy[criterion.key];
+          }
         });
-      });
+        // Any new values should be pushed onto the end
+        Object.keys(copy).forEach(key => {
+          this.criteria.push({
+            key,
+            type: copy[key].type,
+            pattern: copy[key].pattern
+          });
+        });
+      })();
     }
   },
   onChange: 'any'

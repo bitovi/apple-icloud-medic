@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { Form } from '@public/semantic-ui/index';
 
 const FieldWrapper = styled(Form.Field)`
+&&& {
   padding: .3em;
   margin-left: -.3em;
   margin-right: -.3em;
-  background-color: ${props => {
-    return props['data-valid'] === true ? 'transparent' : '#fdd'
-  }};
+  background-color: ${props => props['data-valid'] === true ? 'transparent' : '#fdd'};
+}
 `;
 
 const FormWrapper = styled.div`

@@ -3,6 +3,7 @@ import Component from 'react-view-model/component';
 import ViewModel from './edit-form.viewmodel';
 import { Form, Message, Button, Dropdown } from '@public/semantic-ui/index';
 import EditForm$Model from './model/edit-form.model';
+import EditForm$Stackstorm from './stackstorm/edit-form.stackstorm';
 
 /**
  * @module EditForm
@@ -42,7 +43,7 @@ class EditForm extends Component {
 
       case 'enum':
         delete _def.type;
-        _def.value = value;
+        _def.value = value || _def.defaultValue;
         return <Form.Dropdown selection {..._def} />;
       }
     });
@@ -83,4 +84,4 @@ class EditForm extends Component {
 }
 
 export default EditForm;
-export { EditForm$Model };
+export { EditForm$Model, EditForm$Stackstorm };

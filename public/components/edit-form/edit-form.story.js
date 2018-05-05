@@ -1,7 +1,7 @@
 import React from 'react';
 import DefineMap from 'can-define/map/map';
 import { storiesOf } from '@storybook/react';
-import EditForm from './edit-form';
+import EditForm, { EditForm$Model } from './edit-form';
 import { withCommonFields } from '@public/util/model-helper';
 
 const definitions = withCommonFields({
@@ -17,23 +17,42 @@ const definitions = withCommonFields({
 const SimpleModel = DefineMap.extend('SimpleModel', definitions);
 SimpleModel.definitions = definitions;
 
+const formDef = {
+  name: { type: 'string', required: true },
+  enabled: { type: 'boolean' },
+  age: { type: 'number', value: 35 },
+  gender: { type: 'enum', options: ['male', 'female', 'neutral'].map(g => ({ text: g, value: g }))}
+};
+
 storiesOf('Components', module)
   .addWithChapters('EditForm', {
     chapters: [{
+      title: 'Basic edit-form use:',
+      info: 'Simply pass a "formDef" schema and have a form generated for you.',
       sections: [{
-        title: 'Default use',
         sectionFn: () => {
-          return <EditForm ItemType={SimpleModel} />;
+          return <EditForm formDef={formDef} />;
         }
-      }, {
+      }]
+    }, {
+      title: 'EditForm$Model use:',
+      info: 'Generates a form for a can-connect model. Pass the model constructor as the **ItemType** prop to have a formDef generated for you.',
+      sections: [{
+        sectionFn: () => {
+          return <EditForm$Model ItemType={SimpleModel} />;
+        }
+      }]
+    }, {
+      title: 'Different states:',
+      sections: [{
         title: 'Success state',
         sectionFn: () => {
-          return <EditForm status='success' successMessage='This is a custom success message' ItemType={SimpleModel} />;
+          return <EditForm formDef={formDef} status='success' successMessage='This is a custom success message' />;
         }
       }, {
         title: 'Error state',
         sectionFn: () => {
-          return <EditForm status='error' ItemType={SimpleModel} />;
+          return <EditForm formDef={formDef} status='error' />;
         }
       }]
     }]
