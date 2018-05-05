@@ -13,3 +13,5 @@ import './rules';
 import './project-contributors';
 import './packs';
 import './project-packs';
+import './triggers';
+import './triggertypes';

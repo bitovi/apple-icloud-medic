@@ -6,8 +6,8 @@
 EditForm View Model  
 
 * [EditForm VM](#module_EditForm VM)
-    * [~ItemType](#module_EditForm VM..ItemType)
     * [~formDef](#module_EditForm VM..formDef)
+    * [~showButtons](#module_EditForm VM..showButtons)
     * [~itemData](#module_EditForm VM..itemData)
     * [~status](#module_EditForm VM..status)
     * [~successMessage](#module_EditForm VM..successMessage)
@@ -15,37 +15,28 @@ EditForm View Model
     * [~error](#module_EditForm VM..error)
     * [~isNew](#module_EditForm VM..isNew)
     * [~fieldDefinitions](#module_EditForm VM..fieldDefinitions)
-    * [~Handles change events for consumer provided Field components()](#module_EditForm VM..Handles change events for consumer provided Field components)
+    * [~This should be the single place for updating itemData directly.
+Also handles change events for consumer provided Field components()](#module_EditForm VM..This should be the single place for updating itemData directly.
+Also handles change events for consumer provided Field components)
     * [~Handles Semantic UI form component events()](#module_EditForm VM..Handles Semantic UI form component events)
     * [~Makes an id to be used for an individual field()](#module_EditForm VM..Makes an id to be used for an individual field)
     * [~Parses the field name (prop) from an ID generated using makeIdForProp()()](#module_EditForm VM..Parses the field name (prop) from an ID generated using makeIdForProp_new)
-    * [~Gets a list of field names (props) to be rendered in the form. This
-filters out fields which should not be edited.()](#module_EditForm VM..Gets a list of field names (props) to be rendered in the form. This
-filters out fields which should not be edited.)
     * [~Save new project.()](#module_EditForm VM..Save new project.)
     * [~Handles cancel button click.()](#module_EditForm VM..Handles cancel button click.)
     * [~Reset new project form fields to empty strings.()](#module_EditForm VM..Reset new project form fields to empty strings.)
     * [~This sets the default values on the edited item.()](#module_EditForm VM..This sets the default values on the edited item.)
 
-<a name="module_EditForm VM..ItemType"></a>
-
-### EditForm VM~ItemType
-**Kind**: inner property of [<code>EditForm VM</code>](#module_EditForm VM)  
-**Properties**
-
-| Name | Description |
-| --- | --- |
-| ItemType | The constructor model to use for building the form fields. |
-
 <a name="module_EditForm VM..formDef"></a>
 
 ### EditForm VM~formDef
-Additional settings to ...spread onto the underlying form components,
+Settings to ...spread onto the underlying form components,
 keyed by field name. Please see docs for individual form components.
 
 ```
 {
-  "name": { required: true, placeholder: 'Please enter your name' }
+  "name": { required: true, placeholder: 'Please enter your name' },
+  "enabled": { required: true, type: 'boolean', value: true },
+  "status": { type: 'enum', options: [{ text: 'success', value: 'success' }, { text: 'failed', value: 'failed' }]}
 }
 ```
 
@@ -56,6 +47,12 @@ keyed by field name. Please see docs for individual form components.
 | --- |
 | formDef | 
 
+<a name="module_EditForm VM..showButtons"></a>
+
+### EditForm VM~showButtons
+Whether or not to show the submit/cancel buttons
+
+**Kind**: inner property of [<code>EditForm VM</code>](#module_EditForm VM)  
 <a name="module_EditForm VM..itemData"></a>
 
 ### EditForm VM~itemData
@@ -119,13 +116,14 @@ keyed by field name. Please see docs for individual form components.
 <a name="module_EditForm VM..fieldDefinitions"></a>
 
 ### EditForm VM~fieldDefinitions
-Creates a list of objects, each object is ...spread onto
-the rendered form component. This should NOT be set from a parent.
+Converts the supplied formDef into a list of field definitions for rendering.
 
 **Kind**: inner property of [<code>EditForm VM</code>](#module_EditForm VM)  
-<a name="module_EditForm VM..Handles change events for consumer provided Field components"></a>
+<a name="module_EditForm VM..This should be the single place for updating itemData directly.
+Also handles change events for consumer provided Field components"></a>
 
-### EditForm VM~Handles change events for consumer provided Field components()
+### EditForm VM~This should be the single place for updating itemData directly.
+Also handles change events for consumer provided Field components()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
 <a name="module_EditForm VM..Handles Semantic UI form component events"></a>
 
@@ -138,12 +136,6 @@ the rendered form component. This should NOT be set from a parent.
 <a name="module_EditForm VM..Parses the field name (prop) from an ID generated using makeIdForProp_new"></a>
 
 ### EditForm VM~Parses the field name (prop) from an ID generated using makeIdForProp()()
-**Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
-<a name="module_EditForm VM..Gets a list of field names (props) to be rendered in the form. This
-filters out fields which should not be edited."></a>
-
-### EditForm VM~Gets a list of field names (props) to be rendered in the form. This
-filters out fields which should not be edited.()
 **Kind**: inner method of [<code>EditForm VM</code>](#module_EditForm VM)  
 <a name="module_EditForm VM..Save new project."></a>
 

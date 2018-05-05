@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditForm from '@public/components/edit-form/edit-form';
+import { EditForm$Model } from '@public/components/edit-form/edit-form';
 import ProjectsModel from '@public/models/projects';
 
 /**
@@ -17,7 +17,7 @@ const NewProject = ({ teamId, successCallback }) => {
   };
 
   return (
-    <EditForm
+    <EditForm$Model
       ItemType={ProjectsModel}
       formDef={formDef}
       successCallback={successCallback}

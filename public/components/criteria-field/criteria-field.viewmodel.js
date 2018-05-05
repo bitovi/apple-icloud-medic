@@ -10,7 +10,7 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
     type: 'any',
     default: () => Criterion.operators
   },
-  canAddCriterion: {
+  isValid: {
     get() {
       return !this.criteria.length || !!this.criteria.every(criterion => criterion.isComplete);
     }
@@ -38,11 +38,18 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
       }, {}));
     }
   },
+  resetAll() {
+    this.criteria = [];
+  },
   // passed from above
   label: 'string',
   value: {
     type: 'any',
     set(val) {
+      if (!Object.keys(val).length) {
+        if (this.criteria.length === 1 && this.isValid || this.criteria.length > 1) this.resetAll();
+        return {};
+      }
       // Due to the fact that "onChange" events only get completed values,
       // we have to do merge data manually.
       const copy = Object.assign({}, val);

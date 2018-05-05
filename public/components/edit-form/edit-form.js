@@ -1,7 +1,8 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './edit-form.viewmodel';
-import { Form, Message, Button } from '@public/semantic-ui/index';
+import { Form, Message, Button, Dropdown } from '@public/semantic-ui/index';
+import EditForm$Model from './model/edit-form.model';
 
 /**
  * @module EditForm
@@ -20,8 +21,10 @@ class EditForm extends Component {
       const prop = getPropFromId(_def.id);
       const value = itemData[prop];
 
+
       if (_def.Field) {
         const { Field, ...rest } = _def;
+        delete rest.id; // Temporary - Dataprovider must remove ID
         return <Field {...rest} value={value} />;
       }
 
@@ -36,12 +39,24 @@ class EditForm extends Component {
         _def.checked = value === true;
         delete _def.value;
         return <Form.Checkbox {..._def} />;
+
+      case 'enum':
+        delete _def.type;
+        _def.value = value;
+        return <Form.Dropdown selection {..._def} />;
       }
     });
   }
 
   render () {
-    const { error, status, successMessage, handleCancel, handleSave } = this.viewModel;
+    const { error, status, successMessage, handleCancel, handleSave, showButtons } = this.viewModel;
+
+    // If showButtons is false, it means it's being used as fields
+    // for an existing form. No need to show buttons, messages, et al.
+    // Just render the fields inside of a Group
+    if (!showButtons) {
+      return <Form.Group data-foo="bar">{this.buildFormFields()}</Form.Group>;
+    }
 
     return (
       <Form success={status === 'success'} error={status === 'error'}>
@@ -68,3 +83,4 @@ class EditForm extends Component {
 }
 
 export default EditForm;
+export { EditForm$Model };

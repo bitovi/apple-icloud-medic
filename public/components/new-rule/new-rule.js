@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import route from 'can-route-pushstate';
-import EditForm from '@public/components/edit-form/edit-form';
+import { EditForm$Model } from '@public/components/edit-form/edit-form';
 import CriteriaField from '@public/components/criteria-field/criteria-field';
+import TriggerSelector from '@public/components/trigger-selector/trigger-selector';
 import { Message } from '@public/semantic-ui/index';
 import RulesModel from '@public/models/rules';
 
@@ -23,11 +24,12 @@ const NewRule = ({ projectId, successCallback }) => {
     'projectId': { value: projectId, disabled: true },
     'pack': { disabled: true, value: route.data.teamName },
     'enabled': { value: true },
-    'criteria': { Field: CriteriaField }
+    'criteria': { Field: CriteriaField },
+    'trigger': { Field: TriggerSelector }
   };
 
   return (
-    <EditForm
+    <EditForm$Model
       ItemType={RulesModel}
       formDef={formDef}
       successCallback={successCallback}

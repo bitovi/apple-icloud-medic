@@ -8,8 +8,6 @@ const debug = makeDebug('medic:components:edit-form');
 const ID_DELIMITER = '__';
 // Default error object
 const DEFAULT_ERROR = { message: 'An unknown error has occurred.' };
-// Reserved props will not be rendered in the form
-const RESERVED_PROPS = ['id', 'createdAt', 'updatedAt'];
 
 /**
  * @module EditForm VM
@@ -19,19 +17,14 @@ const RESERVED_PROPS = ['id', 'createdAt', 'updatedAt'];
  */
 const EditForm = DefineMap.extend('EditForm', {
   /**
-   * @prop ItemType
-   *
-   * The constructor model to use for building the form fields.
-   */
-  ItemType: 'any',
-  /**
-   *
-   * Additional settings to ...spread onto the underlying form components,
+   * Settings to ...spread onto the underlying form components,
    * keyed by field name. Please see docs for individual form components.
    *
    * ```
    * {
-   *   "name": { required: true, placeholder: 'Please enter your name' }
+   *   "name": { required: true, placeholder: 'Please enter your name' },
+   *   "enabled": { required: true, type: 'boolean', value: true },
+   *   "status": { type: 'enum', options: [{ text: 'success', value: 'success' }, { text: 'failed', value: 'failed' }]}
    * }
    * ```
    *
@@ -40,14 +33,26 @@ const EditForm = DefineMap.extend('EditForm', {
    */
   formDef: {
     type: 'any',
-    default: () => ({})
+    default: () => ({}),
+    set() {
+      this.itemData = {};
+    }
+  },
+  /** Whether or not to show the submit/cancel buttons */
+  showButtons: {
+    default: true
   },
   /**
    * @prop
    *
    * The data for the item being edited
    */
-  itemData: 'observable',
+  itemData: {
+    get(lastVal) {
+      if (!lastVal) return {};
+      return lastVal;
+    }
+  },
   /**
    * @prop
    *
@@ -71,12 +76,13 @@ const EditForm = DefineMap.extend('EditForm', {
    */
   successCallback: 'any',
   cancelCallback: 'any',
+  onChange: 'any',
   /**
    * @prop
    *
    * An error object for any form errors. Should contain a "message" property.
    */
-  error: 'any',
+  error: { type: 'any', default: () => DEFAULT_ERROR },
   /**
    * @prop
    *
@@ -87,22 +93,28 @@ const EditForm = DefineMap.extend('EditForm', {
       return !this.itemData.id;
     }
   },
+  isValid: {
+    get() {
+      return Object.keys(this.formDef).every(key => {
+        const def = this.formDef[key];
+        if (!def) return true;
+        if (!def.required) return true;
+        if (!!this.itemData[key] || this.itemData[key] === false) return true;
+        return false;
+      });
+    }
+  },
   /**
-   * Creates a list of objects, each object is ...spread onto
-   * the rendered form component. This should NOT be set from a parent.
+   * Converts the supplied formDef into a list of field definitions for rendering.
    */
   fieldDefinitions: {
     get() {
-      const definitions = this.ItemType.definitions;
-      const formDef = this.getEditableProps().map(prop => {
-        const def = typeof definitions[prop] === 'string' ? { type: definitions[prop] } : definitions[prop];
+      const formDef = Object.keys(this.formDef).map(prop => {
         const id = this.makeIdForProp(prop);
 
-        // Add user defined props to override any value
         const fieldProps = Object.assign({
           id: id,
           key: id,
-          type: def.type,
           label: Case.title(prop)
         }, this.formDef[prop]);
 
@@ -126,10 +138,14 @@ const EditForm = DefineMap.extend('EditForm', {
   },
   /**
    * @method
-   * Handles change events for consumer provided Field components
+   * This should be the single place for updating itemData directly.
+   * Also handles change events for consumer provided Field components
    */
   handleValueChange(prop, val) {
     this.itemData[prop] = val;
+    if(typeof this.onChange === 'function') {
+      this.onChange(this.itemData, this);
+    }
   },
   /**
    * @method
@@ -141,11 +157,11 @@ const EditForm = DefineMap.extend('EditForm', {
     switch(component.type) {
     case 'checkbox':
       debug('Setting data for', prop, ':', component.checked);
-      this.itemData[prop] = component.checked;
+      this.handleValueChange(prop, component.checked);
       break;
     default:
       debug('Setting data for', prop, ':', component.value);
-      this.itemData[prop] = component.value;
+      this.handleValueChange(prop, component.value);
       break;
     }
   },
@@ -155,7 +171,7 @@ const EditForm = DefineMap.extend('EditForm', {
    * Makes an "id" to be used for an individual field
    */
   makeIdForProp(prop) {
-    return this.ItemType.name + ID_DELIMITER + prop;
+    return 'field' + ID_DELIMITER + prop;
   },
   /**
    * @method
@@ -168,31 +184,20 @@ const EditForm = DefineMap.extend('EditForm', {
   /**
    * @method
    *
-   * Gets a list of field names (props) to be rendered in the form. This
-   * filters out fields which should not be edited.
-   */
-  getEditableProps() {
-    const definitions = this.ItemType.definitions; // ItemType.prototype._define.definitions
-    return Object.keys(definitions).filter(prop => {
-      return typeof definitions[prop] !== 'function' && !RESERVED_PROPS.includes(prop);
-    });
-  },
-  /**
-   * @method
-   *
    * Save new project.
    */
   handleSave(e) {
     e.preventDefault();
-    const instance = new this.ItemType(this.itemData);
+    let promise = Promise.resolve();
 
-    debug('Creating new instance', instance);
-    instance.save().then(result => {
-      debug('New instance has been successfully saved!', result);
-      if(typeof this.successCallback === 'function') {
-        this.successCallback(result);
-        return;
-      }
+    debug('handleSave', this.itemData);
+    if(typeof this.successCallback === 'function') {
+      promise = promise.then(this.successCallback(this.itemData));
+    }
+
+    promise.then(result => {
+      debug('Item finished saving!', result);
+
       this.status = 'success';
       if (this.isNew) {
         this.resetProps();
@@ -222,38 +227,44 @@ const EditForm = DefineMap.extend('EditForm', {
    */
   resetProps() {
     debug('resetProps method');
-    this.setItemDefaults();
+    this.itemData = this.setItemDefaults();
     this.error = DEFAULT_ERROR;
+    if (typeof this.componentReset === 'function') {
+      this.componentReset();
+    }
   },
+  // This gets set/unset by the component during mount/unmount
+  componentReset: 'any',
   /**
    * @method
    *
    * This sets the default values on the edited item.
+   * This function should be overridden (passed as prop) to allow
+   * custom behavior. The function will be passed a reference to the
+   * edited item.
    */
   setItemDefaults() {
-    const data = this.getEditableProps().reduce((obj, prop) => {
+    if (!this.formDef) return;
+    const data = Object.keys(this.formDef).reduce((obj, prop) => {
+      const def = this.formDef[prop];
       // If the user defined a value, use it first
-      if (this.formDef[prop]) {
-        obj[prop] = this.formDef[prop].value;
+      if (def) {
+        obj[prop] = def.defaultValue || def.value;
       }
-      // If the model defines a default, use it
       if (typeof obj[prop] === 'undefined' || obj[prop] === null) {
-        obj[prop] = this.ItemType.definitions[prop].default;
-      }
-      // Using an empty string (vs null/undefined) tells react the component is "controlled"
-      if (typeof obj[prop] === 'undefined' || obj[prop] === null) {
+        // Using an empty string (vs null/undefined) tells react the component is "controlled"
         obj[prop] = '';
       }
       return obj;
     }, {});
     debug('setting default data', data);
-    this.itemData = new this.ItemType(data);
+    return data;
   },
+
   init () {
-    if (!this.ItemType || !this.ItemType.definitions) {
-      throw new Error('Cannot retrieve ItemType definitions.' + JSON.stringify(this.ItemType));
+    if(!this.itemData || !Object.keys(this.itemData).length) {
+      this.resetProps();
     }
-    this.resetProps();
   }
 });
 

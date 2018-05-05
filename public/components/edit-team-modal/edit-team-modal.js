@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './edit-team-modal.viewmodel.js';
-import EditForm from '@public/components/edit-form/edit-form';
+import { EditForm$Model } from '@public/components/edit-form/edit-form';
 import { Modal, Button } from '@public/semantic-ui/index';
 import { ComponentWrapper } from './partials/styled';
 import TeamsModel from '@public/models/teams';
@@ -35,7 +35,7 @@ class EditTeamModal extends Component {
         </Button>}>
         <Modal.Header>{action}</Modal.Header>
         <Modal.Description>
-          <EditForm
+          <EditForm$Model
             ItemType={TeamsModel}
             formDef={formDef}
             successCallback={handleSuccess}

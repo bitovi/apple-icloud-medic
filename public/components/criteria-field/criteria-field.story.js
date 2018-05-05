@@ -15,7 +15,7 @@ storiesOf('Components', module)
           };
           return <Form>
             <CriteriaField onChange={handleChange} />
-            <h4>Result:</h4>
+            <h4>Add criteria to see the result:</h4>
             <pre id="selectedValue"></pre>
           </Form>;
         }

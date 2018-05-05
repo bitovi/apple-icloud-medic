@@ -35,7 +35,7 @@ class CriteriaField extends Component {
   }
 
   render() {
-    const { label, criteria, operators, addCriterion, canAddCriterion } = this.viewModel;
+    const { label, criteria, operators, addCriterion, isValid } = this.viewModel;
     return (
       <Form.Field>
         {label &&
@@ -51,7 +51,7 @@ class CriteriaField extends Component {
             </CriterionGroup>
           );
         })}
-        <Button onClick={addCriterion} disabled={!canAddCriterion}>Add Criterion</Button>
+        <Button onClick={addCriterion} disabled={!isValid}>Add Criterion</Button>
       </Form.Field>
     );
   }
