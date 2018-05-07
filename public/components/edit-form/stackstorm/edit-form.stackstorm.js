@@ -13,12 +13,12 @@ class EditForm$Stackstorm extends Component {
   static ViewModel = ViewModel;
 
   render () {
-    const { _formDef, ...rest } = this.viewModel;
+    const { _formDef, formDef, init, schema, foo, ...rest } = this.viewModel;  // eslint-disable-line no-unused-vars
 
     return (
       <EditForm
-        {...rest}
         formDef={_formDef}
+        {...rest}
       />
     );
   }

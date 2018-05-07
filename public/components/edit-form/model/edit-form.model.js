@@ -13,14 +13,13 @@ class EditForm$Model extends Component {
   static ViewModel = ViewModel;
 
   render () {
-    const { _formDef, handleSave, cancelCallback, setItemDefaults } = this.viewModel;
+    const { _formDef, handleSave, formDef, ItemType, getEditableProps, init, ...rest } = this.viewModel;  // eslint-disable-line no-unused-vars
 
     return (
       <EditForm
         formDef={_formDef}
         successCallback={handleSave}
-        cancelCallback={cancelCallback}
-        setItemDefaults={setItemDefaults}
+        {...rest}
       />
     );
   }

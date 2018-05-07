@@ -196,7 +196,12 @@ const EditForm = DefineMap.extend('EditForm', {
 
     debug('handleSave', this.itemData);
     if(typeof this.successCallback === 'function') {
-      promise = promise.then(this.successCallback(this.itemData));
+      const result = this.successCallback(this.itemData);
+      if(result instanceof Promise) {
+        promise = result;
+      } else {
+        promise = promise.then(result);
+      }
     }
 
     promise.then(result => {
@@ -266,6 +271,9 @@ const EditForm = DefineMap.extend('EditForm', {
   },
 
   init () {
+    if (!this.formDef || !Object.keys(this.formDef).length) {
+      throw new Error('The edit form must be passed a formDef');
+    }
     if(!this.itemData || !Object.keys(this.itemData).length) {
       this.resetProps();
     }

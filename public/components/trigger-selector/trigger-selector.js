@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import { Search, Form } from '@public/semantic-ui/index';
+import { Search } from '@public/semantic-ui/index';
 import TriggerTypesModel from '@public/models/triggertypes';
 import DataProvider from '@public/components/data-provider/data-provider';
 import { EditForm$Stackstorm } from '@public/components/edit-form/edit-form';
@@ -15,7 +15,7 @@ import { FieldWrapper, FormWrapper } from './partials';
 class TriggerSelector extends Component {
   static ViewModel = ViewModel;
 
-  resultRenderer(tt, other, other2) {
+  resultRenderer(tt) {
     return <div>
       <h3>{tt.name}</h3>
       <div>{tt.description}</div>
@@ -23,7 +23,17 @@ class TriggerSelector extends Component {
   }
 
   render() {
-    const { label, isValid, results, searchValue, handleResultSelect, handleSearchChange, selectedSchema, formData, handleFormChange } = this.viewModel;
+    const {
+      label,
+      isValid,
+      results,
+      searchValue,
+      handleResultSelect,
+      handleSearchChange,
+      selectedSchema,
+      formData,
+      handleFormChange
+    } = this.viewModel;
 
     return (
       <FieldWrapper data-valid={isValid}>

@@ -19,12 +19,14 @@ export default DefineMap.extend('TriggerSelector', {
     type: 'any',
     set(val) {
       ObservationRecorder.ignore(() => {
+        debug('Setting value prop', val);
         // DO NOT CHANGE THE FOLLOWING WITHOUT EXTENSIVE TESTING.
         // SERIOUSLY - THIS TOOK FOREVER TO GET PERFECT.
         const { type, parameters } = val;
         if (!type) {
           if (this.isValid) {
             // This should happen when the parent form does a "reset"
+            debug('Resetting component values', val);
             this.resetAll();
           }
           return {};
@@ -105,7 +107,7 @@ export default DefineMap.extend('TriggerSelector', {
     if (!data || !this.formData) {
       this.formData = data;
     } else {
-      this.formData.update(data);
+      this.formData.update(data && data.serialize ? data.serialize() : data);
     }
   },
 

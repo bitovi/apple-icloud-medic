@@ -1,62 +1,52 @@
 import QUnit from 'steal-qunit';
 import sinon from 'sinon';
-import DefineMap from 'can-define/map/map';
 import ViewModel from './edit-form.viewmodel';
 
 // ViewModel unit tests
 QUnit.module('@public/components/edit-form');
 
-function makeType (props) {
-  // NOTE: certain tests rely on the values defined here
-  const definitions = Object.assign({
-    // common fields
-    id: 'number',
-    createdAt: 'date',
-    updatedAt: 'date',
+const formDef = {
+  name: { type: 'string', required: true, value: null },
+  enabled: { type: 'boolean' },
+  age: { type: 'number', value: 35 },
+  gender: { type: 'enum', options: ['male', 'female', 'neutral'].map(g => ({ text: g, value: g }))}
+};
 
-    name: 'string',
-    age: 'number',
-    enabled: 'boolean',
-    withDefault: { type: 'string', default: 'foobar'}
-  }, props);
-  //--------------------- name         static           prototype
-  return DefineMap.extend('TestModel', { definitions }, definitions);
-}
-
-QUnit.test('ViewModel init checks ItemType validity', () => {
-  const InvalidType = DefineMap.extend({});
-  QUnit.throws(() => new ViewModel());
-  QUnit.throws(() => new ViewModel({ ItemType: InvalidType }));
+QUnit.test('ViewModel throws if no formDef supplied', () => {
+  QUnit.expect(3);
+  QUnit.throws(() => new ViewModel(), 'Should throw');
+  QUnit.throws(() => new ViewModel({ formDef: {} }), 'Should throw (no fields)');
+  try{
+    new ViewModel({ formDef: { foo: 'bar' } });
+    QUnit.ok(true, 'Did not throw');
+  } catch(ex) {
+    QUnit.notOk(true, 'Should not throw');
+  }
 });
 
-QUnit.test('ViewModel init calls resetProps', () => {
+QUnit.test('ViewModel init calls resetProps if no itemData is passed', () => {
   sinon.spy(ViewModel.prototype, 'resetProps');
-  const vm = new ViewModel({ ItemType: makeType() });
+  const vm = new ViewModel({ formDef });
   QUnit.ok(vm.resetProps.calledOnce);
   ViewModel.prototype.resetProps.restore();
 });
 
-QUnit.test('setItemDefaults defaults to strings if no value is defined', () => {
-  const vm = new ViewModel({ ItemType: makeType() });
-  QUnit.ok(typeof vm.itemData.name === 'string');
+QUnit.test('ViewModel init does NOT call resetProps if itemData is passed', () => {
+  sinon.spy(ViewModel.prototype, 'resetProps');
+  const vm = new ViewModel({ formDef, itemData: { name: 'Ryan' }});
+  QUnit.ok(vm.resetProps.notCalled);
+  ViewModel.prototype.resetProps.restore();
 });
 
-QUnit.test('setItemDefaults uses defined defaults', () => {
-  const vm = new ViewModel({ ItemType: makeType() });
-  QUnit.equal(vm.itemData.withDefault, 'foobar');
-  vm.formDef = {
-    withDefault: { value: 'bizbang' }
-  };
-  vm.setItemDefaults();
-  QUnit.equal(vm.itemData.withDefault, 'bizbang');
+QUnit.test('setItemDefaults defaults to strings if no value is defined', () => {
+  const vm = new ViewModel({ formDef });
+  // The formDef defines name: null, but it should be a string on the itemData
+  QUnit.ok(typeof vm.itemData.name === 'string');
 });
 
 QUnit.test('handleSave sets the status to success', (assert) => {
   const done = assert.async();
-  const ItemType = makeType({
-    save: () => Promise.resolve({ id: 1234 })
-  });
-  const vm = new ViewModel({ ItemType });
+  const vm = new ViewModel({ formDef });
   QUnit.equal(vm.status, undefined);
   vm.handleSave({ preventDefault(){} });
   setTimeout(() => {
@@ -65,37 +55,38 @@ QUnit.test('handleSave sets the status to success', (assert) => {
   });
 });
 
-QUnit.test('handleSave calls the successCallback with the result of save()', (assert) => {
+QUnit.test('handleSave calls the successCallback with the result of save() before setting the success status', (assert) => {
   const done = assert.async();
-  const ItemType = makeType({
-    save: () => Promise.resolve({ id: 1234 })
-  });
   const successCallback = (result) => {
     QUnit.equal(result.id, 1234);
-    done();
+    QUnit.equal(vm.status, undefined);
+    setTimeout(() => {
+      QUnit.equal(vm.status, 'success');
+      done();
+    });
   };
-  const vm = new ViewModel({ ItemType, successCallback });
+  const vm = new ViewModel({ formDef, itemData: { id: 1234 }, successCallback });
   vm.handleSave({ preventDefault(){} });
 });
 
 QUnit.test('handleSave sets the status to error and set the error property', (assert) => {
   const done = assert.async();
-  const error = { message: 'This is an error' };
-  const ItemType = makeType({
-    save: () => Promise.reject(error)
-  });
-  const vm = new ViewModel({ ItemType });
+  const error = new Error('This is an error');
+  const successCallback = () => {
+    return Promise.reject(error);
+  };
+  const vm = new ViewModel({ formDef, successCallback });
   QUnit.equal(vm.status, undefined);
   vm.handleSave({ preventDefault(){} });
   setTimeout(() => {
     QUnit.equal(vm.status, 'error');
     QUnit.equal(vm.error, error);
     done();
-  });
+  }, 100);
 });
 
 QUnit.test('handleSemanticChange updates corresponding fields appropriately', () => {
-  const vm = new ViewModel({ ItemType: makeType() });
+  const vm = new ViewModel({ formDef });
 
   QUnit.equal(vm.itemData.name, '');
   vm.handleSemanticChange(null, { id: vm.makeIdForProp('name'), type: 'string', value: 'some value' });
@@ -106,43 +97,13 @@ QUnit.test('handleSemanticChange updates corresponding fields appropriately', ()
   QUnit.equal(vm.itemData.enabled, true);
 });
 
-QUnit.test('getEditableProps filters out functions and other known props', () => {
-  const vm = new ViewModel({ ItemType: makeType({ fooFunc(){} }) });
-  const keys = vm.getEditableProps();
-  QUnit.ok(Array.isArray(keys));
-  QUnit.ok(!keys.includes('id'));
-  QUnit.ok(!keys.includes('createdAt'));
-  QUnit.ok(!keys.includes('updatedAt'));
-  QUnit.ok(!keys.includes('fooFunc'));
-});
-
 QUnit.test('getPropFromId can parse an ID generated by makeIdForProp', () => {
-  const vm = new ViewModel({ ItemType: makeType() });
+  const vm = new ViewModel({ formDef });
   QUnit.equal(vm.getPropFromId(vm.makeIdForProp('someProperty')), 'someProperty');
 });
 
-QUnit.test('fieldDefinitions lets user defined values prevail', () => {
-  const fooChange = () => {};
-  const formDef = {
-    enabled: { type: 'footype' },
-    withDefault: { onChange: fooChange }
-  };
-  const vm = new ViewModel({ ItemType: makeType(), formDef });
-  vm.fieldDefinitions.forEach(def => {
-    const prop = vm.getPropFromId(def.id);
-    switch(prop) {
-    case 'enabled':
-      QUnit.equal(def.type, 'footype');
-      break;
-    case 'withDefault':
-      QUnit.equal(def.onChange, fooChange);
-      break;
-    }
-  });
-});
-
 QUnit.test('isNew is true only when the itemData.id is null', () => {
-  const vm = new ViewModel({ ItemType: makeType() });
+  const vm = new ViewModel({ formDef });
   QUnit.equal(vm.isNew, true);
   vm.itemData.id = 1234;
   QUnit.equal(vm.isNew, false);

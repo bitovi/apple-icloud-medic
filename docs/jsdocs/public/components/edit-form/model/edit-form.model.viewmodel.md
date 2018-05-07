@@ -19,8 +19,6 @@ the rendered form component. This should NOT be set from a parent.</p>
 filters out fields which should not be edited.">Gets a list of field names (props) to be rendered in the form. This
 filters out fields which should not be edited.()</a></dt>
 <dd></dd>
-<dt><a href="#This sets the default values on the edited item.">This sets the default values on the edited item.()</a></dt>
-<dd></dd>
 </dl>
 
 <a name="ItemType"></a>
@@ -51,8 +49,4 @@ filters out fields which should not be edited."></a>
 
 ## Gets a list of field names (props) to be rendered in the form. This
 filters out fields which should not be edited.()
-**Kind**: global function  
-<a name="This sets the default values on the edited item."></a>
-
-## This sets the default values on the edited item.()
 **Kind**: global function  

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export default [
   {
     "description": "Trigger encapsulating the completion of an action execution.",

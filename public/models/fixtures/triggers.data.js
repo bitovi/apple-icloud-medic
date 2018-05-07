@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export default [
   {
     "uid": "trigger:core:st2.generic.actiontrigger:99914b932bd37a50b983c5e7c90ae93b",

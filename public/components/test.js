@@ -1,5 +1,6 @@
 import './data-provider/data-provider-test';
 import './edit-form/edit-form-test';
+import './edit-form/model/edit-form.model-test';
 import './edit-team-modal/edit-team-modal-test';
 import './json-viewer/json-viewer-test';
 import './pagination/pagination-test';

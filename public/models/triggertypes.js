@@ -2,7 +2,6 @@ import DefineMap from 'can-define/map/';
 import DefineList from 'can-define/list/list';
 import feathersClient from '@public/feathers-client';
 import feathersConnection from '@public/connections/feathers';
-import { withCommonFields } from '@public/util/model-helper';
 import env from '@root/shared/env';
 import makeAlgebra from './algebras/feathers';
 

@@ -1,10 +1,7 @@
 import makeDebug from 'debug';
 import DefineMap from 'can-define/map/map';
 
-const debug = makeDebug('medic:components:edit-form.model');
-
-// Reserved props will not be rendered in the form
-const RESERVED_PROPS = ['id', 'createdAt', 'updatedAt'];
+const debug = makeDebug('medic:components:edit-form.stackstorm');
 
 const EditForm$Stackstorm = DefineMap.extend('EditForm$Stackstorm', {
   /**
@@ -13,6 +10,11 @@ const EditForm$Stackstorm = DefineMap.extend('EditForm$Stackstorm', {
    * The stackstorm schema (see triggertypes and actions)
    */
   schema: 'any',
+  /** Passed from above */
+  formDef: {
+    type: 'any',
+    default: () => ({})
+  },
   /**
    * Creates a list of objects, each object is ...spread onto
    * the rendered form component. This should NOT be set from a parent.
@@ -46,14 +48,16 @@ const EditForm$Stackstorm = DefineMap.extend('EditForm$Stackstorm', {
           def.options = $field.enum.map(val => ({ text: val, value: val }));
           def.defaultValue = def.options[0].value;
         }
+        Object.assign(def, this.formDef[field]);
         return obj;
       }, {});
+      debug('Generated formDef for stackstorm schema', formDef);
       return formDef;
     }
   },
   init() {
     if (!this.schema) {
-      throw new Error('You must pass a schema object to the EditForm$Stackstorm component.')
+      throw new Error('You must pass a schema object to the EditForm$Stackstorm component.');
     }
   }
 });

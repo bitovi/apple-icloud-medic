@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-view-model/component';
 import ViewModel from './edit-form.viewmodel';
-import { Form, Message, Button, Dropdown } from '@public/semantic-ui/index';
+import { Form, Message, Button } from '@public/semantic-ui/index';
 import EditForm$Model from './model/edit-form.model';
 import EditForm$Stackstorm from './stackstorm/edit-form.stackstorm';
 

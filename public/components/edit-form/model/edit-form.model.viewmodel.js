@@ -10,19 +10,14 @@ const EditForm$Model = DefineMap.extend('EditForm$Model', {
   /**
    * @prop ItemType
    *
-   * The constructor model to use for building the form fields.
+   * The model constructor to use for building the form fields.
    */
   ItemType: 'any',
-  /**
-   * User provided formDef to be merged onto the generated Model formDef.
-   * @type {String}
-   */
+  /** Passed from above */
   formDef: {
     type: 'any',
     default: () => ({})
   },
-  successCallback: 'any',
-  cancelCallback: 'any',
   /**
    * Creates a list of objects, each object is ...spread onto
    * the rendered form component. This should NOT be set from a parent.
@@ -36,6 +31,7 @@ const EditForm$Model = DefineMap.extend('EditForm$Model', {
         // Add user defined props to override any value
         obj[prop] = Object.assign({
           type: def.type,
+          value: typeof def.default === 'function' ? def.default() : def.default
         }, this.formDef[prop]);
 
         return obj;
@@ -55,33 +51,6 @@ const EditForm$Model = DefineMap.extend('EditForm$Model', {
     return Object.keys(definitions).filter(prop => {
       return typeof definitions[prop] !== 'function' && !RESERVED_PROPS.includes(prop);
     });
-  },
-  /**
-   * @method
-   *
-   * This sets the default values on the edited item.
-   */
-  setItemDefaults() {
-    const data = this.getEditableProps().reduce((obj, prop) => {
-      // If the user defined a value, use it first
-      if (this.formDef[prop]) {
-        obj[prop] = this.formDef[prop].value;
-      }
-      // If the model defines a default, use it
-      if (typeof obj[prop] === 'undefined' || obj[prop] === null) {
-        obj[prop] = this.ItemType.definitions[prop].default;
-        if (typeof obj[prop] === 'function') {
-          obj[prop] = obj[prop]();
-        }
-      }
-      // Using an empty string (vs null/undefined) tells react the component is "controlled"
-      if (typeof obj[prop] === 'undefined' || obj[prop] === null) {
-        obj[prop] = '';
-      }
-      return obj;
-    }, {});
-    debug('setting default data', data);
-    return data;
   },
   handleSave(data) {
     const copy = JSON.parse(JSON.stringify(data));
