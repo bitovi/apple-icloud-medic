@@ -7,8 +7,6 @@ TriggerSelector View Model
 
 * [TriggerSelector VM](#module_TriggerSelector VM)
     * [~onChange](#module_TriggerSelector VM..onChange)
-    * [~onSearchChange](#module_TriggerSelector VM..onSearchChange)
-    * [~onResultSelect](#module_TriggerSelector VM..onResultSelect)
     * [~label](#module_TriggerSelector VM..label)
     * [~results](#module_TriggerSelector VM..results)
     * [~selectedSchema](#module_TriggerSelector VM..selectedSchema)
@@ -28,18 +26,6 @@ TriggerSelector View Model
 ### TriggerSelector VM~onChange
 The "main" change event for this field component.
 This only gets called when the form is valid.
-
-**Kind**: inner property of [<code>TriggerSelector VM</code>](#module_TriggerSelector VM)  
-<a name="module_TriggerSelector VM..onSearchChange"></a>
-
-### TriggerSelector VM~onSearchChange
-Called whenever the search field changes
-
-**Kind**: inner property of [<code>TriggerSelector VM</code>](#module_TriggerSelector VM)  
-<a name="module_TriggerSelector VM..onResultSelect"></a>
-
-### TriggerSelector VM~onResultSelect
-Called whenever a search result is selected
 
 **Kind**: inner property of [<code>TriggerSelector VM</code>](#module_TriggerSelector VM)  
 <a name="module_TriggerSelector VM..label"></a>

@@ -1,16 +1,16 @@
 import makeDebug from 'debug';
 import DefineMap from 'can-define/map/map';
-import TriggerTypesModel from '@public/models/triggertypes';
+import ActionsModel from '@public/models/actions';
 
-const debug = makeDebug('medic:components:trigger-selector');
+const debug = makeDebug('medic:components:action-selector');
 
 /**
- * @module TriggerSelector VM
- * @parent TriggerSelector
+ * @module ActionSelector VM
+ * @parent ActionSelector
  *
- * TriggerSelector View Model
+ * ActionSelector View Model
  */
-export default DefineMap.extend('TriggerSelector', {
+export default DefineMap.extend('ActionSelector', {
   /** Passed from above */
   onChange: 'any',
   label: 'string',
@@ -30,7 +30,7 @@ export default DefineMap.extend('TriggerSelector', {
 
   /** list of triggertypes which can be selected */
   triggertypes: {
-    Type: TriggerTypesModel.List
+    Type: ActionsModel.List
   },
 
   /**

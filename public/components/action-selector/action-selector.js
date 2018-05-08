@@ -1,23 +1,23 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import TriggerTypesModel from '@public/models/triggertypes';
+import ActionsModel from '@public/models/actions';
 import DataProvider from '@public/components/data-provider/data-provider';
 import FieldWithForm from '@public/components/field-with-form/field-with-form';
-import ViewModel from './trigger-selector.viewmodel';
+import ViewModel from './action-selector.viewmodel';
 
 /**
- * @Component TriggerSelector
+ * @Component ActionSelector
  *
- * A list of triggertypes with an onSelect callback
+ * A list of actions with an onSelect callback
  */
-class TriggerSelector extends Component {
+class ActionSelector extends Component {
   static ViewModel = ViewModel;
 
   render() {
     const {
       label,
       formattedValue,
-      triggertypes,
+      actions,
       handleChange,
       handleResultSelect
     } = this.viewModel;
@@ -25,8 +25,8 @@ class TriggerSelector extends Component {
     return (
       <FieldWithForm
         dataSearchField='ref'
-        dataSchemaField='parameters_schema.properties'
-        rawData={triggertypes}
+        dataSchemaField='parameters'
+        rawData={actions}
         label={label}
         value={formattedValue}
         onChange={handleChange}
@@ -36,4 +36,4 @@ class TriggerSelector extends Component {
   }
 }
 
-export default DataProvider(TriggerSelector, TriggerTypesModel, 'triggertypes');
+export default DataProvider(ActionSelector, ActionsModel, 'actions');
