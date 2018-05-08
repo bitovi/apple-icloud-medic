@@ -4,6 +4,7 @@ import route from 'can-route-pushstate';
 import { EditForm$Model } from '@public/components/edit-form/edit-form';
 import CriteriaField from '@public/components/criteria-field/criteria-field';
 import TriggerSelector from '@public/components/trigger-selector/trigger-selector';
+import ActionSelector from '@public/components/action-selector/action-selector';
 import { Message } from '@public/semantic-ui/index';
 import RulesModel from '@public/models/rules';
 
@@ -25,7 +26,8 @@ const NewRule = ({ projectId, successCallback }) => {
     'pack': { disabled: true, value: route.data.teamName },
     'enabled': { value: true },
     'criteria': { Field: CriteriaField },
-    'trigger': { Field: TriggerSelector }
+    'trigger': { Field: TriggerSelector },
+    'action': { Field: ActionSelector }
   };
 
   return (

@@ -18,6 +18,7 @@ const definitions = withCommonFields({
   enabled: 'boolean',
   criteria: { type: 'any', default: () => ({}) },
   trigger: { type: 'any', default: () => ({}) },
+  action: { type: 'any', default: () => ({}) },
 });
 
 /**

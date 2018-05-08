@@ -22,7 +22,7 @@ exports.up = function(db) {
           WHERE "projects"."id" = "rules"."projectId";`);
       }).then(() => {
         // 3. Add null constraint
-        queryInterface.changeColumn(TABLE, 'pack', {
+        return queryInterface.changeColumn(TABLE, 'pack', {
           type: DataTypes.STRING,
           allowNull: false
         })

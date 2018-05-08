@@ -9,6 +9,8 @@
     * [.enabled](#Rules+enabled) : <code>Boolean</code>
     * [.pack](#Rules+pack) : <code>String</code>
     * [.criteria](#Rules+criteria) : <code>Object</code>
+    * [.trigger](#Rules+trigger) : <code>Object</code>
+    * [.action](#Rules+action) : <code>Object</code>
 
 <a name="Rules+name"></a>
 
@@ -38,5 +40,17 @@ The name of the pack to which this belongs
 
 ### rules.criteria : <code>Object</code>
 The optional criteria for the rule
+
+**Kind**: instance property of [<code>Rules</code>](#Rules)  
+<a name="Rules+trigger"></a>
+
+### rules.trigger : <code>Object</code>
+The trigger type for the rule
+
+**Kind**: instance property of [<code>Rules</code>](#Rules)  
+<a name="Rules+action"></a>
+
+### rules.action : <code>Object</code>
+The trigger type for the rule
 
 **Kind**: instance property of [<code>Rules</code>](#Rules)  

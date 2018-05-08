@@ -48,8 +48,10 @@ const CriteriaFieldVM = DefineMap.extend('CriteriaFieldVM', {
     type: 'any',
     set(val) {
       ObservationRecorder.ignore(() => {
-        if (!Object.keys(val).length) {
-          if (this.criteria.length === 1 && this.isValid || this.criteria.length > 1) this.resetAll();
+        if (!val || !Object.keys(val).length) {
+          if (this.criteria.length === 1 && this.isValid || this.criteria.length > 1) {
+            this.resetAll();
+          }
           return {};
         }
         // Due to the fact that "onChange" events only get completed values,

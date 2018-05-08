@@ -56,6 +56,24 @@ module.exports = function (app) {
      */
     criteria: {
       type: DataTypes.JSON
+    },
+    /**
+     * The trigger type for the rule
+     * @type {Object}
+     * @memberof Rules#
+     */
+    trigger: {
+      type: DataTypes.JSONB,
+      allowNull: false
+    },
+    /**
+     * The trigger type for the rule
+     * @type {Object}
+     * @memberof Rules#
+     */
+    action: {
+      type: DataTypes.JSONB,
+      allowNull: false
     }
   }, {
     hooks: {

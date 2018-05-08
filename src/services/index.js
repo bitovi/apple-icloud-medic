@@ -12,6 +12,8 @@ const roles = require('./roles/roles.service.js');
 const projectContributors = require('./project-contributors/project-contributors.service.js');
 const groupMembers = require('./group-members/group-members.service.js');
 const teamMembers = require('./team-members/team-members.service.js');
+const triggertypes = require('./triggertypes/triggertypes.service.js');
+const actions = require('./actions/actions.service.js');
 
 module.exports = function () {
   const app = this;
@@ -30,4 +32,6 @@ module.exports = function () {
   app.configure(projectContributors);
   app.configure(groupMembers);
   app.configure(teamMembers);
+  app.configure(triggertypes);
+  app.configure(actions);
 };

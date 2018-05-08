@@ -4,9 +4,11 @@ import ObservationRecorder from 'can-observation-recorder';
 
 const debug = makeDebug('medic:components:field-with-form');
 
+// For some reason I could not import the dot-prop module.
+// So this is a simple implementation - needs further investigation.
 const dotProp = {
   get( object, prop ) {
-    var parts = prop.split( "." ),
+    var parts = prop.split('.'),
       length = parts.length,
       i,
       property = object || this;

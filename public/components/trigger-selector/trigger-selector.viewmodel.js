@@ -37,6 +37,7 @@ export default DefineMap.extend('TriggerSelector', {
    * Handles the main "change" even for the underlying field-with-form component
    */
   handleChange({ searchValue, formData, formIsValid }) {
+    debug('Handling change event:', searchValue, formData, formIsValid);
     if (typeof this.onChange === 'function') {
       let val = {};
       // Only dispatch change events when the form is valid
