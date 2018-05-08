@@ -42,8 +42,9 @@ class EditForm extends Component {
         return <Form.Checkbox {..._def} />;
 
       case 'enum':
-        delete _def.type;
         _def.value = value || _def.defaultValue;
+        delete _def.type;
+        delete _def.defaultValue;
         return <Form.Dropdown selection {..._def} />;
       }
     });

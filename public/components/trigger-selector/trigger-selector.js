@@ -1,11 +1,9 @@
 import React from 'react';
 import Component from 'react-view-model/component';
-import { Search } from '@public/semantic-ui/index';
 import TriggerTypesModel from '@public/models/triggertypes';
 import DataProvider from '@public/components/data-provider/data-provider';
-import { EditForm$Stackstorm } from '@public/components/edit-form/edit-form';
+import FieldWithForm from '@public/components/field-with-form/field-with-form';
 import ViewModel from './trigger-selector.viewmodel';
-import { FieldWrapper, FormWrapper } from './partials';
 
 /**
  * @Component TriggerSelector
@@ -25,39 +23,24 @@ class TriggerSelector extends Component {
   render() {
     const {
       label,
-      isValid,
+      formattedValue,
       results,
-      searchValue,
-      handleResultSelect,
-      handleSearchChange,
       selectedSchema,
-      formData,
-      handleFormChange
+      handleChange,
+      handleResultSelect,
+      handleSearchChange
     } = this.viewModel;
 
     return (
-      <FieldWrapper data-valid={isValid}>
-        {label &&
-          <label>{label}</label>
-        }
-        <Search
-          onResultSelect={handleResultSelect}
-          onSearchChange={handleSearchChange}
-          resultRenderer={this.resultRenderer}
-          results={results}
-          value={searchValue}
-        />
-        {selectedSchema &&
-          <FormWrapper>
-            <EditForm$Stackstorm
-              schema={selectedSchema}
-              itemData={formData}
-              showButtons={false}
-              onChange={handleFormChange}
-            />
-          </FormWrapper>
-        }
-      </FieldWrapper>
+      <FieldWithForm
+        label={label}
+        value={formattedValue}
+        results={results}
+        selectedSchema={selectedSchema}
+        onChange={handleChange}
+        onSearchChange={handleSearchChange}
+        onResultSelect={handleResultSelect}
+      />
     );
   }
 }

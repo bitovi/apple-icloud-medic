@@ -49,7 +49,9 @@ const EditForm = DefineMap.extend('EditForm', {
    */
   itemData: {
     get(lastVal) {
-      if (!lastVal) return {};
+      if (!lastVal) {
+        return this.getItemDefaults();
+      }
       return lastVal;
     }
   },
@@ -136,7 +138,7 @@ const EditForm = DefineMap.extend('EditForm', {
         debug('Building fieldProps for', prop, fieldProps);
         return fieldProps;
       });
-      debug('Getting form def:', formDef);
+      debug('Generated formDef:', formDef);
       return formDef;
     }
   },
@@ -146,6 +148,7 @@ const EditForm = DefineMap.extend('EditForm', {
    * Also handles change events for consumer provided Field components
    */
   handleValueChange(prop, val) {
+    debug('Setting data for', prop, ':', val);
     this.itemData[prop] = val;
     if(typeof this.onChange === 'function') {
       this.onChange(this.itemData, this);
@@ -160,11 +163,9 @@ const EditForm = DefineMap.extend('EditForm', {
 
     switch(component.type) {
     case 'checkbox':
-      debug('Setting data for', prop, ':', component.checked);
       this.handleValueChange(prop, component.checked);
       break;
     default:
-      debug('Setting data for', prop, ':', component.value);
       this.handleValueChange(prop, component.value);
       break;
     }
@@ -236,7 +237,7 @@ const EditForm = DefineMap.extend('EditForm', {
    */
   resetProps() {
     debug('resetProps method');
-    this.itemData = this.setItemDefaults();
+    this.itemData = this.getItemDefaults();
     this.error = DEFAULT_ERROR;
     if (typeof this.componentReset === 'function') {
       this.componentReset();
@@ -252,7 +253,7 @@ const EditForm = DefineMap.extend('EditForm', {
    * custom behavior. The function will be passed a reference to the
    * edited item.
    */
-  setItemDefaults() {
+  getItemDefaults() {
     if (!this.formDef) return;
     const data = Object.keys(this.formDef).reduce((obj, prop) => {
       const def = this.formDef[prop];
@@ -276,6 +277,12 @@ const EditForm = DefineMap.extend('EditForm', {
     }
     if(!this.itemData || !Object.keys(this.itemData).length) {
       this.resetProps();
+    } else {
+      // If the form was instantiated with data, dispatch the
+      // onChange event so that consumers can determine form validity
+      if (typeof this.onChange === 'function') {
+        this.onChange(this.itemData, this);
+      }
     }
   }
 });

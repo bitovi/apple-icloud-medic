@@ -18,7 +18,7 @@ export default DefineMap.extend('TriggerSelector', {
   value: {
     type: 'any',
     set(val) {
-      ObservationRecorder.ignore(() => {
+      return ObservationRecorder.ignore(() => {
         debug('Setting value prop', val);
         // DO NOT CHANGE THE FOLLOWING WITHOUT EXTENSIVE TESTING.
         // SERIOUSLY - THIS TOOK FOREVER TO GET PERFECT.
@@ -33,14 +33,40 @@ export default DefineMap.extend('TriggerSelector', {
         }
         // If the passed in type matches the currently select type, exit
         if (this.selectedTriggerType && type === this.selectedTriggerType.ref) return val;
-        // The the passed in type does not exist, ignore the value
         const results = this.triggertypes.filter(tt => tt.ref === type);
         if (!results.length) return {};
+
         // New data was passed in - update the state
-        this.handleResultSelect(null, { result: results[0] });
-        this.setFormData(parameters);
+        this.handleSearchChange(type);
+        this.handleResultSelect(this.results[0]);
+        this.formData = parameters;
         return val;
       })();
+    }
+  },
+
+  /** This is passed to the underlying field-with-form component */
+  formattedValue: {
+    get() {
+      if (!this.selectedTriggerType) return {};
+
+      return {
+        formData: this.formData,
+        searchValue: this.selectedTriggerType.ref,
+        selectedSearchResult: this.selectedTriggerType
+      };
+    }
+  },
+
+  formData: 'any',
+
+  isValid: {
+    get() {
+      if (this.selectedTriggerType) {
+        if (!this.selectedSchema) return true;
+        return !!this.formData;
+      }
+      return false;
     }
   },
 
@@ -48,9 +74,6 @@ export default DefineMap.extend('TriggerSelector', {
   triggertypes: {
     Type: TriggerTypesModel.List
   },
-
-  /** The value of the search input */
-  searchValue: 'string',
 
   /** The currently selected triggertype */
   selectedTriggerType: {
@@ -74,6 +97,7 @@ export default DefineMap.extend('TriggerSelector', {
   results: {
     type: 'any',
     set(val) {
+      if (val.serialize) val = val.serialize();
       return val.map(tt => Object.assign({}, tt, {
         // Semantic UI search results require a title prop...
         title: tt.name
@@ -82,79 +106,46 @@ export default DefineMap.extend('TriggerSelector', {
   },
 
   /**
-   * Holds the form data for the currently selected triggertype.
-   * IMPORTANT: This will only have a value when the form is valid
+   * Handles the "change" event for the search input
+   * This creates a list of results based on the input value.
    */
-  formData: { default: () => ({}) },
+  handleSearchChange(value) {
+    const regexp = new RegExp(value, 'i');
+    this.results = this.triggertypes.filter(tt => {
+      return regexp.test(tt.name) || regexp.test(tt.description) || regexp.test(tt.ref);
+    });
+  },
 
   /**
-   * Whether or not the current selection and its form are complete.
-   * The following are considered "valid"
-   *  1. If there is no selection and no searchValue (empty)
-   *  2. If there is a selection and a) no schema or b) formData
+   * Handles the main "change" even for the underlying field-with-form component
    */
-  isValid: {
-    get() {
-      if (!this.selectedTriggerType) {
-        if(this.searchValue) return false;
-        return true;
-      }
-      return !this.selectedSchema || !!this.formData;
+  handleChange({ selectedSearchResult, formData, formIsValid }) {
+    if (!selectedSearchResult) {
+      this.selectedTriggerType = null;
     }
-  },
-
-  setFormData(data = null) {
-    if (!data || !this.formData) {
-      this.formData = data;
-    } else {
-      this.formData.update(data && data.serialize ? data.serialize() : data);
-    }
-  },
-
-  dispatchChange(data) {
-    this.setFormData(data);
-    if(typeof this.onChange === 'function') {
+    // Important - only set formData when the form is valid
+    this.formData = formIsValid ? formData : null;
+    if (typeof this.onChange === 'function') {
       let val = {};
-      if (this.selectedTriggerType && this.isValid) {
+      // Only dispatch change events when the form is valid
+      if (formIsValid) {
         val = {
-          type: this.selectedTriggerType.ref,
-          parameters: this.formData || {}
+          type: selectedSearchResult.ref,
+          parameters: formData
         };
       }
       this.onChange(val);
     }
   },
 
-  handleFormChange(data, form) {
-    // This is crucial: don't dispatch the data until the form is valid.
-    this.dispatchChange(form.isValid ? data : null);
-  },
-
-  /** handles the "select" event of individual tiggertypes */
-  handleResultSelect(ev, { result }) {
-    this.searchValue = result.ref;
+  /** handles the "select" event of individual search results */
+  handleResultSelect(result) {
+    this.formData = null;
     this.selectedTriggerType = result;
-    this.results = [result.serialize ? result.serialize() : result];
-  },
-
-  /**
-   * Handles the "change" event for the search input
-   * This creates a list of results based on the input value.
-   */
-  handleSearchChange(e, { value }) {
-    this.searchValue = value;
-    this.selectedTriggerType = null;
-    this.dispatchChange(null);
-    const regexp = new RegExp(value, 'i');
-    this.results = this.triggertypes.filter(tt => {
-      return regexp.test(tt.name) || regexp.test(tt.description) || regexp.test(tt.ref);
-    }).serialize();
   },
 
   resetAll() {
-    this.searchValue = '';
-    this.selectedTriggerType = null;
     this.formData = null;
-    this.results = [];
+    this.selectedTriggerType = null;
   }
 });
