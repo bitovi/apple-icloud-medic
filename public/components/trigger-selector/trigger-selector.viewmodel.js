@@ -15,60 +15,21 @@ export default DefineMap.extend('TriggerSelector', {
   /** Passed from above */
   onChange: 'any',
   label: 'string',
-  value: {
-    type: 'any',
-    set(val) {
-      return ObservationRecorder.ignore(() => {
-        debug('Setting value prop', val);
-        // DO NOT CHANGE THE FOLLOWING WITHOUT EXTENSIVE TESTING.
-        // SERIOUSLY - THIS TOOK FOREVER TO GET PERFECT.
-        const { type, parameters } = val;
-        if (!type) {
-          if (this.isValid) {
-            // This should happen when the parent form does a "reset"
-            debug('Resetting component values', val);
-            this.resetAll();
-          }
-          return {};
-        }
-        // If the passed in type matches the currently select type, exit
-        if (this.selectedTriggerType && type === this.selectedTriggerType.ref) return val;
-        const results = this.triggertypes.filter(tt => tt.ref === type);
-        if (!results.length) return {};
-
-        // New data was passed in - update the state
-        this.handleSearchChange(type);
-        this.handleResultSelect(this.results[0]);
-        this.formData = parameters;
-        return val;
-      })();
-    }
-  },
+  value: 'any',
 
   /** This is passed to the underlying field-with-form component */
   formattedValue: {
     get() {
-      if (!this.selectedTriggerType) return {};
+      if (!this.value) return {};
 
       return {
-        formData: this.formData,
-        searchValue: this.selectedTriggerType.ref,
-        selectedSearchResult: this.selectedTriggerType
+        searchValue: this.value.type,
+        formData: this.value.parameters
       };
     }
   },
 
   formData: 'any',
-
-  isValid: {
-    get() {
-      if (this.selectedTriggerType) {
-        if (!this.selectedSchema) return true;
-        return !!this.formData;
-      }
-      return false;
-    }
-  },
 
   /** list of triggertypes which can be selected */
   triggertypes: {
@@ -78,42 +39,6 @@ export default DefineMap.extend('TriggerSelector', {
   /** The currently selected triggertype */
   selectedTriggerType: {
     Type: TriggerTypesModel
-  },
-
-  /**
-   * The schema object for the currently selected triggertype.
-   * The object must exist and have keys.
-   */
-  selectedSchema: {
-    get() {
-      if (!this.selectedTriggerType) return null;
-      const schema = this.selectedTriggerType.parameters_schema.properties;
-      if(!schema || !Object.keys(schema).length) return null;
-      return schema;
-    }
-  },
-
-  /** A filtered set of data based on the search input */
-  results: {
-    type: 'any',
-    set(val) {
-      if (val.serialize) val = val.serialize();
-      return val.map(tt => Object.assign({}, tt, {
-        // Semantic UI search results require a title prop...
-        title: tt.name
-      }));
-    }
-  },
-
-  /**
-   * Handles the "change" event for the search input
-   * This creates a list of results based on the input value.
-   */
-  handleSearchChange(value) {
-    const regexp = new RegExp(value, 'i');
-    this.results = this.triggertypes.filter(tt => {
-      return regexp.test(tt.name) || regexp.test(tt.description) || regexp.test(tt.ref);
-    });
   },
 
   /**
@@ -142,10 +67,5 @@ export default DefineMap.extend('TriggerSelector', {
   handleResultSelect(result) {
     this.formData = null;
     this.selectedTriggerType = result;
-  },
-
-  resetAll() {
-    this.formData = null;
-    this.selectedTriggerType = null;
   }
 });

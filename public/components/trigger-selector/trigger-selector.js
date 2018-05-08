@@ -13,32 +13,23 @@ import ViewModel from './trigger-selector.viewmodel';
 class TriggerSelector extends Component {
   static ViewModel = ViewModel;
 
-  resultRenderer(tt) {
-    return <div>
-      <h3>{tt.name}</h3>
-      <div>{tt.description}</div>
-    </div>;
-  }
-
   render() {
     const {
       label,
       formattedValue,
-      results,
-      selectedSchema,
+      triggertypes,
       handleChange,
-      handleResultSelect,
-      handleSearchChange
+      handleResultSelect
     } = this.viewModel;
 
     return (
       <FieldWithForm
+        dataSearchField='ref'
+        dataSchemaField='parameters_schema.properties'
         label={label}
+        rawData={triggertypes}
         value={formattedValue}
-        results={results}
-        selectedSchema={selectedSchema}
         onChange={handleChange}
-        onSearchChange={handleSearchChange}
         onResultSelect={handleResultSelect}
       />
     );

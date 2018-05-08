@@ -3,8 +3,8 @@
 <dl>
 <dt><a href="#ItemType">ItemType</a></dt>
 <dd></dd>
-<dt><a href="#formDef">formDef</a> : <code>String</code></dt>
-<dd><p>User provided formDef to be merged onto the generated Model formDef.</p>
+<dt><a href="#formDef">formDef</a></dt>
+<dd><p>Passed from above</p>
 </dd>
 <dt><a href="#_formDef">_formDef</a></dt>
 <dd><p>Creates a list of objects, each object is ...spread onto
@@ -29,12 +29,12 @@ filters out fields which should not be edited.()</a></dt>
 
 | Name | Description |
 | --- | --- |
-| ItemType | The constructor model to use for building the form fields. |
+| ItemType | The model constructor to use for building the form fields. |
 
 <a name="formDef"></a>
 
-## formDef : <code>String</code>
-User provided formDef to be merged onto the generated Model formDef.
+## formDef
+Passed from above
 
 **Kind**: global variable  
 <a name="_formDef"></a>

@@ -4,6 +4,21 @@ import ObservationRecorder from 'can-observation-recorder';
 
 const debug = makeDebug('medic:components:field-with-form');
 
+const dotProp = {
+  get( object, prop ) {
+    var parts = prop.split( "." ),
+      length = parts.length,
+      i,
+      property = object || this;
+
+    for ( i = 0; property && i < length; i++ ) {
+      property = property[parts[i]];
+    }
+
+    return property;
+  }
+};
+
 /**
  * @module TriggerSelector VM
  * @parent TriggerSelector
@@ -16,20 +31,6 @@ export default DefineMap.extend('TriggerSelector', {
    * This only gets called when the form is valid.
    */
   onChange: 'any',
-  /** Called whenever the search field changes */
-  onSearchChange: 'any',
-  /** Called whenever a search result is selected */
-  onResultSelect: 'any',
-  /**
-   * A filtered set of data based on the search input
-   * Passed from above.
-   */
-  results: 'any',
-  /**
-   * The schema object for the currently selected search result.
-   * Passed from above.
-   */
-  selectedSchema: 'any',
   /** Optional form label */
   label: 'string',
   value: {
@@ -39,7 +40,9 @@ export default DefineMap.extend('TriggerSelector', {
         debug('Setting value prop', val);
         // DO NOT CHANGE THE FOLLOWING WITHOUT EXTENSIVE TESTING.
         // SERIOUSLY - THIS TOOK FOREVER TO GET PERFECT.
-        const { searchValue, selectedSearchResult, formData } = val;
+        if (!this.rawData) return {};
+
+        const { searchValue, formData } = val;
         if (!searchValue) {
           if (this.isValid) {
             // This should happen when the parent form does a "reset"
@@ -48,13 +51,57 @@ export default DefineMap.extend('TriggerSelector', {
           }
           return {};
         }
+
+        // If the passed in type matches the currently select item, exit
+        if (this.selectedSearchResult) {
+          if (searchValue === dotProp.get(this.selectedSearchResult, this.dataSearchField)) {
+            return val;
+          }
+        }
+        const results = this.rawData.filter(item =>
+          searchValue === dotProp.get(item, this.dataSearchField)
+        );
+
+        if (!results.length) return {};
+
         // New data was passed in - update the state
-        // this.handleResultSelect(null, { result: searchResult });
         this.searchValue = searchValue;
-        this.selectedSearchResult = selectedSearchResult;
+        this.handleResultSelect(null, { result: results[0] });
         this.setFormData(formData);
         return val;
       })();
+    }
+  },
+
+  rawData: 'any',
+  dataSearchField: 'string',
+  dataSchemaField: 'string',
+
+  /**
+   * A filtered set of data based on the search input
+   * Passed from above.
+   */
+  results: {
+    type: 'any',
+    set(val) {
+      if (val.serialize) val = val.serialize();
+      return val.map(item => Object.assign({}, item, {
+        // Semantic UI search results require a title prop...
+        title: dotProp.get(item, this.dataSearchField)
+      }));
+    }
+  },
+
+  /**
+   * The schema object for the currently selected item.
+   * The object must exist and have keys.
+   */
+  selectedSchema: {
+    get() {
+      if (!this.selectedSearchResult) return null;
+      const schema = dotProp.get(this.selectedSearchResult, this.dataSchemaField);
+      if(!schema || !Object.keys(schema).length) return null;
+      return schema;
     }
   },
 
@@ -141,20 +188,24 @@ export default DefineMap.extend('TriggerSelector', {
     this.searchValue = value;
     this.selectedSearchResult = null;
     this.formIsValid = false;
+    this.filterData();
     this.dispatchChange(null);
-    if(typeof this.onSearchChange === 'function') {
-      this.onSearchChange(value);
-    }
+  },
+
+  filterData() {
+    const regexp = new RegExp(this.searchValue, 'i');
+    this.results = this.rawData.filter(item => {
+      const val = dotProp.get(item, this.dataSearchField);
+      return regexp.test(val);
+    });
   },
 
   /** handles the "select" event of individual search results */
   handleResultSelect(ev, { result }) {
     debug('Result selected', result);
     this.selectedSearchResult = result;
+    this.searchValue = dotProp.get(result, this.dataSearchField);
     this.results = [result.serialize ? result.serialize() : result];
-    if (typeof this.onResultSelect === 'function') {
-      this.onResultSelect(result);
-    }
   },
 
   /**
