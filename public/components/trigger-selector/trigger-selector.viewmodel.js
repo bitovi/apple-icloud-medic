@@ -29,43 +29,25 @@ export default DefineMap.extend('TriggerSelector', {
     }
   },
 
-  formData: 'any',
-
   /** list of triggertypes which can be selected */
   triggertypes: {
     Type: TriggerTypesModel.List
   },
 
-  /** The currently selected triggertype */
-  selectedTriggerType: {
-    Type: TriggerTypesModel
-  },
-
   /**
    * Handles the main "change" even for the underlying field-with-form component
    */
-  handleChange({ selectedSearchResult, formData, formIsValid }) {
-    if (!selectedSearchResult) {
-      this.selectedTriggerType = null;
-    }
-    // Important - only set formData when the form is valid
-    this.formData = formIsValid ? formData : null;
+  handleChange({ searchValue, formData, formIsValid }) {
     if (typeof this.onChange === 'function') {
       let val = {};
       // Only dispatch change events when the form is valid
       if (formIsValid) {
         val = {
-          type: selectedSearchResult.ref,
+          type: searchValue,
           parameters: formData
         };
       }
       this.onChange(val);
     }
-  },
-
-  /** handles the "select" event of individual search results */
-  handleResultSelect(result) {
-    this.formData = null;
-    this.selectedTriggerType = result;
   }
 });
