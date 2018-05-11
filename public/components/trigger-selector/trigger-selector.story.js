@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { Form } from '@public/semantic-ui/index';
 import TriggerSelector from './trigger-selector';
 
 storiesOf('Components', module)
@@ -11,10 +12,10 @@ storiesOf('Components', module)
           const handleChange = (data) => {
             document.getElementById('output').innerHTML = JSON.stringify(data, null, '  ');
           };
-          return <div>
+          return <Form>
             <TriggerSelector query={{}} onChange={handleChange} />
             <pre id="output"></pre>
-          </div>;
+          </Form>;
         }
       }, {
         title: 'The value can be fed directly in.',
@@ -25,7 +26,7 @@ storiesOf('Components', module)
               'url': '/some-path'
             }
           };
-          return <TriggerSelector query={{}} value={value} />;
+          return <Form><TriggerSelector query={{}} value={value} /></Form>;
         }
       }]
     }]

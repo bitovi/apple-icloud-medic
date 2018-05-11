@@ -18,8 +18,7 @@ class TriggerSelector extends Component {
       label,
       formattedValue,
       triggertypes,
-      handleChange,
-      handleResultSelect
+      handleChange
     } = this.viewModel;
 
     return (
@@ -30,7 +29,6 @@ class TriggerSelector extends Component {
         label={label}
         value={formattedValue}
         onChange={handleChange}
-        onResultSelect={handleResultSelect}
       />
     );
   }

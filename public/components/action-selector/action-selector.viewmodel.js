@@ -22,7 +22,7 @@ export default DefineMap.extend('ActionSelector', {
       if (!this.value) return {};
 
       return {
-        searchValue: this.value.type,
+        searchValue: this.value.ref,
         formData: this.value.parameters
       };
     }
@@ -43,7 +43,7 @@ export default DefineMap.extend('ActionSelector', {
       // Only dispatch change events when the form is valid
       if (formIsValid) {
         val = {
-          type: searchValue,
+          ref: searchValue,
           parameters: formData
         };
       }

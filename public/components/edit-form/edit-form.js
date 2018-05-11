@@ -57,7 +57,7 @@ class EditForm extends Component {
     // for an existing form. No need to show buttons, messages, et al.
     // Just render the fields inside of a Group
     if (!showButtons) {
-      return <Form.Group data-foo="bar">{this.buildFormFields()}</Form.Group>;
+      return <div data-foo="bar">{this.buildFormFields()}</div>;
     }
 
     return (

@@ -18,8 +18,7 @@ class ActionSelector extends Component {
       label,
       formattedValue,
       actions,
-      handleChange,
-      handleResultSelect
+      handleChange
     } = this.viewModel;
 
     return (
@@ -30,7 +29,6 @@ class ActionSelector extends Component {
         label={label}
         value={formattedValue}
         onChange={handleChange}
-        onResultSelect={handleResultSelect}
       />
     );
   }

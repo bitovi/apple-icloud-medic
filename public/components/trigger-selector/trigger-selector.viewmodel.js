@@ -14,13 +14,21 @@ export default DefineMap.extend('TriggerSelector', {
   /** Passed from above */
   onChange: 'any',
   label: 'string',
-  value: 'any',
+  value: {
+    type: 'any',
+    set(val) {
+      if(this.wasComplete) {
+        this.wasComplete = false;
+        return this.value;
+      }
+      return val;
+    }
+  },
 
   /** This is passed to the underlying field-with-form component */
   formattedValue: {
     get() {
       if (!this.value) return {};
-
       return {
         searchValue: this.value.type,
         formData: this.value.parameters
@@ -33,21 +41,33 @@ export default DefineMap.extend('TriggerSelector', {
     Type: TriggerTypesModel.List
   },
 
+  /** Whether or not this field has a valid value */
+  isComplete: { default: false },
+
+  /** Whether or not this was previously complete */
+  wasComplete: { default: true },
+
   /**
    * Handles the main "change" even for the underlying field-with-form component
    */
-  handleChange({ searchValue, formData, formIsValid }) {
+  handleChange({ searchValue, selectedSearchResult, formData, formIsValid }) {
     debug('Handling change event:', searchValue, formData, formIsValid);
+    this.wasComplete = this.isComplete;
+    this.isComplete = !!selectedSearchResult && !!formIsValid;
+    this.value = {
+      type: searchValue,
+      parameters: formData
+    };
     if (typeof this.onChange === 'function') {
-      let val = {};
       // Only dispatch change events when the form is valid
-      if (formIsValid) {
-        val = {
-          type: searchValue,
-          parameters: formData
-        };
+      if (this.isComplete) {
+        this.onChange(this.value);
+        return;
       }
-      this.onChange(val);
+      // If the value was complete but now is not, emit an empty value
+      if (this.wasComplete) {
+        this.onChange({});
+      }
     }
   }
 });

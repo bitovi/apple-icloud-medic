@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { Form } from '@public/semantic-ui/index';
 import ActionSelector from './action-selector';
 
 storiesOf('Components', module)
@@ -11,22 +12,25 @@ storiesOf('Components', module)
           const handleChange = (data) => {
             document.getElementById('output').innerHTML = JSON.stringify(data, null, '  ');
           };
-          return <div>
+          return <Form>
             <ActionSelector query={{}} onChange={handleChange} />
             <pre id="output"></pre>
-          </div>;
+          </Form>;
         }
-      }/*, {
+      }, {
         title: 'The value can be fed directly in.',
         sectionFn: () => {
           const value = {
-            'type': 'core.st2.webhook',
-            'parameters': {
-              'url': '/some-path'
+            ref: 'core.local',
+            parameters: {
+              cmd: 'echo "Hello"',
+              env: {
+                NODE_ENV: 'production'
+              }
             }
           };
-          return <ActionSelector query={{}} value={value} />;
+          return <Form><ActionSelector query={{}} value={value} /></Form>;
         }
-      }*/]
+      }]
     }]
   });

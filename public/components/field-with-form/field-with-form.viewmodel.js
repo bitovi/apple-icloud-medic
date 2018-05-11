@@ -4,8 +4,8 @@ import ObservationRecorder from 'can-observation-recorder';
 
 const debug = makeDebug('medic:components:field-with-form');
 
-// For some reason I could not import the dot-prop module.
-// So this is a simple implementation - needs further investigation.
+// For some reason importing the dot-prop module was not working.
+// So this is a simple implementation.
 const dotProp = {
   get( object, prop ) {
     var parts = prop.split('.'),
@@ -39,37 +39,26 @@ export default DefineMap.extend('TriggerSelector', {
     type: 'any',
     set(val) {
       return ObservationRecorder.ignore(() => {
-        debug('Setting value prop', val);
-        // DO NOT CHANGE THE FOLLOWING WITHOUT EXTENSIVE TESTING.
-        // SERIOUSLY - THIS TOOK FOREVER TO GET PERFECT.
-        if (!this.rawData) return {};
+        if (!val || !val.searchValue) {
+          debug('value.set: no value, resetting component values', val);
+          this.resetAll();
+          return val;
+        }
 
         const { searchValue, formData } = val;
-        if (!searchValue) {
-          if (this.isValid) {
-            // This should happen when the parent form does a "reset"
-            debug('Resetting component values', val);
-            this.resetAll();
-          }
-          return {};
-        }
-
-        // If the passed in type matches the currently select item, exit
-        if (this.selectedSearchResult) {
-          if (searchValue === dotProp.get(this.selectedSearchResult, this.dataSearchField)) {
-            return val;
-          }
-        }
         const results = this.rawData.filter(item =>
           searchValue === dotProp.get(item, this.dataSearchField)
         );
 
-        if (!results.length) return {};
+        if (results.length) {
+          debug('value.set: found a match', val);
+          this.handleResultSelect(null, { result: results[0] });
+          this.setFormData(formData);
+          return val;
+        }
 
-        // New data was passed in - update the state
         this.searchValue = searchValue;
-        this.handleResultSelect(null, { result: results[0] });
-        this.setFormData(formData);
+        this.formData = null;
         return val;
       })();
     }
@@ -152,9 +141,9 @@ export default DefineMap.extend('TriggerSelector', {
   setFormData(data = null) {
     if (!data || !this.formData) {
       this.formData = data;
-    } else {
-      this.formData.update(data && data.serialize ? data.serialize() : data);
+      return;
     }
+    this.formData.update(data && data.serialize ? data.serialize() : data);
   },
 
   /**
@@ -163,17 +152,14 @@ export default DefineMap.extend('TriggerSelector', {
    */
   dispatchChange(data) {
     this.setFormData(data);
+    this.value = {
+      formData: this.formData || {},
+      formIsValid: this.formIsValid,
+      searchValue: this.searchValue,
+      selectedSearchResult: this.selectedSearchResult
+    };
     if(typeof this.onChange === 'function') {
-      let val = {};
-      if (this.selectedSearchResult) {
-        val = {
-          formData: this.formData || {},
-          formIsValid: this.formIsValid,
-          searchValue: this.searchValue,
-          selectedSearchResult: this.selectedSearchResult
-        };
-      }
-      this.onChange(val);
+      this.onChange(this.value);
     }
   },
 
@@ -207,7 +193,7 @@ export default DefineMap.extend('TriggerSelector', {
     debug('Result selected', result);
     this.selectedSearchResult = result;
     this.searchValue = dotProp.get(result, this.dataSearchField);
-    this.results = [result.serialize ? result.serialize() : result];
+    this.filterData();
   },
 
   /**
