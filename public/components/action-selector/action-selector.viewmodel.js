@@ -36,18 +36,21 @@ export default DefineMap.extend('ActionSelector', {
   /**
    * Handles the main "change" even for the underlying field-with-form component
    */
-  handleChange({ searchValue, formData, formIsValid }) {
-    debug('Handling change event:', searchValue, formData, formIsValid);
+  handleChange({ searchValue, formData, isComplete, wasComplete }) {
+    debug('Handling change event:', searchValue, formData, isComplete, wasComplete);
+    this.value = {
+      ref: searchValue,
+      parameters: formData
+    };
     if (typeof this.onChange === 'function') {
-      let val = {};
       // Only dispatch change events when the form is valid
-      if (formIsValid) {
-        val = {
-          ref: searchValue,
-          parameters: formData
-        };
+      if (isComplete) {
+        return void this.onChange(this.value);
       }
-      this.onChange(val);
+      // If the value was complete but now is not, emit an empty value
+      if (wasComplete) {
+        this.onChange({});
+      }
     }
   }
 });

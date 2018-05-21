@@ -40,6 +40,10 @@ export default DefineMap.extend('TriggerSelector', {
     set(val) {
       return ObservationRecorder.ignore(() => {
         if (!val || !val.searchValue) {
+          if (this.wasValid) {
+            this.wasValid = false;
+            return this.value;
+          }
           debug('value.set: no value, resetting component values', val);
           this.resetAll();
           return val;
@@ -64,7 +68,16 @@ export default DefineMap.extend('TriggerSelector', {
     }
   },
 
-  rawData: 'any',
+  rawData: {
+    type: 'any',
+    set(val) {
+      if (val.serialize) val = val.serialize();
+      return val.map(item => Object.assign({}, item, {
+        // Semantic UI search results require a title prop...
+        title: dotProp.get(item, this.dataSearchField)
+      }));
+    }
+  },
   dataSearchField: 'string',
   dataSchemaField: 'string',
 
@@ -74,12 +87,14 @@ export default DefineMap.extend('TriggerSelector', {
    */
   results: {
     type: 'any',
-    set(val) {
-      if (val.serialize) val = val.serialize();
-      return val.map(item => Object.assign({}, item, {
-        // Semantic UI search results require a title prop...
-        title: dotProp.get(item, this.dataSearchField)
-      }));
+    get() {
+      if (!this.searchValue) return this.rawData;
+
+      const regexp = new RegExp(this.searchValue, 'i');
+      return this.rawData.filter(item => {
+        const val = dotProp.get(item, this.dataSearchField);
+        return regexp.test(val);
+      });
     }
   },
 
@@ -100,17 +115,13 @@ export default DefineMap.extend('TriggerSelector', {
   searchValue: 'string',
 
   /** The currently selected search result */
-  selectedSearchResult: {
-    type: 'any'
-  },
+  selectedSearchResult: 'any',
 
   /**
    * Holds the form data for the currently selected triggertype.
    * IMPORTANT: This will only have a value when the form is valid
    */
-  formData: {
-    type: 'observable'
-  },
+  formData: 'observable',
 
   /**
    * Whether or not the current selection and its form are complete.
@@ -127,6 +138,9 @@ export default DefineMap.extend('TriggerSelector', {
       return this.formIsValid;
     }
   },
+
+  /** Whether or not this was previously complete */
+  wasValid: { default: true },
 
   formIsValid: {
     get(lastVal) {
@@ -147,16 +161,17 @@ export default DefineMap.extend('TriggerSelector', {
   },
 
   /**
-   * Dispatches the primary "change" event for this component.
-   * This is a crucial part of this component.
+   * Updates the value and dispatches the primary "change"
+   * event for this component.
    */
   dispatchChange(data) {
     this.setFormData(data);
     this.value = {
       formData: this.formData || {},
-      formIsValid: this.formIsValid,
       searchValue: this.searchValue,
-      selectedSearchResult: this.selectedSearchResult
+      selectedSearchResult: this.selectedSearchResult,
+      isComplete: this.isValid,
+      wasComplete: this.wasValid
     };
     if(typeof this.onChange === 'function') {
       this.onChange(this.value);
@@ -165,27 +180,19 @@ export default DefineMap.extend('TriggerSelector', {
 
   /** Handles changes to the underlying form */
   handleFormChange(data, form) {
-    debug('Form data changed:', data);
-    debug('Form is valid:', form.isValid);
+    debug('Form data changed:', form.isValid ? '(complete)' : '(incomplete)', data);
+    this.wasValid = this.isValid;
     this.formIsValid = form.isValid;
     this.dispatchChange(data);
   },
 
   /** Handles the "change" event for the search input. */
   handleSearchChange(e, { value }) {
+    this.wasValid = this.isValid;
     this.searchValue = value;
     this.selectedSearchResult = null;
     this.formIsValid = false;
-    this.filterData();
     this.dispatchChange(null);
-  },
-
-  filterData() {
-    const regexp = new RegExp(this.searchValue, 'i');
-    this.results = this.rawData.filter(item => {
-      const val = dotProp.get(item, this.dataSearchField);
-      return regexp.test(val);
-    });
   },
 
   /** handles the "select" event of individual search results */
@@ -193,7 +200,6 @@ export default DefineMap.extend('TriggerSelector', {
     debug('Result selected', result);
     this.selectedSearchResult = result;
     this.searchValue = dotProp.get(result, this.dataSearchField);
-    this.filterData();
   },
 
   /**
